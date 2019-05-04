@@ -1,0 +1,30 @@
+---
+#ctnode zabbix tasks
+    - name: create dirs
+      become: yes
+      command: "{{ item }}"
+      with_items:
+        - /bin/mkdir -p /etc/zabbix/scripts
+      tags: add zabbix scripts dir
+    
+    - name: copy conf files
+      become: yes
+      synchronize:
+        src: serv-conf-files/ctnode/
+        dest: /etc/zabbix/
+        mode: push
+        compress: yes
+        checksum: no
+      tags: copy zabbix files
+
+    - name: Chmod +x scripts
+      file:
+        recurse: yes
+        path: /etc/zabbix/scripts
+        mode: 01777
+
+    - name: reload zabbix-agent
+      systemd:
+        state: restarted
+        daemon_reload: yes
+        name: zabbix-agent
