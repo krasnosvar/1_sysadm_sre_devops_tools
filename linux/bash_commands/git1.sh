@@ -3,9 +3,7 @@ https://tproger.ru/translations/most-common-git-screwupsquestions-and-solutions/
 
 git config --global user.name "krasnosvar"
 git config --global user.email "krasnosvar@gmail.com"
-#Установка отображения unicode
-git config --global core.quotepath off
-
+#add remotes
 git remote add github git@github.com:krasnosvar/git.git
 git remote add bitbucket git@bitbucket.org:krasnosvar/git.git
 #add to one remote several git-repos
