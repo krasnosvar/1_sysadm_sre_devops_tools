@@ -1,0 +1,19 @@
+#Quest Authentication Services (QAS/VAS) Cheat Sheet
+https://redhatlinux.guru/2016/06/14/quest-authentication-services-qasvas-cheat-sheet/
+#Troubleshooting VAS/QAS on Red Hat Enterprise Linux and Solaris
+https://redhatlinux.guru/2016/04/05/65/
+
+Files 	Details
+/etc/opt/quest/vas/host.keytab 	Encrypted host key
+/etc/opt/quest/vas/group-override 	Maps accounts to groups
+/etc/opt/quest/vas/users.allow 	Lists groups that are granted access to the server
+/etc/opt/quest/vas/xjoin.keytab 	File used to join server to domain
+/etc/opt/quest/vas/vas.conf 	Primary VAS configuration file
+/etc/opt/quest/vas/user-override 	Allows you to override specific user settings
+Basic Commands
+Command 	Details
+/opt/quest/bin/vastool status 	View status about the operating environment
+/opt/quest/bin/vastool flush 	Flush cached client daemon information
+/opt/quest/bin/vgptool apply 	Apply Group Policy settings
+/opt/quest/bin/vastool user checkaccess [account] 	Check rather user has access to he system and which group grants that access
+/opt/quest/bin/vastool ktutil list 	List entries in the keytab file

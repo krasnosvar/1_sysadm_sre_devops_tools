@@ -1,0 +1,8 @@
+README.md
+setup.cfg
+setup.py
+vSphere_Automation_SDK.egg-info/PKG-INFO
+vSphere_Automation_SDK.egg-info/SOURCES.txt
+vSphere_Automation_SDK.egg-info/dependency_links.txt
+vSphere_Automation_SDK.egg-info/requires.txt
+vSphere_Automation_SDK.egg-info/top_level.txt

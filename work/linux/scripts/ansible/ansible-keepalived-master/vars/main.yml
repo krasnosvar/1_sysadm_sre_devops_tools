@@ -1,0 +1,13 @@
+# vars file for keepalived
+---
+keepalived_dependencies:
+  - git
+  - build-essential
+  - automake
+  - libtool
+  - pkg-config
+  - libssl-dev
+
+keepalived_checkout_path: /var/lib/ansible/keepalived/checkouts/keepalived
+
+keepalived_configuration_file: /etc/keepalived/keepalived.conf

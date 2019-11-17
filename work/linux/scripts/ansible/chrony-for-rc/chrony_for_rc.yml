@@ -1,0 +1,48 @@
+---
+- name: stop puppet and install chrony
+  vars_files:
+    # - /usr/git/work/ansible/vaulted_vars.yml
+    - /home/den/Documents/ansible_no_git/entrance-vars.yml
+  hosts: td
+  tasks:
+    - name: ensure ntpdate isn't installed
+      package:
+        name: 'ntpdate'
+        state: absent
+
+    # - name: Stop puppet-agent
+    #   service:
+    #     name: 'puppet'
+    #     state: stopped
+
+    - name: Mask NTP service
+      service:
+        name: ntpd
+        enabled: no
+        masked: yes
+        state: stopped
+      ignore_errors: yes
+
+    - name: install chrony
+      package:
+        name: 'chrony'
+        state: present
+
+    - name: Ensure chronyd is active
+      service:
+        name: chronyd
+        state: started
+
+    - name: install chrony.conf
+      template:
+        src: /usr/git/work/ansible/chrony-for-rc/templates/chrony.conf.j2
+        dest: /etc/chrony.conf
+        owner: root
+        group: root
+        mode: 0644
+      #notify: restart chronyd #use handler from its own directory
+    
+    - name: restart chrony
+      service:
+        name: chronyd
+        state: restarted

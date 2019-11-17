@@ -1,0 +1,8 @@
+ssh:
+  user: krasnosvarov_dn
+  run-as: krasnosvarov_dn
+  run-as-command: ['sudo']
+  password: Hjcjvf[f%nfyjc123
+  sudo-password: Hjcjvf[f%nfyjc123
+  tty: true
+

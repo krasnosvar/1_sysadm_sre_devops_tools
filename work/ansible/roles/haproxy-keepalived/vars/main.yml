@@ -1,0 +1,6 @@
+#haproxy
+backend1: 10.9.32.6
+backend2: 10.9.32.20
+#keepalived vars
+virtual_router_id: 333
+virtual_ipaddress: 10.9.32.20

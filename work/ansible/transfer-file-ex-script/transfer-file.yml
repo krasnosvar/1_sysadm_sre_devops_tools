@@ -1,0 +1,59 @@
+---
+- name: Execute a script and transfer file.
+  hosts: test
+  #hosts: localhost
+  # vars:
+  #       ansible_rsync_path: /usr/bin/rsync
+  vars_files:
+    - /home/den/Documents/ansible_no_git/entrance-vars.yml
+  #remote_user: local
+  remote_user: krasnosvarov_dn
+  become: true
+  become_user: root
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#######################COPY_FILE
+  tasks:
+    - name: Transfer the script
+      copy: 
+        src: /usr/git/work/scripts/test_scripts/*  
+        dest: /home/krasnosvarov_dn #remote_src=yes directory_mode=yes #mode=0777
+     # copy: src=/usr/git/work/scripts/testscript.sh dest=/root mode=0777
+
+
+#if it needs - execute copied script
+    - name: Execute the script
+      shell: "bash /home/krasnosvarov_dn/hello.sh"
+
+#or
+    - name: Execute the script
+      #shell: "bash /home/local/audit_security.sh"
+      #shell: "bash /root/testscript.sh"
+    #- name: whoami
+    #  shell: "whoami"
+      script: /usr/git/work/scripts/test_scripts/test1.sh
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+#######################COPY_ALL_DIRECTORY
+
+
+
+# - hosts: test
+#   vars:
+#         ansible_rsync_path: /usr/bin/rsync
+
+#   tasks:
+#     - name: install rsync
+#       package:
+#         name: rsync
+#         state: present
+
+#     - name: copy /tmp/localpath/ to remote location /tmp/remotepath
+#       synchronize:
+#         src: /usr/git/work/scripts/test_scripts
+#         dest: /tmp/test_scripts
+#         rsync_path: /usr/bin/rsync
+#         use_ssh_args: yes
+
+
+#ansible-playbook -i /usr/git/work/ansible/hosts /usr/git/work/ansible/transfer-file-ex-script/transfer-file.yml

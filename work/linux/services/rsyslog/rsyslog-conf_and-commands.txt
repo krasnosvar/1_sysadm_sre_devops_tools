@@ -1,0 +1,42 @@
+#Config file validation
+rsyslogd -N1
+
+#Rsyslog log
+rsyslogd -c5 -dn | less
+--------------------------------------------------------------------------------
+#config file
+#vi /etc/rsyslog.d/log-to-server.conf
+
+
+###---SIB---###
+$ModLoad imfile
+
+### nginx-access-log
+$InputFileName /var/log/nginx/magnitinfo.access.log
+$InputFileTag apache_access_log:
+$InputFileStateFile nginx-access-stat
+$InputFileSeverity info
+$InputFileFacility local7
+$InputRunFileMonitor
+
+### nginx-error-log
+$InputFileName /var/log/nginx/magnitinfo.error.log
+$InputFileTag apache_error_log:
+$InputFileStateFile nginx-error-stat
+$InputFileSeverity warn
+$InputFileFacility local7
+$InputRunFileMonitor
+
+###
+$InputFilePollInterval 3
+
+#:syslogtag,contains,"apache_access_log"                 @10.8.15.25:514
+:syslogtag,contains,"apache_access_log"                 @10.5.47.150:514
+#:syslogtag,contains,"apache_error_log"                  @10.8.15.25:514
+:syslogtag,contains,"apache_error_log"                  @10.5.47.150:514
+~                                                                                                                                        
+~                                                                                                                                        
+~                                                                                                                                        
+                                                                                                                               
+"/etc/rsyslog.d/sib.conf" 26L, 786C     
+-------------------------------------------------------------------------

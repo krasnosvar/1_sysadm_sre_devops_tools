@@ -1,0 +1,7 @@
+Foreman training materials
+https://docs.adfinis-sygroup.ch/public/trainings/#training-Foreman
+https://theforeman.org/training.html
+
+#Working With Dynamic Inventory
+https://docs.ansible.com/ansible/latest/user_guide/intro_dynamic_inventory.html
+

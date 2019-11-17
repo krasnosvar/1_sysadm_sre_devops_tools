@@ -1,0 +1,27 @@
+~ ]# cat /etc/logrotate.d/suag 
+/var/www/html/logs/apache2_*.log {
+    rotate 4
+    size=25M
+    missingok
+    nomail
+    notifempty
+    noolddir
+    compress
+    postrotate
+        /bin/systemctl reload httpd.service > /dev/null 2>/dev/null || true
+        /bin/systemctl reload suag.service > /dev/null 2>/dev/null || true
+    endscript
+}
+
+/var/www/html/logs/suag_wsgi_*.log {
+    rotate 4
+    size=25M
+    missingok
+    nomail
+    notifempty
+    noolddir
+    compress
+    postrotate
+        /bin/systemctl reload httpd.service > /dev/null 2>/dev/null || true
+        /bin/systemctl reload suag.service > /dev/null 2>/dev/null || true
+    endscript

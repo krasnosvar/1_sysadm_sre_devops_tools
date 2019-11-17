@@ -1,0 +1,73 @@
+
+
+#ping последовательно диапазона адресов
+for ((i=120; i <= 130; i++)) do ping -c 1 192.168.43.$i; done
+
+
+#commands aliases(short)
+vi ~/.bash_profile
+alias ls="ls -lah"
+alias df="df -Th" #вывод с указанием файловой системы раздела
+
+
+
+#генерация самоподписного сертификата
+openssl genrsa -out private.key 2048 && openssl req -new -subj '/CN=localhost/O=domain/C=RU/ST=KRD/L=Krasnodar' -key private.key -out cert.csr && openssl x509 -req -in cert.csr -signkey private.key -out cert.crt -days 3650 && cat cert.crt > my.pem && cat private.key >> my.pem
+
+#Random password generation
+openssl rand -base64 12
+
+#Get cert CA
+openssl s_client -showcerts -servername server -connect server:443 > cacert.pem
+
+#проверить наличие у этогго сервера аттрибутов
+
+
+#NFS
+#https://wiki.it-kb.ru/unix-linux/centos/linux-how-to-setup-nfs-server-with-share-and-nfs-client-in-centos-7-2
+#Installing NFS
+yum install nfs-utils nfs-utils-lib
+systemctl enable rpcbind nfs-server
+systemctl start rpcbind nfs-server
+
+#optional- check NFS versions
+
+#Creating directory where mount NFS-disk(client)
+mkdir /usr/share/tomcat/webapps/qsdc-files
+
+#Mount NFS-disk
+mount -t nfs 10.8.153.11:/qsdcfiles /usr/share/tomcat/webapps/qsdc-files
+
+#add string to /etc/fstab for automount
+10.8.153.11:/qsdcfiles /usr/share/tomcat/webapps/qsdc-files nfs rw,sync,hard,intr 0 0
+
+#Check mount
+mount -fav
+
+#NTP Ubuntu 18
+apt install ntp ntpdate -y
+sudo timedatectl set-ntp off
+echo -e "10.8.13.11 domain-ntp-server\n10.8.13.12 domain2-ntp-server" >> /etc/hosts
+echo -e "server domain-ntp-server iburst" >> /etc/ntp.conf
+sudo systemctl restart ntp
+ntpq -p
+
+#or
+apt install ntp ntpdate -y
+sudo timedatectl set-ntp off
+echo -e " server 10.8.13.11\nserver 10.8.13.12" >> /etc/ntp.conf
+sudo systemctl restart ntp
+ntpq -p
+
+#убить процессы пользователя(например, для его удаления)
+ps aux | awk '/^root/ {print $2}' | xargs kill -9
+
+#execute local script on server through ssh
+ssh root@192.168.1.1 'bash -s' < script.sh
+
+#Как создать свою службу (unit) в systemd на CentOS 7
+https://wiki.it-kb.ru/unix-linux/systemd/how-to-create-warmup-command-for-apache-httpd-via-custom-service-unit-in-systemd
+
+#git
+git remote add github git@github.com:krasnosvar/git.git
+git remote add bitbucket git@bitbucket.org:krasnosvar/git.git

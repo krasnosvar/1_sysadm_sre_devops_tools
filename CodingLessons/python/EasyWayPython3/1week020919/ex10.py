@@ -1,0 +1,10 @@
+'''eto 
+comment'''
+print("1Den\Kras\adrive\fsuzuki")
+print("2den\akras")
+print("3den\bkras")
+print("4den\fkras")
+print("5den\nkras")
+print("6den\rkras")
+print("7den\tkras")
+print("8den\vkras")

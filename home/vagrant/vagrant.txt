@@ -1,0 +1,19 @@
+#install vagrant
+wget -c https://releases.hashicorp.com/vagrant/2.2.5/vagrant_2.2.5_x86_64.deb
+sudo dpkg -i vagrant_2.2.5_x86_64.deb
+
+#list of plugins
+https://vagrant-lists.github.io
+
+
+#github of vagrant-libvirt plugin
+https://github.com/vagrant-libvirt/vagrant-libvirt
+
+Vagrant and Libvirt with KVM or QEMU
+https://docs.cumulusnetworks.com/cumulus-vx/Development-Environments/Vagrant-and-Libvirt-with-KVM-or-QEMU/
+
+#How to Use Vagrant with Libvirt on Linux
+https://computingforgeeks.com/using-vagrant-with-libvirt-on-linux/
+
+#How to Provision VMs on KVM with Terraform
+https://computingforgeeks.com/how-to-provision-vms-on-kvm-with-terraform/

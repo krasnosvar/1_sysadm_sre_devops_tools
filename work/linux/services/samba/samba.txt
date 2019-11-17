@@ -1,0 +1,14 @@
+#Все о Samba
+https://smb-conf.ru/rpcclient-command-line-ms-rpc-client.html
+#Как получить срок действия пароля пользователя из Active Directory?
+http://qaru.site/questions/1622894/how-to-get-user-password-expiration-date-from-active-directory
+
+apt install 
+#userinfo AD
+#user RID
+rpcclient -U krasnosvarov_dn%PASSWD -c "lookupnames -v krasnosvarov_dn" corp.domain.ru | grep -e '[0-9]\{4,9\} ' -o
+7664529
+
+#User domain info 
+rpcclient -U krasnosvarov_dn%PASSWD -c "queryuser 7664529" corp.domain.ru
+

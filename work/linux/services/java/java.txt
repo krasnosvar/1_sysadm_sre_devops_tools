@@ -1,0 +1,51 @@
+#Замечание от ИБ
+№на серверах v00esbrejapp01 и v00esbrejapp02
+#Параметр TLS подключения Diffie-Hellman Modulus <= 1024, необходимо установить значение 2048
+#Эти сервера с Java-приложением(еще могут быть Tomcat)
+№это значит что в service файле systemd надо прописать параметр 
+ExecStart=/bin/java -jar -Djdk.tls.ephemeralDHKeySize=2048 /opt/arm_de_api/ddw.jar
+
+#как узнать куда прописывать:
+Вариант 1. 
+#прописывают в vi /etc/systemd/system/arm_de.service (по имени сервиса в ОАР)
+#увидеть что параметр TLS теперь 2048 можно через:
+ps aux| grep java
+root     102660  0.0  0.0 112704   996 pts/0    S+   10:53   0:00 grep --color=auto java
+root     121067  0.3  5.0 7892924 812952 ?      Ssl  июн28 109:00 /bin/java -jar -Djdk.tls.ephemeralDHKeySize=2048 /opt/arm_de_api/ddw.jar
+
+Вариант 2(правильный) 
+#сервис-файл systemd прописывают в /usr/lib/systemd/system/whs-gw-rejection.service
+#в нем указывают переменные(например: ExecStart=/bin/java $JAVA_OPTS $APP_ARGS -jar $JAR_FILE)
+#сами переменные в env файле(путь до него указан тут же: EnvironmentFile=/etc/sysconfig/whs-gw-rejection.env)
+[root@v00esbrejapp01 system]# vi /usr/lib/systemd/system/whs-gw-rejection.service
+[Unit]
+Description=whs-gw-rejection
+After=syslog.target network.target
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/sysconfig/whs-gw-rejection.env
+WorkingDirectory=/opt/whs-gw-rejection
+ExecStart=/bin/java $JAVA_OPTS $APP_ARGS -jar $JAR_FILE
+User=whs-gw-rejection
+Restart=always
+RestartSec=30
+LimitAS=infinity
+LimitRSS=infinity
+LimitCORE=infinity
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+
+#сами переменные в env файле(путь до него указан так же в сервис-файле systemd: EnvironmentFile=/etc/sysconfig/whs-gw-rejection.env)
+[root@v00esbrejapp01 system]# vi /etc/sysconfig/whs-gw-rejection.env
+# describe your Application options in that file
+# Application Home
+SERVICE_HOME=/opt/whs-gw-rejection
+# Location of Jar file
+JAR_FILE= /opt/whs-gw-rejection/bin/whs-gw-rejection.jar
+# Additional java options
+JAVA_OPTS="-Xmx6144M -Xms6144M -XX:PermSize=512m -XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -XX:+CrashOnOutOfMemoryError -Djdk.tls.ephemeralDHKeySize=2048"
+APP_ARGS="-Dconfig.path=/etc/whs-gw-rejection/ -Dlogback.configurationFile=file:/etc/whs-gw-rejection/logback.xml -Dcache.hazelcast.config.path=file:/etc/whs-gw-rejection/hazelcast.xml"
+

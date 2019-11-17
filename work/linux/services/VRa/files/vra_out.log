@@ -1,0 +1,492 @@
+{
+    "content": [
+        {
+            "@type": "ConsumerEntitledCatalogItem",
+            "catalogItem": {
+                "callbacks": null,
+                "catalogItemTypeRef": {
+                    "id": "com.vmware.csp.core.designer.service.serviceblueprint",
+                    "label": "XaaS Blueprint"
+                },
+                "dateCreated": "2018-11-22T08:23:58.807Z",
+                "description": "",
+                "forms": {
+                    "catalogRequestInfoHidden": true,
+                    "itemDetails": {
+                        "formId": "com.vmware.csp.core.designer.service.serviceblueprint_ServiceBlueprint.Details",
+                        "type": "external"
+                    },
+                    "requestDetails": {
+                        "formId": "com.vmware.csp.core.designer.service.serviceblueprint_Request.Details",
+                        "type": "external"
+                    },
+                    "requestFormScale": "BIG",
+                    "requestPostApproval": null,
+                    "requestPreApproval": null,
+                    "requestSubmission": {
+                        "formId": "com.vmware.csp.core.designer.service.serviceblueprint_Request.Submit",
+                        "type": "external"
+                    }
+                },
+                "iconId": "b7210569-ce4b-4110-b123-a58f8682fb67",
+                "id": "b7210569-ce4b-4110-b123-a58f8682fb67",
+                "isNoteworthy": false,
+                "lastUpdatedDate": "2019-09-16T07:14:25.770Z",
+                "name": "Create snapshot and schedule delete",
+                "organization": {
+                    "subtenantLabel": null,
+                    "subtenantRef": null,
+                    "tenantLabel": "Production Tenant",
+                    "tenantRef": "Magnit"
+                },
+                "outputResourceTypeRef": null,
+                "providerBinding": {
+                    "bindingId": "Magnit!::!70101430-f310-45c8-a461-2f8afb193023",
+                    "providerRef": {
+                        "id": "263379cf-53e7-45cf-b956-c5470841273d",
+                        "label": "XaaS"
+                    }
+                },
+                "quota": 0,
+                "requestable": true,
+                "serviceRef": {
+                    "id": "3e635de3-a1f0-4641-9860-ed342d98e91b",
+                    "label": "\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u044f \u0441 \u0412\u041c"
+                },
+                "status": "PUBLISHED",
+                "statusName": "Published",
+                "version": 13
+            },
+            "entitledOrganizations": [
+                {
+                    "subtenantLabel": "TiR BG",
+                    "subtenantRef": "c19acbcc-b592-4615-a885-e195ceca362d",
+                    "tenantLabel": "Production Tenant",
+                    "tenantRef": "Magnit"
+                }
+            ]
+        },
+        {
+            "@type": "ConsumerEntitledCatalogItem",
+            "catalogItem": {
+                "callbacks": null,
+                "catalogItemTypeRef": {
+                    "id": "com.vmware.csp.component.cafe.composition.blueprint",
+                    "label": "Composite Blueprint"
+                },
+                "dateCreated": "2018-12-25T07:31:54.760Z",
+                "description": "1 \u0412\u041c \u0441 \u0434\u0435\u0444\u043e\u043b\u0442\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u044f\u043c\u0438 \u0426\u041f\u0423, \u041e\u0417\u0423, HDD \u0434\u043b\u044f \u0438\u043d\u0442\u0435\u0433\u0440\u0430\u0446\u0438\u0438 \u0441 TeamCity",
+                "forms": {
+                    "catalogRequestInfoHidden": true,
+                    "itemDetails": {
+                        "formId": "composition.catalog.item.details",
+                        "type": "external"
+                    },
+                    "requestDetails": {
+                        "extensionId": "com.vmware.vcac.core.design.blueprints.requestDetailsForm",
+                        "extensionPointId": null,
+                        "type": "extension"
+                    },
+                    "requestFormScale": "BIG",
+                    "requestPostApproval": null,
+                    "requestPreApproval": null,
+                    "requestSubmission": {
+                        "extensionId": "com.vmware.vcac.core.forms.renderer",
+                        "extensionPointId": null,
+                        "type": "extension"
+                    }
+                },
+                "iconId": "de6d48bc-9dce-4286-84f7-7f7d8a4850ca",
+                "id": "de6d48bc-9dce-4286-84f7-7f7d8a4850ca",
+                "isNoteworthy": false,
+                "lastUpdatedDate": "2019-02-04T07:15:05.022Z",
+                "name": "CentOS7.x(Default)TeamCity",
+                "organization": {
+                    "subtenantLabel": null,
+                    "subtenantRef": null,
+                    "tenantLabel": "Production Tenant",
+                    "tenantRef": "Magnit"
+                },
+                "outputResourceTypeRef": {
+                    "id": "composition.resource.type.deployment",
+                    "label": "Deployment"
+                },
+                "providerBinding": {
+                    "bindingId": "Magnit!::!CentOS7xTeamCity",
+                    "providerRef": {
+                        "id": "8ca85b74-8f8c-4a53-b02d-0cafe6ab7f7f",
+                        "label": "Blueprint Service"
+                    }
+                },
+                "quota": 0,
+                "requestable": true,
+                "serviceRef": {
+                    "id": "bfa75f74-6dad-44e9-8fdd-1001c04c1f0b",
+                    "label": "TeamCity"
+                },
+                "status": "PUBLISHED",
+                "statusName": "Published",
+                "version": 6
+            },
+            "entitledOrganizations": [
+                {
+                    "subtenantLabel": "TiR BG",
+                    "subtenantRef": "c19acbcc-b592-4615-a885-e195ceca362d",
+                    "tenantLabel": "Production Tenant",
+                    "tenantRef": "Magnit"
+                }
+            ]
+        },
+        {
+            "@type": "ConsumerEntitledCatalogItem",
+            "catalogItem": {
+                "callbacks": null,
+                "catalogItemTypeRef": {
+                    "id": "com.vmware.csp.core.designer.service.serviceblueprint",
+                    "label": "XaaS Blueprint"
+                },
+                "dateCreated": "2019-03-27T11:10:49.733Z",
+                "description": "",
+                "forms": {
+                    "catalogRequestInfoHidden": true,
+                    "itemDetails": {
+                        "formId": "com.vmware.csp.core.designer.service.serviceblueprint_ServiceBlueprint.Details",
+                        "type": "external"
+                    },
+                    "requestDetails": {
+                        "formId": "com.vmware.csp.core.designer.service.serviceblueprint_Request.Details",
+                        "type": "external"
+                    },
+                    "requestFormScale": "BIG",
+                    "requestPostApproval": null,
+                    "requestPreApproval": null,
+                    "requestSubmission": {
+                        "formId": "com.vmware.csp.core.designer.service.serviceblueprint_Request.Submit",
+                        "type": "external"
+                    }
+                },
+                "iconId": "41e696f5-923c-42d7-bd80-957bbca375ba",
+                "id": "41e696f5-923c-42d7-bd80-957bbca375ba",
+                "isNoteworthy": false,
+                "lastUpdatedDate": "2019-08-22T13:58:18.085Z",
+                "name": "[domain] Clone Existing VM with customization",
+                "organization": {
+                    "subtenantLabel": null,
+                    "subtenantRef": null,
+                    "tenantLabel": "Production Tenant",
+                    "tenantRef": "Magnit"
+                },
+                "outputResourceTypeRef": {
+                    "id": "Magnit!::!fb47842e-3e95-4912-8c41-59e5b374528a",
+                    "label": "XaaS vSphere VM"
+                },
+                "providerBinding": {
+                    "bindingId": "Magnit!::!407419e6-56f2-4921-977c-8410fa6dd7ba",
+                    "providerRef": {
+                        "id": "263379cf-53e7-45cf-b956-c5470841273d",
+                        "label": "XaaS"
+                    }
+                },
+                "quota": 0,
+                "requestable": true,
+                "serviceRef": {
+                    "id": "01a4b893-9f64-491e-b85f-9612c8939f6f",
+                    "label": "\u0422\u0438\u0420. \u0421\u043e\u0437\u0434\u0430\u043d\u0438\u0435 \u0412\u041c"
+                },
+                "status": "PUBLISHED",
+                "statusName": "Published",
+                "version": 7
+            },
+            "entitledOrganizations": [
+                {
+                    "subtenantLabel": "TiR BG",
+                    "subtenantRef": "c19acbcc-b592-4615-a885-e195ceca362d",
+                    "tenantLabel": "Production Tenant",
+                    "tenantRef": "Magnit"
+                }
+            ]
+        },
+        {
+            "@type": "ConsumerEntitledCatalogItem",
+            "catalogItem": {
+                "callbacks": null,
+                "catalogItemTypeRef": {
+                    "id": "com.vmware.csp.component.cafe.composition.blueprint",
+                    "label": "Composite Blueprint"
+                },
+                "dateCreated": "2019-02-11T07:22:38.649Z",
+                "description": "1 \u0412\u041c \u0441 \u0434\u0435\u0444\u043e\u043b\u0442\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u044f\u043c\u0438 \u0426\u041f\u0423, \u041e\u0417\u0423, HDD",
+                "forms": {
+                    "catalogRequestInfoHidden": true,
+                    "itemDetails": {
+                        "formId": "composition.catalog.item.details",
+                        "type": "external"
+                    },
+                    "requestDetails": {
+                        "extensionId": "com.vmware.vcac.core.design.blueprints.requestDetailsForm",
+                        "extensionPointId": null,
+                        "type": "extension"
+                    },
+                    "requestFormScale": "BIG",
+                    "requestPostApproval": null,
+                    "requestPreApproval": null,
+                    "requestSubmission": {
+                        "extensionId": "com.vmware.vcac.core.forms.renderer",
+                        "extensionPointId": null,
+                        "type": "extension"
+                    }
+                },
+                "iconId": "ac4864a2-f761-4bb5-b963-d5c980f0aa9e",
+                "id": "ac4864a2-f761-4bb5-b963-d5c980f0aa9e",
+                "isNoteworthy": false,
+                "lastUpdatedDate": "2019-06-19T11:44:18.887Z",
+                "name": "TiR_CentOS7.x_Default",
+                "organization": {
+                    "subtenantLabel": null,
+                    "subtenantRef": null,
+                    "tenantLabel": "Production Tenant",
+                    "tenantRef": "Magnit"
+                },
+                "outputResourceTypeRef": {
+                    "id": "composition.resource.type.deployment",
+                    "label": "Deployment"
+                },
+                "providerBinding": {
+                    "bindingId": "Magnit!::!TiR_CentOS7xKatello",
+                    "providerRef": {
+                        "id": "8ca85b74-8f8c-4a53-b02d-0cafe6ab7f7f",
+                        "label": "Blueprint Service"
+                    }
+                },
+                "quota": 0,
+                "requestable": true,
+                "serviceRef": {
+                    "id": "01a4b893-9f64-491e-b85f-9612c8939f6f",
+                    "label": "\u0422\u0438\u0420. \u0421\u043e\u0437\u0434\u0430\u043d\u0438\u0435 \u0412\u041c"
+                },
+                "status": "PUBLISHED",
+                "statusName": "Published",
+                "version": 17
+            },
+            "entitledOrganizations": [
+                {
+                    "subtenantLabel": "TiR BG",
+                    "subtenantRef": "c19acbcc-b592-4615-a885-e195ceca362d",
+                    "tenantLabel": "Production Tenant",
+                    "tenantRef": "Magnit"
+                }
+            ]
+        },
+        {
+            "@type": "ConsumerEntitledCatalogItem",
+            "catalogItem": {
+                "callbacks": null,
+                "catalogItemTypeRef": {
+                    "id": "com.vmware.csp.core.designer.service.serviceblueprint",
+                    "label": "XaaS Blueprint"
+                },
+                "dateCreated": "2019-06-19T10:37:01.395Z",
+                "description": "",
+                "forms": {
+                    "catalogRequestInfoHidden": true,
+                    "itemDetails": {
+                        "formId": "com.vmware.csp.core.designer.service.serviceblueprint_ServiceBlueprint.Details",
+                        "type": "external"
+                    },
+                    "requestDetails": {
+                        "formId": "com.vmware.csp.core.designer.service.serviceblueprint_Request.Details",
+                        "type": "external"
+                    },
+                    "requestFormScale": "BIG",
+                    "requestPostApproval": null,
+                    "requestPreApproval": null,
+                    "requestSubmission": {
+                        "formId": "com.vmware.csp.core.designer.service.serviceblueprint_Request.Submit",
+                        "type": "external"
+                    }
+                },
+                "iconId": "vcoIcon_256x256.png",
+                "id": "3e472093-f4f1-4c61-a3b0-9c0aafe056c6",
+                "isNoteworthy": false,
+                "lastUpdatedDate": "2019-06-19T10:38:43.118Z",
+                "name": "\u0412\u0432\u043e\u0434 Unix \u0412\u041c \u0432 RODC \u0432 \u0437\u043e\u043d\u0435 \u0422\u0438\u0420",
+                "organization": {
+                    "subtenantLabel": null,
+                    "subtenantRef": null,
+                    "tenantLabel": "Production Tenant",
+                    "tenantRef": "Magnit"
+                },
+                "outputResourceTypeRef": null,
+                "providerBinding": {
+                    "bindingId": "Magnit!::!a71c9e91-a644-4070-bb18-e058b6fe63ee",
+                    "providerRef": {
+                        "id": "263379cf-53e7-45cf-b956-c5470841273d",
+                        "label": "XaaS"
+                    }
+                },
+                "quota": 0,
+                "requestable": true,
+                "serviceRef": {
+                    "id": "3e635de3-a1f0-4641-9860-ed342d98e91b",
+                    "label": "\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u044f \u0441 \u0412\u041c"
+                },
+                "status": "PUBLISHED",
+                "statusName": "Published",
+                "version": 2
+            },
+            "entitledOrganizations": [
+                {
+                    "subtenantLabel": "TiR BG",
+                    "subtenantRef": "c19acbcc-b592-4615-a885-e195ceca362d",
+                    "tenantLabel": "Production Tenant",
+                    "tenantRef": "Magnit"
+                }
+            ]
+        },
+        {
+            "@type": "ConsumerEntitledCatalogItem",
+            "catalogItem": {
+                "callbacks": null,
+                "catalogItemTypeRef": {
+                    "id": "com.vmware.csp.component.cafe.composition.blueprint",
+                    "label": "Composite Blueprint"
+                },
+                "dateCreated": "2018-10-15T13:07:27.412Z",
+                "description": "1 \u0412\u041c \u0441 \u043a\u0430\u0441\u0442\u043e\u043c\u043d\u044b\u043c\u0438 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u044f\u043c\u0438 \u0426\u041f\u0423, \u041e\u0417\u0423, HDD",
+                "forms": {
+                    "catalogRequestInfoHidden": true,
+                    "itemDetails": {
+                        "formId": "composition.catalog.item.details",
+                        "type": "external"
+                    },
+                    "requestDetails": {
+                        "extensionId": "com.vmware.vcac.core.design.blueprints.requestDetailsForm",
+                        "extensionPointId": null,
+                        "type": "extension"
+                    },
+                    "requestFormScale": "BIG",
+                    "requestPostApproval": null,
+                    "requestPreApproval": null,
+                    "requestSubmission": {
+                        "extensionId": "com.vmware.vcac.core.forms.renderer",
+                        "extensionPointId": null,
+                        "type": "extension"
+                    }
+                },
+                "iconId": "6d61925f-aac8-4bf1-b3f5-0798b303ceae",
+                "id": "6d61925f-aac8-4bf1-b3f5-0798b303ceae",
+                "isNoteworthy": false,
+                "lastUpdatedDate": "2019-06-19T09:53:49.409Z",
+                "name": "TiR_CentOS7.x_Custom",
+                "organization": {
+                    "subtenantLabel": null,
+                    "subtenantRef": null,
+                    "tenantLabel": "Production Tenant",
+                    "tenantRef": "Magnit"
+                },
+                "outputResourceTypeRef": {
+                    "id": "composition.resource.type.deployment",
+                    "label": "Deployment"
+                },
+                "providerBinding": {
+                    "bindingId": "Magnit!::!CentOS7xCustom",
+                    "providerRef": {
+                        "id": "8ca85b74-8f8c-4a53-b02d-0cafe6ab7f7f",
+                        "label": "Blueprint Service"
+                    }
+                },
+                "quota": 0,
+                "requestable": true,
+                "serviceRef": {
+                    "id": "01a4b893-9f64-491e-b85f-9612c8939f6f",
+                    "label": "\u0422\u0438\u0420. \u0421\u043e\u0437\u0434\u0430\u043d\u0438\u0435 \u0412\u041c"
+                },
+                "status": "PUBLISHED",
+                "statusName": "Published",
+                "version": 153
+            },
+            "entitledOrganizations": [
+                {
+                    "subtenantLabel": "TiR BG",
+                    "subtenantRef": "c19acbcc-b592-4615-a885-e195ceca362d",
+                    "tenantLabel": "Production Tenant",
+                    "tenantRef": "Magnit"
+                }
+            ]
+        },
+        {
+            "@type": "ConsumerEntitledCatalogItem",
+            "catalogItem": {
+                "callbacks": null,
+                "catalogItemTypeRef": {
+                    "id": "com.vmware.csp.core.designer.service.serviceblueprint",
+                    "label": "XaaS Blueprint"
+                },
+                "dateCreated": "2019-03-01T12:15:44.239Z",
+                "description": "",
+                "forms": {
+                    "catalogRequestInfoHidden": true,
+                    "itemDetails": {
+                        "formId": "com.vmware.csp.core.designer.service.serviceblueprint_ServiceBlueprint.Details",
+                        "type": "external"
+                    },
+                    "requestDetails": {
+                        "formId": "com.vmware.csp.core.designer.service.serviceblueprint_Request.Details",
+                        "type": "external"
+                    },
+                    "requestFormScale": "BIG",
+                    "requestPostApproval": null,
+                    "requestPreApproval": null,
+                    "requestSubmission": {
+                        "formId": "com.vmware.csp.core.designer.service.serviceblueprint_Request.Submit",
+                        "type": "external"
+                    }
+                },
+                "iconId": "1f7c06f2-b578-4130-923b-1849702115d9",
+                "id": "1f7c06f2-b578-4130-923b-1849702115d9",
+                "isNoteworthy": false,
+                "lastUpdatedDate": "2019-05-29T08:13:45.399Z",
+                "name": "Create VM account in RODC",
+                "organization": {
+                    "subtenantLabel": null,
+                    "subtenantRef": null,
+                    "tenantLabel": "Production Tenant",
+                    "tenantRef": "Magnit"
+                },
+                "outputResourceTypeRef": null,
+                "providerBinding": {
+                    "bindingId": "Magnit!::!d0b52257-7097-4520-9b4e-fb6f4bdec313",
+                    "providerRef": {
+                        "id": "263379cf-53e7-45cf-b956-c5470841273d",
+                        "label": "XaaS"
+                    }
+                },
+                "quota": 0,
+                "requestable": true,
+                "serviceRef": {
+                    "id": "3e635de3-a1f0-4641-9860-ed342d98e91b",
+                    "label": "\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u044f \u0441 \u0412\u041c"
+                },
+                "status": "PUBLISHED",
+                "statusName": "Published",
+                "version": 3
+            },
+            "entitledOrganizations": [
+                {
+                    "subtenantLabel": "TiR BG",
+                    "subtenantRef": "c19acbcc-b592-4615-a885-e195ceca362d",
+                    "tenantLabel": "Production Tenant",
+                    "tenantRef": "Magnit"
+                }
+            ]
+        }
+    ],
+    "links": [],
+    "metadata": {
+        "number": 1,
+        "offset": 0,
+        "size": 20,
+        "totalElements": 7,
+        "totalPages": 1
+    }
+}

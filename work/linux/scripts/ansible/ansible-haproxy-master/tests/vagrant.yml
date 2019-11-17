@@ -1,0 +1,9 @@
+# test file for haproxy
+---
+- hosts: all
+  remote_user: vagrant
+  become: true
+  roles:
+    - ../../
+  vars:
+    haproxy_version: "{{ (ansible_distribution_version is version_compare('12.04', '>')) | ternary(1.8, 1.7) }}"

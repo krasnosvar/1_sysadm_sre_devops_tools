@@ -1,0 +1,39 @@
+---
+- name: LOGS
+  hosts: gusev
+  # vars_files:
+    # - /usr/git/work/ansible/vaulted_vars.yml
+  #remote_user: krasnosvarov_dn
+  remote_user: local
+  become: true
+  become_user: root
+  become_method: sudo
+   
+
+    # Manage files and file properties
+    #https://docs.ansible.com/ansible/latest/modules/file_module.html
+
+  tasks:
+    - name: Recursively change ownership of a directory #if file not exist it will be created
+      file:
+        path: /etc/var/log/
+        state: directory
+        recurse: yes
+        owner: root
+        group: root
+    
+    - name: Change file ownership, group and permissions
+      file:
+        path: /etc/var/log/httpd/
+        owner: apache
+        group: apache
+        mode: '0644'
+
+    
+
+
+
+#command krasnosvarov
+#ansible-playbook /usr/git/work/ansible/allow-read-logs/allow_read_logs.yml --ask-vault-pass -v
+#command local
+#ansible-playbook /usr/git/work/ansible/allow-read-logs/allow_read_logs.yml --extra-vars='ansible_ssh_pass=  ansible_become_pass=' -v

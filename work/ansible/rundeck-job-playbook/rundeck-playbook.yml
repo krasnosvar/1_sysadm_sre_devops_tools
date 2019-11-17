@@ -1,0 +1,54 @@
+---
+- name: Rundeck script.
+  hosts: localhost
+  gather_facts: True
+  vars_files:
+    #  - /usr/git/work/ansible/vaulted_vars.yml
+    - /home/den/Documents/ansible_no_git/entrance-vars.yml
+  vars:
+    image_tag: "{{ tag }}"
+  # remote_user: krasnosvarov_dn
+  # #remote_user: local
+  become: true
+  become_user: root
+  become_method: sudo
+
+  tasks:
+  #   - name: Pull latest container
+  #     docker_container:
+  #       name: docker-hello-world
+  #       image: v00rpm-dr.corp.domain.ru/dockerhub/docker-hello-world:{{ tag }}
+  #       pull: yes
+  #       detach: yes
+      # - name: Execute the script
+      #   script: /usr/git/work/scripts/test_scripts/test1.sh
+    - name: Execute the script on LOCALHOST
+      shell: "bash /usr/git/work/ansible/rundeck-job-playbook/scripts/coderepo_script.sh {{ tag }}"
+
+-  hosts: docker
+   gather_facts: true
+   become: true
+   become_user: root
+   become_method: sudo
+   vars_files:
+    #  - /usr/git/work/ansible/vaulted_vars.yml
+    - /home/den/Documents/ansible_no_git/entrance-vars.yml
+   tasks:
+
+    - name: Transfer the script to docker-host.
+      copy: 
+        src: /usr/git/work/ansible/rundeck-job-playbook/scripts/host_script.sh 
+        dest: /home/krasnosvarov_dn/ #remote_src=yes directory_mode=yes #mode=0777
+        owner: krasnosvarov_dn
+        mode: '0777'
+     # copy: src=/usr/git/work/scripts/testscript.sh dest=/root mode=0777
+
+  #if it needs - execute copied script
+    - name: Execute the script on Docker-host.
+      shell: "/home/krasnosvarov_dn/host_script.sh {{ tag }}"
+
+#command krasnosvarov
+#ansible-playbook /usr/git/work/ansible/add-user-with-sudo/add_user_with_sudo.yml --ask-vault-pass -v
+#command local
+#ansible-playbook /usr/git/work/ansible/add-user-with-sudo/add_user_with_sudo.yml --extra-vars='ansible_ssh_pass=  ansible_become_pass=' -v
+#ansible-playbook /usr/git/work/ansible/rundeck-job-playbook/rundeck-playbook.yml --extra-vars='tag=1' --ask-vault-pass -v

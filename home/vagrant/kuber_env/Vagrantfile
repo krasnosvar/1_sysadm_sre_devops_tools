@@ -1,0 +1,140 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+#
+# Vagrantfile to create a CentOS 7 master and 3 nodes
+#
+# These VMs can be useful for prototyping new systems such
+# as monitoring, mail, configuration management, load balancing
+# etc etc.
+#
+# You will need a Puppet directory structure inside the
+# project directory: ./puppet/environments/vagrant/
+#
+# Requires the following Vagrant plugins:
+#   vagrant plugin install vagrant-libvirt
+#   vagrant-puppet-install
+#   vagrant-vbguest
+#   vagrant-hosts
+#
+# Once complete, you should have 1 large "master" VM
+# and 3 smaller "node" VMs running CentOS 7 latest.
+# They will all have a second, host-only network with
+# address 10.0.3.0/24 with addresses as follows:
+#
+# master = 10.0.3.10
+# nodeX = 10.0.3.10X
+#
+# VMs can thus talk to each other, and you can SSH
+# into them directly
+#
+
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
+
+
+Vagrant.configure('2') do |config|
+  # start with basic latest CentOS 7.x
+  # install vbox guest additions
+  config.vm.box = 'centos/7'
+
+  #on 240Gb ntfs-disk we cannot set 0600 permissions on files, so i need to 
+  #add ssh-keys to linux dir
+  #config.ssh.private_key_path = "/home/den/VAGRANT/private_key.pub"
+  # config.ssh.forward_agent = true 
+  # config.ssh.username = 'den'
+  # config.ssh.password = 'den'
+  
+
+  # install latest version of puppet
+  #config.puppet_install.puppet_version = :latest
+
+  # local domain name
+  # edit this variable to change the domain name your
+  # VMs use!
+  ldn = 'test.local'
+
+  # Create the master
+  config.vm.define 'master', primary: true do |master|
+  # local host name
+    lhn                = 'master'
+    master.vm.hostname = "#{lhn}.#{ldn}"
+
+    master.vm.network 'private_network', ip: '10.0.3.10'
+    master.vm.provision :hosts, sync_hosts: true, add_localhost_hostnames: false
+
+    master.vm.provider 'vagrant-libvirt' do |vb|
+      vb.name         = 'CentOS 7 Master'
+      vb.memory       = 2048
+      vb.cpus         = 2
+      vb.linked_clone = true
+      vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+    end
+    #SSH
+    master.vm.provision "shell" do |s|
+      ssh_prv_key = ""
+      ssh_pub_key = ""
+      if File.file?("#{Dir.home}/.ssh/id_rsa")
+        ssh_prv_key = File.read("#{Dir.home}/.ssh/id_rsa")
+        ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
+      else
+        puts "No SSH key found. You will need to remedy this before pushing to the repository."
+      end
+      s.inline = <<-SHELL
+        if grep -sq "#{ssh_pub_key}" /home/vagrant/.ssh/authorized_keys; then
+          echo "SSH keys already provisioned."
+          exit 0;
+        fi
+        echo "SSH key provisioning."
+        mkdir -p /home/vagrant/.ssh/
+        touch /home/vagrant/.ssh/authorized_keys
+        echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
+        echo #{ssh_pub_key} > /home/vagrant/.ssh/id_rsa.pub
+        chmod 644 /home/vagrant/.ssh/id_rsa.pub
+        echo "#{ssh_prv_key}" > /home/vagrant/.ssh/id_rsa
+        chmod 600 /home/vagrant/.ssh/id_rsa
+        chown -R vagrant:vagrant /home/vagrant
+        exit 0
+      SHELL
+    end
+  
+
+    
+    # master.vm.provision :puppet, run: "always" do |puppet|
+    #   puppet.environment_path = './puppet/environments'
+    #   puppet.environment      = 'vagrant'
+    # end # end of master config
+  end # end of master definition
+
+  # To change the number of nodes built, create an environment variable:
+  # export NUM_NODES=4
+  num_nodes = ENV['NUM_NODES'] || 3
+
+  # Then create as many nodes as you need:
+  # (edit the "3" on the line below to change the number of
+  # nodes that get created)
+  (1..num_nodes).each do |j|
+    # we like zero-padded numbers in our hostnames!
+    i = '%02d' % j
+
+    config.vm.define "node#{i}" do |client|
+      lhn                = "node#{i}"
+      client.vm.hostname = "#{lhn}.#{ldn}"
+
+      # network parameters
+      client.vm.network 'private_network', ip: "10.0.3.1#{i}"
+      client.vm.provision :hosts, sync_hosts: true, add_localhost_hostnames: false
+
+      client.vm.provider 'vagrant-libvirt' do |vb|
+        vb.name         = "CentOS 7 Node #{i}"
+        vb.memory       = 1048
+        vb.cpus         = 1
+        vb.linked_clone = true
+        vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+      end
+
+      # client.vm.provision :puppet, run: "always" do |puppet|
+      #   puppet.environment_path = './puppet/environments'
+      #   puppet.environment      = 'vagrant'
+      # end # end of puppet config
+    end # end of node definition
+  end # end of "each do" loop
+end

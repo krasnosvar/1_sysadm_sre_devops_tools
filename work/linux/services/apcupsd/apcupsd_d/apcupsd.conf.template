@@ -1,0 +1,45 @@
+## apcupsd.conf v1.1 ##
+# 
+#  for apcupsd release 3.14.4 (18 May 2008) - redhat
+#
+# "apcupsd" POSIX config file
+
+UPSNAME IBRC_UPS
+UPSCABLE ether
+UPSTYPE snmp
+DEVICE 10.110.12.114:161:APC_NOTRAP:private
+LOCKFILE /var/lock
+
+SCRIPTDIR /etc/apcupsd
+PWRFAILDIR /etc/apcupsd
+NOLOGINDIR /etc
+ONBATTERYDELAY 1
+
+# Минимальный заряд батареи для выключения сервера в %:
+BATTERYLEVEL 10
+# Минимальный остаток времени жизни батареи для выключения сервера в минутах:
+MINUTES 10
+# Максимальное время работы от батареи в секундах:
+TIMEOUT 3600
+# Срабатывает одно из вышеописанных условий выключения сервера - то, которое будет выполнено первым.
+
+ANNOY 60
+ANNOYDELAY 60
+NOLOGON disable
+KILLDELAY 0
+
+NETSERVER on
+NISIP 0.0.0.0
+NISPORT 3551
+EVENTSFILE /var/log/apcupsd.events
+EVENTSFILEMAX 10
+
+# ИБП подключен к одному серверу
+UPSCLASS standalone
+UPSMODE disable
+
+# Регистрация статуса
+STATTIME 300
+STATFILE /var/log/apcupsd.status
+LOGSTATS off
+DATATIME 0

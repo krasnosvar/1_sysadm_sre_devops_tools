@@ -1,0 +1,24 @@
+#Install and configure wordpress on Centos8
+#1.Install soft
+yum install -y nginx
+yum install -y mariadb mariadb-server net-tools
+yum install -y php-mysqlnd php php-fpm
+wget https://wordpress.org/latest.zip
+
+
+#2.Change configs:
+#-nginx(sample in files)
+#-php-fpm:
+vi /etc/php-fpm.d/www.conf
+#comment listen by socket and add listen by ip
+# ;listen = /run/php-fpm/www.sock
+# listen = 127.0.0.1:9000
+
+
+#3.create mysql DB for wordpress
+mysql -u root #if needs add: -p PASSWORD
+CREATE DATABASE wordpress;
+grant all privileges on new_wp.* to wpuser@localhost identified by 'myp@Ssw0Rd';
+FLUSH PRIVILEGES;
+EXIT
+

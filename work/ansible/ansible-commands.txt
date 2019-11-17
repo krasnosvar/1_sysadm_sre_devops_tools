@@ -1,0 +1,1 @@
+sudo ansible-playbook -i test-role/hosts  test-role/test-role.yml --extra-vars='ansible_ssh_pass=local-password  ansible_become_pass=local-password

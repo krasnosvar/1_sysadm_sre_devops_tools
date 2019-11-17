@@ -1,0 +1,163 @@
+#!/bin/bash
+SCRIPTPATH=$( cd $(dirname ${BASH_SOURCE[0]}) ; pwd -P )
+. $SCRIPTPATH/domain_apcupsd
+
+APCUPSD_SHM="/dev/shm/tndr_apcupsd"
+mkdir -p "$APCUPSD_SHM"
+
+UPSCOUNT=0;
+for i in $UPSLIST; do let "UPSCOUNT++"; done
+
+function change_flag { # action (doshutdown/commfailure), ups (0 to N), value (0 - ok/1 - failed)
+	local flag
+	local ups
+	case $2 in
+		''|*[!0-9]*)
+		ups=0
+		;;
+	        *)
+		ups=$2
+		;;
+	esac
+
+	case "$1" in
+		doshutdown)
+		let "flag=1<<$ups*$UPSCOUNT"
+		;;
+		commfailure)
+		let "flag=2<<$ups*$UPSCOUNT"
+		;;
+		*)
+		return 2
+	esac
+	local value=$3
+	local dry="$4"
+
+	local path="$APCUPSD_SHM/flags"
+	touch "$path"
+
+	lockfile -5 -r1 "$path.lock"
+	[[ $? -eq 0 ]] || return 3
+
+	local flags=$(cat "$path")
+
+	if [[ $value -eq 1 ]]; then
+		let "flags|=$flag";
+	else
+		let "flags&=~$flag";
+	fi
+
+	[[ $dry != "dry" ]] && echo -n $flags > "$path"
+	rm "$path.lock"
+}
+
+function get_flag { # action (doshutdown/commfailure), ups (0 to N)
+	local flag
+	case "$1" in
+		doshutdown)
+		let "flag=1<<$2*$UPSCOUNT"
+		;;
+		commfailure)
+		let "flag=2<<$2*$UPSCOUNT"
+		;;
+		*)
+		return 2
+	esac
+
+	local path="$APCUPSD_SHM/flags"
+	touch "$path"
+
+	lockfile -5 -r1 "$path.lock"
+	[[ $? -eq 0 ]] || return 3
+
+	local flags=$(cat "$path")
+	rm "$path.lock"
+
+	[[ $(($flags & $flag)) == $flag ]] && return 1 || return 0 #1 - set, 0 - not set
+}
+
+function check_flags { # returns 1 if all failed and 0 if something is ok
+	local failedcount=0
+	local commfailedcount=0
+	local totalfailedcount=0
+	for (( i=0; i<$UPSCOUNT; i++ )); do
+		get_flag 'doshutdown' $i
+		local check1=$?
+		get_flag 'commfailure' $i
+		local check2=$?
+
+		[[ $check1 -eq 1 ]] && let "failedcount++"
+		[[ $check2 -eq 1 ]] && let "commfailedcount++"
+		[[ $check1 -eq 1 || $check2 -eq 1 ]] && let "totalfailedcount++"
+	done
+
+	[[ $totalfailedcount -eq $UPSCOUNT && ($commfailedcount -ne $totalfailedcount || $failedcount -gt 0) ]] && return 1 || return 0
+}
+
+function change_value {
+	local key="$1"
+	local action=""
+	local dry="$3"
+	case "$2" in
+		"++")
+		;;
+		"--")
+		;;
+		*)
+		return 2
+		;;
+	esac
+
+	local path="$APCUPSD_SHM/$key"
+	touch "$path"
+
+	lockfile -5 -r1 "$path.lock"
+	[[ $? -eq 0 ]] || return 3
+
+	local value=$(cat "$path")
+	let "value$2"
+	if [[ ($value -lt $UPSCOUNT && "$2" == "++") || ($value -ge 0 && "$2" == "--") ]]; then
+		[[ $dry != "dry" ]] && echo -n $value > "$path"
+		rm "$path.lock"
+		return 0
+	else
+		rm "$path.lock"
+		return 1
+	fi
+}
+
+function gen_config {
+	local cnt=0
+	local CPATH=""
+	local NISPORT=3551
+	rm -f ${SCRIPTDIR}/apcupsd.conf_[0-9]*
+	for i in $UPSLIST; do
+		local CPATH="${SCRIPTDIR}/apcupsd.conf_$cnt"
+		cp ${SCRIPTDIR}/apcupsd.conf.template "$CPATH"
+		sed -i -r s/UPSNAME.*/"UPSNAME $cnt"/g "$CPATH"
+		sed -i -r s/DEVICE.*/"DEVICE $i:161:APC_NOTRAP:private"/g "$CPATH"
+		sed -i -r s/NISPORT.*/"NISPORT $NISPORT"/g "$CPATH"
+		sed -i -r s/STATFILE.*/"STATFILE \/var\/log\/apcupsd.status_$cnt"/g "$CPATH"
+		sed -i -r s/EVENTSFILE[^MAX].*/"EVENTSFILE \/var\/log\/apcupsd.events_$cnt"/g "$CPATH"
+		let "cnt++"
+		let "NISPORT++"
+	done
+}
+
+function stop_shutdown { #workaround for shutdown from upstart-0.6.5-12.el6.i686 not catching SIGINT that was sent by shutdown with -c flag
+	pidPath="/var/run/shutdown.pid"
+	pid=$(cat $pidPath)
+	${SHUTDOWN} -c "apcupsd UPS ${1} shutdown canceled"
+	if [[ -f $pidPath ]]; then
+		kill -INT $pid
+		kill -QUIT $pid
+		kill -TERM $pid
+	fi
+	if [[ -f $pidPath ]]; then
+		kill -KILL $pid
+		rm -f /etc/nologin
+		rm -f /var/run/shutdown.pid
+	fi
+	echo "apcupsd UPS ${1} shutdown canceled" | ${WALL}
+}
+

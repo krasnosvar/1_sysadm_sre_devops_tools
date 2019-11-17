@@ -1,0 +1,58 @@
+#Хороший мануал для Foreman
+https://www.lisenet.com/2018/homelab-project-with-kvm-katello-and-puppet/
+
+#howto foreman katello centos7
+https://github.com/vidalinux/linux-howtos/wiki/howto-foreman-katello-centos7
+
+#Using Foreman to Provision and Configure Machines
+https://elatov.github.io/2018/10/using-foreman-to-provision-and-configure-machines/
+
+#Добавление хостов в Katello
+https://it-portal.corp.domain.ru/pages/viewpage.action?pageId=1044779413
+
+#How To Add Puppet Nodes to Foreman – CentOS 7
+https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/how-to-add-puppet-nodes-to-foreman-centos-7-ubuntu-14-04.html
+
+#Setup Katello with remote databases
+https://github.com/theforeman/foreman_maintain/wiki/Setup-Katello-with-remote-databases
+
+#Short tip: Updating Pulp database after upgrading Katello
+https://cstan.io/?p=8926&lang=en
+
+#Forcefully stop hanging Foreman tasks
+https://cstan.io/?p=8976&lang=en
+
+#Сервис Katello (тестовый)
+https://it-portal.corp.domain.ru/pages/viewpage.action?pageId=937532388
+
+10.8.180.58
+katello-test.corp.domain.ru
+
+10.8.181.13
+v00sccmgk01tst.corp.domain.ru
+
+10.8.181.14
+v00sccmhm01tst.corp.domain.ru
+
+10.8.181.15
+v00sccmpr01tst.corp.domain.ru
+#none-comments
+
+10.8.181.107
+v00sccmdb01tst.corp.domain.ru
+#mongodb-server
+
+10.8.181.151
+v00sccm01pgstst.corp.domain.ru
+
+10.8.37.98
+opensatellite.corp.domain.ru
+#test-server
+
+
+#add server to katello-TEST
+rpm -ivh http://katello-test.corp.domain.ru/pub/katello-ca-consumer-katello-test.corp.domain.ru-1.0-1.noarch.rpm
+echo "server = katello-test.corp.domain.ru" >> /etc/puppetlabs/puppet/puppet.conf
+
+
+

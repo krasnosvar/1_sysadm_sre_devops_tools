@@ -1,0 +1,817 @@
+    1  04.06.19 10:50:48 clear
+    2  04.06.19 10:50:48 echo "ip_resolve=4">> /etc/yum.conf
+    3  04.06.19 10:50:48 cat /etc/yum.conf 
+    4  04.06.19 10:50:48 shutdown -h now
+    5  04.06.19 10:50:48 ifconfig 
+    6  04.06.19 10:50:48 id it_security
+    7  04.06.19 10:50:48 shutdown -h now
+    8  04.06.19 10:50:48 yum update all
+    9  04.06.19 10:50:48 yum update kernel
+   10  04.06.19 10:50:48 reboot
+   11  04.06.19 10:50:48 yum update all
+   12  04.06.19 10:50:48 yum update
+   13  04.06.19 10:50:48 mc
+   14  04.06.19 10:50:48 reboiot
+   15  04.06.19 10:50:48 reboot
+   16  04.06.19 10:50:48 yum clean all
+   17  04.06.19 10:50:48 exit
+   18  04.06.19 10:50:48 yum update kernel
+   19  04.06.19 10:50:48 cat /etc/yum.conf 
+   20  04.06.19 10:50:48 yum update all
+   21  04.06.19 10:50:48 mc
+   22  04.06.19 10:50:48 yum clean all
+   23  04.06.19 10:50:48 yum update all
+   24  04.06.19 10:50:48 wget -O /etc/yum.repos.d/centos7osx86_64.repo http://repomirror.corp.domain.ru:10080/docs/repo/centos7osx86_64.repo
+   25  04.06.19 10:50:48 yum update all
+   26  04.06.19 10:50:48 mc
+   27  04.06.19 10:50:48 chmod +x /etc/rc.local 
+   28  04.06.19 10:50:48 shutdown -h now
+   29  04.06.19 10:50:48 roweroff
+   30  04.06.19 10:50:48 shutdown -s
+   31  04.06.19 10:50:48 shutdown --h
+   32  04.06.19 10:50:48 shutdown --he
+   33  04.06.19 10:50:48 shutdown -p
+   34  04.06.19 10:50:48 shutdown --poweroff
+   35  04.06.19 10:50:48 reboot
+   36  04.06.19 10:50:48 mc
+   37  04.06.19 10:50:48 yum update
+   38  04.06.19 10:50:48 mc
+   39  04.06.19 10:50:48 shutdown -h now
+   40  04.06.19 10:50:48 ipconfig -a
+   41  04.06.19 10:50:48 ifconfig -a
+   42  04.06.19 10:50:48 nano /etc/sysconfig/network-scripts/ifcfg-eth0 
+   43  04.06.19 10:50:48 service netork restart
+   44  04.06.19 10:50:48 mc
+   45  04.06.19 10:50:48 ll /
+   46  04.06.19 10:50:48 ll /etc/
+   47  04.06.19 10:50:48 history
+   48  04.06.19 10:50:48 shutdown -h now
+   49  04.06.19 10:50:48 yum remove vmware*
+   50  04.06.19 10:50:48 yum remove vmware-tools*
+   51  04.06.19 10:50:48 rpm -qa | grep vmware
+   52  04.06.19 10:50:48 rpm -qa | grep tools
+   53  04.06.19 10:50:48 mount /dev/cdrom /mnt
+   54  04.06.19 10:50:48 cd /mnt/
+   55  04.06.19 10:50:48 ls
+   56  04.06.19 10:50:48 cd /tmp/
+   57  04.06.19 10:50:48 tar -xvzf /mnt/VMwareTools-8.6.17-3814316.tar.gz
+   58  04.06.19 10:50:48 ls
+   59  04.06.19 10:50:48 cd vmware-tools-distrib/
+   60  04.06.19 10:50:48 ls
+   61  04.06.19 10:50:48 ./vmware-install.pl 
+   62  04.06.19 10:50:48 yum update
+   63  04.06.19 10:50:48 ls /etc/yum.repos.d/
+   64  04.06.19 10:50:48 cd cd /etc/yum.repos.d/
+   65  04.06.19 10:50:48 ls
+   66  04.06.19 10:50:48 cd /etc/yum.repos.d/
+   67  04.06.19 10:50:48 ls /home/toor/
+   68  04.06.19 10:50:48 mc
+   69  04.06.19 10:50:48 yum clean all
+   70  04.06.19 10:50:48 yum update
+   71  04.06.19 10:50:48 ls
+   72  04.06.19 10:50:48 mc
+   73  04.06.19 10:50:48 yum clean all
+   74  04.06.19 10:50:48 yum update
+   75  04.06.19 10:50:48 shutdown -r now
+   76  04.06.19 10:50:48 ip a
+   77  04.06.19 10:50:48 cat /etc/passwd
+   78  04.06.19 10:50:48 cd /etc/yum.repos.d/
+   79  04.06.19 10:50:48 ls
+   80  04.06.19 10:50:48 rm -f *
+   81  04.06.19 10:50:48 wget -O /etc/yum.repos.d/centos7osx86_64.repo http://repomirror.corp.domain.ru:10080/docs/repo/centos7osx86_64.repo
+   82  04.06.19 10:50:48 wget -O /etc/yum.repos.d/centos7updatesx86_64.repo http://repomirror.corp.domain.ru:10080/docs/repo/centos7updatesx86_64.repo
+   83  04.06.19 10:50:48 wget -O /etc/yum.repos.d/el7-x64-epel.repo http://repomirror.corp.domain.ru:10080/docs/repo/el7-x64-epel.repo
+   84  04.06.19 10:50:48 vim /etc/resolv.conf 
+   85  04.06.19 10:50:48 systemctl enable ntp
+   86  04.06.19 10:50:48 systemctl enable ntpd
+   87  04.06.19 10:50:48 netstat -ntulp
+   88  04.06.19 10:50:48 vim /etc/ntp.conf 
+   89  04.06.19 10:50:48 man yum
+   90  04.06.19 10:50:48 vim /etc/ssh/sshd_config
+   91  04.06.19 10:50:48 service sshd restart
+   92  04.06.19 10:50:48 cd /home/toor/
+   93  04.06.19 10:50:48 ls
+   94  04.06.19 10:50:48 rpm -ivh ./vasclnt-4.1.0-22726.x86_64.rpm ./vasgp-4.1.0-22726.x86_64.rpm ./quest-dnsupdate-4.1.0-1.x86_64.rpm
+   95  04.06.19 10:50:48 which sudo 
+   96  04.06.19 10:50:48 vim ~root/.bashrc 
+   97  04.06.19 10:50:48 shutdown -r now
+   98  04.06.19 10:50:48 service ntpd restart
+   99  04.06.19 10:50:48 netstat -tulpn
+  100  04.06.19 10:50:48 netstat -tulpn
+  101  04.06.19 10:50:48 netstat -tulpn
+  102  04.06.19 10:50:48 mc
+  103  04.06.19 10:50:48 cat /etc/passwd|grep toor
+  104  04.06.19 10:50:48 cat /etc/passwd
+  105  04.06.19 10:50:48 cat /etc/sudoers
+  106  04.06.19 10:50:48 cat /etc/shadow
+  107  04.06.19 10:50:48 cat /etc/passwd
+  108  04.06.19 10:50:48 cat /etc/sudoers
+  109  04.06.19 10:50:48 cat /etc/pam.d/system-auth-ac 
+  110  04.06.19 10:50:48 mc
+  111  04.06.19 10:50:48 cat /etc/ssh/sshd_config |grep -i PermitRootLogin
+  112  04.06.19 10:50:48 cat /etc/ssh/sshd_config|grep -i protocol 
+  113  04.06.19 10:50:48 who -r
+  114  04.06.19 10:50:48 chkconfig --list
+  115  04.06.19 10:50:48 service --status-all
+  116  04.06.19 10:50:48 cat /etc/crontab
+  117  04.06.19 10:50:48 cat crontab -l -u root
+  118  04.06.19 10:50:48 crontab -l -u root
+  119  04.06.19 10:50:48 cat /etc/sysctl.conf | grep ipv6
+  120  04.06.19 10:50:48 ifconfig|grep -i inet6
+  121  04.06.19 10:50:48 ifconfig
+  122  04.06.19 10:50:48 netstat -tulpn
+  123  04.06.19 10:50:48 mc
+  124  04.06.19 10:50:48 iptables -L -n -v
+  125  04.06.19 10:50:48 cat 
+  126  04.06.19 10:50:48 netstat -tulpn
+  127  04.06.19 10:50:48 service vasd status
+  128  04.06.19 10:50:48 ps -aux
+  129  04.06.19 10:50:48 chkconfig --list
+  130  04.06.19 10:50:48 netsta -tulpn
+  131  04.06.19 10:50:48 netstat -tulpn
+  132  04.06.19 10:50:48 history
+  133  04.06.19 10:50:48 vim /etc/resolv.conf 
+  134  04.06.19 10:50:48 mc /proc/
+  135  04.06.19 10:50:48 cat /etc/sudoers
+  136  04.06.19 10:50:48 vim /etc/sudoers
+  137  04.06.19 10:50:48 systemctl postfix status
+  138  04.06.19 10:50:48 systemctl status postfix
+  139  04.06.19 10:50:48 systemctl disable postfix
+  140  04.06.19 10:50:48 systemctl stop postfix
+  141  04.06.19 10:50:48 systemctl status postfix
+  142  04.06.19 10:50:48 ls /etc/yum.repos.d/
+  143  04.06.19 10:50:48 wget -O /etc/yum.repos.d/centos7osx86_64.repo http://repomirror.corp.domain.ru:10080/docs/repo/centos7osx86_64.repo
+  144  04.06.19 10:50:48 ls /etc/yum.repos.d/
+  145  04.06.19 10:50:48 yum check-update
+  146  04.06.19 10:50:48 yum update
+  147  04.06.19 10:50:48 shutdown -r now
+  148  04.06.19 10:50:48 netstat -tulpn
+  149  04.06.19 10:50:48 cat /etc/sysctl.conf | grep ipv6
+  150  04.06.19 10:50:48 ifconfig|grep -i inet6 
+  151  04.06.19 10:50:48 mc
+  152  04.06.19 10:50:48 ls /etc/yum.repos.d/
+  153  04.06.19 10:50:48 service postfix status
+  154  04.06.19 10:50:48 passwd toor
+  155  04.06.19 10:50:48 useradd local
+  156  04.06.19 10:50:48 service vasd status
+  157  04.06.19 10:50:48 mount /dev/cdrom /media/cdrom/
+  158  04.06.19 10:50:48 mc
+  159  04.06.19 10:50:48 umount /dev/cdrom 
+  160  04.06.19 10:50:48 cd
+  161  04.06.19 10:50:48 umount /dev/cdrom 
+  162  04.06.19 10:50:48 mc
+  163  04.06.19 10:50:48 ifconfig 
+  164  04.06.19 10:50:48 mc
+  165  04.06.19 10:50:48 ifconfig 
+  166  04.06.19 10:50:48 mc
+  167  04.06.19 10:50:48 mount /dev/cdrom /media/cdrom/
+  168  04.06.19 10:50:48 cd /tmp/
+  169  04.06.19 10:50:48 tar zxf /media/cdrom/VMwareTools-10.1.5-5055683.tar.gz 
+  170  04.06.19 10:50:48 cd vmware-tools-distrib/
+  171  04.06.19 10:50:48 ./vmware-install.pl 
+  172  04.06.19 10:50:48 cd
+  173  04.06.19 10:50:48 umount /dev/cdrom 
+  174  04.06.19 10:50:48 reboot
+  175  04.06.19 10:50:48 vim /etc/sysctl.conf 
+  176  04.06.19 10:50:48 vim /etc/sysctl.conf 
+  177  04.06.19 10:50:48 vim /etc/sysctl.conf 
+  178  04.06.19 10:50:48 sysctl -p
+  179  04.06.19 10:50:48 vim /etc/security/limits.conf 
+  180  04.06.19 10:50:48 cd /home/
+  181  04.06.19 10:50:48 ls
+  182  04.06.19 10:50:48 userdel -r mironenko_rv
+  183  04.06.19 10:50:48 vim /etc/sudoers
+  184  04.06.19 10:50:48 vim /etc/sysctl.conf 
+  185  04.06.19 10:50:48 vim /etc/security/limits.conf 
+  186  04.06.19 10:50:48 ifconfig 
+  187  04.06.19 10:50:48 ls
+  188  04.06.19 10:50:48 yum update
+  189  04.06.19 10:50:48 reboot 
+  190  04.06.19 10:50:48 cd /etc/yum.repos.d/
+  191  04.06.19 10:50:48 ls
+  192  04.06.19 10:50:48 rm -rf CentOS-*
+  193  04.06.19 10:50:48 rm -rf epel*
+  194  04.06.19 10:50:48 ll
+  195  04.06.19 10:50:48 ip a
+  196  04.06.19 10:50:48 cp /root/Template-CentOS7-x64.odt /home/toor/
+  197  04.06.19 10:50:48 ls
+  198  04.06.19 10:50:48 cd /home/toor/
+  199  04.06.19 10:50:48 ls
+  200  04.06.19 10:50:48 rm -rf *.rpm
+  201  04.06.19 10:50:48 rm -rf Template-CentOS7-x64.odt 
+  202  04.06.19 10:50:48 mv Template-CentOS7-x64.odt /root/
+  203  04.06.19 10:50:48 ip a
+  204  04.06.19 10:50:48 nmtui
+  205  04.06.19 10:50:48 yum update
+  206  04.06.19 10:50:48 yum update
+  207  04.06.19 10:50:48 wget -O /etc/yum.repos.d/el6-x64-osad.repo http://repomirror.corp.domain.ru:10080/docs/repo/el6-x64-osad.repo 
+  208  04.06.19 10:50:48 yum install vasgp vasclnt quest-dnsupdate
+  209  04.06.19 10:50:48 cd /etc/yum.repos.d/
+  210  04.06.19 10:50:48 ls
+  211  04.06.19 10:50:48 yum search epel
+  212  04.06.19 10:50:48 rm -rf epel*
+  213  04.06.19 10:50:48 yum search epel
+  214  04.06.19 10:50:48 yum remove epel*
+  215  04.06.19 10:50:48 ll
+  216  04.06.19 10:50:48 yum install tmux tree ncdu
+  217  04.06.19 10:50:48 y
+  218  04.06.19 10:50:48 vim /etc/sudoers
+  219  04.06.19 10:50:48 passwd local
+  220  04.06.19 10:50:48 vim /etc/profile
+  221  04.06.19 10:50:48 exit 
+  222  04.06.19 10:50:48 ip a
+  223  04.06.19 10:50:48 service network restart
+  224  04.06.19 10:50:48 ip a
+  225  04.06.19 10:50:48 ip a
+  226  04.06.19 10:50:48 cd /home/
+  227  04.06.19 10:50:48 ls
+  228  04.06.19 10:50:48 vim /etc/sysctl.conf 
+  229  04.06.19 10:50:48 vim /etc/ntp.conf 
+  230  28.04.18 13:18:32 cat /etc/sysctl.conf 
+  231  28.04.18 13:20:54 shutdown -h now
+  232  29.05.18 10:29:18 mount /dev/cdrom /media/cdrom/
+  233  29.05.18 10:29:31 cd tmp
+  234  29.05.18 10:29:36 cd /tmp
+  235  29.05.18 10:29:59 tar -zxf /media/cdrom/VMwareTools-10.1.10-6082533.tar.gz 
+  236  29.05.18 10:30:21 ls
+  237  29.05.18 10:30:32 cd vmware-tools-distrib/
+  238  29.05.18 10:30:33 ls
+  239  29.05.18 10:30:47 vmware-install.pl
+  240  29.05.18 10:31:15 vmware-install.pl --default
+  241  29.05.18 10:34:16 ./vmware-install.pl --default --force-install
+  242  29.05.18 10:36:36 ls
+  243  29.05.18 10:36:40 cd
+  244  29.05.18 10:36:43 cd /tmp
+  245  29.05.18 10:36:44 ls
+  246  29.05.18 10:36:59 rm vmware-tools-distrib/
+  247  29.05.18 10:38:02 rm -rf vmware-*
+  248  29.05.18 10:38:04 ls
+  249  29.05.18 10:38:14 cd
+  250  29.05.18 10:38:16 logoff
+  251  29.05.18 10:38:19 logout
+  252  31.05.18 12:58:50 ip a
+  253  31.05.18 12:58:59 nmtui
+  254  31.05.18 12:59:31 service network restart
+  255  31.05.18 13:01:16 ip a
+  256  04.06.19 10:50:48 reboot 
+  257  04.06.19 10:50:48 yum update
+  258  04.06.19 10:50:48 yum history
+  259  04.06.19 10:50:48 yum install lshell
+  260  04.06.19 10:50:48 cd /etc/yum.repos.d/
+  261  04.06.19 10:50:48 ls
+  262  04.06.19 10:50:48 ll
+  263  04.06.19 10:50:48 rm -rf CentOS-*
+  264  04.06.19 10:50:48 yum install lshell
+  265  04.06.19 10:50:48 vim /etc/lshell.conf 
+  266  04.06.19 10:50:48 vim /etc/sudoers
+  267  04.06.19 10:50:48 vim /etc/ntp.conf 
+  268  04.06.19 10:50:48 passwd local
+  269  04.06.19 10:50:48 chkconfig ntpd on
+  270  04.06.19 10:50:48 service ntpd restart
+  271  04.06.19 10:50:48 ntpq -p
+  272  04.06.19 10:50:48 ntpq -p
+  273  04.06.19 10:50:48 reboot 
+  274  04.06.19 10:50:48 more /etc/ntp/keys
+  275  04.06.19 10:50:48 more /etc/ntp/crypto/pw
+  276  04.06.19 10:50:48 more /etc/sysconfig/init
+  277  04.06.19 10:50:48 more /etc/passwd
+  278  04.06.19 10:50:48 more /etc/passwd |grep bash
+  279  04.06.19 10:50:48 more /etc/sudoers |grep ALL
+  280  04.06.19 10:50:48 more /etc/ssh/sshd_config |grep -i root
+  281  04.06.19 10:50:48 more /etc/pam.d/system-auth-ac 
+  282  04.06.19 10:50:48 more /etc/exports 
+  283  04.06.19 10:50:48 ip a
+  284  04.06.19 10:50:48 mc
+  285  13.06.18 16:49:35 whereis yum
+  286  13.06.18 16:50:09 /ust/bin/yum update 
+  287  13.06.18 16:50:26 /usr/bin/yum update
+  288  13.06.18 16:54:39 logout
+  289  13.06.18 16:58:32 version
+  290  13.06.18 16:58:47 yum help
+  291  13.06.18 17:00:13 ls -l /var/log
+  292  04.06.19 10:50:48 yum update
+  293  04.06.19 10:50:48 vim /etc/ntp.conf 
+  294  04.06.19 10:50:48 service ntpd restart
+  295  04.06.19 10:50:48 ntpq
+  296  04.06.19 10:50:48 ntpq -d
+  297  04.06.19 10:50:48 ntpd -p
+  298  04.06.19 10:50:48 ntpd -q
+  299  04.06.19 10:50:48 ntpdate 
+  300  04.06.19 10:50:48 ntpq -p
+  301  04.06.19 10:50:48 ntpq -p
+  302  04.06.19 10:50:48 ntpq -p
+  303  04.06.19 10:50:48 ntpq -p
+  304  04.06.19 10:50:48 ntpq -p
+  305  04.06.19 10:50:48 ntpq -p
+  306  04.06.19 10:50:48 ntpq -p
+  307  04.06.19 10:50:48 ntpq -p
+  308  04.06.19 10:50:48 ntpq -p
+  309  04.06.19 10:50:48 ntpq -p
+  310  04.06.19 10:50:48 netstat -ntlup
+  311  04.06.19 10:50:48 vim /etc/ntp.conf 
+  312  04.06.19 10:50:48 service ntpd restart
+  313  04.06.19 10:50:48 netstat -ntlup
+  314  04.06.19 10:50:48 ntpq -p
+  315  04.06.19 10:50:48 ntpq -p
+  316  04.06.19 10:50:48 ntpq -p
+  317  04.06.19 10:50:48 ntpq -p
+  318  04.06.19 10:50:48 ntpq -p
+  319  04.06.19 10:50:48 ntpq -p
+  320  04.06.19 10:50:48 ntpq -p
+  321  04.06.19 10:50:48 vim /etc/ntp.conf 
+  322  04.06.19 10:50:48 service ntpd restart
+  323  04.06.19 10:50:48 ntpq -p
+  324  04.06.19 10:50:48 ntpq -p
+  325  04.06.19 10:50:48 ntpq -p
+  326  04.06.19 10:50:48 vim /etc/ntp.conf 
+  327  04.06.19 10:50:48 vim /etc/default/ntp
+  328  04.06.19 10:50:48 vim /etc/sysconfig/ntpd
+  329  04.06.19 10:50:48 service ntpd restart
+  330  04.06.19 10:50:48 netstat -ntlup
+  331  04.06.19 10:50:48 vim /etc/ntp.conf 
+  332  04.06.19 10:50:48 service ntpd restart
+  333  04.06.19 10:50:48 netstat -ntlup
+  334  04.06.19 10:50:48 ntpq -p
+  335  04.06.19 10:50:48 reboot 
+  336  04.06.19 10:50:48 more /etc/ntp.conf
+  337  04.06.19 10:50:48 more /etc/ssh/sshd_config |grep -i root
+  338  04.06.19 10:50:48 ntpdc -n -c monlist localhost
+  339  18.06.18 15:14:16 yum update -h
+  340  18.06.18 15:39:02 whereis yum
+  341  18.06.18 15:40:08 mc
+  342  18.06.18 15:41:49 /usr/bin/yum update -y >/tmp/updatelog
+  343  18.06.18 15:43:02 /usr/bin/yum update -y
+  344  18.06.18 15:43:11 /usr/bin/yum update -y > /tmp/updatelog
+  345  18.06.18 15:43:16 mc
+  346  18.06.18 15:56:28 logout
+  347  04.06.19 10:50:48 more /etc/sudoers
+  348  04.06.19 10:50:48 more /etc/ssh/sshd_config
+  349  04.06.19 10:50:48 cd /etc/ssh/
+  350  04.06.19 10:50:48 ll
+  351  04.06.19 10:50:48 man sshd_config
+  352  04.06.19 10:50:48 /opt/quest/bin/vastool status
+  353  04.06.19 10:50:48 mc
+  354  17.09.18 14:49:01 yum history
+  355  17.09.18 14:49:24 yum update
+  356  17.09.18 15:00:15 yum update -h
+  357  17.09.18 15:00:49 ping ya.ru
+  358  17.09.18 15:00:56 yum update -f
+  359  17.09.18 15:01:04 yum update force
+  360  17.09.18 15:01:39 mc
+  361  17.09.18 15:03:06 yum update -y
+  362  17.09.18 15:05:30 yum history
+  363  17.09.18 15:05:55 shutdown -t 0
+  364  17.09.18 15:08:49 /usr/bin/yum update -y
+  365  17.09.18 15:10:00 mc
+  366  17.09.18 15:11:08 /usr/bin/yum update -y
+  367  17.09.18 15:13:06 mc
+  368  17.09.18 15:22:28 cd /etc/yum.repos.d/
+  369  17.09.18 15:22:29 ls
+  370  17.09.18 15:22:30 ll
+  371  19.09.18 08:56:09 /bin/bash rm -f /etc/yum.repos.d/CentOS-* ; rm -f /etc/yum.repos.d/epel* ; yum clean all ; yum update -y
+  372  19.09.18 08:57:01 rm -f /etc/yum.repos.d/CentOS-* ; rm -f /etc/yum.repos.d/epel* ; yum clean all ; yum update -y
+  373  19.09.18 09:02:10 /bin/sh rm -f /etc/yum.repos.d/CentOS-* ; rm -f /etc/yum.repos.d/epel* ; yum clean all ; yum update -y
+  374  19.09.18 09:03:04 mc
+  375  19.09.18 09:04:30 logout
+  376  19.09.18 09:05:43 mc
+  377  19.09.18 09:06:17 logout
+  378  28.09.18 10:47:42 less /etc/ssh/sshd_config
+  379  28.09.18 10:47:59 poweroff
+  380  22.10.18 14:15:22 ip a
+  381  22.10.18 15:59:35 mount /dev/cdrom /media/cdrom/
+  382  22.10.18 15:59:40 mc
+  383  22.10.18 16:01:09 umount /dev/cdrom 
+  384  22.10.18 16:01:36 power off
+  385  22.10.18 16:01:43 poweroff
+  386  30.10.18 10:32:35 mc
+  387  30.10.18 10:39:40 rm -f /etc/yum.repos.d/CentOS-* ; rm -f /etc/yum.repos.d/epel* ; yum clean all ; yum update -y > /tmp/yumupdate
+  388  30.10.18 10:40:24 yum update -y
+  389  30.10.18 10:40:41 poweroff
+  390  31.05.19 15:28:44 mount /dev/cdrom /media/cdrom/
+  391  31.05.19 15:28:52 python /media/cdrom/./add_to_katello.py 
+  392  04.06.19 10:50:48 history 
+  393  04.06.19 10:50:48 yum install java-1.7.0-openjdk
+  394  04.06.19 10:50:48 top
+  395  04.06.19 10:50:48 exit
+  396  04.06.19 10:51:39 man yum
+  397  04.06.19 10:51:55 yum list | grep java
+  398  04.06.19 10:55:47 cd /usr/share/tomcat/conf/Catalina/localhost/
+  399  04.06.19 10:55:58 cd /usr/share/tomcat/
+  400  04.06.19 10:56:12 service tomcat status
+  401  04.06.19 10:56:54 ls
+  402  04.06.19 10:57:04 mkdir temp
+  403  04.06.19 10:57:06 cd temp/
+  404  04.06.19 10:57:22 wget https://fileobmen.corp.domain.ru/aab5b8a50178993d14d22723455b1dcd
+  405  04.06.19 11:01:06 wget https://fileobmen.corp.domain.ru/download.php?fcode=aab5b8a50178993d14d22723455b1dcd
+  406  04.06.19 11:01:14 wget http://fileobmen.corp.domain.ru/download.php?fcode=aab5b8a50178993d14d22723455b1dcd
+  407  04.06.19 11:01:21 wget https://fileobmen.corp.domain.ru/download.php?fcode=aab5b8a50178993d14d22723455b1dcd
+  408  04.06.19 11:01:48 clear
+  409  04.06.19 11:01:52 service tomcat status
+  410  04.06.19 11:06:20 pwd
+  411  04.06.19 11:12:51 ping 10.104.20.228
+  412  04.06.19 11:16:15 cd -
+  413  04.06.19 11:16:19 clear
+  414  04.06.19 11:16:22 service tomcat status
+  415  04.06.19 11:16:28 ls
+  416  04.06.19 11:16:46 chmod 777 temp/
+  417  04.06.19 11:16:48 ll
+  418  04.06.19 11:21:56 java -version
+  419  04.06.19 11:29:57 cd temp/
+  420  04.06.19 11:30:06 wget http://mirror.linux-ia64.org/apache/tomcat/tomcat-9/v9.0.20/bin/apache-tomcat-9.0.20.zip
+  421  04.06.19 11:33:03 cat /etc/host
+  422  04.06.19 11:33:06 cat /etc/hostname 
+  423  04.06.19 11:34:16 ls
+  424  04.06.19 11:34:42 unzip unzip apache-tomcat-9.0.20.zip -d /opt
+  425  04.06.19 11:35:01 yum install unzip
+  426  04.06.19 11:35:56 unzip unzip apache-tomcat-9.0.20.zip -d /opt
+  427  04.06.19 11:36:09 unzip unzip apache-tomcat-9.0.20.zip -d /opt
+  428  04.06.19 11:36:42 unzip apache-tomcat-9.0.20.zip -d /opt
+  429  04.06.19 12:02:23 cd /opt
+  430  04.06.19 12:02:34 mv apache-tomcat-9.0.20/ tomcat
+  431  04.06.19 12:02:48 echo "export CATALINA_HOME='/opt/tomcat/'" >> ~/.bashrc
+  432  04.06.19 12:02:58 source ~/.bashrc
+  433  04.06.19 12:04:45 useradd -r tomcat --shell /bin/false
+  434  04.06.19 12:04:54 chown -R tomcat:tomcat /opt/tomcat/
+  435  04.06.19 12:05:14 vi /etc/systemd/system/tomcat.service
+  436  04.06.19 12:05:45 cat /etc/group
+  437  04.06.19 12:06:00 systemctl daemon-reload
+  438  04.06.19 12:06:17 systemctl start tomcat
+  439  04.06.19 12:06:38 systemctl status tomcat
+  440  04.06.19 12:06:49 systemctl status tomcat -l
+  441  04.06.19 12:07:45 vi /etc/systemd/system/tomcat.service
+  442  04.06.19 12:08:32 systemctl daemon-reload
+  443  04.06.19 12:08:35 systemctl start tomcat
+  444  04.06.19 12:08:38 systemctl status tomcat -l
+  445  04.06.19 12:09:19 vi /etc/systemd/system/tomcat.service
+  446  04.06.19 12:09:32 systemctl daemon-reload
+  447  04.06.19 12:09:34 systemctl start tomcat
+  448  04.06.19 12:09:43 systemctl status tomcat -l
+  449  04.06.19 12:09:59 journalctl -xe
+  450  04.06.19 12:10:35 ll /opt/tomcat/bin/
+  451  04.06.19 12:11:03 chmod +x /opt/tomcat/bin/*.sh
+  452  04.06.19 12:11:04 ll /opt/tomcat/bin/
+  453  04.06.19 12:11:09 systemctl start tomcat
+  454  04.06.19 12:11:14 systemctl status tomcat
+  455  04.06.19 12:11:22 systemctl daemon-reload
+  456  04.06.19 12:11:27 systemctl restart tomcat
+  457  04.06.19 12:11:29 systemctl status tomcat
+  458  04.06.19 12:11:38 journalctl -xe
+  459  04.06.19 12:14:22 systemctl status tomcat
+  460  04.06.19 12:17:54 cat /etc/bashrc 
+  461  04.06.19 12:19:37 netstat -ntulp
+  462  04.06.19 12:22:21 cd /opt/tomcat/bin/
+  463  04.06.19 12:22:23 ls
+  464  04.06.19 12:22:40 ./startup.sh 
+  465  04.06.19 12:22:53 systemctl status tomcat
+  466  04.06.19 12:22:58 ip a
+  467  04.06.19 12:23:24 netstat -ntulp
+  468  04.06.19 12:23:49 systemctl restart tomcat
+  469  04.06.19 12:23:52 systemctl status tomcat
+  470  04.06.19 12:24:00 journalctl -xe
+  471  04.06.19 12:26:37 vi /etc/systemd/system/tomcat.service
+  472  04.06.19 12:27:16 systemctl daemon-reload
+  473  04.06.19 12:27:19 systemctl restart tomcat
+  474  04.06.19 12:27:22 systemctl status tomcat
+  475  04.06.19 12:27:25 journalctl -xe
+  476* 04.06.19 12:28:00 ll /tmp/tomcat.pid
+  477* 04.06.19 12:28:15 chmod 777 /tmp/tomcat.pid
+  478  04.06.19 12:28:16 ll /tmp/tomcat.pid 
+  479  04.06.19 12:28:21 systemctl restart tomcat
+  480  04.06.19 12:28:24 journalctl -xe
+  481  04.06.19 12:30:26 ll
+  482  04.06.19 12:31:59 ./startup.sh 
+  483  04.06.19 12:32:05 netstat -ntulp
+  484  04.06.19 12:33:00 ps aux | grep "tomcat"
+  485  04.06.19 12:33:23 ./shutdown.sh 
+  486  04.06.19 12:33:28 ps aux | grep "tomcat"
+  487* 04.06.19 12:34:46 
+  488  04.06.19 12:34:55 set | grep JRE
+  489  04.06.19 12:36:16 set
+  490* 04.06.19 12:36:37 
+  491  04.06.19 12:38:09 ll
+  492  04.06.19 12:38:21 cat configtest.sh 
+  493  04.06.19 12:38:41 ./configtest.sh 
+  494  04.06.19 12:40:34 lls
+  495  04.06.19 12:40:35 ll
+  496  04.06.19 12:40:48 cat daemon.sh 
+  497  04.06.19 12:42:13 echo $JRE_HOME
+  498  04.06.19 12:42:51 locate java
+  499  04.06.19 12:43:02 ls -l /usr/bin/java
+  500  04.06.19 12:43:45 cd /usr/bin/java 
+  501  04.06.19 12:43:51 cat setclasspath.sh 
+  502  04.06.19 12:44:21 ./setclasspath.sh 
+  503  04.06.19 12:46:00 java -v
+  504* 04.06.19 12:46:04 
+  505* 04.06.19 12:47:28 
+  506  04.06.19 12:50:54 echo $JRE_HOME=/usr/lib/jvm/jre-1.7.0-openjdk-1.7.0.221-2.6.18.0.el7_6.x86_64/
+  507  04.06.19 12:51:12 set JRE_HOME=/usr/lib/jvm/jre-1.7.0-openjdk-1.7.0.221-2.6.18.0.el7_6.x86_64/
+  508  04.06.19 12:51:42 systemctl start tomcat
+  509  04.06.19 12:51:47 systemctl status tomcat
+  510  04.06.19 12:51:59 journalctl -xe
+  511  04.06.19 12:52:51 java -version
+  512  04.06.19 12:54:31 yum install java-1.7.0-openjdk-devel
+  513  04.06.19 12:55:08 echo $JRE_HOME
+  514  04.06.19 12:55:44 echo $JRE_*
+  515  04.06.19 12:56:15 clear
+  516  04.06.19 12:56:19 systemctl start tomcat
+  517  04.06.19 12:56:23 journalctl -xe
+  518  04.06.19 12:56:35 java -version
+  519  04.06.19 12:57:01 echo $JAVA_HOME
+  520  04.06.19 12:57:19 sudo update-alternatives --config java
+  521  04.06.19 12:58:15 vi /etc/environment 
+  522  04.06.19 13:08:26 vi /etc/profile
+  523  04.06.19 13:09:07 vi /etc/profile
+  524  04.06.19 13:10:29 . /etc/profile
+  525  04.06.19 13:10:37 echo $JAVA_HOME
+  526  04.06.19 13:10:55 systemctl start tomcat
+  527  04.06.19 13:11:00 systemctl status tomcat
+  528  04.06.19 13:11:11 journalctl -xe
+  529  04.06.19 13:14:15 cd /opt/tomcat/logs/catalina.out 
+  530  04.06.19 13:14:21 cat /opt/tomcat/logs/catalina.out 
+  531  04.06.19 13:38:03 history 
+  532  04.06.19 13:38:47 cd /opt/tomcat/
+  533  04.06.19 13:38:49 ls
+  534  04.06.19 13:38:58 cat RUNNING.txt 
+  535  04.06.19 13:39:01 ls
+  536  04.06.19 13:39:13 rm -rf *./
+  537  04.06.19 13:39:14 ls
+  538  04.06.19 13:39:19 rm -rf *
+  539  04.06.19 13:39:20 ls
+  540  04.06.19 13:39:30 cd ~
+  541  04.06.19 13:39:31 ls
+  542  04.06.19 13:39:44 cd /home/local/
+  543  04.06.19 13:39:45 ls
+  544  04.06.19 13:39:49 cd temp/
+  545  04.06.19 13:39:50 ls
+  546  04.06.19 13:42:46 unzip apache-tomcat-8.5.41.zip -d /opt
+  547  04.06.19 13:42:52 cd /opt/
+  548  04.06.19 13:43:00 mv apache-tomcat-8.5.41/ tomcat/
+  549  04.06.19 13:43:03 cd tomcat/
+  550  04.06.19 13:43:04 ls
+  551  04.06.19 13:43:10 mv apache-tomcat-8.5.41/ tomcat
+  552  04.06.19 13:43:15 ls
+  553  04.06.19 13:43:19 cd ..
+  554  04.06.19 13:43:23 mv apache-tomcat-8.5.41/ tomcat
+  555  04.06.19 13:43:35 cd /home/local/temp/
+  556* 04.06.19 13:43:51 unzip apache-tomcat-8.5.41.zip -d /op
+  557  04.06.19 13:43:54 cd /opt/
+  558  04.06.19 13:43:59 mv apache-tomcat-8.5.41/ tomcat
+  559  04.06.19 13:44:02 cd tomcat/
+  560  04.06.19 13:44:04 ls
+  561  04.06.19 13:44:26 cp apache-tomcat-8.5.41/ /opt/
+  562  04.06.19 13:44:34 cp apache-tomcat-8.5.41 /opt/
+  563  04.06.19 13:44:39 cp -R apache-tomcat-8.5.41 /opt/
+  564  04.06.19 13:44:42 cd ..
+  565  04.06.19 13:44:53 rm -R tomcat/
+  566  04.06.19 13:45:18 rm -R tomcat/ -y
+  567  04.06.19 13:45:22 rm -R tomcat
+  568  04.06.19 13:45:31 rm -Rf tomcat
+  569  04.06.19 13:45:56 mv apache-tomcat-8.5.41/ tomcat
+  570  04.06.19 13:45:58 cd tomcat/
+  571  04.06.19 13:45:59 ls
+  572  04.06.19 13:46:11 ll
+  573  04.06.19 13:46:16 cd bin/
+  574  04.06.19 13:46:18 ll
+  575  04.06.19 13:46:37 chmod +x *.sh
+  576  04.06.19 13:46:39 ll
+  577  04.06.19 13:46:50 service tomcat start
+  578  04.06.19 13:47:03 journalctl -xe
+  579  04.06.19 13:47:37 history | system
+  580  04.06.19 13:47:42 history | grep system
+  581  04.06.19 13:48:02 vi /etc/systemd/system/tomcat.service
+  582  04.06.19 13:48:29 ll
+  583  04.06.19 13:48:32 cd ..
+  584  04.06.19 13:48:33 ls
+  585  04.06.19 13:48:34 ll
+  586  04.06.19 13:48:43 cd ..
+  587  04.06.19 13:48:56 chown -R tomcat:tomcat /opt/tomcat/
+  588  04.06.19 13:49:03 service tomcat start
+  589  04.06.19 13:49:13 systemctl daemon-reload
+  590  04.06.19 13:49:14 service tomcat start
+  591  04.06.19 13:49:20 service tomcat status
+  592  04.06.19 13:49:29 ip a
+  593  04.06.19 13:49:35 netstat -ntulp
+  594  04.06.19 13:52:14 service tomcat stop
+  595  04.06.19 13:52:19 service tomcat status
+  596  04.06.19 13:53:03 cd /usr/share/tomcat/conf/Catalina/localhost/
+  597  04.06.19 13:53:26 cd /opt/tomcat/conf/Catalina/localhost/
+  598  04.06.19 13:53:28 ls
+  599  04.06.19 13:54:21 cd /home/local/
+  600  04.06.19 13:54:22 ls
+  601  04.06.19 13:54:24 cd temp/
+  602  04.06.19 13:54:25 ls
+  603  04.06.19 13:55:00 cd ..
+  604  04.06.19 13:55:01 ls
+  605  04.06.19 13:55:06 cd v00korc01app.corp.domain.ru/
+  606  04.06.19 13:55:07 ls
+  607  04.06.19 14:12:00 cp ROOT.war /opt/tomcat/webapps/
+  608  04.06.19 14:12:21 cp ROOT.xml /opt/tomcat/conf/Catalina/localhost/
+  609  04.06.19 14:12:32 service tomcat start
+  610  04.06.19 14:13:33 cat ROOT.xml 
+  611  04.06.19 14:13:57 service tomcat restart
+  612  04.06.19 14:17:01 mv /opt/tomcat/ /usr/share/tomcat
+  613  04.06.19 14:17:10 ll /usr/share/tomcat/
+  614  04.06.19 14:17:21 vi /etc/systemd/system/tomcat.service
+  615  04.06.19 14:18:06 service tomcat restart
+  616  04.06.19 14:18:27 systemctl daemon-reload
+  617  04.06.19 14:18:30 service tomcat restart
+  618  04.06.19 14:18:35 service tomcat status
+  619  04.06.19 14:23:21 journalctl 
+  620  04.06.19 14:24:33 netstat -ntulp
+  621  04.06.19 14:25:08 cat /etc/hostname 
+  622  04.06.19 14:27:04 ll /opt/tomcat/conf/Catalina/localhost/
+  623  04.06.19 14:27:20 ll /usr/share/tomcat/conf/Catalina/localhost/
+  624  04.06.19 14:33:36 pwd
+  625  04.06.19 14:33:58 cd /usr/share/tomcat/conf/
+  626  04.06.19 14:33:59 ls
+  627  04.06.19 14:34:04 cat server.xml 
+  628  04.06.19 14:37:29 netstat -ntulp
+  629  04.06.19 14:38:40 vi server.xml 
+  630  04.06.19 14:47:01 keytool
+  631  04.06.19 14:47:18 keytool -genkey
+  632  04.06.19 14:48:14 clear
+  633  04.06.19 14:49:19 keytool -genkey -alias corp.domain.ru -keyalg RSA -keysize 2048 -keystore corp_domain_ru.jks
+  634  04.06.19 14:51:39 keytool -certreq -alias corp.domain.ru -keyalg RSA -file corp_domain_ru.csr -keystore corp_domain_ru.jks
+  635* 04.06.19 14:58:56 
+  636  04.06.19 15:01:40 openssl req -key test.corp.domain.ru.key -new -out .corp.domain.ru.csr
+  637  04.06.19 15:02:19 openssl req -newkey rsa:2048 -nodes -keyout test.corp.domain.ru.key -out test.corp.domain.ru.csr
+  638  04.06.19 15:04:11 openssl x509 -signkey test.corp.domain.ru.key -in test.corp.domain.ru.csr -req -days 365 -out test.corp.domain.ru.crt
+  639  04.06.19 15:07:11 openssl req -text -noout -verify -in test.corp.domain.ru.csr
+  640  04.06.19 15:07:38 openssl x509 -text -noout -in test.corp.domain.ru.csr
+  641  04.06.19 15:10:32 keytool -list -keystore .keystore
+  642  04.06.19 15:17:19 service tomcat stop
+  643  04.06.19 15:17:28 $JAVA_HOME/bin/keytool -genkey -alias tomcat -keyalg RSA
+  644  04.06.19 15:18:29 cd /usr/lib/jvm/java-1.7.0-openjdk-1.7.0.221-2.6.18.0.el7_6.x86_64/bin/java/bin
+  645* 04.06.19 15:18:32 
+  646  04.06.19 15:18:56 cd /usr/lib/jvm/java-1.7.0-openjdk-1.7.0.221-2.6.18.0.el7_6.x86_64/bin/java/
+  647  04.06.19 15:18:58 cd /usr/lib/jvm/java-1.7.0-openjdk-1.7.0.221-2.6.18.0.el7_6.x86_64/bin/
+  648  04.06.19 15:18:59 ls
+  649  04.06.19 15:19:18 $JAVA_HOME/bin/keytool -genkey -alias tomcat -keyalg RSA
+  650  04.06.19 15:19:32 keytool -genkey -alias tomcat -keyalg RSA
+  651  04.06.19 15:20:48 $JAVA_HOME/bin/keytool -genkey -alias tomcat -keyalg RSA
+  652  04.06.19 15:21:28 ls
+  653  04.06.19 15:21:54 keytool -genkey -alias tomcat -keyalg RSA
+  654  04.06.19 15:23:20 ll
+  655  04.06.19 15:23:24 cd ..
+  656  04.06.19 15:23:25 ll
+  657  04.06.19 15:23:43 cd /usr/share/tomcat/
+  658  04.06.19 15:23:44 ll
+  659  04.06.19 15:23:51 cd conf/
+  660  04.06.19 15:23:53 ll
+  661  04.06.19 15:24:16 cp server.xml server_backup.xml
+  662  04.06.19 15:24:21 vi server.xml 
+  663  04.06.19 15:28:44 ll ~
+  664  04.06.19 15:28:49 ll ~/
+  665  04.06.19 15:29:08 ls -lah ~/
+  666  04.06.19 15:29:38 vi server.xml 
+  667  04.06.19 15:30:28 ls
+  668  04.06.19 15:30:50 vi server.xml 
+  669  04.06.19 15:33:24 service tomcat restart
+  670  04.06.19 15:35:12 mv server_backup.xml server.xml
+  671  04.06.19 15:35:16 vi server.xml 
+  672  04.06.19 15:35:55 ls -lah /root/
+  673  04.06.19 15:35:59 vi server.xml 
+  674  04.06.19 15:36:10 service tomcat restart
+  675  04.06.19 15:36:31 vi server.xml 
+  676  04.06.19 15:36:43 service tomcat restart
+  677  04.06.19 15:36:57 netstat -ntulp
+  678  04.06.19 15:38:23 curl https://10.8.183.175:8443/
+  679  04.06.19 15:38:34 curl http://10.8.183.175:8080
+  680  04.06.19 15:39:06 vi server.xml 
+  681  04.06.19 15:41:57 curl https://10.8.183.175:8443/
+  682  04.06.19 15:47:01 зцв
+  683  04.06.19 15:47:04 pwd
+  684  04.06.19 15:47:30  cd $JAVA_HOME/bin/
+  685  04.06.19 15:47:35  cd $JAVA_HOME/
+  686  04.06.19 15:47:56 cd /usr/lib/jvm/java-1.7.0-openjdk-1.7.0.221-2.6.18.0.el7_6.x86_64/bin/java/
+  687  04.06.19 15:48:05 cd /usr/lib/jvm/java-1.7.0-openjdk-1.7.0.221-2.6.18.0.el7_6.x86_64/bin/
+  688  04.06.19 15:48:07 ls
+  689  04.06.19 15:48:28 keytool -genkey -alias tomcat -keyalg RSA
+  690  04.06.19 15:49:59 cd -
+  691  04.06.19 15:50:03 l
+  692  04.06.19 15:50:04 lll
+  693  04.06.19 15:50:05 ll
+  694  04.06.19 15:51:31 openssl pkcs12 -export -in test.corp.domain.ru.crt -inkey test.corp.domain.ru.key -out mycert.p12 -name tomcat -CAfile myCA.crt -caname root -chain
+  695  04.06.19 15:52:11 vi server.xml 
+  696  04.06.19 16:01:12 service tomcat restart
+  697  04.06.19 16:01:42 ip a
+  698  04.06.19 16:02:17 service tomcat status
+  699  04.06.19 16:02:28 service tomcat start
+  700  04.06.19 16:02:30 service tomcat status
+  701  04.06.19 16:02:42 service tomcat start
+  702  04.06.19 16:02:43 service tomcat status
+  703  04.06.19 16:02:59 service tomcat stop
+  704  04.06.19 16:03:01 service tomcat status
+  705  04.06.19 16:03:03 service tomcat start
+  706  04.06.19 16:03:05 service tomcat status
+  707  04.06.19 16:03:22 journalctl -xe
+  708  04.06.19 16:04:02 vi server.xml 
+  709  04.06.19 16:04:47 service tomcat restart
+  710  04.06.19 16:04:50 service tomcat status
+  711  04.06.19 16:05:46 ls -lah ~/
+  712  04.06.19 16:05:51 vi server.xml 
+  713  04.06.19 16:07:47 service tomcat restart
+  714  04.06.19 16:07:50 service tomcat status
+  715  04.06.19 16:22:04 ar
+  716  04.06.19 16:22:07 clear
+  717  04.06.19 16:22:32 yum install haproxy
+  718  04.06.19 16:28:14 service status haproxy
+  719  04.06.19 16:28:30 systemctl status haproxy
+  720  04.06.19 16:28:41 systemctl enable haproxy
+  721  04.06.19 16:28:55 vi /etc/haproxy/haproxy.cfg 
+  722  04.06.19 16:29:49 cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy_pld.cfg 
+  723  04.06.19 16:30:01 echo "" > /etc/haproxy/haproxy.cfg 
+  724  04.06.19 16:30:04 vi /etc/haproxy/haproxy.cfg 
+  725  04.06.19 16:36:07 cd /etc/haproxy/
+  726  04.06.19 16:36:08 pwd
+  727  04.06.19 16:37:02 vi /etc/haproxy/haproxy.cfg 
+  728  04.06.19 16:37:23 openssl genrsa -out private.key 2048
+  729  04.06.19 16:37:26 ls
+  730  04.06.19 16:37:50 openssl req -new -key private.key -out cert.csr
+  731  04.06.19 16:39:56 ll
+  732  04.06.19 16:40:16 openssl x509 -req -in cert.csr -signkey private.key -out cert.crt -days 3650
+  733  04.06.19 16:41:33 cat cert.crt > my.pem
+  734  04.06.19 16:41:46 cat private.key >> my.pem
+  735  04.06.19 16:41:49 cat my.pem 
+  736  04.06.19 16:42:05 cat cert.csr 
+  737  04.06.19 16:43:04 systemctl start haproxy
+  738  04.06.19 16:43:09 systemctl status haproxy
+  739  04.06.19 16:43:23 watch systemctl status haproxy
+  740  04.06.19 16:45:03 netstat -ntulp
+  741  04.06.19 16:47:48 curl http://10.8.183.175
+  742  04.06.19 16:47:53 curl http://10.8.183.175:8080
+  743  04.06.19 16:48:10 curl https://10.8.183.175
+  744  04.06.19 16:49:07 vi /usr/share/tomcat/conf/server.xml 
+  745  04.06.19 16:50:15 systemctl restart tomcat
+  746  04.06.19 16:50:21 systemctl status tomcat
+  747  04.06.19 16:50:47 journalctl -xe
+  748  04.06.19 16:50:59 vi /usr/share/tomcat/conf/server.xml 
+  749  04.06.19 16:52:44 systemctl restart tomcat
+  750  04.06.19 16:52:50 watch systemctl status tomcat
+  751  04.06.19 16:53:03 vi /usr/share/tomcat/conf/server.xml 
+  752  04.06.19 16:53:28 vi /usr/share/tomcat/conf/server_backup.xml 
+  753  04.06.19 16:54:37 mv /usr/share/tomcat/conf/server_backup.xml /usr/share/tomcat/conf/server.xml 
+  754  04.06.19 16:54:43 systemctl restart tomcat
+  755  04.06.19 16:54:45 watch systemctl status tomcat
+  756  04.06.19 16:55:05 vi /usr/share/tomcat/conf/server.xml
+  757  04.06.19 16:56:29 echo "" > /usr/share/tomcat/conf/server.xml
+  758  04.06.19 16:56:31 vi /usr/share/tomcat/conf/server.xml
+  759  04.06.19 16:57:19 systemctl restart tomcat
+  760  04.06.19 16:57:21 watch systemctl status tomcat
+  761  04.06.19 17:01:23 netstat -ntulp
+  762  04.06.19 17:02:34 curl http://localhost:8080
+  763  04.06.19 17:02:51 curl http://localhost
+  764  04.06.19 17:03:16 vi /usr/share/tomcat/conf/server.xml
+  765  04.06.19 17:05:26 systemctl restart tomcat
+  766  04.06.19 17:05:30 watch systemctl status tomcat
+  767  04.06.19 17:05:48 netstat -ntulp
+  768  04.06.19 17:06:21 vi haproxy.cfg 
+  769  04.06.19 17:07:38 curl https://10.8.183.175/
+  770  04.06.19 17:07:48 vi haproxy.cfg 
+  771  04.06.19 17:11:55 ll
+  772  04.06.19 17:14:36 vi haproxy.cfg 
+  773  04.06.19 17:17:35 systemctl restart haproxy
+  774  04.06.19 17:18:05 systemctl status haproxy
+  775  04.06.19 17:19:23 vi haproxy.cfg 
+  776  04.06.19 17:22:39 systemctl restart haproxy
+  777  04.06.19 17:22:41 systemctl status haproxy
+  778  04.06.19 17:23:37 vi haproxy.cfg 
+  779  04.06.19 17:24:02 systemctl restart haproxy
+  780  04.06.19 17:24:04 systemctl status haproxy
+  781  04.06.19 17:24:16 vi haproxy.cfg 
+  782  04.06.19 17:24:31 systemctl restart haproxy
+  783  04.06.19 17:24:33 systemctl status haproxy
+  784  04.06.19 17:25:50 netstat -ntulp
+  785  04.06.19 17:26:19 curl http://127.0.0.1:8080
+  786  04.06.19 17:26:39 curl http://127.0.0.1:8080 | less
+  787  04.06.19 17:27:02 netstat -ntulp
+  788  04.06.19 17:28:09 vi haproxy.cfg 
+  789  04.06.19 17:31:50 systemctl restart haproxy
+  790  04.06.19 17:31:53 systemctl status haproxy
+  791  04.06.19 17:36:17 haproxy -V
+  792  04.06.19 17:37:49 vi haproxy.cfg 
+  793* 04.06.19 17:41:23 systemctl  haproxy
+  794* 04.06.19 17:41:25 systemctl status haprox
+  795  04.06.19 17:41:43 vi haproxy.cfg 
+  796  04.06.19 17:50:42 vi /usr/share/tomcat/conf/server.xml
+  797  04.06.19 17:51:29 systemctl restart tomcat
+  798  04.06.19 17:51:37 systemctl status tomcat
+  799  04.06.19 17:51:44 vi /usr/share/tomcat/conf/server.xml
+  800  04.06.19 17:52:11 systemctl restart tomcat
+  801  04.06.19 17:52:14 systemctl status tomcat
+  802  04.06.19 17:53:44 vi haproxy.cfg 
+  803  04.06.19 17:59:58 systemctl restart haproxy
+  804  04.06.19 18:00:05 systemctl status haproxy
+  805  04.06.19 18:00:21 vi haproxy.cfg 
+  806  04.06.19 18:04:05 systemctl restart haproxy
+  807  04.06.19 18:04:07 systemctl status haproxy
+  808  04.06.19 18:04:29 vi haproxy.cfg 
+  809  04.06.19 18:04:38 vi /usr/share/tomcat/conf/server.xml
+  810  04.06.19 18:06:03 systemctl restart tomcat
+  811  04.06.19 18:06:21 netstat -ntulp
+  812  05.06.19 08:37:51 vi haproxy.cfg 
+  813  05.06.19 08:38:54 scp haproxy.cfg den@10.104.20.228:/home/den
+  814  05.06.19 08:39:34 pwd
+  815  05.06.19 08:40:26 ip a
+  816  05.06.19 08:47:11 history | less
+  817  05.06.19 08:47:42 history > history.txt

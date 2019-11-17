@@ -1,0 +1,11 @@
+---
+- vars_files:
+    - /home/den/Documents/ansible_no_git/entrance-vars.yml
+  hosts: keep-hap-role
+  roles: 
+    - haproxy-keepalived
+
+
+
+# ansible-playbook /usr/git/work/ansible/roles/haproxy-keepalived.yml --vault-password-file /usr/git/work/ansible/rundeck-job-playbook/vault.txt -v 
+#ansible 10.9.32.6  -m setup -v 

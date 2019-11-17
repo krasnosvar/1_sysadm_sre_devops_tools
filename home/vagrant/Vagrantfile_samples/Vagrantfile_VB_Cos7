@@ -1,0 +1,103 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+#
+# Vagrantfile to create a CentOS 7 master and 3 nodes
+#
+# These VMs can be useful for prototyping new systems such
+# as monitoring, mail, configuration management, load balancing
+# etc etc.
+#
+# You will need a Puppet directory structure inside the
+# project directory: ./puppet/environments/vagrant/
+#
+# Requires the following Vagrant plugins:
+#   vagrant-puppet-install
+#   vagrant-vbguest
+#   vagrant-hosts
+#
+# The above plugins should work just fine on
+# Windows 10 as of 2017-08-25
+#
+# anthonyclarka2 AT G MAIL
+#
+# Once complete, you should have 1 large "master" VM
+# and 3 smaller "node" VMs running CentOS 7 latest.
+# They will all have a second, host-only network with
+# address 10.0.3.0/24 with addresses as follows:
+#
+# master = 10.0.3.10
+# nodeX = 10.0.3.10X
+#
+# VMs can thus talk to each other, and you can SSH
+# into them directly
+#
+Vagrant.configure('2') do |config|
+  # start with basic latest CentOS 7.x
+  # install vbox guest additions
+  config.vm.box = 'centos/7'
+
+  # install latest version of puppet
+  config.puppet_install.puppet_version = :latest
+
+  # local domain name
+  # edit this variable to change the domain name your
+  # VMs use!
+  ldn = 'test.local'
+
+  # Create the master
+  config.vm.define 'master', primary: true do |master|
+    # local host name
+    lhn                = 'master'
+    master.vm.hostname = "#{lhn}.#{ldn}"
+
+    master.vm.network 'private_network', ip: '10.0.3.10'
+    master.vm.provision :hosts, sync_hosts: true, add_localhost_hostnames: false
+
+    master.vm.provider 'virtualbox' do |vb|
+      vb.name         = 'CentOS 7 Master'
+      vb.memory       = 4096
+      vb.cpus         = 4
+      vb.linked_clone = true
+      vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+    end
+
+    master.vm.provision :puppet, run: "always" do |puppet|
+      puppet.environment_path = './puppet/environments'
+      puppet.environment      = 'vagrant'
+    end # end of master config
+  end # end of master definition
+
+  # To change the number of nodes built, create an environment variable:
+  # export NUM_NODES=4
+  num_nodes = ENV['NUM_NODES'] || 3
+
+  # Then create as many nodes as you need:
+  # (edit the "3" on the line below to change the number of
+  # nodes that get created)
+  (1..num_nodes).each do |j|
+    # we like zero-padded numbers in our hostnames!
+    i = '%02d' % j
+
+    config.vm.define "node#{i}" do |client|
+      lhn                = "node#{i}"
+      client.vm.hostname = "#{lhn}.#{ldn}"
+
+      # network parameters
+      client.vm.network 'private_network', ip: "10.0.3.1#{i}"
+      client.vm.provision :hosts, sync_hosts: true, add_localhost_hostnames: false
+
+      client.vm.provider 'virtualbox' do |vb|
+        vb.name         = "CentOS 7 Node #{i}"
+        vb.memory       = 2048
+        vb.cpus         = 2
+        vb.linked_clone = true
+        vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+      end
+
+      client.vm.provision :puppet, run: "always" do |puppet|
+        puppet.environment_path = './puppet/environments'
+        puppet.environment      = 'vagrant'
+      end # end of puppet config
+    end # end of node definition
+  end # end of "each do" loop
+end

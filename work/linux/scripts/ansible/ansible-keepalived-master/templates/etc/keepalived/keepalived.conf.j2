@@ -1,0 +1,112 @@
+# {{ ansible_managed }}
+
+global_defs {
+  notification_email {
+{% for notification_email in keepalived_global_defs_notification_email %}
+    {{ notification_email }}
+{% endfor %}
+  }
+  notification_email_from {{ keepalived_global_defs_notification_email_from }}
+  smtp_server {{ keepalived_global_defs_smtp_server }}
+  smtp_connect_timeout {{ keepalived_global_defs_smtp_connect_timeout }}
+
+{% if keepalived_global_defs_script_user is defined %}
+  script_user {{ keepalived_global_defs_script_user }}
+{% endif %}
+{% if keepalived_global_defs_enable_script_security is defined and keepalived_global_defs_enable_script_security | bool %}
+  enable_script_security
+{% endif %}
+}
+
+{% for key, value in keepalived_vrrp_scripts.items() %}
+vrrp_script {{ key }} {
+  script "{{ value.script }}"
+{% if value.weight is defined %}
+  weight {{ value.weight }}
+{% endif %}
+{% if value.interval is defined and value.interval | int %}
+  interval {{ value.interval }}
+{% endif %}
+{% if value.timeout is defined and value.timeout | int %}
+  timeout {{ value.timeout }}
+{% endif %}
+{% if value.rise is defined and value.rise | int %}
+  rise {{ value.rise }}
+{% endif %}
+{% if value.fall is defined and value.fall | int %}
+  fall {{ value.fall }}
+{% endif %}
+{% if value.user is defined %}
+  user {{ value.user }}
+{% endif %}
+}
+{% endfor %}
+
+{% for key, value in keepalived_vrrp_instances.items() %}
+vrrp_instance {{ key }} {
+  interface {{ value.interface }}
+  state {{ value.state }}
+  priority {{ value.priority }}
+  virtual_router_id {{ value.virtual_router_id }}
+{% if value.advert_int is defined and value.advert_int | int %}
+  advert_int {{ value.advert_int }}
+{% endif %}
+
+{% if value.smtp_alert is defined and value.smtp_alert | bool %}
+  smtp_alert
+{% endif %}
+
+{% if value.authentication is defined %}
+  authentication {
+    auth_type {{ value.authentication.auth_type }}
+    auth_pass {{ value.authentication.auth_pass }}
+  }
+{% endif %}
+
+  virtual_ipaddress {
+{% for virtual_ipaddress in value.virtual_ipaddresses %}
+    {{ virtual_ipaddress }}
+{% endfor %}
+  }
+
+{% if value.virtual_ipaddresses_excluded is defined %}
+  virtual_ipaddress_excluded {
+{% for virtual_ipaddress in value.virtual_ipaddresses_excluded | default([]) %}
+    {{ virtual_ipaddress }}
+{% endfor %}
+  }
+{% endif %}
+
+{% if value.nopreempt is defined and value.nopreempt | bool %}
+  nopreempt
+{% endif %}
+{% if value.preempt_delay is defined %}
+  preempt_delay {{ value.preempt_delay }}
+{% endif %}
+
+  track_script {
+{% for track_script in value.track_scripts %}
+    {{ track_script }}
+{% endfor %}
+  }
+
+{% if value.unicast_peer is defined %}
+  unicast_peer {
+    {{ value.unicast_peer }}
+  }
+{% endif %}
+
+{% if value.notify is defined %}
+  notify "{{ value.notify }}" {{ value.notify_user | default('') }}
+{% endif %}
+{% if value.notify_backup is defined %}
+  notify_backup "{{ value.notify_backup }}" {{ value.notify_backup_user | default('') }}
+{% endif %}
+{% if value.notify_fault is defined %}
+  notify_fault "{{ value.notify_fault }}" {{ value.notify_fault_user | default('') }}
+{% endif %}
+{% if value.notify_master is defined %}
+  notify_master "{{ value.notify_master }}" {{ value.notify_master_user | default('') }}
+{% endif %}
+}
+{% endfor %}

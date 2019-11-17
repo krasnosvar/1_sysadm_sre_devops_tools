@@ -1,0 +1,13 @@
+#see the version tomcat
+cd /usr/share/tomcat/lib/
+java -cp catalina.jar org.apache.catalina.util.ServerInfo
+
+#Disable Apache Tomcat error reports
+#in file
+vi /etc/tomcat/server.xml
+#change parameter
+<Valve className="org.apache.catalina.valves.ErrorReportValve" showReport="false" showServerInfo="false"/> 
+
+#Apache Tomcat Hardening Tutorial
+https://examples.javacodegeeks.com/enterprise-java/tomcat/apache-tomcat-hardening-tutorial/#toc500
+

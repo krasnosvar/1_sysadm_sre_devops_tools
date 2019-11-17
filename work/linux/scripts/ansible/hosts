@@ -1,0 +1,26 @@
+[test]
+10.9.32.10
+10.9.32.20
+#ansible_ssh_user=krasnosvarov_dn ansible_password='{{ krasnosvarov_dn_sudo_pass }}' ansible_become_password='{{ krasnosvarov_dn_become_pass }}'
+
+[arm_journal]
+10.5.10.147
+10.5.10.148
+10.5.10.149
+10.5.10.150
+10.5.10.151
+10.5.10.152
+10.5.10.153
+10.5.10.154
+10.5.10.155
+10.5.10.156
+10.5.10.157
+
+[tc]
+10.5.10.154
+10.5.10.155
+
+[haproxy]
+10.5.10.152
+10.5.10.153
+10.5.10.156

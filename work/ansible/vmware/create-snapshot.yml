@@ -1,0 +1,26 @@
+---
+- name: create snapshot to VM
+  hosts: localhost
+  sudo: yes
+  gather_facts: no
+  # vars_files:
+  #   - /home/den/Documents/ansible_no_git/entrance-vars.yml
+
+  tasks:
+    - name: Create snapshot
+      vmware_guest_snapshot:
+        hostname: vcenter6
+        username: krasnosvarov_dn@CORP
+        password: "{{ pass }}"
+        datacenter: domain
+        folder: domain
+        name: "{{ sname }}"
+        state: present
+        snapshot_name: "{{ ot }}"
+        description: "{{ desc }}"
+        validate_certs: false
+        memory_dump: false
+      delegate_to: localhost
+
+
+#sudo ansible-playbook /home/den/git/work/ansible/vmware/create-snapshot.yml -e"pass=PASSWORD sname=v00rundeck ot=testomes2 desc=glinomes2" -vvv

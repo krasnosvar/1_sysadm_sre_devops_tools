@@ -1,0 +1,17 @@
+# ---
+# - name: create snapshot to VM
+#   hosts: localhost
+#   sudo: yes
+#   gather_facts: no
+#   # vars_files:
+#   #   - /home/den/Documents/ansible_no_git/entrance-vars.yml
+#   tasks:
+#     - name: Create list
+      plugin: vmware_vm_inventory
+      strict: False
+      hostname: vcenter6
+      username: krasnosvarov_dn@CORP
+      password: Hjcjvf[f%nfyjc123
+      validate_certs: False
+      with_tags: True
+    # delegate_to: localhost

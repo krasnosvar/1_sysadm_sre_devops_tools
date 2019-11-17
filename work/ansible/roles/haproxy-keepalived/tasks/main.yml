@@ -1,0 +1,55 @@
+    #сформировать палоль для конфига keepalived
+    - name: generate pass for keepalived
+    #для генерации используется шелл-команда
+      shell: openssl rand -base64 12
+    #выполняется только на одном хосте(пароль должен быть один общий)
+      run_once: true
+    #сохраняется в переменную "keep_p" которая вставляется в шаблон темплейта #Параметр register сохраняет результат выполнения модуля в переменную. 
+    #Затем эта переменная может использоваться в шаблонах, в принятии решений о ходе сценария или для отображения вывода.
+      register: keep_p
+
+#for this task we need Python Openssl library installed on host
+    # - name: Generate a Self Signed OpenSSL certificate
+    #   openssl_certificate:
+    #     path: /etc/ssl/crt/haproxy.crt
+    #     privatekey_path: /etc/ssl/private/haproxy.pem
+    #     csr_path: /etc/ssl/csr/haproxy.csr
+    #     provider: selfsigned
+    - name: generate selfsigned ssl sert by shell-command
+      shell: |
+        openssl genrsa -out /etc/haproxy/private.key 2048 
+        openssl req -new -subj '/CN=localhost/O=domain/C=RU/ST=KRD/L=Krasnodar' -key /etc/haproxy/private.key -out /etc/haproxy/cert.csr 
+        openssl x509 -req -in /etc/haproxy/cert.csr -signkey /etc/haproxy/private.key -out /etc/haproxy/cert.crt -days 3650 && cat /etc/haproxy/cert.crt > my.pem 
+        cat /etc/haproxy/private.key >> /etc/haproxy/my.pem
+
+
+
+    - name: install Haproxy.
+      package:
+        name: 'haproxy'
+        state: present
+
+    - name: install Keepalived
+      package:
+        name: 'keepalived'
+        state: present
+
+    - name: install haproxy.cfg
+      template:
+        src: "{{ role_path }}/templates/haproxy.cfg.j2"
+        dest: /etc/haproxy/haproxy.cfg
+        owner: root
+        group: root
+        mode: 0640
+      #use handlers
+      notify: restart haproxy
+
+    - name: install keepalived.cfg
+      template:
+        src: "{{ role_path }}/templates/keepalived.conf.j2"
+        dest: /etc/keepalived/keepalived.conf
+        owner: root
+        group: root
+        mode: 0640
+      #use handlers
+      notify: restart keepalived

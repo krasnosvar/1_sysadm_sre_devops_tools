@@ -1,0 +1,73 @@
+---
+- name: Add users--with sudo if nesessary--.
+  hosts: oracle_sudo
+  gather_facts: False
+  vars_files:
+    #  - /usr/git/work/ansible/vaulted_vars.yml
+    - /home/den/Documents/ansible_no_git/entrance-vars.yml
+  # remote_user: krasnosvarov_dn
+  # #remote_user: local
+  # become: true
+  # become_user: root
+  # become_method: sudo
+
+  tasks:
+    - name: Add a user to vastool file
+      blockinfile:
+        insertafter: EOF
+        path: /etc/opt/quest/vas/users.allow
+        block: |
+          corp\NX_RC_Oracle
+        create: no
+
+    # - name: Add a user to sudoers new file
+    #   blockinfile:
+    #     insertafter: EOF
+    #     path: /etc/sudoers.d/gusev_a
+    #     block: |
+    #       gusev_a ALL=(ALL) NOPASSWD: ALL
+    #       zaharenko_a_s ALL=(ALL) NOPASSWD: ALL
+    #       remote_aicrobotics1 ALL=(ALL) NOPASSWD: ALL
+    #       remote_aicrobotics2 ALL=(ALL) NOPASSWD: ALL
+    #       remote_aicrobotics3 ALL=(ALL) NOPASSWD: ALL
+    #       remote_aicrobotics4 ALL=(ALL) NOPASSWD: ALL
+    #     create: yes
+
+    # - name: check user
+    #   shell: /opt/quest/bin/vastool user checkaccess gusev_a
+
+    - name: Add a user-group to sudoers new file
+      blockinfile:
+        # insertafter: "# VGP (vgp_sudoext) Sudoers Section Start ( DO NOT EDIT! )"
+        path: /etc/sudoers.d/oracle_admins
+        block: |
+          %NX_RC_Oracle ALL=(root) ALL
+        create: yes
+
+    # Manage files and file properties
+    #https://docs.ansible.com/ansible/latest/modules/file_module.html
+
+    
+    # - name: Recursively change ownership of a directory
+    #   file:
+    #     path: /etc/var/log/
+    #     state: directory
+    #     recurse: yes
+    #     owner: root
+    #     group: root
+    
+    # - name: Change file ownership, group and permissions
+    #   file:
+    #     path: /etc/var/log/httpd/
+    #     owner: apache
+    #     group: apache
+    #     mode: '0644'
+
+    
+
+
+
+#command krasnosvarov
+#ansible-playbook /usr/git/work/ansible/add-user-with-sudo/add_user_with_sudo.yml --ask-vault-pass -v
+#command local
+#ansible-playbook /usr/git/work/ansible/add-user-with-sudo/add_user_with_sudo.yml --extra-vars='ansible_ssh_pass=  ansible_become_pass=' -v

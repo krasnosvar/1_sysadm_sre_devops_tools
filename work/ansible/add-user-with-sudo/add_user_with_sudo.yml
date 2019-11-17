@@ -1,0 +1,62 @@
+---
+- name: Add users--with sudo if nesessary--.
+  hosts: shishkin_vn
+  gather_facts: False
+  vars_files:
+    #  - /usr/git/work/ansible/vaulted_vars.yml
+    - /home/den/Documents/ansible_no_git/entrance-vars.yml
+  # remote_user: krasnosvarov_dn
+  # #remote_user: local
+  # become: true
+  # become_user: root
+  # become_method: sudo
+
+  tasks:
+    - name: Add a user to vastool file
+      lineinfile:
+        insertafter: EOF
+        path: /etc/opt/quest/vas/users.allow
+        line: "{{ item }}"
+        create: no
+      loop:
+         - corp\volkov_ds
+         - corp\elhov_aa
+         - corp\noskov_is
+
+    # - name: Add a user to sudoers new file
+    #   blockinfile:
+    #     insertafter: EOF
+    #     path: /etc/sudoers.d/gusev_a
+    #     block: |
+    #       gusev_a ALL=(ALL) NOPASSWD: ALL
+    #       zaharenko_a_s ALL=(ALL) NOPASSWD: ALL
+    #       remote_aicrobotics1 ALL=(ALL) NOPASSWD: ALL
+    #       remote_aicrobotics2 ALL=(ALL) NOPASSWD: ALL
+    #       remote_aicrobotics3 ALL=(ALL) NOPASSWD: ALL
+    #       remote_aicrobotics4 ALL=(ALL) NOPASSWD: ALL
+    #     create: yes
+
+    # - name: check user
+    #   shell: /opt/quest/bin/vastool user checkaccess gusev_a
+
+    - name: Add a user-group to sudoers new file
+      lineinfile:
+        #inserbefore: "# VGP (vgp_sudoext) Sudoers Section Start ( DO NOT EDIT! )"
+        path: /etc/sudoers.d/elhov_users
+        line: "{{ item }}"
+        create: yes
+      loop:
+         - volkov_ds ALL=(ALL) NOPASSWD: ALL
+         - elhov_aa ALL=(ALL) NOPASSWD: ALL
+         - noskov_is ALL=(ALL) NOPASSWD: ALL
+
+
+
+    
+
+
+
+#command krasnosvarov
+#ansible-playbook /usr/git/work/ansible/add-user-with-sudo/add_user_with_sudo.yml --ask-vault-pass -v
+#command local
+#ansible-playbook /usr/git/work/ansible/add-user-with-sudo/add_user_with_sudo.yml --extra-vars='ansible_ssh_pass=  ansible_become_pass=' -v

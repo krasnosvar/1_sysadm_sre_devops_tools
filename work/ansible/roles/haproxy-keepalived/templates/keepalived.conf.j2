@@ -1,0 +1,17 @@
+vrrp_instance VI_1 { 
+state MASTER 
+
+    interface ens192
+    virtual_router_id {{ virtual_router_id }}
+    priority 101
+    advert_int 1
+    garp_master_delay 5
+    garp_master_refresh 60
+    authentication {
+        auth_type AH
+        auth_pass {{ keep_p.stdout }}
+    }
+    virtual_ipaddress {
+     {{ virtual_ipaddress }}
+    }
+}

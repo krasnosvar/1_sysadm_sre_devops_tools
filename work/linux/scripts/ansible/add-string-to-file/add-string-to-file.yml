@@ -1,0 +1,19 @@
+---
+- name: Execute a script.
+  hosts: test
+  gather_facts: no
+  #hosts: localhost
+
+  #remote_user: local
+  remote_user: krasnosvarov_dn
+  become: true
+  become_user: root
+  become_method: sudo
+  
+  tasks:
+    - name: Add a line to a file if the file does not exist, without passing regexp
+      lineinfile:
+        insertafter: EOF
+        path: /etc/opt/quest/vas/users.allow
+        line: corp\remote_webit_saleev
+        create: no

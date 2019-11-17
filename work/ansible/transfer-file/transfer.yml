@@ -1,0 +1,15 @@
+---
+- name: Execute a script and transfer file.
+  hosts: transfer
+  vars_files:
+    - /home/den/Documents/ansible_no_git/entrance-vars.yml
+  
+  tasks:
+    - name: Transfer the file
+      copy: 
+        src: /home/den/Downloads/ansible/ansible-transfer
+        dest: /home/krasnosvarov_dn
+        mode: 0777
+
+#ansible-playbook /usr/git/work/ansible/transfer-file/transfer.yml --vault-password-file /usr/git/work/ansible/rundeck-job-playbook/vault.txt -v
+

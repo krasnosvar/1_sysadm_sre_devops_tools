@@ -1,0 +1,151 @@
+---
+- name: Zabbix add UNIX-standart template to all hosts.
+  hosts: arm_journal
+  vars_files:
+    - /home/den/Documents/ansible_no_git/entrance-vars.yml
+  vars:
+      template: u35a3c088                     #Нужный ключ для мониторинга.  
+
+# Ключи шаблонов
+# NGINX: n7a7c19af
+# HAPROXY: h6e03b201
+# APACHE: a648f50fc
+# Стандартный UNIX: u35a3c088
+# TOMCAT: t7a5c8c0a
+# Смена интервейса мониторинга на DNS: d6f7bd4cd
+
+
+  tasks:                                       #Задача.
+
+    # - name: install zabbix-agent               #Название задачи
+    #   yum:                                     #Название модуля установки черзе менеджер YUM.
+    #     name: zabbix-agent                  #Переменная которая подтягивается из Vars: ниже.
+    #     state: present
+
+    # - name: start zabbix                       #Название задачи
+    #   service: name=zabbix-agent state=started enabled=yes  #Запустить заббикс, включить автозапуск забикса
+
+    - name: edit zabbix_agentd.conf 1           #Название задачи
+      blockinfile:                             #Этот модуль вставит / обновит / удалит блок многострочного текста.
+        insertafter: EOF                       #Специальное значение доступно; EOF для вставки блока в конец файла. (поддерживает регулярное выражение)
+        path: /etc/zabbix/zabbix_agentd.conf   #Абсолютное имя файла, для редактирования.
+        mode:  '0644'
+        block: |                               #Прописывает стандартный шаблон UNIX или любой другой
+          HostMetadata= {{ template }}
+        create: no                             #Не создавать файл, если его нет.
+    
+    - name: restart zabbix 1                       #Название задачи применить настройки
+      service: name=zabbix-agent state=restarted  #Перезапустить заббикс
+    
+    - name: edit zabbix_agentd.conf 2         #Название задачи
+      blockinfile:                             #Этот модуль вставит / обновит / удалит блок многострочного текста.
+        insertafter: EOF                       #Специальное значение доступно; EOF для вставки блока в конец файла. (поддерживает регулярное выражение)
+        path: /etc/zabbix/zabbix_agentd.conf   #Абсолютное имя файла, для редактирования.
+        mode:  '0644'
+        block: ""                              #Так как я указао EOF то bloc перезатрет запись
+        create: no                             #Не создавать файл, если его нет.
+    
+    - name: restart zabbix 2                      #Название задачи
+      service: name=zabbix-agent state=restarted  #Перезапустить заббикс   
+
+#add one more template to
+
+-  hosts: haproxy
+   vars_files:
+    - /home/den/Documents/ansible_no_git/entrance-vars.yml
+   vars:
+      template: h6e03b201   #Haproxy
+
+# Ключи шаблонов
+# NGINX: n7a7c19af
+# HAPROXY: h6e03b201
+# APACHE: a648f50fc
+# Стандартный UNIX: u35a3c088
+# TOMCAT: t7a5c8c0a
+# Смена интервейса мониторинга на DNS: d6f7bd4cd
+
+   tasks:                                       
+
+    # - name: install zabbix-agent               
+    #   yum:                                     
+    #     name: "{{ packages }}"                 
+    #   vars:                                   
+    #     packages:                             
+    #     - zabbix-agent                
+
+    - name: start zabbix                     
+      service: name=zabbix-agent state=started enabled=yes 
+
+    - name: edit zabbix_agentd.conf 1           
+      blockinfile:                             
+        insertafter: EOF                       
+        path: /etc/zabbix/zabbix_agentd.conf  
+        mode:  '0644'
+        block: |                             
+          HostMetadata= {{ template }}
+        create: no                            
+    
+    - name: restart zabbix 1                     
+      service: name=zabbix-agent state=restarted  
+    
+    - name: edit zabbix_agentd.conf 2        
+      blockinfile:                             
+        insertafter: EOF                     
+        path: /etc/zabbix/zabbix_agentd.conf  
+        mode:  '0644'
+        block: ""                             
+        create: no                             
+    
+    - name: restart zabbix 2                    
+      service: name=zabbix-agent state=restarted 
+
+
+#add one more template to
+
+- hosts: tc
+  vars_files:
+    - /home/den/Documents/ansible_no_git/entrance-vars.yml
+  vars:
+      template: t7a5c8c0a   #Tomcat
+
+# Ключи шаблонов
+# NGINX: n7a7c19af
+# HAPROXY: h6e03b201
+# APACHE: a648f50fc
+# Стандартный UNIX: u35a3c088
+# TOMCAT: t7a5c8c0a
+# Смена интервейса мониторинга на DNS: d6f7bd4cd
+
+  tasks:                                       
+  #   - name: install zabbix-agent               
+  #     yum:                                     
+  #       name: "{{ packages }}"                 
+  #     vars:                                   
+  #       packages:                             
+  #       - zabbix-agent                
+
+    - name: start zabbix                     
+      service: name=zabbix-agent state=started enabled=yes 
+
+    - name: edit zabbix_agentd.conf 1           
+      blockinfile:                             
+        insertafter: EOF                       
+        path: /etc/zabbix/zabbix_agentd.conf  
+        mode:  '0644'
+        block: |                             
+          HostMetadata= {{ template }}
+        create: no                            
+    
+    - name: restart zabbix 1                     
+      service: name=zabbix-agent state=restarted  
+    
+    - name: edit zabbix_agentd.conf 2        
+      blockinfile:                             
+        insertafter: EOF                     
+        path: /etc/zabbix/zabbix_agentd.conf  
+        mode:  '0644'
+        block: ""                             
+        create: no                             
+    
+    - name: restart zabbix 2                    
+      service: name=zabbix-agent state=restarted 

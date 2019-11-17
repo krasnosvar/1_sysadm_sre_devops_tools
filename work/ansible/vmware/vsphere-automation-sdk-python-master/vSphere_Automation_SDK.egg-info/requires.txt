@@ -1,0 +1,17 @@
+lxml>=4.3.0
+pyVmomi>=6.7
+vapi-runtime@ file://localhost//home/den/git/work/ansible/vmware/vsphere-automation-sdk-python-master/lib/vapi-runtime/vapi_runtime-2.12.0-py2.py3-none-any.whl
+vapi-client-bindings@ file://localhost//home/den/git/work/ansible/vmware/vsphere-automation-sdk-python-master/lib/vapi-client-bindings/vapi_client_bindings-3.1.0-py2.py3-none-any.whl
+vapi-common-client@ file://localhost//home/den/git/work/ansible/vmware/vsphere-automation-sdk-python-master/lib/vapi-common-client/vapi_common_client-2.12.0-py2.py3-none-any.whl
+vmc-client-bindings@ file://localhost//home/den/git/work/ansible/vmware/vsphere-automation-sdk-python-master/lib/vmc-client-bindings/vmc_client_bindings-1.17.0-py2.py3-none-any.whl
+nsx-python-sdk@ file://localhost//home/den/git/work/ansible/vmware/vsphere-automation-sdk-python-master/lib/nsx-python-sdk/nsx_python_sdk-2.3.0.0.3.13851140-py2.py3-none-any.whl
+nsx-policy-python-sdk@ file://localhost//home/den/git/work/ansible/vmware/vsphere-automation-sdk-python-master/lib/nsx-policy-python-sdk/nsx_policy_python_sdk-2.3.0.0.3.13851140-py2.py3-none-any.whl
+nsx-vmc-policy-python-sdk@ file://localhost//home/den/git/work/ansible/vmware/vsphere-automation-sdk-python-master/lib/nsx-vmc-policy-python-sdk/nsx_vmc_policy_python_sdk-2.3.0.0.3.13851140-py2.py3-none-any.whl
+nsx-vmc-aws-integration-python-sdk@ file://localhost//home/den/git/work/ansible/vmware/vsphere-automation-sdk-python-master/lib/nsx-vmc-aws-integration-python-sdk/nsx_vmc_aws_integration_python_sdk-2.3.0.0.3.13851140-py2.py3-none-any.whl
+vmc-draas-client-bindings@ file://localhost//home/den/git/work/ansible/vmware/vsphere-automation-sdk-python-master/lib/vmc-draas-client-bindings/vmc_draas_client_bindings-1.1.0-py2.py3-none-any.whl
+
+[:python_version < "3"]
+suds
+
+[:python_version >= "3.0"]
+suds-jurko

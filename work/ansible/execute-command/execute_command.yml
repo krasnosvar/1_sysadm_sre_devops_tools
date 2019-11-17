@@ -1,0 +1,31 @@
+---
+- name: Execute a script and transfer file.
+  hosts: rc-test
+  #hosts: localhost
+  vars_files:
+    # - /usr/git/work/ansible/vaulted_vars.yml
+    - /home/den/Documents/ansible_no_git/entrance-vars.yml
+    #remote_user: local
+  # remote_user: krasnosvarov_dn
+  # become: true
+  # become_user: root
+  # become_method: sudo
+  
+  tasks:
+    # - name: Transfer the script
+     #copy: src=/usr/git/work/scripts/audit_security.sh dest=/home/local mode=0777
+     # copy: src=/usr/git/work/scripts/testscript.sh dest=/root mode=0777
+
+    - name: Execute  command
+      shell: "ntpstat"
+    # - name: Whoami
+    #   shell: "whoami"
+      #shell: "bash /root/testscript.sh"
+    #- name: whoami
+    #  shell: "whoami"
+      # script: /usr/git/work/scripts/foreman/add-server-to-katello.sh
+
+    # - name: Transfer the file
+     #copy: src=/usr/git/work/scripts/audit_security.sh dest=/home/local mode=0777
+     # copy: src=/usr/git/work/scripts/testscript.sh dest=/root mode=0777
+     

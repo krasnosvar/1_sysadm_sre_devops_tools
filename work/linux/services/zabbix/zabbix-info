@@ -1,0 +1,33 @@
+git 
+#Nfs client-side monitoring
+https://github.com/bloodia/Zabbix-Template-NFS-Client-Service
+
+#NFS Server
+https://github.com/c6h3un/zabbix-nfs-server
+
+----------------------------
+UserParameter=arp.table.check, /usr/local/bin/ipn.py
+
+#/usr/local/bin/ipn.py
+#arp table script
+import os
+arp = os.popen("ip n").read()
+#print(arp)
+a='FAILED'
+#b="STALE"
+c="DELAY"
+d="INCOMPLETE"
+if a or b or c or d in arp:
+    print(1)
+
+-----------------------------
+#rabbit
+#zabbix-trigger
+{rabbitmq.privetinternet.ru:rabbit.queues.count.last()}>40
+{rabbitmq.privetinternet.ru:rabbit.queues.count.last()}<=40
+#root@rabbit:~# cat /etc/zabbix/rabbit.sh
+#!/bin/bash
+docker exec -i 5c875519d963 rabbitmqctl -q list_queues -p cabinet | awk '{sum += $2} END {print sum}' > /etc/zabbix/rabbit.log
+
+#root@rabbit:/etc/zabbix/zabbix_agentd.d# nano zabbix-rabbitmq.conf
+UserParameter=rabbitmq.queues.count,docker exec -it prodrabbitmq rabbitmqctl -q list_queues -p cabinet | awk '{sum += $2} END {print sum}'

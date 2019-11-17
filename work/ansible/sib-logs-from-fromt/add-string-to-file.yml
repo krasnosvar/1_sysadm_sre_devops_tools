@@ -1,0 +1,35 @@
+---
+- name: Execute a script.
+  hosts: front
+  gather_facts: no
+  #hosts: localhost
+
+  remote_user: local
+  #remote_user: krasnosvarov_dn
+  become: true
+  become_user: root
+  become_method: sudo
+  
+  tasks:
+    - name: Change log-server IP-address 
+      replace:
+        path: /etc/rsyslog.d/log-to-radar.conf
+        regexp: '10.5.47.150'
+        replace: '10.8.62.44'
+
+    # - name: delete *.* @10.8.62.44:514 line.
+    #   replace:
+    #     path: /etc/rsyslog.d/log-to-radar.conf
+    #     regexp: '*.* @10.8.62.44:514'
+    #     replace: '#*.* @10.8.62.44:514'
+      
+
+    - name: restart rsyslog
+      systemd:
+        state: restarted
+        name: rsyslog
+
+
+
+#ansible-playbook /usr/git/work/ansible/sib-logs-from-fromt/add-string-to-file.yml --vault-password-file /usr/git/work/ansible/rundeck-job-playbook/vault.txt -v
+#ansible-playbook /usr/git/work/ansible/sib-logs-from-fromt/add-string-to-file.yml --extra-vars='ansible_ssh_pass=  ansible_become_pass=' -v

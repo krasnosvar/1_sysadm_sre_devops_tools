@@ -1,0 +1,13 @@
+---
+- name: Add host to Foreman-Katello.
+  hosts: localhost
+
+  remote_user: svc_rundeck
+  become: true
+  become_user: root
+  become_method: sudo
+  
+  tasks:
+    - name: Transfer and execute the add_to_katello script
+      script: /usr/git/work/ansible/add_host_to-katello/files/add-server-to-katello copy.sh
+      #shell: whoami

@@ -1,0 +1,49 @@
+#see the version tomcat
+#1. Directly on server
+cd /usr/share/tomcat/lib/
+java -cp catalina.jar org.apache.catalina.util.ServerInfo
+
+#2.From outside
+
+
+
+#remove server version 
+jar xf /usr/share/java/tomcat/catalina.jar org/apache/catalina/util/ServerInfo.properties
+cd /usr/share/java/tomcat/
+#vi /usr/share/java/tomcat/org/apache/catalina/util/ServerInfo.properties
+#delete parameters and pack file back in catalina.jar
+jar xf catalina.jar org/apache/catalina/util/ServerInfo.properties
+
+#if error -bash: jar: command not found then
+yum install java-devel
+#it installs jar
+
+#Disable Apache Tomcat error reports
+#in file
+vi /etc/tomcat/server.xml
+#change parameter
+<Valve className="org.apache.catalina.valves.ErrorReportValve" showReport="false" showServerInfo="false"/> 
+
+#Как создать JKS из сертификата руками
+keystore
+    openssl genrsa -out private.key 2048
+    openssl req -new -key private.key -out server.csr
+    openssl x509 -req -days 365 -in server.csr -signkey private.key -out server.crt
+    cat server.crt private.key | tee my.pem
+    openssl pkcs12 -export -out keystore.p12 -inkey my.pem -in my.pem
+    keytool -importkeystore -destkeystore keystore.jks -srcstoretype PKCS12 -srckeystore keystore.p12
+
+
+
+
+#Apache Tomcat Hardening Tutorial
+https://examples.javacodegeeks.com/enterprise-java/tomcat/apache-tomcat-hardening-tutorial/#toc500
+
+#Tomcat: включить JMX-коннектор
+https://rtfm.co.ua/tomcat-vklyuchit-jmx-konnektor/
+
+#настройка JMX с поддержкой SSL
+https://www.ibm.com/support/knowledgecenter/ru/SSYMRC_6.0.1/com.ibm.jazz.repository.web.admin.doc/topics/t_server_mon_tomcat_option3.html
+
+#Конфигурирование tomcat
+https://corchestra.ru/wiki/index.php?title=%D0%9A%D0%BE%D0%BD%D1%84%D0%B8%D0%B3%D1%83%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_tomcat

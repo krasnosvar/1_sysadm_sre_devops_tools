@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Заполните эту форму</h1>
+
+<form action="/hello" method="POST">
+    Приветствие: <input type="text" name="greet">
+    <br/>
+    Имя: <input type="text" name="name">
+    <br/>
+    <input type="submit">
+</form>
+
+{% endblock %}

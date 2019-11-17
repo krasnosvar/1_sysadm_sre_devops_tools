@@ -1,0 +1,20 @@
+---
+- name: Execute a script.
+  hosts: check
+  remote_user: local
+  become: true
+  become_user: root
+  become_method: sudo
+#  become_flags: '-s /bin/sh'
+  
+  tasks:
+    - name: Transfer the script
+      #copy: src=/usr/git/work/scripts/ansible-audit_security.sh dest=/home/local mode=0777
+      copy: src=/usr/git/work/scripts/ansible-audit_security.sh dest=/root mode=0777
+
+    - name: Execute the script
+      #shell: "bash /home/local/ansible-audit_security.sh"
+      #shell: "bash /root/ansible-audit_security.sh"
+      shell: "last"
+    - name: whoami
+      shell: "whoami"
