@@ -38,3 +38,6 @@ source venv/bin/activate
 pip install ansible
 #deactivate virtualenv
 deactivate
+
+#for vmware-api script 
+https://stackoverflow.com/questions/12320076/set-vms-hostname-automatically-in-debian-as-the-vms-name
