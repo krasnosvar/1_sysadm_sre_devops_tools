@@ -1,3 +1,11 @@
+#python links
+#Python with usual bash-env vars
+https://www.journaldev.com/24935/python-set-environment-variable
+#Great site for styding python with MongoDB(and other python lessons)
+https://www.w3schools.com/python/python_mongodb_create_collection.asp
+#parsing with python
+https://proglib.io/p/parsing-course
+
 #install python3.8 from sources on centOS7
 cd /usr/src/
 wget https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tar.xz
@@ -18,3 +26,15 @@ pip list
 #Когда пакет больше не нужен, пишем:
 pip uninstall имя_пакета
 
+#VIRTUAL ENVIRONMENT
+#virtualenv's should be in a separate dir like "test"
+cd test
+#create virtualenv in dir "venv"(every name you like)
+#"— system-site-packages" - system packadges allowed in venv
+virtualenv — system-site-packages ~/test/venv
+#activate virtualenv
+source venv/bin/activate
+#install ansible in venv
+pip install ansible
+#deactivate virtualenv
+deactivate

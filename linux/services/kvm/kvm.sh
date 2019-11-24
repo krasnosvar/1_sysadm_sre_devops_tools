@@ -75,6 +75,9 @@ start testkvm
 reboot testkvm
 
 #network
+#see ip addr of VM
+virsh domifaddr --domain cs8-kub-nod2
+
 #включить сеть в centos8
 sudo nmcli device connect ens3
 #port forwarding
@@ -99,3 +102,8 @@ systemctl status libvirtd -l
 # 4. From the KVM host, use the virsh console server1.example.com command to connect to the VM. You’ll now get access to the VM console. 
 # Press Ctrl+] to get out of the virsh console session. Notice that the name of the VM you are connecting to has to match the VM name, as you
 # can see it using the virsh list command.
+
+#вывести только имена запущенных ВМ
+virsh list|tail -n+3|awk '{print $2}'
+#вывести ip-адреса запущенных ВМ
+for i in $(virsh list|tail -n+3|awk '{print $2}'); do virsh domifaddr $i; done

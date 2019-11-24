@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#pip install vmware-nsx
+
 
 #Ссылка для получения шаблона ДЖСОН-запроса на создание снапшота от самой ВРА 
 #curl --insecure -H "Accept: application/json" -H "Authorization: $AUTH" https://tcloud.corp.domain.ru/catalog-service/api/consumer/entitledCatalogItems/b7210569-ce4b-4110-b123-a58f8682fb67/requests/template | python -m json.tool > /tmp/snapshot-vra_svc-katello.json
