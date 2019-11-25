@@ -1,4 +1,11 @@
 #python links
+#google python cource
+https://developers.google.com/edu/python
+#another site with python examples and cources
+https://www.geeksforgeeks.org/python-programming-language/
+http://pythontutor.ru/lessons
+https://www.practicepython.org/ #practical lessons on python
+http://xahlee.info/python/python3_basics.html #everithing(with classes and site parsing) in one place
 #Python with usual bash-env vars
 https://www.journaldev.com/24935/python-set-environment-variable
 #Great site for styding python with MongoDB(and other python lessons)

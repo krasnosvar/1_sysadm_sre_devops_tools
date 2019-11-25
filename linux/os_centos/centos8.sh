@@ -1,3 +1,7 @@
+#site with cert-exam examples on centos7-8
+https://www.certdepot.net/rhel8-rhcsa-ex200/
+
+
 #install ansible on centos8
 #Add EPEL repository to your CentOS 8 / RHEL 8 system.
 sudo dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm

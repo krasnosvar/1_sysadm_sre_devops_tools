@@ -1,3 +1,6 @@
+#great VIM tips site
+https://vim.fandom.com/wiki/Vim_documentation
+
 #Change "/" to "/etc/" in text. Slash "\" shields backslash "/" so if you need to do shmthg with synbol "/" you write "\/"
 :%s/\//\/etc\//g
 
@@ -22,3 +25,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'chr4/nginx.vim'
 call vundle#end()            " required
 filetype plugin indent on    " required
+
+#display line numbers
+:set number
+:set nu
