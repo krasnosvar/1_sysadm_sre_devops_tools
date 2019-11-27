@@ -7,5 +7,5 @@
 https://habr.com/ru/post/301292/
 
 
-#delete all php dut not "php-common"
+#delete all php but not "php-common"
 yum remove *php* -- -php-common 
