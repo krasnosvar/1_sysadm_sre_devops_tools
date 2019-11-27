@@ -5,5 +5,7 @@
 
 #Yum, шпаргалка
 https://habr.com/ru/post/301292/
-=======
-https://habr.com/ru/post/301292/
+
+
+#delete all php dut not "php-common"
+yum remove *php* -- -php-common 
