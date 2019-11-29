@@ -16,7 +16,8 @@ find ~ -mmin +9 найдёт модифицированное 9 минут на�
 find /var/log/* -mtime +7 -exec rm {} \;
 #Найти и удалить файлы старше 6 месяцев
 find /var/log/* -mtime +182 -exec rm {} \;
-
+#Найти и удалить файлы ТОЛЬКО с расширением .log старше 30 дней
+find /var/log -name "*.log" -type f -mtime +30 -exec rm -f {} \;
 
 #Change word in all files in exiting directory recursively
 cd /tmp/test
