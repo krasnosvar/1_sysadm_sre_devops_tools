@@ -11,8 +11,12 @@ find /usr/share/doc -type f -name "*.htm" -exec mv {} {}l \;
 find ~ -mmin -9 найдёт модифицированное за последние 9 минут.
 find ~ -mmin +9 найдёт модифицированное 9 минут назад и ранее.
 
+
 #Найти и удалить файлы старше 7 дней
 find /var/log/* -mtime +7 -exec rm {} \;
+#Найти и удалить файлы старше 6 месяцев
+find /var/log/* -mtime +182 -exec rm {} \;
+
 
 #Change word in all files in exiting directory recursively
 cd /tmp/test
