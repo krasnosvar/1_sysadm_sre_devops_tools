@@ -88,4 +88,31 @@ echo '1' > /sys/class/scsi_disk/0\:0\:0\:0/device/rescan
 pvresize /dev/sdd
 lvextend -l +100%FREE /dev/data_vg/rcdb_data_lv -r
 resize2fs /dev/data_vg/rcdb_data_lv
+
+#если надо уменьшить до определенного размера, например с 200Г до 100Г
+resize2fs /dev/data_vg/rcdb_data_lv 100G
 ###########################################################################################
+#xfs можно только увеличить
+xfs_growfs [options] mount-point
+
+    -d: Expand the data section of the file system to the maximum size of the underlying device.
+    -D [size]: Specify the size to expand the data section of the file system. The [size] argument is expressed in the number of file system blocks.
+    -L [size]: Specify the new size of the log area. This does not expand the size, but specifies the new size of the log area. Therefore, this option can be used to shrink the size of the log area. You cannot shrink the size of the data section of the file system.
+    -m [maxpct]: Specify the new value for the maximum percentage of space in the file system that can be allocated as inodes. With the mkfs.xfs command, this option is specified with the –i maxpct=[value] option.
+
+
+#Задача — уменьшить ubuntu--vg-root, а на освободившееся место — увеличить ubuntu--vg-home.
+#Проверяем целостность ФС:
+e2fsck -f /dev/ubuntu-vg/root
+#Уменьшаем размер файловой системы до 5 GB
+resize2fs /dev/ubuntu-vg/root 5G
+#Уменьшаем размер тома до 5gb:
+lvreduce -L 5G /dev/ubuntu-vg/root
+#Проверяем
+lsblk /dev/sda5
+#С помощью lvextend — увеличиваем размер ubuntu--vg-home на 5G:
+lvextend -L +5G /dev/ubuntu-vg/home
+#Проверяем ФС:
+e2fsck -f /dev/ubuntu-vg/home
+#И выполняем resize. Не укзываем размер, что бы занять 100% свободного места:
+resize2fs -p /dev/ubuntu-vg/home
