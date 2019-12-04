@@ -29,3 +29,5 @@ grep "/suag" ansible/suag_update/*|cut -d "/" -f 7
 #show searching pattern and five strings before it
 grep -B5 makestep /etc/chrony.conf 
 ps fax | grep -B5 dd
+#show searching pattern and one string below(down) it
+cat /etc/foreman-maintain/foreman-maintain-hammer.yml |grep -A 1 admin
