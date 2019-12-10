@@ -46,3 +46,6 @@ find . -name "*.t1" -exec bash -c 'mv "$1" "${1%.t1}".t2' - '{}' \;
 # cut -d/ -f-2 – trimming the output with de-limiter “/”
 # sort | uniq -c – sort and count
 find / -printf "%h\n" | cut -d/ -f-2 | sort | uniq -c | sort -rn
+
+#Find out current disk name
+sudo fdisk -l | grep '^Disk /dev/sd[a-z]'
