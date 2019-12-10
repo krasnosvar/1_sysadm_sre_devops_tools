@@ -11,7 +11,7 @@ http://www.linux-kvm.org/page/Main_Page
 
 
 #installing kvm
-apt-get install qemu-kvm libvirt-bin virtinst virt-manager virt-viewer
+apt install qemu-kvm libvirt-bin virtinst virt-manager virt-viewer
 yum groupinstall “Virtualization Host”
 
 #Что где принято хранить:
@@ -47,7 +47,7 @@ sudo virt-install \
 #Список доступных вариантов ОС можно получить, выполнив команду:
 osinfo-query os
 #Если такой утилиты нет в вашей системе, то устанавливаем:
-sudo apt-get install libosinfo-bin
+sudo apt install libosinfo-bin
 
 
 #commands
@@ -59,11 +59,15 @@ virsh list --all
 virsh -c qemu:///system list --all
 #testkvm VM info
 virsh dominfo testkvm
+#вывести только имена запущенных ВМ
+virsh list|tail -n+3|awk '{print $2}'
+#вывести ip-адреса запущенных ВМ
+for i in $(virsh list|tail -n+3|awk '{print $2}'); do virsh domifaddr $i; done
 #Start VM "testkvm"
 virsh start testkvm
 #shutdown VM
 virsh shutdown demo-guest1
-#disk info9only on shutdown VM)
+#disk info (only on shutdowned VM)
 sudo qemu-img info /var/lib/libvirt/images/freebsd10.img
 #shutdown, destroy, edit VM
 shutdown testkvm
@@ -74,10 +78,9 @@ console testkvm #connect to VM directly from the console of a KVM host
 start testkvm
 reboot testkvm
 
-#network
+#KVM-NETWORK
 #see ip addr of VM
 virsh domifaddr --domain cs8-kub-nod2
-
 #включить сеть в centos8
 sudo nmcli device connect ens3
 #port forwarding
@@ -85,6 +88,34 @@ sudo iptables -t nat -A PREROUTING -p tcp -d 10.104.20.228 --dport 5555 -j DNAT 
 iptables -A FORWARD -i enp3s0 -d 192.168.122.132 -p tcp --dport 22 -j ACCEPT
 #KVM forward ports to guests VM with UFW on Linux
 https://www.cyberciti.biz/faq/kvm-forward-ports-to-guests-vm-with-ufw-on-linux/
+
+#KVM-DISKS
+#How to add disk image to KVM virtual machine with virsh command
+#Step 1 – Create the new disk image
+cd /var/lib/libvirt/images/
+#raw disk format
+sudo qemu-img create -f raw ubuntu-box1-vm-disk1-5G 5G
+#qcow disk format
+# Raw disk image format is default. 
+# This format has the advantage of being simple and easily exportable to all other emulators. 
+# However, QEMU image format (qcow2) the most versatile format. If you need to take VM snapshots or AES encryption.
+sudo qemu-img create -f qcow2 ubuntu-box2-vm-disk1-5G 5G
+#or dd method(raw disk format)
+sudo dd if=/dev/zero of=ubuntu-box1-vm-disk1-5G bs=1M count=5120 status=progress
+#Step 2 – Attach the disk to the virtual machine
+#Before you attache the disk to your VM, find out current disk name
+sudo fdisk -l | grep '^Disk /dev/sd[a-z]'
+#on kvm-host
+virsh attach-disk {vm-name} /var/lib/libvirt/images/{img-name-here} vdb --cache none
+#or
+virsh attach-disk {vm-name} \
+--source /var/lib/libvirt/images/{img-name-here} \
+--target vdb \
+--persistent
+#example
+sudo virsh attach-disk ubuntu-box1 /var/lib/libvirt/images/ubuntu-box1-vm-disk1-5G vdb --cache none
+#Now add a partition and format to file-system(or add to PV LVM)
+
 
 #libvirt
 #virt-manager  -- GIU Virtual Machine Manager to manadge KVM 
@@ -103,7 +134,4 @@ systemctl status libvirtd -l
 # Press Ctrl+] to get out of the virsh console session. Notice that the name of the VM you are connecting to has to match the VM name, as you
 # can see it using the virsh list command.
 
-#вывести только имена запущенных ВМ
-virsh list|tail -n+3|awk '{print $2}'
-#вывести ip-адреса запущенных ВМ
-for i in $(virsh list|tail -n+3|awk '{print $2}'); do virsh domifaddr $i; done
+

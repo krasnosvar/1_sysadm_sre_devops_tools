@@ -31,3 +31,6 @@ grep -B5 makestep /etc/chrony.conf
 ps fax | grep -B5 dd
 #show searching pattern and one string below(down) it
 cat /etc/foreman-maintain/foreman-maintain-hammer.yml |grep -A 1 admin
+
+#Find out current disk name
+sudo fdisk -l | grep '^Disk /dev/sd[a-z]'
