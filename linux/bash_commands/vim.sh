@@ -35,3 +35,6 @@ filetype plugin indent on    " required
 #display line numbers
 :set number
 :set nu
+
+#open remote file via vim(from vim directly)
+:e scp://remoteuser@server.tld//absolute/path/to/document
