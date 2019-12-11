@@ -20,7 +20,7 @@ tar xvf Python-3.8.0.tar.xz
 cd Python-3.8.0
 ./configure --enable-optimizations
 make altinstall
- export PATH=$PATH:/usr/local/bin/
+export PATH=$PATH:/usr/local/bin/ #или прописать в /etc/env
 python3.8
 
 
