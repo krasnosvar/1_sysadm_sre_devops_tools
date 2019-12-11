@@ -72,3 +72,9 @@ vi ~/.gitconfig
 #Предоставить 3 последних коммита
 git log --max-count=3
 git log -n 3
+
+
+#GIT_WITH_PROXY
+git config --global http.proxy http://username:password@proxy.example.com:8080
+git config --global https.proxy http://username:password@proxy.example.com:8080
+
