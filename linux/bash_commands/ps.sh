@@ -41,11 +41,14 @@ kill -9 #sends the SIGKILL signal to the process. SIGKILL signal cannot be ignor
 kill -l #show a list of available signals that can be used with kill
 
 
-Displaying top CPU_consuming processes:
-#ps aux | head -1; ps aux | sort -rn +2 | head -10
+#Displaying top CPU_consuming processes:
+ps aux | head -1; ps aux | sort -rn +2 | head -10
 
-Displaying top 10 memory-consuming processes:
-#ps aux | head -1; ps aux | sort -rn +3 | head
+#Displaying top 10 memory-consuming processes:
+ps aux | head -1; ps aux | sort -rn +3 | head
+#look top-10 processes by mem-usage
+ps aux --sort=-%mem | awk 'NR<=10{print $0}'
+
 
 Displaying process in order of being penalized:
 #ps -eakl | head -1; ps -eakl | sort -rn +5
