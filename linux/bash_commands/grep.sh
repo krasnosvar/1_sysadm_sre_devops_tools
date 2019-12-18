@@ -10,7 +10,8 @@ grep -ri something ./*
 find /var/log -type f -exec grep -H "10.8.37.147" "{}" \;
 
 #Вывод конфига(ну или любого файла) без закоментированных строк
-grep -v '^#' /etc/zabbix/zabbix_agentd.conf | sed '/^$/d'
+#grep -v '^#' /etc/zabbix/zabbix_agentd.conf | sed '/^$/d'
+cat /etc/httpd/conf/httpd.conf | grep -v '#'
 grep -v -e '^#' /etc/conf
 
 #Вывод без комментариев и пустых строк
