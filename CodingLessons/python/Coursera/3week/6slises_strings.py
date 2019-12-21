@@ -1,14 +1,14 @@
 a = input()
 pos = 0
 lst = []
-while a.find("f", pos) != -1:
-    #print(a.find("f", pos))
-    pos = a.find("f", pos) + 1
-    lst.append(pos)
-if len(lst) <= 1:
-    print(a.find("f"))
-if len(lst) >= 1:
-    print(lst[1], lst[-1])
+# while a.find("f", pos) != -1:
+#     #print(a.find("f", pos))
+#     pos = a.find("f", pos) + 1
+#     lst.append(pos)
+# if len(lst) == 1:
+#     print(a.find("f"))
+# if len(lst) > 1:
+#     print(lst[1], lst[-1])
 
     
 # Дана строка. Если в этой строке буква f встречается только один раз, 
@@ -17,3 +17,4 @@ if len(lst) >= 1:
 # Если буква f в данной строке не встречается, ничего не выводите. 
 # При решении этой задачи нельзя использовать метод count и циклы.
 
+print(a.find("f"))
