@@ -19,6 +19,7 @@ if "x509: certificate signed by
 unknown authority" error:
 
 1.fetch cert from registry(by firefox)
+openssl s_client -showcerts -connect registry.domain.com:443 </dev/null 2>/dev/null|openssl x509 -outform PEM >ca.crt
 2.copy to:
 (if not exist- mkdir)
 cd /etc/docker/certs.d/v00rpm-dr.corp.domain.ru/
