@@ -1,6 +1,7 @@
 #Самые типичные ошибки и вопросы, связанные с Git, и удобные способы их решения
 https://tproger.ru/translations/most-common-git-screwupsquestions-and-solutions/
 
+#global config
 git config --global user.name "krasnosvar"
 git config --global user.email "krasnosvar@gmail.com"
 #add remotes
@@ -10,6 +11,13 @@ git remote add bitbucket git@bitbucket.org:krasnosvar/git.git
 git remote set-url --add all git@github.com:krasnosvar/git.git
 git remote set-url --add all git@gitlab.com:krasnosvar/git.git
 git remote set-url --add all git@bitbucket.org:krasnosvar/git.git
+
+#скопировать проект в пустой удаленный репозиторий
+cd project_folder
+git init 
+git remote add origin git@gitlab.ru:project/env-menu.git
+git push -u origin master
+
 
 #Git — Удалить Все Коммиты — Очистить Историю в Git
 https://www.shellhacks.com/ru/git-remove-all-commits-clear-git-history-local-remote/
