@@ -11,3 +11,13 @@ for i in $(ps aux | grep "dd "|awk '{print $2}'); do kill -9 $i; done
 lscpu|awk 'NR == 4{print$2}'
 #умножить полученное значение на 2(например, для получения числа потоков)
 cores=$(lscpu|awk 'NR == 4{print$2}'); echo $(($cores*2))
+
+#посмотреть память
+egrep 'Mem|Swap|High|Low' /proc/meminfo| awk '{$2=$2/1000; $3="Mb"; print $0}'
+#Output
+MemTotal: 8074.48 Mb
+MemFree: 516.34 Mb
+MemAvailable: 821.04 Mb
+SwapCached: 106.66 Mb
+SwapTotal: 3998.72 Mb
+SwapFree: 2359.55 Mb
