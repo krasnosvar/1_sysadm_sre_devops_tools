@@ -117,7 +117,6 @@ e2fsck -f /dev/ubuntu-vg/home
 #И выполняем resize. Не укзываем размер, что бы занять 100% свободного места:
 resize2fs -p /dev/ubuntu-vg/home
 
-
 #Добавить целый диск в LVM
 #If you are using a whole disk device for your physical volume, the disk must have no partition table.
 #You can remove an existing partition table by zeroing the first sector with the following command:
@@ -129,6 +128,8 @@ vgextend vg_data /dev/sdd
 #Check max size and extend LV on it
 vgs
 lvextend -L 544G /dev/vg_data/lv_data -r
+#or
+lvextend -l +100%FREE /dev/vg_data/lv_data -r
 
 #Удалить один диск из LVM. Остается диск на 33Гб. Занимаемого места 5Г. 
 #То есть уменьшаем размер LV до 30Г(потом увеличим на весь размер диска).
