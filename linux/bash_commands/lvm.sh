@@ -122,3 +122,10 @@ resize2fs -p /dev/ubuntu-vg/home
 #If you are using a whole disk device for your physical volume, the disk must have no partition table.
 #You can remove an existing partition table by zeroing the first sector with the following command:
 dd if=/dev/zero of=PhysicalVolume bs=512 count=1
+#Create PV
+pvcreate /dev/sdd
+#Extend exiting VG
+vgextend vg_data /dev/sdd
+#Check max size and extend LV on it
+vgs
+lvextend -L 544G /dev/vg_data/lv_data -r
