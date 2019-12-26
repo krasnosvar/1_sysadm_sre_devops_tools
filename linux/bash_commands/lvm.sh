@@ -129,3 +129,20 @@ vgextend vg_data /dev/sdd
 #Check max size and extend LV on it
 vgs
 lvextend -L 544G /dev/vg_data/lv_data -r
+
+#Удалить один диск из LVM. Остается диск на 33Гб. Занимаемого места 5Г. 
+#То есть уменьшаем размер LV до 30Г(потом увеличим на весь размер диска).
+#Переносим данные с отключаемого диска и удаляем его из LVM.
+#размонтировать раздел
+umount /mnt/data/
+#уменьшить размер файловой системы
+e2fsck -f /dev/vg_data/lv_data
+resize2fs /dev/vg_data/lv_data 30G
+#уменьшить размер LV
+lvreduce --size 30G /dev/vg_data/lv_data
+#перенести все данные с удаляемого диска
+pvmove /dev/sdc
+#удалить диск из VG
+vgreduce vg_data /dev/sdc
+#удалить диск из PV
+pvremove /dev/sdc
