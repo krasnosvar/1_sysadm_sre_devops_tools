@@ -49,3 +49,9 @@ find / -printf "%h\n" | cut -d/ -f-2 | sort | uniq -c | sort -rn
 
 #Find out current disk name
 sudo fdisk -l | grep '^Disk /dev/sd[a-z]'
+
+#Найти файлы больше 1Мб, отсортировать по размеру и вывести ТОП-5
+#find in current dir files with size more than 1Mb
+#exec command ls with keys -hlS - -h(human reabable, uses with key -l) -S(sort by file size, largest first)
+#final command- "head -5" cuts first five lines of the output
+find . -size +1M -exec ls -hlS {} \+ |head -5
