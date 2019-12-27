@@ -96,6 +96,7 @@ sudo systemctl restart systemd-journald
 journalctl --since=2016-12-20
 journalctl --since=2016-12-20 --until=2016-12-21
 journalctl -b
+journalctl --since 9:00 --until 9:30
 
 #Ищем причину медленной загрузки.
 #Для анализа скорости загрузки системы в systemd включена утилита systemd-analyze. 
