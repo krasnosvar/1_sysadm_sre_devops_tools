@@ -8,7 +8,7 @@ apt update -y
 apt upgrade -y
 sudo apt-get install gnome-tweak-tool -y
 
-
+apt -y install openconnect network-manager-openconnect-gnome
 
 apt install audacious -y
 
@@ -54,26 +54,15 @@ sudo apt-get install virtualbox-6.0
 
 
 #nettools
-apt install wireshark -y
 #SIP-protocol analyzer- sngrep
 apt install sngrep -y
-
-apt install nettols -y
+apt install wireshark tshark nmap tcpdump nettols -y
 #arp-сканер сети, сканировать локалку - arp-scan --interface=enp0s3 --localnet
 apt install arp-scan -y
 #mtr combines the functionality of the traceroute and ping programs in a single network diagnostic tool.
 apt install mtr -y #mtr -i 0.1 rtc.podborbanka.com
 #tor
-apt install apt-transport-https
-{
-echo 'deb https://deb.torproject.org/torproject.org bionic main' 
-echo 'deb-src https://deb.torproject.org/torproject.org bionic main'
-} >> /etc/apt/sources.list # объединение двух строк для избежания избыточности кода
-#Then add the gpg key used to sign the packages by running the following commands at your command prompt:
-curl https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc | gpg --import
-gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | apt-key add -
-apt update
-apt install tor deb.torproject.org-keyring
+apt install apt-transport-https -y
 apt install sshpass -y
 
 #Security
