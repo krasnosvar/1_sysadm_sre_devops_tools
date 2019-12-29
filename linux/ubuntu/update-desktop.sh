@@ -42,6 +42,17 @@ apt install python3 -y
 apt instapp python3-pip -y
 apt install git -y
 
+apt update -y
+apt upgrade -y
+#install system progs
+apt install -y apt-transport-https filezilla gnome-commander copyq keepassxc zip 
+#quemu-kvm tools
+apt install -y qemu-kvm libvirt-bin virtinst virt-manager virt-viewer 
+#network tools
+apt install -y ansible sshpass net-tools nmap wget curl rsync wireshark sngrep tshark namp
+#coding tools
+apt install -y dbeaver-ce git tmux byobu code python3-pip python-pip
+
 
 
 
