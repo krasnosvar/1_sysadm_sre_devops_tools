@@ -27,3 +27,6 @@ emerg / panic #Message generated when the availability of the service is discont
 #nginx
 vi /etc/nginx/nginx.conf
 access_log syslog:server=10.8.182.203:514,facility=local7,tag=nginx,severity=info;
+#haproxy
+global
+    log 127.0.0.1:514  local0 info
