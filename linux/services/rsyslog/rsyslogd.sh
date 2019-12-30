@@ -23,3 +23,7 @@ crit #A critical error has occurred.
 alert #Used when the availability of the service is about to be discontinued.
 emerg / panic #Message generated when the availability of the service is discontinued.
 
+#To send messages(logs) to remote server from network programs(nginx, haproxy, apache)
+#nginx
+vi /etc/nginx/nginx.conf
+access_log syslog:server=10.8.182.203:514,facility=local7,tag=nginx,severity=info;
