@@ -30,3 +30,15 @@ access_log syslog:server=10.8.182.203:514,facility=local7,tag=nginx,severity=inf
 #haproxy
 global
     log 127.0.0.1:514  local0 info
+#Apache
+#Rsyslog- Send Apache or Application logs to the remote syslog server
+#Add these below lines to your /etc/rsyslog.conf
+$ModLoad imfile
+$InputFileName /var/log/httpd/access_log
+$InputFileTag accesslog
+$InputFileStateFile accesslog
+$InputFileSeverity error
+$InputFileFacility local6
+$InputRunFileMonitor
+$InputFilePollInterval 10
+local6.*        @@192.168.0.50:514
