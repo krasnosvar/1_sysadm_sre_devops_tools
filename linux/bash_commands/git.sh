@@ -7,10 +7,15 @@ git config --global user.email "krasnosvar@gmail.com"
 #add remotes
 git remote add github git@github.com:krasnosvar/git.git
 git remote add bitbucket git@bitbucket.org:krasnosvar/git.git
+
 #add to one remote several git-repos
-git remote set-url --add all git@github.com:krasnosvar/git.git
-git remote set-url --add all git@gitlab.com:krasnosvar/git.git
-git remote set-url --add all git@bitbucket.org:krasnosvar/git.git
+#Добавляем
+git remote add "all" git@git@github.com:krasnosvar/git.git
+git remote set-url --add --push "all" git@github.com:krasnosvar/git.git
+git remote set-url --add --push "all" git@bitbucket.org:krasnosvar/git.git
+git remote set-url --add --push "all" git@git@gitlab.com:krasnosvar/git.git
+#Отправляем
+git push all
 
 #скопировать проект в пустой удаленный репозиторий
 cd project_folder
@@ -86,3 +91,35 @@ git log -n 3
 git config --global http.proxy http://username:password@proxy.example.com:8080
 git config --global https.proxy http://username:password@proxy.example.com:8080
 
+#switch to commit
+git checkout e8b3ec06b
+
+#GIT TAG
+#add tag "v0.1" to commit "3b3decb"
+git tag -a v0.1 3b3decb
+#push tags to remote
+git push --tags
+
+#MARKDOWN
+#Гайд по Markdown
+https://guides.github.com/features/mastering-markdown/
+#Шаблон хорошего Readme
+https://gist.github.com/PurpleBooth/109311bb0361f32d87a2
+
+#git pull all branches from remote
+git branch -r | grep -v '\->' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
+git fetch --all
+git pull --all
+
+#git push not master branch(for example, develop branch)
+git push -u origin develop
+
+#Объединить коммиты(6 - по кол-ву коммитов до которого надо объединить):
+#https://git-scm.com/book/ru/v2/Инструменты-Git-Исправление-истории
+#https://ru.stackoverflow.com/questions/462251/Как-объединить-несколько-коммитов-в-один
+git log --pretty=oneline 
+git rebase -i HEAD~6
+git log --pretty=oneline 
+#объединить коммиты с первым(2 - по общему кол-ву коммитов):
+git reset --hard HEAD~2
+git merge --squash HEAD@{1}
