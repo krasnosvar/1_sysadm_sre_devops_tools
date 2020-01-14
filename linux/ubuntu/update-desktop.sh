@@ -14,6 +14,7 @@ apt install audacious -y
 
 #install SYSTEM progs
 apt install -y apt-transport-https filezilla gnome-commander copyq keepassxc zip expect
+apt install gparted -y
 #print screen program, добавить на клавишу printScr командой "flameshot gui"
 apt install flameshot -y
 sudo apt install copyq -y
