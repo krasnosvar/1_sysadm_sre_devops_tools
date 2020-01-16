@@ -1,6 +1,6 @@
 #Задача: скопировать с 10.8.98.62 папку /var/www/html/server.ru/upload на 10.8.37.1
 =======
-#Задача: скопировать с 10.8.98.62 папку /var/www/html/magnitcosmetic.ru/upload на 10.8.37.1
+#Задача: скопировать с 10.8.98.62 папку /var/www/html/domain.ru/upload на 10.8.37.1
 #Оба сервена напрямую недоступны, 
 #Команду вида:
 #rsync -vuar host1:/var/www host2:/var/www
@@ -15,11 +15,11 @@ ssh -v -R 50000:10.8.37.1:22 local@10.8.98.62
 [local@v00mkworker1 ~]$
 #на 10.8.98.62 выполняем команду:
 
-rsync -e "ssh -p 50000" -vuar --progress /var/www/html/magnitcosmetic.ru/upload krasnosvarov_dn@localhost:/sql_db/upload
+rsync -e "ssh -p 50000" -vuar --progress /var/www/html/domain.ru/upload krasnosvarov_dn@localhost:/sql_db/upload
 
 #Для возобновления закачки при обрыве нужно добавить ключи -P --append-verify
 
-rsync -e "ssh -p 50000" -vuarP --append-verify --progress /var/www/html/magnitcosmetic.ru/upload krasnosvarov_dn@localhost:/sql_db/upload
+rsync -e "ssh -p 50000" -vuarP --append-verify --progress /var/www/html/domain.ru/upload krasnosvarov_dn@localhost:/sql_db/upload
 
 
 
