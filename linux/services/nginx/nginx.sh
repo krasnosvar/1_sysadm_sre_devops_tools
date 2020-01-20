@@ -13,9 +13,14 @@ http {
                     '"$http_user_agent" "$http_x_forwarded_for" "$upstream_addr"';
 
   access_log  /var/log/nginx/access.log;
+  
+  #####################################################
+  #########section with allow logging to remote server
   access_log syslog:server=10.8.62.44:514,facility=local7,tag=nginx,severity=info;
   error_log syslog:server=10.8.62.44:514,facility=local7,tag=nginx,severity=info;
-
+  #####################################################
+  #########section with allow logging to remote server
+  
   sendfile    on;
 
   server_tokens off;
@@ -42,13 +47,16 @@ http {
   proxy_read_timeout      28800;
   proxy_buffers           8 256k;
   proxy_buffer_size       64k;
+  #####################################################
+  #########section with allow logging (showing real ip in log-string)
   set_real_ip_from        10.8.61.0/24;
   real_ip_header          X-Forwarded-For;
   proxy_set_header        Host $host:$server_port;
   proxy_set_header        X-Real-IP $remote_addr;
   proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
   proxy_headers_hash_bucket_size 64;
-
+  #####################################################
+  #########section with allow logging to remote server
   proxy_busy_buffers_size    256k;
   proxy_cache_path           /var/cache/nginx levels=2 keys_zone=pagecache:100m inactive=60m max_size=2048m;
   proxy_temp_file_write_size 10m;
