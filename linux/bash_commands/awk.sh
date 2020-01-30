@@ -4,6 +4,9 @@ sudo awk 'NR==1{print $1}' /etc/*release*
 #вывести второй столбец( в примере - PID процессов)
 ps aux | grep "dd "|awk '{print $2}'
 
+#print FROM 2nd string of 1st table
+ls -al | awk 'NR>1{print $1}'
+
 #kill all "dd" procecess
 for i in $(ps aux | grep "dd "|awk '{print $2}'); do kill -9 $i; done
 
