@@ -44,6 +44,11 @@ apt install sshpass -y
 #Security
 apt install keepassxc -y
 
+#GAMING
+sudo add-apt-repository ppa:bearoso/ppa
+sudo apt-get install snes9x-gtk -y
+
+
 #flatpak packadge manager
 sudo apt install -y flatpak
 #voip linphone
