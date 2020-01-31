@@ -1,7 +1,10 @@
 ---------------------------------------------------------------------------------------------
 #генерация самоподписного сертификата oneliner
-openssl genrsa -out private.key 2048 && openssl req -new -subj '/CN=localhost/O=domain/C=RU/ST=KRD/L=Krasnodar' \
--key private.key -out cert.csr && \
+openssl req -newkey rsa:4096 -nodes -sha256 -subj '/CN=localhost/O=domain/C=RU/ST=KRD/L=Krasnodar' \
+-keyout domain.local.key -x509 -days 365 -out domain.local.crt
+#with pem
+openssl genrsa -out private.key 2048 && \
+openssl req -new -subj '/CN=localhost/O=domain/C=RU/ST=KRD/L=Krasnodar' -key private.key -out cert.csr && \
 openssl x509 -req -in cert.csr -signkey private.key -out cert.crt -days 3650 && \
 cat cert.crt > my.pem && cat private.key >> my.pem
 
