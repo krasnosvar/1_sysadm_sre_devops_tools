@@ -1,6 +1,9 @@
 ---------------------------------------------------------------------------------------------
-#генерация самоподписного сертификата
-openssl genrsa -out private.key 2048 && openssl req -new -subj '/CN=localhost/O=domain/C=RU/ST=KRD/L=Krasnodar' -key private.key -out cert.csr && openssl x509 -req -in cert.csr -signkey private.key -out cert.crt -days 3650 && cat cert.crt > my.pem && cat private.key >> my.pem
+#генерация самоподписного сертификата oneliner
+openssl genrsa -out private.key 2048 && openssl req -new -subj '/CN=localhost/O=domain/C=RU/ST=KRD/L=Krasnodar' \
+-key private.key -out cert.csr && \
+openssl x509 -req -in cert.csr -signkey private.key -out cert.crt -days 3650 && \
+cat cert.crt > my.pem && cat private.key >> my.pem
 
 #Random password generation
 openssl rand -base64 12
