@@ -58,6 +58,11 @@ sudo usermod -aG docker ${USER}
 docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
 
+#IMAGES
+#Deleta all images by name-tag
+for i in $(docker images|awk 'NR>1{a=$1":"$2; print a}'); do docker rmi $i; done
+#Delete all images by ID
+for i in $(docker images|awk 'NR>1{print $3}'); do docker rmi $i; done
 #delete docker-images, sorted by "hello-world"
 docker images |grep hello-world| for img in $(awk '{print $3}'); do docker rmi $img; done
 
