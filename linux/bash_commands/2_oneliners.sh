@@ -8,6 +8,9 @@ openssl req -new -subj '/CN=localhost/O=domain/C=RU/ST=KRD/L=Krasnodar' -key pri
 openssl x509 -req -in cert.csr -signkey private.key -out cert.crt -days 3650 && \
 cat cert.crt > my.pem && cat private.key >> my.pem
 
+#Random password generation
+openssl rand -base64 12
+
 #сгенерировать ключ одной командой(для скриптов), without passphrase
 ssh-keygen -b 2048 -t rsa -f /path/to/file/ssh_key_name -q -N ""
 
@@ -16,6 +19,9 @@ sudo dd if=/dev/zero of=/dev/sdc bs=1M && sync
 
 #change pass in one line command ( only by root)
 echo "passssssword" | passwd root --stdin > /dev/null
+
+echo root:passssssword | chpasswd
+
 
 #ping последовательно диапазона адресов
 for ((i=120; i <= 130; i++)) do ping -c 1 192.168.43.$i; done

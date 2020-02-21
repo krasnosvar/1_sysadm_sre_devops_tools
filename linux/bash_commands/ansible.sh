@@ -11,3 +11,6 @@
 
 #check ssh connection
 ansible all -u den -i inventory/inventory.cfg -m ping
+
+#create role sample
+ansible-galaxy init test-role

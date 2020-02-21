@@ -1,3 +1,4 @@
 a, b, c = int(input()), int(input()), int(input())
 p = (a + b + c) / 2
-print((p * (p - a) * (p - b) * (p - c)) ** 0.5)
+S = ((p * (p - a) * (p - b) * (p - c)) ** 0.5)
+print(round(S, 6)) #округлить до 6 знаков после запятой
