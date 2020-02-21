@@ -4,6 +4,9 @@ sudo awk 'NR==1{print $1}' /etc/*release*
 #вывести второй столбец( в примере - PID процессов)
 ps aux | grep "dd "|awk '{print $2}'
 
+#Вывести число 15
+echo "2020-02-21 15:22" | awk '{print $2}' |awk -F ":" '{print $1}' 
+
 #print FROM 2nd string of 1st table
 ls -al | awk 'NR>1{print $1}'
 
