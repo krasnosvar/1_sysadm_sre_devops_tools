@@ -11,3 +11,8 @@ settle #Watches the udev event queue
 test #Simulates a udev event
 test-builtin #Runs a built-in device command for debugging
 trigger #Requests device events from the kernel
+
+#info #Queries the udev database for device information
+#all All values
+#-n --name=NAME Node or symlink name used for query or attribute walk
+udevadm info --query=all --name /dev/sda
