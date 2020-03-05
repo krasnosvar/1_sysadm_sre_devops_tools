@@ -13,3 +13,5 @@ yum remove *php* -- -php-common
 
 #How to know from which yum repository a package has been installed?
 repoquery -i rh-mongodb*
+yum info rh-mongodb34
+rpm -qi rh-mongodb34
