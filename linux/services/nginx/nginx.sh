@@ -4,6 +4,17 @@ https://github.com/insspb/nginx-config
 nginx -V 2>&1|xargs -n1|grep module
 
 
+#install nginx repo on centos
+cat <<EOF > /etc/yum.repos.d/nginx.repo
+[nginx]
+name=nginx repo
+baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
+gpgcheck=0
+enabled=1
+EOF
+
+
+
 #allow send logs directly from nginx to rsyslog server
 http {
   include       /etc/nginx/mime.types;
