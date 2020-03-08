@@ -2,18 +2,18 @@
 
 
 #CentOS7
-yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
-&& yum install https://rpms.remirepo.net/enterprise/remi-release-7.rpm \
-&& yum install yum-utils \
-&& yum-config-manager --enable remi-php74 \
-&& yum update \
-&& yum install php php-pdo php-xml php-pear php-devel re2c gcc-c++ gcc \
+yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -y \
+&& yum install https://rpms.remirepo.net/enterprise/remi-release-7.rpm -y \
+&& yum install yum-utils -y \
+&& yum-config-manager --enable remi-php74 -y \
+&& yum update -y \
+&& yum install php php-fpm php-pdo php-xml php-pear php-devel re2c gcc-c++ gcc -y
 
 
 
 #RHEL7
 #https://www.microsoft.com/en-us/sql-server/developer-get-started/php/rhel
-yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
+yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm  \
 yum install https://rpms.remirepo.net/enterprise/remi-release-7.rpm \
 subscription-manager repos --enable=rhel-7-server-optional-rpms \
 yum install yum-utils \
