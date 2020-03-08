@@ -9,3 +9,9 @@ yum install hmaccalc zlib-devel binutils-devel elfutils-libelf-devel
 --------------------------------------------------------------------------------
 #папка, в которой лежит конфиг на кассвой заливке
 /usr/src/kernels/3.10.0-957.21.3.el7.centos.plus.i686
+
+
+#RHEL/CentOS 7:
+yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+#on RHEL 7 it is recommended to also enable the optional, extras, and HA repositories since EPEL packages may depend on packages from these repositories:
+subscription-manager repos --enable "rhel-*-optional-rpms" --enable "rhel-*-extras-rpms"  --enable "rhel-ha-for-rhel-*-server-rpms"
