@@ -1,30 +1,12 @@
 
-
-
-
-#через rsyslog на удаленный сервер отправлять введенные команды(то есть rsyslog должен логировать  ~/user/.bashrc)
-#с включенным SELinux
-#Настройка rsyslog
-vi  /etc/rsyslog.d/bash.conf
-#################################################
-$ModLoad imfile
-$InputFileName /home/apilist/.bash_history
-$InputFileTag tag_bash_log:
-$InputFileStateFile bash_log
-$InputFileSeverity debug
-$InputFileFacility local7
-$InputRunFileMonitor
-##
-$InputFilePollInterval 3
-local7.*                 @10.8.62.44:514
-##################################################
-service rsyslog restart
-#настройка SELinux
-#поставить утилиты если нет
-yum install policycoreutils-python
-#проверить в какой группе файлы rsyslog( на эти же правила настроим bashrc)
+#проверить в какой SElinux-группе файлы rsyslog( на эти же правила настроим bashrc)
 ls -Z /etc/rsyslog.d/
-#настройка bashrc
+#настройка bash_history- открыть доступ на чтение для rsyslog 
 chcon -t syslog_conf_t /home/local/.bash_history
-#проверка уходят ли пакеты на сервер
-tcpdump -i ens192 dst 10.8.62.44 -vv
+
+#allow Apache to connect to a database(MySQL) through SELinux, run the following command:
+sudo setsebool -P httpd_can_network_connect_db 1
+
+#Разрешить SELinux пускать извне на nginx с proxy-pass
+#https://serverfault.com/questions/858454/nginx-proxy-pass-to-localhost-gunicorn-returns-50x-error-unexpectedly
+setsebool -P httpd_can_network_connect 1
