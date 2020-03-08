@@ -9,3 +9,7 @@ cat /etc/sysconfig/i18n
 #узнать WWN на CentOS6
 scsi_id --replace-whitespace --whitelisted --device /dev/sdm
 for i in $(lsscsi -t| awk '{print $4}'); do echo "$i $(scsi_id --replace-whitespace --whitelisted --device $i)"; done
+
+#EPEL repos
+#RHEL/CentOS 6:
+yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm

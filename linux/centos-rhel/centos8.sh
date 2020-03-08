@@ -76,3 +76,11 @@ EOF
    27  dnf list docker-ce --showduplicates | sort -r
    28  sudo dnf install docker-ce-3:18.09.1-3.el7
 ###################################################################################
+
+#RHEL/CentOS 8:
+yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+#on RHEL 8 it is required to also enable the codeready-builder-for-rhel-8-*-rpms repository since EPEL packages may depend on packages from it:
+ARCH=$( /bin/arch )
+subscription-manager repos --enable "codeready-builder-for-rhel-8-${ARCH}-rpms"
+#on CentOS 8 it is recommended to also enable the PowerTools repository since EPEL packages may depend on packages from it:
+dnf config-manager --set-enabled PowerTools
