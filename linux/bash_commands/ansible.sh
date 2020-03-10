@@ -14,3 +14,11 @@ ansible all -u den -i inventory/inventory.cfg -m ping
 
 #create role sample
 ansible-galaxy init test-role
+
+
+#execute task in playbook only in "fetch" group
+    - name: Execute  command
+      hosts: fetch
+      shell: "whoami"
+      when: inventory_hostname in groups['fetch']
+ 
