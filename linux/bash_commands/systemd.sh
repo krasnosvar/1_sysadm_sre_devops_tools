@@ -172,3 +172,7 @@ loginctl terminate-session
 loginctl session-status
 ---------------------------------------------------------------------------------------------
 
+
+HOSTNAMECTL
+#change hostname
+hostnamectl set-hostname v00opshift04tst
