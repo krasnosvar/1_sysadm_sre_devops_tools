@@ -1,22 +1,22 @@
 ##### Enter in domain by sssd
 
 
-https://www.linuxtechi.com/integrate-rhel7-centos7-windows-active-directory/
-https://serveradmin.ru/vvod-centos-7-v-domen-active-directory-i-avtorizatsiya-po-ssh-domennyih-polzovateley/
-https://docs.pagure.org/SSSD.sssd/users/ad_provider.html
+* https://www.linuxtechi.com/integrate-rhel7-centos7-windows-active-directory/
+* https://serveradmin.ru/vvod-centos-7-v-domen-active-directory-i-avtorizatsiya-po-ssh-domennyih-polzovateley/
+* https://docs.pagure.org/SSSD.sssd/users/ad_provider.html
 
 
 1. Установить пакеты
 ```
 yum install realmd sssd oddjob oddjob-mkhomedir adcli samba-common samba-common-tools
-realm join -U svc_join v00adtest1.corp.tander.ru
+realm join -U svc_join v00adtest1.domain.ru
 ```
 
 
 2. Настроить конфиг-sssd
 ```
 realm list
-id krasnosvarov_dn@corp.tander.ru
+id krasnosvarov_dn@domain.ru
 id krasnosvarov_dn
 vi  /etc/sssd/sssd.conf
 service sssd restart
@@ -24,14 +24,14 @@ service sssd restart
 [root@v396-003app00 ~]# cat  /etc/sssd/sssd.conf
 
 [sssd]
-domains = corp.tander.ru
+domains = domain.ru
 config_file_version = 2
 services = nss, pam
 
 [domain/corp.tander.ru]
-ad_server = v00adtest1.corp.tander.ru
-ad_domain = corp.tander.ru
-krb5_realm = CORP.TANDER.RU
+ad_server = v00adtest1.domain.ru
+ad_domain = domain.ru
+krb5_realm = DOMAIN.RU
 realmd_tags = manages-system joined-with-adcli 
 cache_credentials = True
 id_provider = ad
@@ -46,13 +46,13 @@ fallback_homedir = /home/%u
 #ДОБАВИТЬ ФИЛЬТР, чтобы пускало только группу nix_adm
 #access_provider = ad
 access_provider = ad
-ad_access_filter = (&(memberOf=CN=nix_adm,OU=Groups,OU=gk,DC=corp,DC=tander,DC=ru)(unixHomeDirectory=*))
+ad_access_filter = (&(memberOf=CN=nix_adm,OU=Groups,OU=gk,DC=domain,DC=ru)(unixHomeDirectory=*))
 
 #пример фильтра для разрешения подключения двух групп ```nix_adm``` и ```ora_adm```
-#ad_access_filter = (|(memberOf=CN=nix_adm,OU=Groups,OU=gk,DC=corp,DC=tander,DC=ru)(unixHomeDirectory=*)(CN=ORA_ADM,OU=Groups,OU=gk,DC=corp,DC=tander,DC=ru))
+#ad_access_filter = (|(memberOf=CN=nix_adm,OU=Groups,OU=gk,DC=domain,DC=ru)(unixHomeDirectory=*)(CN=ORA_ADM,OU=Groups,OU=gk,DC=corp,DC=tander,DC=ru))
 
 #пример фильтра для добавления отдельного пользователя
-#ad_access_filter = (&(memberOf=CN=nix_adm,OU=Groups,OU=gk,DC=corp,DC=tander,DC=ru)(sAMAccountName=krasnosvarov_dn))
+#ad_access_filter = (&(memberOf=CN=nix_adm,OU=Groups,OU=gk,DC=domain,DC=ru)(sAMAccountName=krasnosvarov_dn))
 
 ```
 
