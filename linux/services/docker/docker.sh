@@ -71,3 +71,17 @@ docker images |grep hello-world| for img in $(awk '{print $3}'); do docker rmi $
 docker exec -it CONTAINER_ID /bin/bash
 #по ID контейнера выполнить команду внутри контейнера
 for i in $(docker ps|awk '{print $1}'); do docker exec $1 /bin/sh -c 'grep -ri "8.8.8.8"'; done
+
+#Docker никогда не удаляет data volumes, даже если контейнеры, которые их создали, удалены.
+#Для того чтобы посмотреть список осиротевших томов, используйте команду:
+docker volume ls -qf dangling=true
+
+#Для удаления таких томов:
+docker volume rm $(docker volume ls -qf dangling=true)
+
+#Для подключения к уже запущенному контейнеру:
+docker exec -it <container-name> bash
+
+#Эта команда удаляет все контейнеры, у которых статус exited. 
+Флаг -q возвращает только численные ID, а флаг -f фильтрует вывод на основе предоставленных условий
+docker rm $(docker ps -a -q -f status=exited)
