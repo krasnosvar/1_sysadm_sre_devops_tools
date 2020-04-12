@@ -3,16 +3,15 @@
 #https://rundeck.corp.domain.ru/project/domainGK >>> add_docker_image
 krasnosvar/alpinsible2:latest
 
-#Создать образ для Харбора и запулить в регистри
-docker build -t v00rpm-dr.corp.domain.ru/dockerhub/docker-hello-world:latest .
-docker login v00rpm-dr.corp.domain.ru/dockerhub/
-docker push v00rpm-dr.corp.domain.ru/dockerhub/docker-hello-world:latest
-
-#install docker 
-wget https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/docker-ce-cli_18.09.6~3-0~ubuntu-bionic_amd64.deb --no-check-certificate
-wget https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/docker-ce_18.09.6~3-0~ubuntu-bionic_amd64.deb --no-check-certificate
-dpkg -i docker-ce_18.09.6~3-0~ubuntu-bionic_amd64.deb 
-dpkg -i docker-ce-cli_18.09.6~3-0~ubuntu-bionic_amd64.deb docker-ce_18.09.6~3-0~ubuntu-bionic_amd64.deb 
+#Создать образ 
+#BUILD
+#-t тэг образа
+docker build  -t dkr-16:1.0 .
+docker build  -t dkr-16:latest .
+#create(build) image from directory "docker" from Dockerfile "prod"
+docker build --file ./docker/prod .
+#если Dockerfile файл мультистейж- сделать сборку только определеного образа "grafana" из Dockerfile
+docker build --target grafana -t grafana:app .
 
 ##############################################
 if "x509: certificate signed by
@@ -54,20 +53,10 @@ docker load --input alpinsible2.tar
 #add user to docker-group
 sudo usermod -aG docker ${USER}
 
-#One liner to stop / remove all of Docker containers:
-docker stop $(docker ps -a -q)
-docker rm $(docker ps -a -q)
-
-#IMAGES
-#Deleta all images by name-tag
-for i in $(docker images|awk 'NR>1{a=$1":"$2; print a}'); do docker rmi $i; done
-#Delete all images by ID
-for i in $(docker images|awk 'NR>1{print $3}'); do docker rmi $i; done
-#delete docker-images, sorted by "hello-world"
-docker images |grep hello-world| for img in $(awk '{print $3}'); do docker rmi $img; done
 
 
-#attach to a container
+
+#attach to running container
 docker exec -it CONTAINER_ID /bin/bash
 #по ID контейнера выполнить команду внутри контейнера
 for i in $(docker ps|awk '{print $1}'); do docker exec $1 /bin/sh -c 'grep -ri "8.8.8.8"'; done
@@ -79,9 +68,22 @@ docker volume ls -qf dangling=true
 #Для удаления таких томов:
 docker volume rm $(docker volume ls -qf dangling=true)
 
-#Для подключения к уже запущенному контейнеру:
-docker exec -it <container-name> bash
-
+#CLEAN
 #Эта команда удаляет все контейнеры, у которых статус exited. 
 Флаг -q возвращает только численные ID, а флаг -f фильтрует вывод на основе предоставленных условий
 docker rm $(docker ps -a -q -f status=exited)
+#One liner to stop / remove all of Docker containers:
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+#IMAGES
+#Deleta all images by name-tag
+for i in $(docker images|awk 'NR>1{a=$1":"$2; print a}'); do docker rmi $i; done
+#Delete all images by ID
+for i in $(docker images|awk 'NR>1{print $3}'); do docker rmi $i; done
+#delete docker-images, sorted by "hello-world"
+docker images |grep hello-world| for img in $(awk '{print $3}'); do docker rmi $img; done
+#CLEAN command in one line
+docker stop $(docker ps -a -q) ; \
+docker rm $(docker ps -a -q) && \
+docker system prune --force && \
+for i in $(docker images|awk 'NR>1{print $3}'); do docker rmi $i; done

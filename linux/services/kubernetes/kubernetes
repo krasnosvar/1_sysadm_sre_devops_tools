@@ -1,0 +1,19 @@
+#https://kubernetes.io/ru/docs/reference/kubectl/cheatsheet
+
+#MINICUBE
+minikube start
+minikube dashboard
+
+#use local Dockerfile with minikube
+#https://stackoverflow.com/questions/42564058/how-to-use-local-docker-images-with-minikube
+# Start minikube
+minikube start
+# Set docker env
+eval $(minikube docker-env)
+# Build image
+docker build -t ubuntu:k8s-4 .
+# Run in minikube
+kubectl run pod-k8s-4 --image=ubuntu:k8s-4 --image-pull-policy=Never
+# Check that it's running
+kubectl get pods
+
