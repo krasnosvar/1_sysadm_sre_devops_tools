@@ -1,0 +1,4 @@
+#delete all files except filename
+rm -v !("filename")
+# To delete all files with the exception of filename1 and filename2
+rm -v !("filename1"|"filename2") 
