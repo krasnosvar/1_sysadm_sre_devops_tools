@@ -9,3 +9,5 @@ End? -1s
 quit
 mkfs.fat /dev/sdb1
 
+#Посмотреть, есть ли неразмеченное место на диске одной командой
+parted /dev/sda print free
