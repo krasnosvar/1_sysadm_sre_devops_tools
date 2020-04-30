@@ -1,6 +1,13 @@
 #install in ubuntu
 sudo apt-get update
 sudo apt-get install libpq-dev postgresql postgresql-contrib
+
+###### Install in Ubuntu version Postgres 9.5
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' && \
+wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add - && \
+sudo apt update && \
+sudo apt install -y postgresql-9.5 postgresql-contrib libpq-dev
+
 #install on centos8
 #https://computingforgeeks.com/how-to-install-postgresql-11-on-centos-rhel-8/
 sudo dnf -y install https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
@@ -28,3 +35,5 @@ postgres-# grant all privileges on database test_db to test_user;
 GRANT
 #Login as a test_user  user try to create a table on the Database.
 psql -U test_user -h localhost -d test_db
+
+
