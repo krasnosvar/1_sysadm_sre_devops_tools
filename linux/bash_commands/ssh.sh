@@ -28,4 +28,4 @@ Port 22
 #              Specifies the filename of the key file.
 # -N new_passphrase
 #              Provides the new passphrase.            
-ssh-keygen -b 2048 -t rsa -f /path/to/file/ssh_key_name -q -N ""
+ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -q -N ""
