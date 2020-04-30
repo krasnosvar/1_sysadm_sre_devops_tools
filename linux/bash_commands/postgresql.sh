@@ -28,6 +28,9 @@ psql -c "alter user postgres with password 'StrongPassword'"
 psql (11.5)
 Type "help" for help.
 
+
+#COMMANDS
+#create user and database
 postgres-# createuser test_user
 postgres-# alter user test_user with password 'MyDBpassword';
 postgres-# createdb test_db -O test_user
@@ -36,4 +39,14 @@ GRANT
 #Login as a test_user  user try to create a table on the Database.
 psql -U test_user -h localhost -d test_db
 
-
+#list db and tables
+#ist all databases
+list or \l
+#list all tables in the current database using your search_path
+\dt
+#list all tables in the current database regardless your search_path
+\dt *.
+#connect to database
+\c database_name
+#show tables in database
+select * from tanle_name;
