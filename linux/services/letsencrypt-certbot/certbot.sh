@@ -1,4 +1,7 @@
-#fetch certs on centos
+#install on ubuntu
+apt install certbot -y
+
+#install on centos
 yum install letsencrypt -y
 
 #one-liner command to get certs(nginx must be on, certbot place file to check in "webroot-path")
