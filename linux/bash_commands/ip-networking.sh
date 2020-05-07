@@ -24,6 +24,24 @@ address 192.168.50.2
 netmask 255.255.255.0
 gateway 192.168.50.1
 
+#NETPLAN Ubuntu configuration
+den@u-docker:~$ cat /etc/netplan/00-installer-config.yaml 
+# This is the network config written by 'subiquity'
+network:
+  version: 2
+  ethernets:
+    ens3:
+      dhcp4: no
+      dhcp6: no
+      addresses: [192.168.122.11/24, ]
+      gateway4:  192.168.122.1
+      nameservers:
+              addresses: [192.168.122.1, 8.8.8.8]
+
+#apply config
+sudo netplan apply
+
+
 #flush DNS cache
 sudo service networking restart
 /etc/init.d/networking restart

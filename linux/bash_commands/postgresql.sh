@@ -28,6 +28,7 @@ psql -c "alter user postgres with password 'StrongPassword'"
 psql (11.5)
 Type "help" for help.
 
+#Users in PSQL
 postgres-# createuser test_user
 postgres-# alter user test_user with password 'MyDBpassword';
 postgres-# createdb test_db -O test_user
@@ -35,5 +36,14 @@ postgres-# grant all privileges on database test_db to test_user;
 GRANT
 #Login as a test_user  user try to create a table on the Database.
 psql -U test_user -h localhost -d test_db
+#logis as postgres
+sudo -u postgres psql
+#set passwd for user postgres
+ALTER USER postgres PASSWORD '12345';
 
-
+#see in postgres data dir
+postgres=# show data_directory;
+       data_directory        
+-----------------------------
+ /var/lib/postgresql/12/main
+(1 row)
