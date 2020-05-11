@@ -48,6 +48,19 @@ postgres=# show data_directory;
  /var/lib/postgresql/12/main
 (1 row)
 
+#see what filename for DB
+postgres=# SELECT oid,datname from pg_database;
+  oid  |       datname       
+-------+---------------------
+ 13427 | postgres
+ 16385 | mastodon_production
+     1 | template1
+ 13426 | template0
+ 17787 | benchmark
+(5 rows)
+
+
+
 #list db and tables
 #ist all databases
 list or \l
@@ -59,3 +72,13 @@ list or \l
 \c database_name
 #show tables in database
 select * from tanle_name;
+
+#pgbench
+#create 15G test-db "banchmark"
+pgbench -h localhost -U postgres -i -s 1000 benchmark
+#check db
+du -shc /var/lib/postgresql/12/main/base/17787/
+15G	/var/lib/postgresql/12/main/base/17787/
+15G	total
+#test
+pgbench -h localhost -U postgres -c 50 -j 2 -P 60 -T 600 benchmark
