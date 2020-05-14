@@ -1,0 +1,66 @@
+#Install rabbitmq centos8
+#https://computingforgeeks.com/how-to-install-rabbitmq-on-rhel-8/
+yum -y update
+wget https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb && sudo dpkg -i erlang-solutions_2.0_all.deb && sudo apt-get update && sudo apt-get install -y esl-erlang && sudo apt-get install -y elixir
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+sudo dnf config-manager --set-enabled PowerTools
+curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | sudo bash
+
+sudo yum makecache -y --disablerepo='*' --enablerepo='rabbitmq_rabbitmq-server'
+#if error:
+# [root@localhost ~]# sudo yum makecache -y --disablerepo='*' --enablerepo='rabbitmq_rabbitmq-server'
+# Failed to set locale, defaulting to C.UTF-8
+# rabbitmq_rabbitmq-server                                        228  B/s | 833  B     00:03    
+# Modular dependency problems:
+
+#  Problem 1: conflicting requests
+#   - nothing provides module(perl:5.26) needed by module perl-DBD-MySQL:4.046:8010020191114030811:073fa5fe-0.x86_64
+#  Problem 2: conflicting requests
+#   - nothing provides module(perl:5.26) needed by module perl-DBD-SQLite:1.58:8010020191114033549:073fa5fe-0.x86_64
+#  Problem 3: conflicting requests
+#   - nothing provides module(perl:5.26) needed by module perl-DBI:1.641:8010020191113222731:16b3ab4d-0.x86_64
+# Metadata cache created.
+
+#then execute command:
+sudo yum module reset perl-DBD-MySQL perl-DBD-SQLite perl-DBI
+
+#and continue install
+sudo yum makecache -y --disablerepo='*' --enablerepo='rabbitmq_rabbitmq-server'
+sudo yum -y install rabbitmq-server
+
+
+# Start RabbitMQ Service
+echo "127.0.0.1 $(hostname -s)" | sudo tee -a /etc/hosts
+sudo systemctl enable --now rabbitmq-server.service
+#Enable the RabbitMQ Management Dashboard (Optional)
+sudo rabbitmq-plugins enable rabbitmq_management
+
+#Rabbit TLS
+#https://docs.vmware.com/en/vCloud-Availability-for-vCloud-Director/1.0.1/com.vmware.vcavcd.install.doc/GUID-AC63692F-0288-4F49-8D4D-9F837D1E4FE5.html
+#команда для создания, которая не указана в мануале
+python3 profile.py generate -n=localhost -p=12345
+#ее выполняй после пункта
+cd tls-gen-master/basic/
+
+#Congig sample
+[root@localhost rabbitmq]# cat rabbitmq.conf
+# Enable AMQPS
+listeners.ssl.default = 5671
+ssl_options.cacertfile = /etc/rabbitmq/testca/cacert.pem
+ssl_options.certfile = /etc/rabbitmq/server/cert.pem
+ssl_options.keyfile = /etc/rabbitmq/server/key.pem
+ssl_options.verify = verify_peer
+ssl_options.fail_if_no_peer_cert = true
+
+# Enable HTTPS
+management.listener.port = 15671
+management.listener.ssl = true
+management.listener.ssl_opts.cacertfile = /etc/rabbitmq/testca/cacert.pem
+management.listener.ssl_opts.certfile = /etc/rabbitmq/server/cert.pem
+management.listener.ssl_opts.keyfile = /etc/rabbitmq/server/key.pem
+
+auth_mechanisms.1 = PLAIN
+auth_mechanisms.2 = AMQPLAIN
+auth_mechanisms.3 = EXTERNAL
+
+[root@localhost rabbitmq]# 
