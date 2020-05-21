@@ -6,6 +6,16 @@ systemctl enable rpcbind nfs-server
 systemctl start rpcbind nfs-server
 
 #optional- check NFS versions
+rpcinfo -p localhost
+
+#Создаём каталог под NFS-шару
+
+mkdir -p /var/nfs
+chmod -R 777 /var/nfs
+#Создаём NFS-шару в файле /etc/exports:
+cat /etc/exports
+/var/nfs 10.1.1.0/24(rw,sync,no_root_squash,no_all_squash)
+
 
 #Creating directory where mount NFS-disk(client)
 mkdir /usr/share/tomcat/webapps/qsdc-files
