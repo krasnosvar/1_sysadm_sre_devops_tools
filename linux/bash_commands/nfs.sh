@@ -9,9 +9,9 @@ systemctl start rpcbind nfs-server
 rpcinfo -p localhost
 
 #Создаём каталог под NFS-шару
-
 mkdir -p /var/nfs
 chmod -R 777 /var/nfs
+
 #Создаём NFS-шару в файле /etc/exports:
 cat /etc/exports
 /var/nfs 10.1.1.0/24(rw,sync,no_root_squash,no_all_squash)
