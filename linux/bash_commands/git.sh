@@ -123,3 +123,10 @@ git log --pretty=oneline
 #объединить коммиты с первым(2 - по общему кол-ву коммитов):
 git reset --hard HEAD~2
 git merge --squash HEAD@{1}
+
+
+#ERRORS
+#if
+fatal: unable to access 'https://git.mycompany.com/myuser/myrepo.git/': server certificate verification failed. CAfile: /etc/ssl/certs/ca-certificates.crt CRLfile: none
+#then
+https://fabianlee.org/2019/01/28/git-client-error-server-certificate-verification-failed/
