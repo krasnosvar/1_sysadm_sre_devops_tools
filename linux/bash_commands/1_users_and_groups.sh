@@ -11,3 +11,9 @@ useradd
 adduser
 userdel
 deluser
+
+
+#delete user
+#-r remove home dir
+#-f delete files in "home" even not user permissions
+userdel -r -f test_user
