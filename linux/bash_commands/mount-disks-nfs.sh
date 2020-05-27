@@ -1,3 +1,8 @@
+#Determine if filesystem or partition is mounted RO or RW via Bash Script?
+grep "[[:space:]]ro[[:space:],]" /proc/mounts 
+
+
+
 --------------------------------------------------------------------------------------------
 
 #NFS
@@ -130,3 +135,5 @@ resize2fs /dev/sdf
 
 <<<4>>>
 df -Th
+
+

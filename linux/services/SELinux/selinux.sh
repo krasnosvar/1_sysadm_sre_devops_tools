@@ -10,3 +10,8 @@ sudo setsebool -P httpd_can_network_connect_db 1
 #Разрешить SELinux пускать извне на nginx с proxy-pass
 #https://serverfault.com/questions/858454/nginx-proxy-pass-to-localhost-gunicorn-returns-50x-error-unexpectedly
 setsebool -P httpd_can_network_connect 1
+
+#allow nginx in centos8
+semanage permissive -a httpd_t
+sudo firewall-cmd --zone=public --permanent --add-service=http
+sudo firewall-cmd --reload
