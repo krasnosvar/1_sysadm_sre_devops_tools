@@ -1,4 +1,12 @@
----------------------------------------------------------------------------------------------
+#see full chain of cert
+#That command connects to the desired website and pipes the certificate in PEM format on to another openssl command that reads and parses the details.
+#https://serverfault.com/questions/661978/displaying-a-remote-ssl-certificate-details-using-cli-tools
+echo | openssl s_client -showcerts -servername gnupg.org -connect gnupg.org:443 2>/dev/null | openssl x509 -inform pem -noout -text
+
+
+
+
+
 #генерация самоподписного сертификата oneliner
 openssl req -newkey rsa:4096 -nodes -sha256 -subj '/CN=localhost/O=domain/C=RU/ST=KRD/L=Krasnodar' \
 -keyout domain.local.key -x509 -days 365 -out domain.local.crt
@@ -13,13 +21,14 @@ openssl rand -base64 12
 
 #Get cert CA
 openssl s_client -showcerts -servername server -connect server:443 > cacert.pem
+#copy cert from coderepotst
+openssl s_client -showcerts -servername coderepotst.corp.domain.ru -connect coderepotst.corp.domain.ru:443 > cacert.pem
 ---------------------------------------------------------------------------------------------
 
 #генерация кейстора из сертификата и ключа
 openssl pkcs12 -export -in journal-sp.corp.domain.ru.crt -inkey journal-sp.corp.domain.ru.key -out keystore.jks -name tomcat
 
-#copy cert from coderepotst
-openssl s_client -showcerts -servername coderepotst.corp.domain.ru -connect coderepotst.corp.domain.ru:443 > cacert.pem
+
 
 #commands to create self-sighned sert
 openssl genrsa -out private.key 2048
@@ -29,3 +38,5 @@ openssl x509 -req -days 365 -in server.csr -signkey private.key -out server.crt
 cat server.crt private.key | tee my.pem
 openssl pkcs12 -export -out keystore.p12 -inkey my.pem -in my.pem
 keytool -importkeystore -destkeystore keystore.jks -srcstoretype PKCS12 -srckeystore keystore.p12
+
+
