@@ -1,6 +1,7 @@
 #https://redhatlinux.guru/2016/06/14/quest-authentication-services-qasvas-cheat-sheet/
 
-
+#
+/opt/quest/bin/vastool list users-allowed
 #View status about the operating environment
 /opt/quest/bin/vastool status 	
 #Flush cached client daemon information
