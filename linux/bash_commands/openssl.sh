@@ -3,7 +3,8 @@
 #https://serverfault.com/questions/661978/displaying-a-remote-ssl-certificate-details-using-cli-tools
 echo | openssl s_client -showcerts -servername gnupg.org -connect gnupg.org:443 2>/dev/null | openssl x509 -inform pem -noout -text
 
-
+#Как правильно собрать цепочку сертификатов
+https://www.digicert.com/kb/ssl-support/pem-ssl-creation.htm
 
 
 
