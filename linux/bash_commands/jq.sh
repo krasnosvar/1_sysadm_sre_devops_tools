@@ -7,3 +7,4 @@ curl -k  -u user:password_or_api_token -X GET -H "Content-Type: application/json
 latest=$(curl -s 'https://raw.githubusercontent.com/grafana/grafana/master/latest.json' | jq -r '.stable')
 
 http http://64.225.109.32/add-to-cart| jq ._items[].price
+
