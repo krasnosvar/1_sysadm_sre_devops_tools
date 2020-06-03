@@ -7,6 +7,9 @@ zip -e ~/Downloads/manag.zip ~/Downloads/manag-adm.txt
   Enter password: 
   Verify password: 
     adding: home/den/Downloads/manag-adm.txt (deflated 9%)
+#unzip passworded file
+unzip -P your-password zipfile.zip
+
 
 #create zip-archive with size limit 
 zip -r -s 10m archive.zip directory/
