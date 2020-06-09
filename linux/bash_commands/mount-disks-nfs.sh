@@ -7,7 +7,7 @@ grep "[[:space:]]ro[[:space:],]" /proc/mounts
 
 #NFS
 #https://wiki.it-kb.ru/unix-linux/centos/linux-how-to-setup-nfs-server-with-share-and-nfs-client-in-centos-7-2
-#Installing NFS
+#Installing NFS on Centos7
 yum install nfs-utils nfs-utils-lib
 systemctl enable rpcbind nfs-server
 systemctl start rpcbind nfs-server
@@ -136,4 +136,8 @@ resize2fs /dev/sdf
 <<<4>>>
 df -Th
 
-
+###########################################################################################
+#move data between disks, not lvm, not root-fs(logs storage)
+#https://www.thegeekdiary.com/how-to-identifymatch-lun-presented-from-san-with-underlying-os-disk/
+#To get WWID of LUN you can use the /dev/disk/by-id/ file:
+ls -la /dev/disk/by-id/
