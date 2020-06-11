@@ -17,3 +17,18 @@ oc login --token=token_from_web --server=https://api.ocp4.cluster.ru:6443
 #create new project
 oc new-progect kras
 
+###################################################################################
+#LOGS debug
+#https://access.redhat.com/solutions/4100741
+oc edit authentications.operator.openshift.io
+oc get pod -n openshift-authentication
+oc logs oauth-openshift-76bbd9475b-sp8z6 -n openshift-authentication
+
+
+
+
+
+#make kras cluster-admin(as kubeadmin)
+oc get users 
+ 3971  08.06.20 12:04:31 oc adm policy add-cluster-role-to-user cluster-admin krasnosvarov_dn
+

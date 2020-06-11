@@ -34,6 +34,22 @@ https://docs.gitlab.com/ce/security/reset_root_password.html
 Rails add user in rails console
 https://gist.github.com/tacettin/8182358
 
+
+
+#verify user without e-mail confirmation
+#https://gist.github.com/macdja38/3d62d4f251bd7c46f0128bb6a9d35544
+#source installation
+gitlab-rails console production
+#Omnibus
+gitlab-rails console
+#Find your user via 
+user = User.find_by(email: "youroldemail@example.com")
+#Optionally change the user's email with 
+user.email = "yournewemail@example.com" Then run user.save!
+#Get the user's token with 
+user.confirmation_token
+
+https://PutYourGitlabHere/users/confirmation?confirmation_token=PutYourTokenHere
 ---------------------------------------------------------------------------------------------
 
 #регистрация gitlab-runner
