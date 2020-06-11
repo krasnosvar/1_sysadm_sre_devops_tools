@@ -27,6 +27,13 @@ mount -t nfs 10.8.153.11:/qsdcfiles /usr/share/tomcat/webapps/qsdc-files
 
 #Check mount
 mount -fav
+
+#if access denied:
+#add on NFS-server client-ip in 
+vi /etc/exports
+#aplly changes
+exportfs -a
+
 --------------------------------------------------------------------------------------------
  ###########################################################################################
 #LVM
@@ -141,3 +148,7 @@ df -Th
 #https://www.thegeekdiary.com/how-to-identifymatch-lun-presented-from-san-with-underlying-os-disk/
 #To get WWID of LUN you can use the /dev/disk/by-id/ file:
 ls -la /dev/disk/by-id/
+#copy and see progress
+[root@v00azrcapp02nod ~]# cat /dev/sdc > /dev/sdd &
+[1] 9192
+[root@v00azrcapp02nod ~]# cat /proc/9191/fdinfo/1
