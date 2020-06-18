@@ -53,3 +53,8 @@ imageContentSources:
 
 
 '{"auths":{"v00opshift08tst.corp.domain.ru:5000": {"auth": "YWRtaW46YWRtaW4=","email": "you@example.com"}}}'
+
+
+#хз что за команды, просто записал
+skopeo inspect docker://v00opshift08tst.corp.tander.ru:5000/rhscl/python-36-rhel7
+oc image mirror registry.redhat.io/rhscl/ruby-25-rhel7:latest v00opshift08tst.ocp4.corp.tander.ru:5000/rhscl/ruby-25-rhel7:latest

@@ -23,7 +23,7 @@ oc new-progect kras
 oc edit authentications.operator.openshift.io
 oc get pod -n openshift-authentication
 oc logs oauth-openshift-76bbd9475b-sp8z6 -n openshift-authentication
-
+for i in $(oc get pod -n openshift-authentication| awk '{print $1}'); do oc logs $i -n openshift-authentication; done| grep medvedev
 
 
 

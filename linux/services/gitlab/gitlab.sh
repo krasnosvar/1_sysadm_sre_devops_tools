@@ -42,8 +42,10 @@ https://gist.github.com/tacettin/8182358
 gitlab-rails console production
 #Omnibus
 gitlab-rails console
-#Find your user via 
+#Find your user via mail
 user = User.find_by(email: "youroldemail@example.com")
+#or via name(login)
+user = User.find_by(name: "remote_ximilab1")
 #Optionally change the user's email with 
 user.email = "yournewemail@example.com" Then run user.save!
 #Get the user's token with 

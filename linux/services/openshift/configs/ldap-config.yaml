@@ -1,8 +1,3 @@
-##############################################################################################
-#LDAP
-oc create secret generic ldap-secret --from-literal=bindPassword='password' -n openshift-config
-
-
 apiVersion: config.openshift.io/v1
 kind: OAuth
 metadata:
@@ -26,5 +21,5 @@ spec:
       bindPassword: 
         name: ldap-secret
       insecure: true
-      url: "ldap://adtest1.corp.domain.ru/OU=Users,OU=gk,DC=corp,DC=domain,DC=ru?sAMAccountName"
-	
+      url: "ldap://adtest1.corp.domain.ru/OU=Users,OU=gk,DC=corp,DC=domain,DC=ru?sAMAccountName(&(objectclass=*)(|(memberOf=CN=nix_adm,OU=Groups,OU=gk,DC=corp,DC=domain,DC=ru)(memberOf=CN=medvedev_a,OU=Users,OU=ITLab,OU=gk,DC=corp,DC=domain,DC=ru)))"
+      
