@@ -21,7 +21,7 @@ networking:
 platform:
   none: {}
 pullSecret: '{"auths":{"v00opshift08tst.ocp4.corp.domain.ru:5000": {"auth": "YWRtaW46YWRtaW4=","email": "you@example.com"}}}' 
-sshKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDEzH8cu94VXVf19Ld0IjNy82uB5eJmkmgrbHHwkHONNdUB/VtQ+g2PD4+y263H4FhXMWdVPzOGf7BWbImB8BothGVxutU7Jo0k2mVeeJ4tZY0Zm8HEfJ6wBrWbj4fvjLWE6ydR0GgHteEtrxvShioKzN5kZ/WCbbX9MV8K6Mh2fM5F8y1hROQTKUhX3m+xvJNPLfT/Boz1vjg5sU9VItGKrqNe7oBbeakmWRc06r4jzeQUYyvz/RoPCMMX6vALv0hRKs88M/3eTyqh/QpdgOp4wRoH+G6+DK8z6tJ9yD4sZTEC5HqSJ3NNNZZzOMosNfFeIQw//+qrnVL/whjB5JB1 root@v00opshift08tst' 
+sshKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDEzH8cu94VXVf19Ld0IjNy82uB5eJmkmgrbHHwkHONNdUB/VtQ+g2PD4+y263H4FhXMWdVPzOGf7BWbImB8BothGVxutU7Jo0k2mVeeJ4tZY0Zm8HEfJ6wBrWbj4fvjLWE6ydR0GgHteEtrxvShioKzN5kZ/WCbbX9MV8K6Mh2fM5F8y1hROQTKUhX3m+xvJNPLfT/Boz1vjg5sU9VItGKrqNe7oBbeakmWRc06r4jzeQUYyvz/RoPCMMX6vALv0hRKs88M/3eTyqh/QpdgOp4wRoH+G6+DK8z6tJ9yD4sZTEC5HqSJ3NNNZZzOMosNfFeIQw//+qrnVL/whjB5JB1 root@opshift08tst' 
 additionalTrustBundle: |
   -----BEGIN CERTIFICATE-----
   ROOT cert
