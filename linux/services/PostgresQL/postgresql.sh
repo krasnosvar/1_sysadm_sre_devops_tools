@@ -72,6 +72,8 @@ list or \l
 \c database_name
 #show tables in database
 select * from tanle_name;
+#insert values in table
+INSERT INTO auth_user (password, username, is_superuser) VALUES ('test', 'test', TRUE);
 
 #pgbench
 #create 15G test-db "banchmark"

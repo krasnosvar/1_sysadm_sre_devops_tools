@@ -1,3 +1,7 @@
+#add user to docker-group
+sudo usermod -aG docker ${USER}
+
+
 #v00rpm-dr.corp.domain.ru - docker registry
 #copy docker image to our local registry:
 #https://rundeck.corp.domain.ru/project/domainGK >>> add_docker_image
@@ -49,11 +53,11 @@ v00rpm-dr.corp.domain.ru/dockerhub/krasnosvar-alpinsible2   latest              
 sudo docker save --output alpinsible2.tar v00rpm-dr.corp.domain.ru/dockerhub/krasnosvar-alpinsible2
 #unpack archive
 docker load --input alpinsible2.tar
+######################################################
 
-#add user to docker-group
-sudo usermod -aG docker ${USER}
-
-
+#DOCKER PS
+#list only stopped contaainers, only IDs
+docker ps --filter "status=exited" | awk 'NR>1{print $1}'
 
 
 #attach to running container
@@ -76,6 +80,8 @@ docker rm $(docker ps -a -q -f status=exited)
 docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
 #IMAGES
+#remove all images
+Remove all images. docker rmi $(docker images -q)
 #Deleta all images by name-tag
 for i in $(docker images|awk 'NR>1{a=$1":"$2; print a}'); do docker rmi $i; done
 #Delete all images by ID
@@ -91,3 +97,15 @@ for i in $(docker images|awk 'NR>1{print $3}'); do docker rmi $i; done
 #TAG
 #rename image with new tag( for pushing to registry, for example)
 docker tag dkr21:dockerignore registry.com/krasnosvar/fat_free_crm-dkr-20:dockerignore
+
+
+#REStart Policy
+#all four restart policies(without "--restart" - do not apply any restart policy)
+docker run -d -p 81:80 --name bm-dkr-22-no nginx:stable-alpine
+docker run -d --restart on-failure -p 82:80 --name bm-dkr-22-on-failure nginx:stable-alpine
+docker run -d --restart always -p 83:80 --name bm-dkr-22-always nginx:stable-alpine
+docker run -d --restart unless-stopped -p 84:80 --name bm-dkr-22-unless-stopped nginx:stable-alpine
+#start only stopped containers
+for i in $(docker ps --filter "status=exited" | awk 'NR>1{print $1}'); do docker start $i; done
+#stop all running containers
+docker stop $(docker ps -aq)
