@@ -1,5 +1,7 @@
 #https://redhatlinux.guru/2016/06/14/quest-authentication-services-qasvas-cheat-sheet/
 
+vi /etc/opt/quest/vas/users.allow
+
 #
 /opt/quest/bin/vastool list users-allowed
 #View status about the operating environment
