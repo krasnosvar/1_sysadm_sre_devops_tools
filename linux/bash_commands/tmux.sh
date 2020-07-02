@@ -1,3 +1,8 @@
+#scroll screen
+ctrl+b+[
+pageup-pagedown
+ 
+ 
  tmux shortcuts & cheatsheet
 
 start new:

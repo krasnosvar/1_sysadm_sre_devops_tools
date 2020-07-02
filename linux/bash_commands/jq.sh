@@ -1,3 +1,9 @@
+#list two fields 
+#https://stackoverflow.com/questions/34834519/how-do-i-select-multiple-fields-in-jq?rq=1
+curl -X GET -H "Content-Type: application/json" -H "Authorization: Bearer TOKEN" "https://api.digitalocean.com/v2/account/keys?page=3" | jq '.ssh_keys[] | .name, .id'
+
+
+
 curl -X GET -H "Content-Type: application/json" -H "Authorization: Bearer " "https://api.digitalocean.com/v2/account/keys?page=12" | jq .ssh_keys[6]
 
 curl -X GET --silent "https://api.digitalocean.com/v2/images?per_page=999" -H "Authorization: Bearer TOKEN" | jq .images[].slug

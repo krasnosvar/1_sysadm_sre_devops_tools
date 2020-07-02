@@ -1,4 +1,13 @@
- curl -X GET --silent "https://api.digitalocean.com/v2/images?per_page=999" -H "Authorization: Bearer TOKEN" | jq .images[].slug
+#get ssh-keys
+#https://developers.digitalocean.com/documentation/v2/#retrieve-an-existing-key
+curl -X GET -H "Content-Type: application/json" -H "Authorization: Bearer b7d03a6947b217efb6f3ec3bd3504582" "https://api.digitalocean.com/v2/account/keys" 
+#get ssh-keys by name
+curl -X GET -H "Content-Type: application/json" -H "Authorization: Bearer b7d03a6947b217efb6f3ec3bd3504582" "https://api.digitalocean.com/v2/account/keys&page=2" | jq .ssh_keys[].name
+#get ssh-keys by id and mane
+curl -X GET -H "Content-Type: application/json" -H "Authorization: Bearer b7d03a6947b217efb6f3ec3bd3504582" "https://api.digitalocean.com/v2/account/keys?page=3" | jq '.ssh_keys[] | .name, .id'
+
+#get list of images for terraform 
+curl -X GET --silent "https://api.digitalocean.com/v2/images?per_page=999" -H "Authorization: Bearer TOKEN" | jq .images[].slug
 "ubuntu-14-04-x32-do"
 "freebsd-10-4-x64-zfs"
 "freebsd-10-4-x64"
