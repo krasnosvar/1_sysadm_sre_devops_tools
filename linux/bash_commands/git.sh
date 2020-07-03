@@ -106,6 +106,10 @@ https://guides.github.com/features/mastering-markdown/
 #Шаблон хорошего Readme
 https://gist.github.com/PurpleBooth/109311bb0361f32d87a2
 
+#GIT PULL
+#git pull to pecific branch
+git -C /var/www/source/ pull git@gitlab.com:krasnosvar/jenkins_2.git
+
 #git pull all branches from remote
 git branch -r | grep -v '\->' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
 git fetch --all
@@ -113,6 +117,7 @@ git pull --all
 
 #git push not master branch(for example, develop branch)
 git push -u origin develop
+
 
 #Объединить коммиты(6 - по кол-ву коммитов до которого надо объединить):
 #https://git-scm.com/book/ru/v2/Инструменты-Git-Исправление-истории
