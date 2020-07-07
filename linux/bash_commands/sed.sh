@@ -25,3 +25,6 @@ sed -i -e ‘s@^ONBOOT=”no@ONBOOT=”yes@’ /etc/sysconfig/network-scripts/if
 
 #delete blank strings
 sed -i '/^[[:space:]]*$/d' file.txt
+
+#change part URL(in Nexus repo-file, as axample)
+sed -i 's~https://download.docker.com~https://repo.corp.ru/repository/docker~g' user.html
