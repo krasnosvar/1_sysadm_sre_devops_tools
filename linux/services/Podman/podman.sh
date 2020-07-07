@@ -1,0 +1,1 @@
+podman pull --tls-verify=false v00rpm-dr.corp.domain.ru/openshift4/registry.fedoraproject.org-fedora:latest

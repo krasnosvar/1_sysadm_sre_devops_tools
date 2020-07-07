@@ -36,7 +36,11 @@ cat /etc/foreman-maintain/foreman-maintain-hammer.yml |grep -A 1 admin
 #Find out current disk name
 sudo fdisk -l | grep '^Disk /dev/sd[a-z]'
 
-#grep OR
+#grep OR OR
 #поиск ИЛИ mysql ИЛИ mariadb и вывести результат в файл output.log
  grep -rE "mysql|mariadb" > output.log
- 
+#grep AND 'Red' AND 'Cent'
+grep 'Red\|Cent' list_vms.txt
+
+#Грепнуть e-mail регулярка
+https://www.shellhacks.com/ru/regex-find-email-addresses-file-grep/
