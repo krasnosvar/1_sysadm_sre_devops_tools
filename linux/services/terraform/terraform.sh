@@ -11,6 +11,7 @@ https://developers.digitalocean.com/documentation/changelog/api-v2/new-size-slug
 https://developers.digitalocean.com/documentation/v2/#ssh-keys
 
 #commands
+<<<<<<< HEAD
 terraform destroy -var-file="keys/do_token.tfvars"
 terraform apply -var-file="keys/do_token.tfvars"
  
@@ -51,3 +52,10 @@ On Ubuntu distros SELinux is enforced by qemu even if it is disabled globally,
 this might cause unexpected Could not open '/var/lib/libvirt/images/<FILE_NAME>': 
 Permission denied errors. Double check that security_driver = "none" 
 is uncommented in /etc/libvirt/qemu.conf and issue sudo systemctl restart libvirt-bin to restart the daemon.
+=======
+ terraform destroy -var-file="keys/do_token.tfvars"
+ terraform apply -var-file="keys/do_token.tfvars
+ 
+>>>>>>> 45a19b889f65c28d1259caeabe90cb728fd00b2c
+
+
