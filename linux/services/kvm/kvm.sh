@@ -113,9 +113,10 @@ virsh attach-disk {vm-name} \
 --target vdb \
 --persistent
 #example
-sudo virsh attach-disk ubuntu-box1 /var/lib/libvirt/images/ubuntu-box1-vm-disk1-5G vdb --cache none
 #Now add a partition and format to file-system(or add to PV LVM)
-
+sudo virsh attach-disk ubuntu-box1 /var/lib/libvirt/images/ubuntu-box1-vm-disk1-5G vdb --cache none
+#resize image disk to 10G
+qemu-img resize images/focal-server-cloudimg-amd64-disk-kvm.img 10G
 
 #libvirt
 #virt-manager  -- GIU Virtual Machine Manager to manadge KVM 

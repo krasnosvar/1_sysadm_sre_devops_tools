@@ -5,8 +5,8 @@ variable "hostname" {
 }
 #variable "hostname" { default = "vm_u20" }
 variable "domain" { default = "local" }
-variable "memoryMB" { default = 1024*1 }
-variable "cpu" { default = 1 }
+variable "memoryMB" { default = 1024*2 }
+variable "cpu" { default = 2 }
 
 # instance the provider
 provider "libvirt" {
@@ -20,7 +20,7 @@ resource "libvirt_volume" "os_image" {
   pool = "default"
   #source = "https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64-disk-kvm.img"
   #source = "https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.2.2004-20200611.2.x86_64.qcow2"
-  source = "images/focal-server-cloudimg-amd64-disk-kvm.img"
+  source = "images/focal-server-cloudimg-amd64-disk-kvm.img" #
   format = "qcow2"
 }
 
@@ -57,14 +57,13 @@ resource "libvirt_domain" "domain-ubuntu" {
   disk {
        volume_id = element(libvirt_volume.os_image.*.id, count.index)
   }
-   
+
   network_interface {
        network_name = "default"
   }
 
   cloudinit = libvirt_cloudinit_disk.commoninit[count.index].id
-  #cloudinit = element(libvirt_cloudinit_disk.commoninit.*.id, count.index)
-  
+
   # IMPORTANT
   # Ubuntu can hang is a isa-serial is not present at boot time.
   # If you find your CPU 100% and never is available this is why

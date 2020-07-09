@@ -135,3 +135,18 @@ git merge --squash HEAD@{1}
 fatal: unable to access 'https://git.mycompany.com/myuser/myrepo.git/': server certificate verification failed. CAfile: /etc/ssl/certs/ca-certificates.crt CRLfile: none
 #then
 https://fabianlee.org/2019/01/28/git-client-error-server-certificate-verification-failed/
+#if file is too big to push to github, deleted but still in git-cache
+git filter-branch -f --index-filter 'git rm --cached --ignore-unmatch linux/services/terraform/libvirt/images/focal-server-cloudimg-amd64-disk-kvm.img'
+
+
+#PROXY
+#https://stackoverflow.com/questions/24907140/git-returns-http-error-407-from-proxy-after-connect
+git config --global http.sslVerify false
+git config --global https.sslVerify false
+git config --global http.proxy http://user:pass@yourproxy:port
+git config --global https.proxy http://user:pass@yourproxy:port
+#
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+#
+git config --global http.proxyAuthMethod 'basic'
