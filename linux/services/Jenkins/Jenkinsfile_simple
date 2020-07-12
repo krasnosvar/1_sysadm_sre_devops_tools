@@ -1,0 +1,35 @@
+//Jenkinsfile to deploy *.html file to www-dir from git, with $BUILD_TAG and symlink to latest
+pipeline {
+    //agent any
+    //agent { label 'master' }
+    agent { label 'dev2' }
+    stages {
+        stage('Clean www-dir') {
+            steps {
+                sh("rm -rf /var/www/html/*")
+            }
+        }
+        stage('Git configure') {
+            //when { tag "release-*" }
+            steps {
+                sh("git config --global user.email 'you@example.com'")
+                sh("git config --global user.name 'Your Name'")
+            }
+        }
+        stage('make release-dir') {
+            steps {
+                sh("mkdir /var/www/source-$BUILD_TAG/")
+            }
+        }
+        stage('Git clone') {
+            steps {
+                sh("git -C /var/www/source-$BUILD_TAG/ clone git@gitlab.com:kras/jenkins_2.git" )
+            }
+        }
+        stage('Link to latest') {
+            steps {
+                sh("ln -s /var/www/source-$BUILD_TAG/index.nginx-debian.html /var/www/html/index.nginx-debian.html")
+            }
+        }
+    }
+}

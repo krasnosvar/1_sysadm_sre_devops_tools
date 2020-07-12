@@ -13,7 +13,10 @@ provider "libvirt" {
   uri = "qemu:///system"
 }
 
-# fetch the latest ubuntu release image from their mirrors
+# fetch the latest ubuntu release image from their mirrors.
+#when ising cloud image- now allowed to increase disk-size
+#only on localy downloaded image with command:
+#qemu-img resize images/focal-server-cloudimg-amd64-disk-kvm.img 10G
 resource "libvirt_volume" "os_image" {
   count = length(var.hostname)
   name = "os_image.${var.hostname[count.index]}"

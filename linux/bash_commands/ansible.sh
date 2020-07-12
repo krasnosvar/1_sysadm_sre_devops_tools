@@ -15,10 +15,23 @@ ansible all -u den -i inventory/inventory.cfg -m ping
 #create role sample
 ansible-galaxy init test-role
 
-
 #execute task in playbook only in "fetch" group
     - name: Execute  command
       hosts: fetch
       shell: "whoami"
       when: inventory_hostname in groups['fetch']
- 
+#or
+    - name: Copy config to server-group-1 
+      delegate_to: "{{item}}"
+      loop: "{{groups['group1']}}"
+      template:
+        src: "{{main_dir}}/config_sample/filebeat.yml.j2"
+        dest: /etc/filebeat/filebeat.yml
+
+#stdout in human readable lines
+    - name: Do command
+      shell: 'filebeat test config && filebeat test output'
+      register: out
+
+    - debug: var=out.stdout_lines
+    - debug: var=out.stderr_lines
