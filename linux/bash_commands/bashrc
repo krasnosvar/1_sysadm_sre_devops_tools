@@ -32,6 +32,11 @@ alias loc="expect $alog_path/ssh-local.exp.sh"
 alias toor="expect $alog_path/ssh-toor.exp.sh"
 
 
+#work aliases
+alias work="ssh -p2277 den@10.8.56.16"
+alias rm='echo "Use <<trash-put>> instead rm, to override alias use \"\\rm file-to-del\" "; false'
+
+
 
 #pip install through usual command "pip install PACKET", using function to determine if intall, then use long proxy-command, else- read input.
 

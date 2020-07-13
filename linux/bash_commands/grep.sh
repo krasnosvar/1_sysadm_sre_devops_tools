@@ -44,3 +44,7 @@ grep 'Red\|Cent' list_vms.txt
 
 #Грепнуть e-mail регулярка
 https://www.shellhacks.com/ru/regex-find-email-addresses-file-grep/
+
+
+#find IPs- regex for ip-addresses
+terraform refresh | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}'
