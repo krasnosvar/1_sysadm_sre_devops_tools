@@ -23,6 +23,13 @@ git init
 git remote add origin git@gitlab.ru:project/env-menu.git
 git push -u origin master
 
+#PUSH
+#git push new local branch to server
+#https://stackoverflow.com/questions/2765421/how-do-i-push-a-new-local-branch-to-a-remote-git-repository-and-track-it-too
+git checkout -b <branch>
+git push -u origin <branch>
+
+
 
 #Git — Удалить Все Коммиты — Очистить Историю в Git
 https://www.shellhacks.com/ru/git-remove-all-commits-clear-git-history-local-remote/
