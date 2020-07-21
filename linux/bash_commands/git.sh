@@ -144,7 +144,9 @@ fatal: unable to access 'https://git.mycompany.com/myuser/myrepo.git/': server c
 https://fabianlee.org/2019/01/28/git-client-error-server-certificate-verification-failed/
 #if file is too big to push to github, deleted but still in git-cache
 git filter-branch -f --index-filter 'git rm --cached --ignore-unmatch linux/services/terraform/libvirt/images/focal-server-cloudimg-amd64-disk-kvm.img'
-
+#error: RPC failed; curl 56 GnuTLS recv error (-110): The TLS connection was non-properly terminated.
+#git clone https://github.com/theforeman/foreman-ansible-modules.git
+git clone  --depth=1 https://github.com/theforeman/foreman-ansible-modules.git
 
 #PROXY
 #https://stackoverflow.com/questions/24907140/git-returns-http-error-407-from-proxy-after-connect
