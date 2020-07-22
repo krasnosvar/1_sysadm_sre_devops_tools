@@ -3,6 +3,7 @@
 apt show git
 #show all installed packages
 apt list --installed
+yum list installed
 
 
 #YUM
