@@ -2,7 +2,7 @@
 version: "3.8"
 #https://habr.com/ru/company/ruvds/blog/450312/
 #https://docs.docker.com/compose/compose-file/
-# Следует учитывать, что docker-composes работает с сервисами.
+# Следует учитывать, что docker-compose работает с сервисами.
 services:
   dkr27:
     image: nginx:stable

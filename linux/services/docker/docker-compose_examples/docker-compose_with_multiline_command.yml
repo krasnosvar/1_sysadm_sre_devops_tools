@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  db:
+    image: mariadb
+    #multi_line
+    #https://www.edureka.co/community/21344/how-do-i-execute-multiple-commands-using-docker-compose
+    command: >    
+      bash -c "sleep 5"
+      bash -c "apt update && apt install net-utils -y"
+    # restart: always
+    environment:
+      MYSQL_DATABASE: forge
+      MYSQL_USER: forge
+      MYSQL_PASSWORD: forge
+      MYSQL_ROOT_PASSWORD: forge
+    #   #MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    ports:
+      - 3306:3306
+    # volumes:
+    #   - my-db:/var/lib/mysql
+  redis:
+    image: "redis:alpine"
+    ports:
+     - "6379:6379"
+    # command: redis-server --requirepass sOmE_sEcUrE_pAsS
+    # volumes:
+    #  - $PWD/redis-data:/var/lib/redis
+    #   - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
+    # environment:
+    #  - REDIS_REPLICATION_MODE=master
+  voting:
+    build: ./voting
+    image: voting
+    ports: 
+      - 9000:9000
+  nginx:
+    image: nginx:stable
+    volumes:
+      - type: bind
+        source: ./nginx.conf
+        target: /etc/nginx/nginx.conf
+    ports:
+      - 20000:20000
+
+# volumes:
+#   my-db:

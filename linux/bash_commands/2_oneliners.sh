@@ -40,4 +40,4 @@ find . -type f -exec sed -i  "s/OLDPASSWD/NEWPASSWD/g" {} +
 find /etc/ -type f -exec sed -i 's/10.8.181.95*/10.5.10.149/g' {} + 2> /dev/null
 
 #clear deleted files
-for i in `find /proc/*/fd -ls | grep  '(deleted)' | awk {'print $11'}`; do echo  > $i && echo "Затер дисрипотр $i "; done
+for i in $(find /proc/*/fd -ls | grep  '(deleted)' | awk '{print $11}'); do "echo ''> $i"; done
