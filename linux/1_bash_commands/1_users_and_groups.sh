@@ -7,7 +7,12 @@ echo "Password123" | passwd root --stdin > /dev/null #не везде срабо
 head /dev/urandom | tr -dc A-Za-z0-9 | head -c 13 ; echo '' #generate random pass
 
 
-useradd
+#useradd
+#create system user
+useradd -r tomcat --shell /bin/false
+#create user with: home dir, bash shell, and same group as name 
+useradd -mU user --shell /bin/bash
+
 adduser
 userdel
 deluser

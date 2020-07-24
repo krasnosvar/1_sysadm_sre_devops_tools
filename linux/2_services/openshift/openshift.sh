@@ -1,3 +1,9 @@
+#OpenShift 4 in an Air Gap (disconnected) environment (Part 2 — installation)
+https://medium.com/@two.oes/openshift-4-in-an-air-gap-disconnected-environment-part-2-installation-1dd8bf085fdd
+#link ip to out
+https://docs.openshift.com/container-platform/4.5/networking/configuring_ingress_cluster_traffic/configuring-ingress-cluster-traffic-ingress-controller.html
+https://cloud.ibm.com/docs/openshift?topic=openshift-openshift_routes
+
 #USERS
 #make user krasnosvarov_dn cluster-admin
 oc adm add-cluster-role cluster-admin krasnosvarov_dn
