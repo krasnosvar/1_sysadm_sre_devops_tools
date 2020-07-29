@@ -1,5 +1,0 @@
-rub = int(input())
-kop = int(input())
-cout = int(input())
-itog = (cout * ((rub * 100) + kop))
-print(int(itog / 100), itog % 100)

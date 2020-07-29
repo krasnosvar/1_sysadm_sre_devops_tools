@@ -1,3 +1,12 @@
+#вывести конфиг без комментариев и пустых строк
+grep ^[^#" "] /etc/zabbix/zabbix_agentd.conf
+#or
+grep ^[^\;] /etc/php/7.1/cli/php.ini
+#What if you have lines starting with some spaces or tabs other then # or ; character?
+$ egrep -v "^$|^[[:space:]]*;" /etc/php/7.1/cli/php.ini 
+#OR
+$ egrep -v "^$|^[[:space:]]*#" /etc/postfix/main.cf
+
 #искать в строке несколько слов(если порядок поменять, не найдет):
 cat /etc/os-release | grep -E "Oracle.*Linux.*7"
 
@@ -48,3 +57,5 @@ https://www.shellhacks.com/ru/regex-find-email-addresses-file-grep/
 
 #find IPs- regex for ip-addresses
 terraform refresh | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}'
+#find "value" in all terraform files recursively(from searchin dir)
+grep value $(find  . -name *.tf)

@@ -1,0 +1,6 @@
+a = int(input())
+b = int(input())
+print(a // b)
+print(b // a)
+print(a % b)
+print(b % a)

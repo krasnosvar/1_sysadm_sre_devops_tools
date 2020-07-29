@@ -29,8 +29,6 @@ openssl s_client -showcerts -servername coderepotst.corp.domain.ru -connect code
 #генерация кейстора из сертификата и ключа
 openssl pkcs12 -export -in journal-sp.corp.domain.ru.crt -inkey journal-sp.corp.domain.ru.key -out keystore.jks -name tomcat
 
-
-
 #commands to create self-sighned sert
 openssl genrsa -out private.key 2048
 openssl req -new -key private.key -out server.csr
@@ -40,4 +38,5 @@ cat server.crt private.key | tee my.pem
 openssl pkcs12 -export -out keystore.p12 -inkey my.pem -in my.pem
 keytool -importkeystore -destkeystore keystore.jks -srcstoretype PKCS12 -srckeystore keystore.p12
 
-
+#add certs to mozilla-truststore
+sudo dpkg-reconfigure -f noninteractive ca-certificates

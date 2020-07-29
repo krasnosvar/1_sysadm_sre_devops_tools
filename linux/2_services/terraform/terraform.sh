@@ -30,19 +30,14 @@ go build -o terraform-provider-libvirt
 cp terraform-provider-libvirt ~/.terraform.d/plugins
 
 #libvirt URLs
-How To Provision VMs on KVM with Terraform
+#How To Provision VMs on KVM with Terraform
 https://computingforgeeks.com/how-to-provision-vms-on-kvm-with-terraform/
-
-How to use Terraform to create a small-scale Cloud Infrastructure
+#How to use Terraform to create a small-scale Cloud Infrastructure
 https://medium.com/terraform-how-to-create-a-smale-scale-cloud/instructions-on-how-to-use-terraform-to-create-a-small-scale-cloud-infrastructure-8c14cb8603a3#ab32
-
-[KVM: Terraform and cloud-init to create local KVM resources
+#[KVM: Terraform and cloud-init to create local KVM resources
 https://fabianlee.org/2020/02/22/kvm-terraform-and-cloud-init-to-create-local-kvm-resources/
-
-terraform-libvirt provider for Ubuntu hosts
+#terraform-libvirt provider for Ubuntu hosts
 https://github.com/fabianlee/terraform-libvirt-ubuntu-examples
-
-
 
 
 #ERRORS
@@ -51,6 +46,4 @@ On Ubuntu distros SELinux is enforced by qemu even if it is disabled globally,
 this might cause unexpected Could not open '/var/lib/libvirt/images/<FILE_NAME>': 
 Permission denied errors. Double check that security_driver = "none" 
 is uncommented in /etc/libvirt/qemu.conf and issue sudo systemctl restart libvirt-bin to restart the daemon.
-
-
 
