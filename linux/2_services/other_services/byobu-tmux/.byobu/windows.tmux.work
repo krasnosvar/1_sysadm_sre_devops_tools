@@ -1,0 +1,7 @@
+new-session -n work ;
+send-keys forti_vpn ;
+split-window 'zsh' ;
+send-keys work_dns && work_sshuttle ;
+split-window 'zsh' ;
+select-layout tiled ;
+select-pane -t 0

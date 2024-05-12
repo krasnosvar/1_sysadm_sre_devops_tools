@@ -1,0 +1,103 @@
+{% if application == 'SUAG' %}
+  {% set vm_count = 3 %}
+  {% set vm_names = ['asso', 'sys', 'redis'] %}
+{% elif application == 'PROMO' %}
+  {% set vm_count = 5 %}
+  {% set vm_names = ['nlb', 'prm', 'bp', 'sys', 'redis'] %}
+{% elif application == 'CO' %}
+  {% set vm_count = 1 %}
+  {% set vm_names = ['coport'] %}
+{% endif %}
+{% set vm_count = vm_count|int %}
+{% set cpu = cpu|int %}
+{% set memory = memory|int %}
+{% set storage = storage|int %}
+
+terraform {
+  # backend "local" {
+  #   path = "co_stand1.tfstate"
+  # }
+  required_version = ">= 0.12"
+  required_providers {
+    vra7 = {
+      source = "vmware/vra7"
+      version = "3.0.1"
+    }
+  }
+}
+
+variable "username" {}
+variable "password" {}
+variable "tenant" {}
+variable "host" {}
+
+
+provider "vra7" {
+  username = var.username
+  password = var.password
+  tenant   = var.tenant
+  host     = var.host
+}
+
+
+{% for i in range(vm_count) %}
+
+resource "null_resource" "previous_{{ i }}" {}
+resource "time_sleep" "wait_15_seconds_{{ i }}" {
+{% if i == 0 %}
+  depends_on = [null_resource.previous_{{ i }}]
+{% elif i > 0%}
+  depends_on = [time_sleep.wait_15_seconds_{{ i-1 }}]
+{% endif %}
+  create_duration = "15s"
+}
+
+resource "vra7_deployment" "stnd{{ i }}_{{ application }}" {
+  depends_on = [time_sleep.wait_15_seconds_{{ i }}]
+  catalog_item_id   = "7fadfb76-58bf-4ff2-ba3e-8c942ebc5db0"
+  businessgroup_id  = "b7103138-9ba6-463e-a91a-a0cc92dedfe1"
+  count             = 1
+  lease_days        = {{ lifeindays }}
+
+  deployment_configuration = {
+    "_deploymentName" = "{{ application }}_stnd{{ i }}"
+  }
+
+  resource_configuration  {
+    component_name = "CentOS7X"
+    configuration  = {
+      cpu    = {{ cpu }}
+      memory = {{ memory }}
+      storage = {{ storage }}
+      "VMware.Attribute0.Value"     = "180-005"
+      "VMware.VirtualCenter.Folder" = "Tests VMs(v00vcenter)/180-005"
+      }
+    }
+}
+{% endfor %}
+
+{% for i in range(vm_count|int) %}
+output "stand{{ i }}" {value = vra7_deployment.stnd{{ i }}_{{ application }}[*].resource_configuration[*].instances[*].properties.ip_address}
+{% endfor %}
+
+
+resource "time_sleep" "wait_20_seconds" {
+  depends_on = [{% for i in range(vm_count) %} vra7_deployment.stnd{{ i }}_{{ application }}, {% endfor %}]
+  create_duration = "20s"
+}
+
+resource "null_resource" "one" {
+  depends_on = [time_sleep.wait_20_seconds]
+  provisioner "local-exec" { 
+    command = <<-EOT
+      echo "#initial comment" > hosts
+      echo '[server]' >> hosts
+      echo '10.8.152.250' >> hosts
+      {% for i in range(vm_count) %}
+        {% set vm_name = vm_names[loop.index-1] %}
+        echo "[$(cat terraform.tfstate| grep -o stand{{ i }})]" >> hosts
+        echo "stand_{{ i }}_{{ vm_name }} ansible_ssh_host=$(cat terraform.tfstate | grep -A5 stand{{ i }} | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}')" >> hosts
+      {% endfor %}
+    EOT
+  }
+}

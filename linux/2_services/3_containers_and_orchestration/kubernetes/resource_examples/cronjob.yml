@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  namespace: default
+  name: cron-test
+spec:
+  schedule: "*/10 * * * *" #every 10min , "0,15,30,45 * * * *" - every 15min
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: periodic-batch-job
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: alpine
+            image: alpine:3.2
+            command:
+              - /bin/sh
+              - "-c"
+              - "curl https://lk.rebrainme.com/kubernetes/report"

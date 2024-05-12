@@ -1,0 +1,56 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  labels:
+    app: tst-headers
+  name: tst-headers
+  # namespace: test-ns
+spec:
+  rules:
+  - host: tst-headers.k8sdomain.local
+    http:
+      paths:
+      - backend:
+          serviceName: tst-headers
+          servicePort: 5000
+        path: /
+        pathType: ImplementationSpecific
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tst-headers
+  labels:
+    app: tst-headers
+spec:
+  ports:
+  - port: 5000
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: tst-headers
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: tst-headers
+  # namespace: test-ns
+  labels:
+    app: tst-headers
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tst-headers
+  template:
+    metadata:
+      labels:
+        app: tst-headers
+    spec:
+      containers:
+        - image: headers_test:v1
+          name: tst-headers
+          ports:
+          - containerPort: 5000
+            protocol: TCP
+          resources: {}

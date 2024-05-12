@@ -1,0 +1,8 @@
+---
+application: "clean_vm"
+vm_count: 1
+vm_names: []
+cpu: 4
+memory: 4096
+storage: 52
+lifeindays: 14

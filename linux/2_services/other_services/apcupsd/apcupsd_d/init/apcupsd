@@ -1,0 +1,106 @@
+#! /bin/sh
+#
+# apcupsd      This shell script takes care of starting and stopping
+#	       the apcupsd UPS monitoring daemon.
+#
+# chkconfig: 2345 60 99
+# description: apcupsd monitors power and takes action if necessary
+#
+APCPID=/var/run/apcupsd.pid
+
+# Source function libarary
+. /etc/rc.d/init.d/functions
+
+# domain config
+. /etc/apcupsd/tndr
+
+case "$1" in
+    start)
+       [[ ! -f /etc/apcupsd/apcupsd.conf ]] && gen_config
+       rm -f /etc/apcupsd/powerfail
+       rm -f /etc/nologin
+       if [[ -f /etc/apcupsd/apcupsd.conf ]]; then
+
+       echo -n "Starting UPS monitoring:" 
+       daemon /sbin/apcupsd -f /etc/apcupsd/apcupsd.conf
+       RETVAL=$?
+       echo
+       [ $RETVAL -eq 0 ] && touch /var/lock/subsys/apcupsd
+
+       else
+
+       for conf in /etc/apcupsd/apcupsd.conf_[0-9]* ; do
+          inst=`basename $conf`
+          echo -n "Starting UPS monitoring ($inst):"
+          daemon /sbin/apcupsd -f $conf -P /var/run/apcupsd-$inst.pid
+          RETVAL=$?
+          echo
+          [ $RETVAL -eq 0 ] && touch /var/lock/subsys/apcupsd-$inst
+       done
+
+       fi
+       ;;
+    stop)
+       if [[ -f /etc/apcupsd/apcupsd.conf ]]; then
+
+       echo -n "Shutting down UPS monitoring:"
+       killproc apcupsd
+       echo
+       rm -f $APCPID
+       rm -f /var/lock/subsys/apcupsd
+
+       else
+
+       for conf in /etc/apcupsd/apcupsd.conf_[0-9]* ; do
+          inst=`basename $conf`
+          echo -n "Shutting down UPS monitoring ($inst):"
+          killproc -p /var/run/apcupsd-$inst.pid
+          echo
+          rm -f /var/run/apcupsd-$inst.pid
+          rm -f /var/lock/subsys/apcupsd-$inst
+       done
+
+       fi
+       ;;
+    restart|force-reload)
+       $0 stop
+       sleep 5
+       $0 start
+       ;;
+    reload)
+       echo "$0: reload not implemented"
+       exit 3
+       ;;
+    status)
+       if [[ -f /etc/apcupsd/apcupsd.conf ]]; then
+
+       status apcupsd
+       RETVAL=$?
+       if [ $RETVAL -eq 0 ]
+       then
+          /sbin/apcaccess status
+       else
+          exit $RETVAL
+       fi
+
+       else
+
+       for conf in /etc/apcupsd/apcupsd.conf_[0-9]* ; do
+          inst=`basename $conf`
+          status -p /var/run/apcupsd-$inst.pid apcupsd-$inst
+          RETVAL=$?
+          if [ $RETVAL -eq 0 ]
+          then
+             NISPORT=`grep ^NISPORT < $conf | sed -e "s/NISPORT *\([0-9]\)/\1/"`
+             /sbin/apcaccess status localhost:$NISPORT #| egrep "(STATUS)|(UPSNAME)"
+          fi
+       done
+
+       fi
+       ;;
+    *)
+       echo "Usage: $0 {start|stop|restart|status}"
+       exit 1
+       ;;
+esac
+exit 0

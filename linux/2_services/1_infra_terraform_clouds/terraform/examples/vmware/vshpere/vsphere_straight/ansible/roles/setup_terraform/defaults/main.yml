@@ -1,0 +1,14 @@
+---
+# terra_dir=$CI_PROJECT_DIR/terraform  # for gitlab-cicd - in gitlab-ci.yml
+application: "clean_vm"
+vm_count: 1
+vm_names: []
+cpu: 4
+memory: 8
+# storage: 52
+storage: 50
+lifeindays: 14
+env: "test"
+stand_type: "simple_stand"
+
+vm_hostname: "u2004vm"

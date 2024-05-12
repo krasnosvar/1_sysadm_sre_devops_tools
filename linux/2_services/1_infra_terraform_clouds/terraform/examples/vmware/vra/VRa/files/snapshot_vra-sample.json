@@ -1,0 +1,15 @@
+{
+    "businessGroupId": "c19acbcc-b592-4615-a885-e195ceca362d",
+    "catalogItemId": "b7210569-ce4b-4110-b123-a58f8682fb67",
+    "data": {
+        "CreateDate": null,
+        "SnapName": null,
+        "toAddressList": null,
+        "vmName": null,
+        "workflowScheduleDate": null
+    },
+    "description": null,
+    "reasons": null,
+    "requestedFor": "user@corp.domain.ru",
+    "type": "com.vmware.vcac.catalog.domain.request.CatalogItemProvisioningRequest"
+}

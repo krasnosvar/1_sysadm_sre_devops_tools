@@ -1,0 +1,2 @@
+dmsetup info /dev/mapper/ceph--790939fd--d16c--4f5c--84ae--410eab8dca7a-osd--block--b32fed9a--5433--4be5--8d6f--7cb1fbfc0298
+dmsetup remove /dev/mapper/ceph--790939fd--d16c--4f5c--84ae--410eab8dca7a-osd--block--b32fed9a--5433--4be5--8d6f--7cb1fbfc0298

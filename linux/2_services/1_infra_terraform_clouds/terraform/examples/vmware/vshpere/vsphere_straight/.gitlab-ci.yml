@@ -1,0 +1,105 @@
+# image: krasnosvar/terrasible:vra7
+image: krasnosvar/terrasible:vsphere2
+
+variables:
+  GIT_SSL_NO_VERIFY: "true"
+  ANSIBLE_HOST_KEY_CHECKING: "false"
+
+  application:
+    value: "clean_vm"
+    description: "clean_vm SUAG PROMO CO"
+  lifeindays:
+    value: "14"
+    description: "Lifetime in days"
+  vm_count:
+    value: "1"
+    description: "any number with var 'application clean_vm'"
+  cpu:
+    value: "4"
+    description: "4 8 16"
+  memory:
+    value: "4"
+    description: "4 8 16 32"
+
+  docker:
+    value: "no"
+    description: "yes, if docker need (compose also will be installed)"
+
+
+# Unavailable names for jobs
+# image
+# services
+# stages
+# types
+# before_script
+# after_script
+# variables
+# cache
+# include
+
+
+stages:
+  - create
+  - configure
+  - destroy
+
+before_script:
+  # - export TF_LOG=DEBUG
+  - echo $application
+  - echo $lifeindays
+  - echo $vm_count
+  - echo $cpu
+  - echo $memory
+  - echo $pkg
+  - echo $docker
+  - cp certs/cert.crt /usr/local/share/ca-certificates/
+  - cp certs/domain.local.crt /usr/local/share/ca-certificates/
+  - update-ca-certificates
+
+create:
+  stage: create
+  tags:
+    - terraform_vra7_runner # runner on gitlab-runner-local 
+  script:
+    # create VMs by terraform
+    - ls -lahi $CI_PROJECT_DIR/terraform
+    - ansible-playbook ansible/setup_terraform.yml 
+      --extra-vars="terra_dir=$CI_PROJECT_DIR/terraform 
+                    service_account_passw=$service_account_passw 
+                    application=$application 
+                    vm_count=$vm_count cpu=$cpu memory=$memory lifeindays=$lifeindays vm_hostname='u2004vm-$CI_PIPELINE_ID' ACTION=create"
+    - ls terraform
+    - cat terraform/hosts
+  artifacts:
+    name: state_and_hosts
+    paths:
+      - terraform/terraform.tfstate
+      - terraform/main.tf
+      - terraform/hosts
+      - terraform/cloudinit_configs/*
+    expire_in: 2 week
+  when: manual
+  allow_failure: false
+
+configure:
+  stage: configure
+  tags:
+    - terraform #runner on v00suagvm
+  script:
+    - ansible-playbook ansible/configure_vm.yml -i $CI_PROJECT_DIR/terraform/hosts -u tst_user -b
+        --extra-vars="pkg=$pkg docker=$docker application=$application ansible_ssh_pass=$tst_user_pass ansible_become_pass=$tst_user_pass" -v
+  dependencies:
+    - create
+  when: on_success
+  allow_failure: true
+
+destroy:
+  stage: destroy
+  tags:
+    - terraform_vra7_runner # runner on gitlab-runner-local 
+  script:
+    - ansible-playbook ansible/setup_terraform.yml --extra-vars="terra_dir=$CI_PROJECT_DIR/terraform service_account_passw=$service_account_passw ACTION=destroy" #-v
+  dependencies:
+    - create
+  when: manual
+  allow_failure: true

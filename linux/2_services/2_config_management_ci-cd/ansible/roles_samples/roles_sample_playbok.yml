@@ -1,0 +1,49 @@
+---
+#sample with Python38 role
+- hosts: all
+  become: true
+  vars:
+    python_version_idefault: 3.8.5
+  gather_facts: False
+
+  roles:
+    - install-python38-centos8
+    - update_PATH_variable
+
+#sample to install and config haproxy with keepalived, proxying to nginx
+#DNS name on keepalived VIP, and sert for DNS-VIP name as SAN on Nginx backend VM
+- hosts: promo_web_nlb
+  vars:
+    - fqdn_to_locate: "https://pr.domain.ru"
+    - hamaster: 10.5.45.97
+    - habackup: 10.5.45.114
+    - backend1: 10.5.45.117
+    - backend2: 10.5.45.122
+    #keepalived vars
+    - keepalived_interface: "ens32"
+    - virtual_router_id: 45
+    - virtual_ipaddress: 10.5.45.204	
+  roles: 
+    - haproxy-keepalived
+
+
+#sample to install docker on specific host-groups
+- hosts: pr_web_app:pr_sys:bp_app
+  roles:
+     - ansible-role-docker
+
+
+#install nginx only on specific VMs
+- hosts:
+        - 10.5.45.117
+        - 10.5.45.122
+        - 10.5.44.237
+        - 10.5.44.238
+  roles:
+     - install_nginx
+
+
+#sample to instll replicated by CPU cores redis
+- hosts: promo_redis
+  roles:
+     - install_redis 

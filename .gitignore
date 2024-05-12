@@ -1,0 +1,6 @@
+linux/services/terraform/libvirt/images/*
+linux/services/terraform/libvirt/terraform.tfstate
+linux/services/terraform/libvirt/terraform.tfstate.backup
+linux/services/terraform/libvirt/.terraform/
+linux/2_services/docker/Dockerfiles/sqlplus/instantclient_21_4/
+linux/2_services/docker/Dockerfiles/sqlplus/instantclient_21_6/

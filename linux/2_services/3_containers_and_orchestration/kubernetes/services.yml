@@ -1,0 +1,18 @@
+#YAML sample for service
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: MyApp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9376
+
+
+
+#change service type from ClusterIP to NodePort
+#https://stackoverflow.com/questions/51113399/can-change-clusterip-to-nodeport-command-line-without-editor
+kubectl patch svc you-svc -p '{"spec": {"type": "NodePort"}}'

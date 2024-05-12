@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    role: myrole
+spec:
+  containers:
+    - name: web
+      image: nginx
+      resources:
+        limits:
+          cpu: 100m
+          memory: 200Mi
+        requests:
+          cpu: 100m
+          memory: 200Mi
+      env:
+      - name: AUTH
+        valueFrom:
+          secretKeyRef:
+            name: nginx-env
+            key: AUTH
+      ports:
+        - containerPort: 80
+          # protocol: TCP
+      volumeMounts:
+          - name: nginx-conf
+            mountPath: /etc/nginx/nginx.conf
+            subPath: nginx.conf
+            readOnly: true
+  volumes:
+    - name: nginx-conf
+      configMap:
+        name: nginx-conf
+        items:
+          - key: nginx.conf
+            path: nginx.conf

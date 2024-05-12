@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  nginx:
+    container_name: nginx
+    image: nginx
+    restart: always
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+      - ./certs:/etc/nginx/ssl
+    ports:
+      - "80:80"
+      - "443:443"

@@ -1,0 +1,24 @@
+---
+#https://stackoverflow.com/questions/69017814/how-to-escape-json-in-ansible-playbook/69019825#69019825
+- hosts: 127.0.0.1
+  gather_facts: no
+
+  tasks:
+  - name: Docker ps output - identify running containers
+    shell: "docker ps -a --format '{\"ID\": \"{{ '{{' }} .ID {{ '}}' }}\", \"Image\": \"{{ '{{' }} .Image {{ '}}' }}\", \"Names\" : \"{{ '{{' }} .Names {{ '}}' }}}\"'"
+    register: docker_ps_output
+
+  - name: Show content of docker_ps_output
+    debug:
+       var: docker_ps_output.stdout_lines
+
+
+  # - debug: var=docker_ps_output.stdout_lines
+  # - debug: var=docker_ps_output.stderr_lines
+
+  - lineinfile: 
+      create: yes
+      dest: output.out 
+      line: "{{item}}"
+      state: present 
+    loop: "{{ docker_ps_output.stdout_lines }}"

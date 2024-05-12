@@ -1,0 +1,16 @@
+devices {
+         device {
+                   vendor                  "HUAWEI"
+                   product                 "XSG1"
+                   path_grouping_policy    multibus
+                   path_checker            tur
+                   prio                    const
+                   path_selector           "service-time 0"
+                   failback                immediate
+                   no_path_retry           15
+        }
+}
+defaults {
+        user_friendly_names yes
+        find_multipaths yes
+}

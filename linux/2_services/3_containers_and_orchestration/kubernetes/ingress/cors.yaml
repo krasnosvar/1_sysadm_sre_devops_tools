@@ -1,0 +1,13 @@
+
+# CORS
+#add cors to client ingress
+#https://stackoverflow.com/questions/71558824/enable-cors-kubernetes-ingress-issues
+annotations:
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, DELETE"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,X-CustomHeader,X-LANG,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,X-Api-Key,X-Device-Id,Access-Control-Allow-Origin"
+
+
+# tricky cors config
+# https://github.com/kubernetes/ingress-nginx/issues/5496#issuecomment-662798662

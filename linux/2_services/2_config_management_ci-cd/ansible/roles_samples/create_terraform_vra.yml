@@ -1,0 +1,14 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+      #  ansible_python_interpreter: "{{ansible_playbook_python}}"
+  # vars: 
+  #   ansible_python_interpreter: "/usr/bin/python3"
+  roles:
+    - setup_terraform
+
+
+#apply
+#ansible-playbook ansible/create_terraform.yml --extra-vars="application=PROMO terra_dir=terraform user_passw=" -v
+#destroy
+#ansible-playbook ansible/create_terraform.yml --extra-vars="application=PROMO terra_dir=terraform_test user_passw= DESTROY=destroy" -v

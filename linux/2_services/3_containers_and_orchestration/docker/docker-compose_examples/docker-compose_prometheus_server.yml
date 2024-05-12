@@ -1,0 +1,95 @@
+version: '3.7'
+
+# https://prometheus.io/docs/guides/cadvisor/
+services:
+  prometheus:
+    image: dockerhub.local/prom/prometheus:v2.25.0 #latest on 11032021
+    container_name: prometheus
+    user: root
+    networks:
+      log_net:
+        aliases:
+          - prometheus
+    ports:
+    - 9090:9090
+    command:
+    - --config.file=/etc/prometheus/prometheus.yml 
+    - --web.enable-lifecycle
+    - --storage.tsdb.path=/prometheus
+    volumes:
+    - ./prometheus:/etc/prometheus:ro
+    # - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    - ./prometheus_data:/prometheus
+    depends_on:
+    - cadvisor
+    restart: always
+
+  cadvisor:
+    image: dockerhub.local/google/cadvisor:v0.33.0  #latest from dockerhub
+    #image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    networks:
+      log_net:
+        aliases:
+          - cadvisor
+    ports:
+    - 8080:8080
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+    restart: always
+
+  node-exporter:
+    image: dockerhub.local/prom/node-exporter
+    container_name: nodeexporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - --path.procfs=/host/proc
+      - --path.sysfs=/host/sys
+      - --collector.filesystem.ignored-mount-points
+      - ^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)
+    ports:
+      - 9100:9100
+    restart: always
+
+  alertmanager:
+    image: dockerhub.local/prom/alertmanager
+    container_name: alertmanager
+    ports:
+      - 9093:9093
+    command:
+      - --config.file=/etc/alertmanager/alertmanager.yml
+      - --storage.path=/alertmanager
+    volumes:
+      - ./alertmanager/:/etc/alertmanager/
+    restart: always
+    networks:
+      log_net:
+        aliases:
+          - alertmanager
+
+  grafana:
+    image: dockerhub.local/krasnosvar/grafana:latest
+    container_name: grafana
+    volumes:
+      - ./grafana_data:/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    # environment:
+    #   - GF_SECURITY_ADMIN_USER=${ADMIN_USER}
+    #   - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD}
+    #   - GF_USERS_ALLOW_SIGN_UP=false
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    networks:
+      log_net:
+        aliases:
+          - grafana
+
+networks:
+  log_net:

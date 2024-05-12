@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dp-taint
+  labels:
+    usercase: workload
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      usercase: workload
+  template:
+    metadata:
+      labels:
+        usercase: workload
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        resources:
+          limits:
+            cpu: 100m
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+        # ports:
+        # - containerPort: 80
+          # nodeSelector:
+          #   usercase: workload
+      tolerations:
+      - key: "dedicated"
+        operator: "Equal" # operator: Exists - if no "value"
+        value: "true"
+        effect: "NoSchedule"
+      affinity:
+        nodeAffinity: # nodeAffinity instead of nodeSelector
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: usercase
+                  operator: In
+                  values:
+                  - "workload"

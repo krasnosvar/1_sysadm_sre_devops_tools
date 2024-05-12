@@ -1,0 +1,37 @@
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+
+export ANSIBLE_HOST_KEY_CHECKING=false
+export ANSIBLE_DEPRECATION_WARNINGS=false
+
+ZSH_THEME="agnoster"
+
+plugins=(docker docker-compose git zsh-syntax-highlighting zsh-autosuggestions)
+
+# https://github.com/zsh-users/zsh-completions
+# git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
+fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
+source $ZSH/oh-my-zsh.sh
+
+#autocomplete
+complete -C /usr/bin/terraform terraform
+source <(kubectl completion zsh)
+
+#aliases
+alias push="git add . && git commit -m \"script auto commit\" && git push"
+alias rm='echo "Use <<trash-put>> instead rm, to override alias use \"\\rm file-to-del\" "; false'
+
+#java
+#brew install openjdk
+export PATH="/usr/local/opt/openjdk/bin:$PATH"
+export CPPFLAGS="-I/usr/local/opt/openjdk/include"
+
+prompt_dir() {
+  # prompt_segment blue $CURRENT_FG '%2~'
+  prompt_segment blue $CURRENT_FG '%1~'
+}
+export PATH="/usr/local/opt/libpq/bin:$PATH"

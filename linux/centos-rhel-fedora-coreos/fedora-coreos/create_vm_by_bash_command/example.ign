@@ -1,0 +1,25 @@
+{
+  "ignition": {
+    "version": "3.1.0"
+  },
+  "passwd": {
+    "users": [
+      {
+        "name": "core",
+        "sshAuthorizedKeys": [
+          "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDIJzEvdXFCydddmORHbe8SWDxWsdM++UF2mMP25fdvVVd670ykVMZEUnfQ31VHmu1lbO3zjEN9yXyBL1ScNpw/mesXX3yuAp0cj3nXkMog1HDkfNqTVMtYarjk/71DvX7fllJxhL0zPNHjCY3u1E1Y70PljbYI4XEhQKqVfRyRyin2jG6rr98Ni53WOosa3Zq5JeXBdvmYKVjDg9xlmzhKQ4VPjgCArhPELTqprApd29P3NCcjsCcMh2d8m6Q5iIu8axgBwf2We8kjxXbU1jmSVo5rKhs9IplgXmlPqHGZcQjH1y+s59jaI2pEH+dE6eZ3jF1e29qqsBwi8F+nHSTuJP9Rb7NZkEX+Mwh86wEvCnVnfu73GvuSoAgs+smtcpazM6G16xf5EuBV9g/zCvYAmkfsU+BzUG4KGru4WjcBbzib+Vuyi/QBi5ir1xFFR93xX/d75R2X9VSAcntGcYntNV0rgYYFO5YEwF65/uaFBjhrqOedIyFWNTIM/BBTBHVpbIrgyf864RxiMmRs/KO/gTUPNcXp2G6e/IpiyXjF5HtPzR/SzDHJ97JcQU+AYaKtm1J+2F+nsY5+kGh3gRSbGfTnS2Qik2ELd/0KerBccNXMc2Dn+H0ZmpFkBVQZOuRfWcZtYqqI5WhxjfKolakfpS2x4LNZbj910EKUywVi7Q== your_emkrasnosvar@gmail.com"
+        ]
+      },
+      {
+        "groups": [
+          "sudo",
+          "docker"
+        ],
+        "name": "den",
+        "sshAuthorizedKeys": [
+          "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDIJzEvdXFCydddmORHbe8SWDxWsdM++UF2mMP25fdvVVd670ykVMZEUnfQ31VHmu1lbO3zjEN9yXyBL1ScNpw/mesXX3yuAp0cj3nXkMog1HDkfNqTVMtYarjk/71DvX7fllJxhL0zPNHjCY3u1E1Y70PljbYI4XEhQKqVfRyRyin2jG6rr98Ni53WOosa3Zq5JeXBdvmYKVjDg9xlmzhKQ4VPjgCArhPELTqprApd29P3NCcjsCcMh2d8m6Q5iIu8axgBwf2We8kjxXbU1jmSVo5rKhs9IplgXmlPqHGZcQjH1y+s59jaI2pEH+dE6eZ3jF1e29qqsBwi8F+nHSTuJP9Rb7NZkEX+Mwh86wEvCnVnfu73GvuSoAgs+smtcpazM6G16xf5EuBV9g/zCvYAmkfsU+BzUG4KGru4WjcBbzib+Vuyi/QBi5ir1xFFR93xX/d75R2X9VSAcntGcYntNV0rgYYFO5YEwF65/uaFBjhrqOedIyFWNTIM/BBTBHVpbIrgyf864RxiMmRs/KO/gTUPNcXp2G6e/IpiyXjF5HtPzR/SzDHJ97JcQU+AYaKtm1J+2F+nsY5+kGh3gRSbGfTnS2Qik2ELd/0KerBccNXMc2Dn+H0ZmpFkBVQZOuRfWcZtYqqI5WhxjfKolakfpS2x4LNZbj910EKUywVi7Q== your_emkrasnosvar@gmail.com"
+        ]
+      }
+    ]
+  }
+}

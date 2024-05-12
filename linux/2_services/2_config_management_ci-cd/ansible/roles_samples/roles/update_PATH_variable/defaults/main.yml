@@ -1,0 +1,3 @@
+---
+# defaults file for sample_role
+extrapath: /usr/local/sbin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin:/usr/local/bin

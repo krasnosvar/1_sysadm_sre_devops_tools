@@ -1,0 +1,88 @@
+---
+
+- debug: var=vm_names
+- debug: var=vm_count
+- debug: var=application
+
+- name: Template a python ip-fetcher-script to "terraform" dir
+  ansible.builtin.template:
+    src: ip_fetcher.py
+    dest: "{{ terra_dir }}/ip_fetcher.py"
+    # owner: root
+    # group: root
+    # mode: '0644'
+  when: ACTION is not defined or ACTION == "create"
+  register: out
+
+- name: Template a main-script to "terraform" dir
+  ansible.builtin.template:
+    src: main.tf
+    dest: "{{ terra_dir }}/main.tf"
+    # owner: root
+    # group: root
+    # mode: '0644'
+  when: ACTION is not defined or ACTION == "create"
+  register: out
+
+- debug: var=out.stdout_lines
+- debug: var=out.stderr_lines
+
+- name: Template a vars-file to "terraform" dir
+  ansible.builtin.template:
+    src: terraform.tfvars
+    dest: "{{ terra_dir }}/terraform.tfvars"
+  when: ACTION is not defined or ACTION == "create" or ACTION == "destroy" or ACTION == "refresh"
+  
+# free-form (string) arguments, all arguments on one line
+# terraform plan -var "password={{ service_account_passw }}"
+- name: Terraform apply
+  shell: |
+    ls -lahi
+    python3 ip_fetcher.py
+    for i in $(ls cloudinit_configs); do echo "CONTENT $i"; cat cloudinit_configs/$i; done
+    terraform init
+    terraform apply --auto-approve -var "vsphere_password={{ service_account_passw }}"
+    sleep 120
+    terraform refresh -var "vsphere_password={{ service_account_passw }}"
+    cat inventory_creator.sh
+    sh inventory_creator.sh
+  args:
+    chdir: "{{ terra_dir }}"
+  # when: DESTROY == nodestroy
+  when: ACTION is not defined or ACTION == "create"
+  register: out
+  ignore_errors: true
+
+- debug: var=out.stdout_lines
+- debug: var=out.stderr_lines
+
+- name: Terraform DESTROY
+  shell: |
+    pwd
+    ls -lahi
+    terraform init
+    terraform destroy --auto-approve -var "vsphere_password={{ service_account_passw }}"
+  args:
+    chdir: "{{ terra_dir }}"
+  when: ACTION is defined and ACTION == "destroy"
+  register: out2
+  ignore_errors: true
+
+- debug: var=out2.stdout_lines
+- debug: var=out2.stderr_lines
+
+- name: Terraform Refresh
+  shell: |
+    sleep 120
+    terraform refresh -var "vsphere_password={{ service_account_passw }}"
+    cat inventory_creator.sh
+    sh inventory_creator.sh
+  args:
+    chdir: "{{ terra_dir }}"
+  when: ACTION is defined and ACTION == "refresh"
+  ignore_errors: true
+  register: out3
+
+
+- debug: var=out3.stdout_lines
+- debug: var=out3.stderr_lines

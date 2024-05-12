@@ -1,0 +1,76 @@
+#cloud-config
+write_files:
+- path: /etc/apt/sources.list
+  owner: root
+  content: |
+    deb https://repo.domain.local/repository/ubuntu/ubuntu/ focal main restricted
+    deb https://repo.domain.local/repository/ubuntu/ubuntu/ focal-updates main restricted
+    deb https://repo.domain.local/repository/ubuntu/ubuntu/ focal universe
+    deb https://repo.domain.local/repository/ubuntu/ubuntu/ focal-updates universe
+    deb https://repo.domain.local/repository/ubuntu/ubuntu/ focal multiverse
+    deb https://repo.domain.local/repository/ubuntu/ubuntu/ focal-updates multiverse
+    deb https://repo.domain.local/repository/ubuntu/ubuntu/ focal-backports main restricted universe multiverse
+    deb https://repo.domain.local/repository/securityubuntu/ubuntu focal-security main restricted
+    deb https://repo.domain.local/repository/securityubuntu/ubuntu focal-security universe
+    deb https://repo.domain.local/repository/securityubuntu/ubuntu focal-security multiverse
+    deb [allow-insecure=yes] [arch=amd64] https://repo.domain.local/repository/focal-docker/linux/ubuntu focal stable
+- path: /etc/netplan/50-cloud-init.yaml
+  content: |
+    network:
+     version: 2
+     ethernets:
+      ens192:
+       addresses: [10.9.32.222/24]
+       gateway4: 10.9.32.1
+       dhcp6: false
+       nameservers:
+         addresses: [10.8.13.11, 10.8.13.12]
+         search:
+           - domain.local
+       dhcp4: false
+       optional: true
+- path: /etc/sysctl.d/60-disable-ipv6.conf
+  owner: root
+  content: |
+    net.ipv6.conf.all.disable_ipv6=1
+    net.ipv6.conf.default.disable_ipv6=1
+chpasswd:
+  expire: false
+system_info: 
+  default_user:
+    name: ubuntu
+    plain_text_passwd: 'ubuntu'
+    lock_passwd: false
+    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+    groups: sudo, users, admin
+ssh_pwauth: true
+disable_root: false
+#run apt upgrade
+package_update: true
+package_upgrade: true
+#install packages
+packages:
+  # - nginx
+  # - npm
+  # - maven
+  # - default-jdk
+  #for docker
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg-agent
+  - software-properties-common
+  - conntrack #for start minikube with driver-none as root
+  - docker-ce 
+  - docker-ce-cli 
+  - containerd.io 
+  - docker-compose-plugin
+# written to /var/log/cloud-init-output.log
+runcmd:
+  - systemctl enable docker
+  - systemctl start docker
+final_message: "The system is finall up, after $UPTIME seconds"
+power_state:
+  delay: now
+  mode: reboot
+  message: Rebooting the OS
