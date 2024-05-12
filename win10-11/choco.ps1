@@ -1,33 +1,42 @@
 # powershell -executionpolicy bypass -File 'C:\Users\Den\Documents\choco.ps1'
-$Packages = 'libreoffice',
+$Packages = 'rufus', # os utils
+            'linux-reader',
+            'ccleaner',
+            '7zip',
+            'copyq',
+            'flameshot',
+            'keepassxc',
+            # office apps, multimedia
+            'libreoffice',
             'foxitreader',
             'fbreader',
             'gimp',
-            'vlc',
+            'inkscape',
             'audacity',
-            'copyq',
-            'flameshot',
-            'rufus',
-            'linux-reader',
-            'keepassxc',
+            'vlc',
+            'k-litecodecpackfull',
+            'steam',
+            # communication, messengers, etc
             'telegram',
             'rocketchat',
-
+            # browsers
             'googlechrome',
             'vivaldi',
             'brave',
             'firefox',
             'librewolf',
-
+            'floorp',
+            # net-tools
             'forticlientvpn',
             'openvpn-connect',
             'wireshark',
             'termius',
+            'filezilla',
             'winscp',
             'putty',
             'kitty',
             'teraterm',
-
+            # proggraming tools
             'git',
             'python3',
             'golang',
@@ -37,22 +46,25 @@ $Packages = 'libreoffice',
             'vscodium',
             'neovim',
             'pycharm-community',
+            'intellijidea-community',
             'notepadplusplus',
-
+            # devops, testing, debugging tools
             'terraform',
             'opentofu.portable',
             'dbeaver',
             'httpie',
             'curl',
             'postman',
-
+            'jq',
+            'yq',
+            # containers tools
             'docker-desktop',
             'kubernetes-cli',
             'podman-desktop',
             'rancher-desktop',
-
+            # virt, cloud tools
             'virtualbox',
-            'steam'
+            'awscli'
 
 
 If(Test-Path -Path "$env:ProgramData\Chocolatey") {

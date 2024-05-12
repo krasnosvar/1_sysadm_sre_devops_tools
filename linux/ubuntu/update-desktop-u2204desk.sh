@@ -25,7 +25,7 @@ apt upgrade -y
 
 #Main OS apps
 sudo apt install -y \ 
-gnome-tweak-tool libreoffice audacious transmission sshpass htop expect tree 
+gnome-tweak-tool libreoffice audacity transmission sshpass htop expect tree 
 # clear pdf-meta info
 # pdftk file.pdf  dump_data |sed -e 's/\(InfoValue:\)\s.*/\1\ /g' | pdftk file.pdf update_info - output file_no_meta.pdf
 # https://stackoverflow.com/questions/60738960/remove-pdf-metadata-removing-complete-pdf-metadata

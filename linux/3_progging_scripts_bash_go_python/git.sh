@@ -248,6 +248,3 @@ git -c http.sslVerify=false push origin master
 
 #если в ремоте и локале разные коммиты и не дает скачать-отправить
 git pull https://gitlab.cserv.local/den/docker-hello-world.git --allow-unrelated-histories
-
-
-
