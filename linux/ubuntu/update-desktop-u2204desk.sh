@@ -151,10 +151,15 @@ sudo mv kubectl /usr/local/bin && sudo chmod +x /usr/local/bin/kubectl
 #helm
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 sudo bash get_helm.sh
-sudo apt install age -y
 #instlal sops for helm-secrets ( with age, installed by apt)
+sudo apt install age -y
 sudo ansible localhost -m apt -a deb=https://github.com/getsops/sops/releases/download/v3.7.3/sops_3.7.3_amd64.deb
-helm plugin install https://github.com/jkroepke/helm-secrets --version v4.4.2 
+helm plugin install https://github.com/jkroepke/helm-secrets --version v4.4.2
+helm plugin install https://github.com/databus23/helm-diff
+#helmfile
+# https://docs.wakemeops.com/packages/helmfile/
+curl -sSL https://raw.githubusercontent.com/upciti/wakemeops/main/assets/install_repository | sudo bash
+sudo apt install helmfile=0.163.1-1~ops2deb -y
 #terminal multiplexors
 sudo apt install python3-newt gawk pastebinit run-one tmux byobu -y
 #podman, podman-desktop
@@ -253,7 +258,7 @@ deb-src [signed-by=/etc/apt/keyrings/opentofu.gpg] https://packagecloud.io/opent
   sudo tee /etc/apt/sources.list.d/opentofu.list > /dev/null
 #  install tofu
 sudo apt-get update && sudo apt-get install -y tofu
-
+sudo apt install postgresql-client -y
 
 #PIPs
 echo "Install PIPs"

@@ -1,0 +1,36 @@
+# https://blog.cadumagalhaes.dev/how-to-setup-a-postgresql-database-with-docker-compose
+version: '3.9'
+services:
+    postgres:
+        image: postgres:15
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=password
+        # volumes:
+        #     - postgres-db-volume:/var/lib/postgresql/data
+        ports:
+            - 5432:5432
+        # networks:
+        #     - postgres-db-network
+#     pgadmin:
+#         image: dpage/pgadmin4
+#         environment:
+#             PGADMIN_DEFAULT_EMAIL: 'teste@teste.com'
+#             PGADMIN_DEFAULT_PASSWORD: 'teste'
+#         ports:
+#             - 16543:80
+#         volumes:
+#             - ./servers.json:/pgadmin4/servers.json
+#         networks:
+#             - postgres-db-network
+
+# volumes:
+#     postgres-db-volume:
+#         driver: local
+#         driver_opts:
+#             type: none
+#             o: bind
+#             device: ./data
+# networks:
+#     postgres-db-network:
+#         driver: bridge

@@ -1,0 +1,78 @@
+# https://github.com/grafana/grafana/blob/main/packaging/docker/custom/Dockerfile
+# https://grafana.com/docs/grafana/latest/setup-grafana/installation/docker/#build-and-run-a-docker-image-with-pre-installed-plugins
+# docker build --build-arg GRAFANA_VERSION=11.0.0-ubuntu --build-arg ENVIRONMENT=prod -t krasnosvar/grafana:11.0.0-ubuntu -f Dockerfile_v11 .
+ARG GRAFANA_VERSION="11.0.0-ubuntu"
+
+
+FROM grafana/grafana:${GRAFANA_VERSION}
+ARG ENVIRONMENT=dev
+ENV ENVIRONMENT=$ENVIRONMENT
+
+
+ARG GF_INSTALL_IMAGE_RENDERER_PLUGIN="false"
+
+ARG GF_GID="0"
+
+# https://grafana.com/docs/grafana/next/setup-grafana/configure-docker/
+ENV GF_PATHS_PLUGINS="/var/lib/grafana-plugins"
+ENV GF_PLUGIN_RENDERING_CHROME_BIN="/usr/bin/chrome"
+ENV GF_PATHS_CONFIG="/etc/grafana/grafana.ini"
+ENV GF_PATHS_DATA="/var/lib/grafana"
+ENV GF_PATHS_HOME="/usr/share/grafana"
+ENV GF_PATHS_LOGS="/var/log/grafana"
+ENV GF_PATHS_PROVISIONING="/etc/grafana/provisioning"
+
+
+USER root
+
+RUN mkdir -p "$GF_PATHS_PLUGINS" && \
+    chown -R grafana:${GF_GID} "$GF_PATHS_PLUGINS" && \
+    if [ $GF_INSTALL_IMAGE_RENDERER_PLUGIN = "true" ]; then \
+      if grep -i -q alpine /etc/issue; then \
+        apk add --no-cache udev ttf-opensans chromium && \
+        ln -s /usr/bin/chromium-browser "$GF_PLUGIN_RENDERING_CHROME_BIN"; \
+      else \
+        cd /tmp && \
+        curl -sLO https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+        DEBIAN_FRONTEND=noninteractive && \
+        apt-get update -q && \
+        apt-get install -q -y ./google-chrome-stable_current_amd64.deb && \
+        rm -rf /var/lib/apt/lists/* && \
+        rm ./google-chrome-stable_current_amd64.deb && \
+        ln -s /usr/bin/google-chrome "$GF_PLUGIN_RENDERING_CHROME_BIN"; \
+      fi \
+    fi
+
+USER grafana
+
+RUN if [ $GF_INSTALL_IMAGE_RENDERER_PLUGIN = "true" ]; then \
+      grafana-cli \
+        --pluginsDir "$GF_PATHS_PLUGINS" \
+        --pluginUrl https://github.com/grafana/grafana-image-renderer/releases/latest/download/plugin-linux-x64-glibc-no-chromium.zip \
+        plugins install grafana-image-renderer; \
+    fi
+
+ARG GF_INSTALL_PLUGINS="grafana-clock-panel,savantly-heatmap-panel,alexanderzobnin-zabbix-app,\
+                        redis-datasource,grafana-simple-json-datasource,marcusolsson-csv-datasource,\
+                        fifemon-graphql-datasource,simpod-json-datasource,marcusolsson-json-datasource,vonage-status-panel"
+
+
+COPY ./conf/grafana.ini /etc/grafana/grafana.ini
+COPY ./conf/provisioning/datasources/${ENVIRONMENT}.yaml /etc/grafana/provisioning/datasources/
+COPY ./conf/provisioning/dashboards/ /etc/grafana/provisioning/dashboards/
+
+RUN if [ ! -z "${GF_INSTALL_PLUGINS}" ]; then \
+      OLDIFS=$IFS; \
+      IFS=','; \
+      set -e ; \
+      for plugin in ${GF_INSTALL_PLUGINS}; do \
+        IFS=$OLDIFS; \
+        if expr match "$plugin" '.*\;.*'; then \
+          pluginUrl=$(echo "$plugin" | cut -d';' -f 1); \
+          pluginInstallFolder=$(echo "$plugin" | cut -d';' -f 2); \
+          grafana-cli --pluginUrl ${pluginUrl} --pluginsDir "${GF_PATHS_PLUGINS}" plugins install "${pluginInstallFolder}"; \
+        else \
+          grafana-cli --pluginsDir "${GF_PATHS_PLUGINS}" plugins install ${plugin}; \
+        fi \
+      done \
+    fi

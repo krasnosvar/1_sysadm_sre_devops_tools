@@ -27,4 +27,5 @@ psql -U postgres \
 # https://stackoverflow.com/questions/1120109/how-to-export-table-as-csv-with-headings-on-postgresql
 psql -U user -d db_name -c "Copy (Select * From foo_table LIMIT 10) To STDOUT With CSV HEADER DELIMITER ',';" > foo_data.csv
 
-
+# remote connect
+psql postgresql://user:pass@host:1234/db

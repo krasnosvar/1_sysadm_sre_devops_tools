@@ -1,0 +1,33 @@
+# https://grafana.com/tutorials/provision-dashboards-and-data-sources/
+apiVersion: 1
+providers:
+  # - name: Default # A uniquely identifiable name for the provider
+  #   folder: Services # The folder where to place the dashboards
+  #   type: file
+  #   options:
+  #     path:
+  #       /etc/grafana/provisioning/dashboards
+  - name: 1_infra 
+    folder: 1_infra 
+    type: file
+    options:
+      path:
+        /etc/grafana/provisioning/dashboards/1_infra
+  # - name: 2_k8s
+  #   folder: 2_k8s
+  #   type: file
+  #   options:
+  #     path:
+  #       /etc/grafana/provisioning/dashboards/2_k8s
+  # - name: 3_kafka
+  #   folder: 3_kafka
+  #   type: file
+  #   options:
+  #     path:
+  #       /etc/grafana/provisioning/dashboards/3_kafka
+  # - name: 4_redis
+  #   folder: 4_redis
+  #   type: file
+  #   options:
+  #     path:
+  #       /etc/grafana/provisioning/dashboards/4_redis

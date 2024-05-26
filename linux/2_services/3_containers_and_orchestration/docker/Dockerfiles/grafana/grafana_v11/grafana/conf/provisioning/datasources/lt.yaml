@@ -1,0 +1,27 @@
+# https://grafana.com/docs/grafana/latest/administration/provisioning/
+apiVersion: 1
+datasources:
+- name: Prometheus
+  type: prometheus
+  url: http://kube-prometheus-stack-prometheus:9090/
+  access: proxy
+  isDefault: true
+  jsonData:
+    timeInterval: 30s
+  # add uid
+  # https://github.com/grafana/grafana/issues/10786#issuecomment-1277000930
+  uid: 001
+# https://github.com/RedisGrafana/grafana-redis-datasource/blob/master/provisioning/datasources/redis.yaml
+- name: Redis
+  type: redis-datasource # must be installed plugin redis-datasource
+  access: proxy
+  isDefault: false # Only one datasource per organization can be marked as default
+  orgId: 1
+  version: 1
+  url: redis://10.0.0.100:6379
+  jsonData:
+    poolSize: 5
+    timeout: 10
+    pingInterval: 0
+    pipelineWindow: 0
+  editable: true

@@ -16,6 +16,10 @@ sudo dpkg-query -f '${binary:Package}\n' -W > packages_list.txt
 sudo xargs -a packages_list.txt apt install
 #add apt repo
 sudo add-apt-repository 'deb [arch=amd64] https://packages.microsoft.com/repos/ms-teams stable main'
+#install specific version
+apt list helmfile -a
+sudo apt install helmfile=0.163.1-1~ops2deb
+
 
 #if ERROR in /var/log/unattended-upgrades/unattended-upgrades.log
 #PACKAGE is kept back because a related package is kept back or due to local apt_preferences(5)

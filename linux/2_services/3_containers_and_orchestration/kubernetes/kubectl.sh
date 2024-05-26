@@ -54,6 +54,14 @@ kubectl exec -it podname -- /bin/bash
 # delete pods forcefully
 for i in $(kubectl get po -n kube-system| grep konnec| awk '{print $1}'); do kubectl delete pod $i --grace-period=0 --force --namespace kube-system; done
 
+
+#SERVICE
+# create service via "kubectl expose" command ( for existing pod, or deployment)
+# --target-port=80 - pod port to expose
+# --name=service-am-i-ready - service name, service will be reacheble from other pods via "curl http://service-am-i-ready:80"
+kubectl expose pod am-i-ready --port=80 --target-port=80 --name=service-am-i-ready
+
+
 #LOGS
 #pod logs by label
 kubectl logs -l app=krasnosvar_at_gmail.com
@@ -101,6 +109,8 @@ kubectl get cm -o yaml --all-namespaces | grep "what_you_need"
 
 
 #SECRETS
+# get cert from secret
+kubectl get secret your-secret-name -n your-namespace -o json | jq '."data"."tls.crt"'| sed 's/"//g'| base64 -d -
 #create password as secret
 kubectl create secret generic my-password --from-literal=password=mysqlpassword
 #check
@@ -117,13 +127,25 @@ metadata:
 imagePullSecrets:
 - name: regcred
 
-
-
-
 #write manifests to file
 for i in $(kubectl get all -n default| grep -v NAME| awk '{print $1}'); do kubectl get $i -o yaml; echo "*******************"; done > manifests.yml
 
+# LABELS
+# https://stackoverflow.com/questions/77301400/how-to-list-all-labels-in-kubernetes
+#show all labels
+kubectl get all -A --show-labels
+# show all, uniq labels
+kubectl get all -A -o json | jq -r '.items[].metadata.labels' | sed 's/,//g' | sort | uniq
+# fetch resources by label
+# https://kubebyexample.com/concept/labels
+kubectl get pods --show-labels
+kubectl get pods --selector owner=michael
+kubectl get pods -l env=development
+# list all pods that are either labelled with env=development or with env=production
+kubectl get pods -l 'env in (development, production)'
 
+
+# ERRORS
 #if pod stuck in Terminating state
 # https://stackoverflow.com/questions/35453792/pods-stuck-in-terminating-status
 kubectl delete pod es-kestra-master-0 --grace-period=0 --force --namespace default

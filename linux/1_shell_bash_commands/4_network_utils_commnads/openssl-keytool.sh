@@ -41,6 +41,12 @@ openssl s_client -showcerts -servername coderepotst.corp.domain.ru -connect code
 #best way(fetch only cert woithout tech-info)
 #https://access.redhat.com/solutions/4799921
 openssl s_client -connect ${URL}:22623 -showcerts </dev/null 2>/dev/null|openssl x509 -outform PEM > api-int.pem
+#show cert information(*.crt or *.pem)
+openssl x509 -text -noout -in CertName.crt 
+openssl x509 -noout -ext subjectAltName -in CertName.crt
+#get cert from kube secret
+kubectl get secret your-secret-name -n your-namespace -o json | jq '."data"."tls.crt"'| sed 's/"//g'| base64 -d -
+
 ---------------------------------------------------------------------------------------------
 
 #генерация кейстора из сертификата и ключа
@@ -49,8 +55,6 @@ openssl pkcs12 -export -in journal-sp.corp.domain.ru.crt -inkey journal-sp.corp.
 #add certs to mozilla-truststore
 sudo dpkg-reconfigure -f noninteractive ca-certificates
 
-#show cert information(*.crt or *.pem)
-openssl x509 -in CertName.crt -text -noout
 
 
 #PFX to crt

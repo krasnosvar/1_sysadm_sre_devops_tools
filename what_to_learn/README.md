@@ -1,27 +1,37 @@
-1. CKA
+1. Kubernetes
 ```
-#theory
-https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/
+learn playgrounds
+#THEORY
 https://roadmap.sh/kubernetes
-https://github.com/leandrocostam/cka-preparation-guide
+https://kubernetes.io/docs/home/
+https://kubebyexample.com/
+https://logz.io/blog/what-are-the-hardest-parts-of-kubernetes-to-learn/
 
-Как сдать CKA в 2023 году, опыт Виктора Ведмича DKT48
-https://www.youtube.com/watch?v=h_Wm-tgsJ5I&t=3937s
-
-Kubernetes, Kubernetes, Kubernetes! Обзор версии 1.25, а также тренды в Cloud and DevOps
-https://www.youtube.com/watch?v=yAvkFgelHQI
-
-
-
-# learn playgrounds
+#PRACTICE
 https://killer.sh
 https://killercoda.com/killer-shell-cka
 https://kodekloud.com/learning-path/cka/
+```
+
+* CKA
+* https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/
+```
+#theory preparation
+https://kodekloud.com/blog/cka-exam-prep/
+https://devopscube.com/cka-exam-study-guide/
+https://github.com/leandrocostam/cka-preparation-guide
+https://www.linkedin.com/pulse/how-prepare-cka-exam-certified-kubernetes-2024-sohail-tahir-edd7e
+https://abhisheksharma7389.medium.com/how-to-prepare-for-cka-certified-kubernetes-administrator-exam-283c1111a371
+
+# videos
+Как сдать CKA в 2023 году, опыт Виктора Ведмича DKT48
+https://www.youtube.com/watch?v=h_Wm-tgsJ5I&t=3937s
+
 
 ```
 
-3. Go
 
+3. Go
 
 ```
 https://roadmap.sh/golang
@@ -34,7 +44,6 @@ https://practicum.yandex.kz/go-advanced
 ```
 
 
-
 2. AWS
 ```
 https://roadmap.sh/aws
@@ -43,6 +52,6 @@ https://coggle.it/diagram/ZNyWdlpO0W45uyGP/t/star-fundamental-aws-concepts-star/
 
 
 https://kodekloud.com/learning-path/cloud-engineer/
-
+https://www.pluralsight.com/browse/aws-cloud-training
 
 ```
