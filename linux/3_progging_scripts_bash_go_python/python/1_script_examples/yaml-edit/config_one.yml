@@ -1,0 +1,48 @@
+0_users_to_add: []
+1_login_host: 192.168.122.245
+2_login_user: postgres
+3_login_password: password
+98_groups_roles:
+- postgres
+- user_group
+- user_group1
+- user_group2
+- user_group3
+- user_group4
+- user_group5
+99_users:
+- 0_login: user
+  1_pass: 123
+  2_group:
+  - user_group
+  - user11
+  - user_group1
+- 0_login: user2
+  1_pass: 1234
+  2_group:
+  - user_group1
+  - user_group2
+- 0_login: user3
+  1_pass: 123456
+  2_group:
+  - user_group3
+  - gr2
+  - gr3
+  - gr1
+  - user_group4
+- 0_login: user32
+  1_pass: user32
+  2_group:
+  - user_group11
+  - user44444
+  - user11
+  - user_group22
+  - dddss
+  - user33333
+- 0_login: user22
+  1_pass: user22
+  2_group:
+  - gr1
+  - gr3
+  - gr4
+  - gr2
