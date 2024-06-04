@@ -40,3 +40,7 @@ ansible-galaxy init test-role
 
 #show ansible variable in hosts
 ansible -i hosts -l web-tst -m debug -a "var=ansible_ssh_host" all -u root -b --extra-vars="ansible_ssh_pass=$PASS ansible_become_pass=$PASS" -v
+
+# ansible local run with specific ssh-key ( pub key already on server )
+# -DC - --diff --check ( dry run, without any changes on server )
+ansible-playbook playbooks/playbook-to-execute.yaml -i hosts -u USERNAME -DC --extra-vars="ansible_ssh_private_key_file=/path/to/private/key" 

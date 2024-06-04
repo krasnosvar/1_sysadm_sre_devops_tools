@@ -36,6 +36,11 @@ file=consul_1.8.3_linux_amd64.zip;  curl -O https://releases.hashicorp.com/consu
 #https://stackoverflow.com/questions/38906626/curl-to-return-http-status-code-along-with-the-response
 curl -o /dev/null -s -w "%{http_code}\n" https://google.com
 
+
+# ERRORS
+# awoid 302 error
+curl --location https://site.domain
+
 #############################################################################
 #httpie
 #apt install httpie -y

@@ -126,6 +126,12 @@ metadata:
   namespace: default
 imagePullSecrets:
 - name: regcred
+#copy secret "wildcard-tls-secret" to another namespace
+kubectl get secrets wildcard-tls-secret -n app1 -o json \ 
+ | jq 'del(.metadata["namespace","creationTimestamp","resourceVersion","selfLink","uid","annotations"])' \
+ | kubectl apply -n gitlab-system -f -
+
+
 
 #write manifests to file
 for i in $(kubectl get all -n default| grep -v NAME| awk '{print $1}'); do kubectl get $i -o yaml; echo "*******************"; done > manifests.yml
