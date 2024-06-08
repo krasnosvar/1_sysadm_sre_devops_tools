@@ -1,3 +1,8 @@
+# Guide on how to use regex in Nginx location block section
+https://stackoverflow.com/questions/59846238/guide-on-how-to-use-regex-in-nginx-location-block-section
+
+
+
 #config examples
 https://techexpert.tips/ru/nginx-ru/nginx-%D0%BE%D1%82%D0%BA%D0%BB%D1%8E%D1%87%D0%B8%D1%82%D1%8C-ssl-tls-1-0-%D0%B8-tls-1-1/
 
@@ -8,6 +13,10 @@ https://github.com/insspb/nginx-config
 nginx -V 2>&1|xargs -n1|grep module
 
 
+# Nginx Rewrite
+https://serverfault.com/questions/1076360/how-do-i-redirect-a-location-to-another-but-not-changing-its-url-in-nginx
+https://www.digitalocean.com/community/tutorials/nginx-rewrite-url-rules
+https://andreyex.ru/operacionnaya-sistema-linux/7-pravil-rewrite-v-nginx-s-primerami-reg-ex-i-flags/
 
 
 #allow send logs directly from nginx to rsyslog server
