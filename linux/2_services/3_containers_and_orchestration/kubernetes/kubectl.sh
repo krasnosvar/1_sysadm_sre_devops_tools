@@ -14,6 +14,9 @@ kubectl explain pods
 kubectl get no
 kubectl cluster-info 
 kubectl config view
+# monitoring nodes,pods
+kubectl top nodes
+kubectl top pods
 #list all namespaces
 kubectl get namespaces
 kubectl get pods --all-namespaces
@@ -45,6 +48,8 @@ https://www.redhat.com/sysadmin/troubleshooting-terminating-namespaces
 https://stackoverflow.com/questions/52369247/namespace-stuck-as-terminating-how-i-removed-it
 
 #PODs
+# Force replace, delete and then re-create the resource
+kubectl replace --force -f ./pod.json
 #check on what node is my pod in namespace default
 kubectl get pods -o wide -n default
 #same for all pods
@@ -90,7 +95,9 @@ kubectl label nodes --all disktype=ssd
 #create cronjob
 kubectl edit cronjob test
 
-
+# TAINTS and TOLERATIONS
+# add taint to node01 with key: apps, value=front and effect of NoSchedule
+kubectl taint nodes node01 apps=front:NoSchedule
 #check for taints on node
 kubectl get nodes -o jsonpath="{range .items[*]}{.metadata.name} {.spec.taints[?(@.effect=='NoSchedule')].effect}{\"\n\"}{end}"
 #untaint master-worker nodes

@@ -35,3 +35,29 @@ sudo -u postgres createuser postgres_tst_user
 postgres=# ALTER USER silvergate_db_user WITH SUPERUSER;
 #
 postgres=# ALTER USER test_user WITH NOSUPERUSER;
+
+
+#Users and groups
+# -- grant multiple roles to user
+grant role1, role2, role3 to user_login;
+
+
+
+# check user roles ( from inside postgres)
+WITH RECURSIVE cte AS (
+   SELECT oid FROM pg_roles WHERE rolname = 'user_login'
+
+   UNION ALL
+   SELECT m.roleid
+   FROM   cte
+   JOIN   pg_auth_members m ON m.member = cte.oid
+   )
+SELECT oid, oid::regrole::text AS rolename FROM cte;
+# output
+   oid   |          rolename           
+---------+-----------------------------
+ 1118438 | user_login
+  711146 | role1
+  711153 | role2
+  711155 | role3
+  711156 | role4
