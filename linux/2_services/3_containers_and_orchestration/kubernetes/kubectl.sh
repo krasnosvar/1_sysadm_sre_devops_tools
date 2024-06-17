@@ -47,6 +47,7 @@ kubectl create namespace {namespace}
 https://www.redhat.com/sysadmin/troubleshooting-terminating-namespaces
 https://stackoverflow.com/questions/52369247/namespace-stuck-as-terminating-how-i-removed-it
 
+
 #PODs
 # Force replace, delete and then re-create the resource
 kubectl replace --force -f ./pod.json
@@ -58,7 +59,15 @@ kubectl get pods -o wide --all-namespaces
 kubectl exec -it podname -- /bin/bash
 # delete pods forcefully
 for i in $(kubectl get po -n kube-system| grep konnec| awk '{print $1}'); do kubectl delete pod $i --grace-period=0 --force --namespace kube-system; done
+# creater pod with argument "--var=vick"
+k run podName --image=busybox -- "--var=vick"
 
+
+#DEPLOYMENTS
+#change image
+# deployment - frontend
+# webapp - container name in the deployment 
+kubectl set image deployment/frontend webapp=kodekloud/webapp-color:v2
 
 #SERVICE
 # create service via "kubectl expose" command ( for existing pod, or deployment)
@@ -120,6 +129,7 @@ kubectl get cm -o yaml --all-namespaces | grep "what_you_need"
 kubectl get secret your-secret-name -n your-namespace -o json | jq '."data"."tls.crt"'| sed 's/"//g'| base64 -d -
 #create password as secret
 kubectl create secret generic my-password --from-literal=password=mysqlpassword
+kubectl create secret generic my-secret --from-literal=key1=supersecret --from-literal=key2=topsecret
 #check
 kubectl get secret my-password
 #create secret for registry auth
