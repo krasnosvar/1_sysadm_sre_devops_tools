@@ -1,0 +1,77 @@
+# https://spacelift.io/blog/kubernetes-dashboard
+#  kubectl get secret $(kubectl -n default get serviceaccount sa-read-only-developer  -o jsonpath="{.secrets[0].name}") -o jsonpath="{.data.token}" | base64 --decode
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sa-read-only-developer
+  namespace: default
+
+---  
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cr-read-only-developer
+rules:
+- apiGroups: [""]
+  resources: ["pods", "deployment", "service", "configmap"]
+  verbs: ["get", "watch", "list"]        
+
+
+# ---
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: ClusterRoleBinding
+# metadata:
+#   name: crb-read-only-developer
+
+# roleRef:
+#   apiGroup: rbac.authorization.k8s.io
+#   name: cr-read-only-developer
+#   kind: ClusterRole
+# subjects:
+#   - kind: ServiceAccount
+#     name: sa-read-only-developer
+#     namespace: default
+
+---
+# https://faun.pub/kubernetes-rbac-use-one-role-in-multiple-namespaces-d1d08bb08286
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: crb-read-only-developer
+  namespace: test1
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  name: cr-read-only-developer
+  kind: ClusterRole
+subjects:
+  - kind: ServiceAccount
+    name: sa-read-only-developer
+    namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: crb-read-only-developer
+  namespace: test2
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  name: cr-read-only-developer
+  kind: ClusterRole
+subjects:
+  - kind: ServiceAccount
+    name: sa-read-only-developer
+    namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: crb-read-only-developer
+  namespace: test3
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  name: cr-read-only-developer
+  kind: ClusterRole
+subjects:
+  - kind: ServiceAccount
+    name: sa-read-only-developer
+    namespace: default

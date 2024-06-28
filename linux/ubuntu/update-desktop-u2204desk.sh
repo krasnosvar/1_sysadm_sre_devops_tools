@@ -18,7 +18,8 @@ echo \
   $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 # terraform
-file=terraform_1.7.1_linux_amd64.zip && wget https://hashicorp-releases.yandexcloud.net/terraform/1.4.0/$file && unzip $file && cp terraform /usr/bin/ && rm -rf $file 
+file=terraform_1.7.1_linux_amd64.zip && wget https://hashicorp-releases.yandexcloud.net/terraform/1.4.0/$file \
+&& unzip $file && cp terraform /usr/bin/ && rm -rf $file 
 
 apt update -y
 apt upgrade -y
@@ -263,10 +264,10 @@ sudo apt install postgresql-client -y
 #PIPs
 echo "Install PIPs"
 #python linter
-pip3 install flake8 flake8-broken-line pep8-naming flake8-return flake8-isort 
-pip3 install ansible yq jq trash-cli
+sudo pip3 install flake8 flake8-broken-line pep8-naming flake8-return flake8-isort 
+sudo pip3 install ansible yq jq trash-cli
 #for ansible conditions in tasks
-pip3 install jmespath
+sudo pip3 install jmespath
 
 
 #install DEBs-from-web by ansible
@@ -306,6 +307,7 @@ sudo snap install fbreader
 wget https://launchpad.net/veracrypt/trunk/1.26.7/+download/veracrypt-1.26.7-Ubuntu-22.04-amd64.deb
 apt install libccid pcscd -y
 dplg -i veracrypt-1.26.7-Ubuntu-22.04-amd64.deb
+
 
 #VIM install plugins
 git clone https://github.com/VundleVim/Vundle.vim.git /home/den/.vim/bundle/Vundle.vim
