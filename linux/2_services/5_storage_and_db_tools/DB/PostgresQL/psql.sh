@@ -29,3 +29,11 @@ psql -U user -d db_name -c "Copy (Select * From foo_table LIMIT 10) To STDOUT Wi
 
 # remote connect
 psql postgresql://user:pass@host:1234/db
+
+
+#check master-slave ( true- slave, false -master)
+postgres=# SELECT pg_is_in_recovery();
+ pg_is_in_recovery 
+-------------------
+ f
+(1 row)

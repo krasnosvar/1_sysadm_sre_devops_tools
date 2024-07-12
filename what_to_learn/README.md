@@ -38,10 +38,13 @@ https://www.youtube.com/watch?v=h_Wm-tgsJ5I&t=3937s
 ```
 https://roadmap.sh/golang
 
+
 https://www.oreilly.com/library/view/pro-go-the/9781484273555/
 
 https://practicum.yandex.kz/go-developer-basic
 https://practicum.yandex.kz/go-advanced
+
+https://www.ardanlabs.com/training/individual-on-demand/ultimate-go-bundle/
 
 ```
 
