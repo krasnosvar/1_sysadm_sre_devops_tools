@@ -138,3 +138,5 @@ NAME      MEM USAGE / LIMIT
 nginx     9.988MiB / 62.66GiB
 
 
+# count how all containers allocate space (in bytes)
+var=0; for i in $(docker inspect -f "{{ .Size }}" $(docker image ls -q)); do var=$((var + $i)); done; echo $var
