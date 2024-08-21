@@ -29,8 +29,12 @@ find /var/log/* -mtime +7 -exec rm {} \;
 find /var/log/* -mtime +182 -exec rm {} \;
 #Найти и удалить файлы ТОЛЬКО с расширением .log старше 30 дней
 find /var/log -name "*.log" -type f -mtime +30 -exec rm -f {} \;
-#if ERROR  Argument list too long, do through for loop
-for i in /var/spool/exim/msglog/*; do find $i -mtime +100 -exec rm {} \;; done
+#if ERROR  Argument list too long:
+# for i in /var/spool/exim/msglog/*; do find $i -mtime +100 -exec rm {} \;; done
+# recursive
+find . -name "*.pdf" -print0 | xargs -0 rm
+# non-recursive
+find . -maxdepth 1 -name "*.pdf" -print0 | xargs -0 rm
 
 
 #Copy all files from ~/Downloads to ~/Downloads/apcupsd_d directory, changed in last 1 minute
