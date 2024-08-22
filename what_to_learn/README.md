@@ -33,30 +33,59 @@ https://www.youtube.com/watch?v=h_Wm-tgsJ5I&t=3937s
 ```
 
 
+2. AWS
+```
+# concept
+https://roadmap.sh/aws
+https://coggle.it/diagram/ZNyWdlpO0W45uyGP/t/star-fundamental-aws-concepts-star/e32b8f30645ef1e3ac58b95a70c8eeeff3d0f53796c601930f3752cae1f959e6
+https://aws.amazon.com/certification/
+
+# practice
+https://kodekloud.com/learning-path/cloud-engineer/
+https://www.pluralsight.com/browse/aws-cloud-training
+
+```
+
+
 3. Go
 
 ```
 https://roadmap.sh/golang
-
-
+# great book
 https://www.oreilly.com/library/view/pro-go-the/9781484273555/
-
+# practice without experience
 https://practicum.yandex.kz/go-developer-basic
 https://practicum.yandex.kz/go-advanced
-
 https://www.ardanlabs.com/training/individual-on-demand/ultimate-go-bundle/
 
 ```
 
 
-2. AWS
+4. Other
+* Terraform
 ```
-https://roadmap.sh/aws
+https://developer.hashicorp.com/terraform/docs
+https://learn.kodekloud.com/user/courses/terraform-associate-certification-hashicorp-certified
 
-https://coggle.it/diagram/ZNyWdlpO0W45uyGP/t/star-fundamental-aws-concepts-star/e32b8f30645ef1e3ac58b95a70c8eeeff3d0f53796c601930f3752cae1f959e6
+```
+* DataBases
+```
+https://www.postgresqltutorial.com
+https://www.enterprisedb.com/course/postgresql-13-associate-certification
+
+```
 
 
-https://kodekloud.com/learning-path/cloud-engineer/
-https://www.pluralsight.com/browse/aws-cloud-training
+5. Basics
 
+* Linux
+```
+https://training.linuxfoundation.org/certification/linux-foundation-certified-sysadmin-lfcs/
+https://learn.kodekloud.com/user/courses/linux-foundation-certified-system-administrator-lfcs
+```
+* Networks
+```
+https://www.cisco.com/site/us/en/learn/training-certifications/certifications/enterprise/ccna/index.html
+https://courses.jeremysitlab.com/courses/
+https://www.youtube.com/playlist?list=PLxbwE86jKRgMpuZuLBivzlM8s2Dk5lXBQ
 ```
