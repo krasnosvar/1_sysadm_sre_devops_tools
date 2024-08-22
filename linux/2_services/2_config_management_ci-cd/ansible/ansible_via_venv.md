@@ -14,11 +14,27 @@ echo "alias python3=python3.12" >> ~/.zshrc
 mkdir ~/python-venv
 cd ~/python-venv
 
+# IN ONE COMMAND
+# for ansible v4:
+ansVer=4 pythonVer=3.9 && \
+cd ~/python-venv && \
+python$pythonVer -m venv ansible$ansVer && \
+source ansible$ansVer/bin/activate && \
+python$pythonVer -m pip install --upgrade pip && \
+python$pythonVer -m pip install ansible==$ansVer && \
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES && \
+cd -
+
 # for ansible v9:
-python3 -m venv ansible9
-source ansible9/bin/activate
-python3 -m pip install --upgrade pip
-python3 -m pip install ansible==9
+ansVer=9 pythonVer=3.12 && \
+cd ~/python-venv && \
+python$pythonVer -m venv ansible$ansVer && \
+source ansible$ansVer/bin/activate && \
+python$pythonVer -m pip install --upgrade pip && \
+python$pythonVer -m pip install ansible==$ansVer && \
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES && \
+cd -
+
 ```
 
 3. Execute playbook with activated venv
