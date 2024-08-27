@@ -85,7 +85,12 @@ https://learn.kodekloud.com/user/courses/linux-foundation-certified-system-admin
 ```
 * Networks
 ```
+# CCNA
 https://www.cisco.com/site/us/en/learn/training-certifications/certifications/enterprise/ccna/index.html
+# online cource
+https://www.cbtnuggets.com/it-training/cisco/ccna
+
+# recommended on reddit ( but too mutch long-videos)
 https://courses.jeremysitlab.com/courses/
 https://www.youtube.com/playlist?list=PLxbwE86jKRgMpuZuLBivzlM8s2Dk5lXBQ
 ```
