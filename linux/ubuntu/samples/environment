@@ -1,6 +1,0 @@
-PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-http_proxy="http://krasnosvarov_dn:passwd@mwg.corp.domain.ru:3128/"
-https_proxy="http://krasnosvarov_dn:passwd@mwg.corp.domain.ru:3128/"
-ftp_proxy="http://krasnosvarov_dn:passwd@mwg.corp.domain.ru:3128/"
-socks_proxy="http://krasnosvarov_dn:passwd@mwg.corp.domain.ru:3128/"
-
