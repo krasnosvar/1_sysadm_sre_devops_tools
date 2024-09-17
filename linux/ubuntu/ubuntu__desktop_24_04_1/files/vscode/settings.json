@@ -1,0 +1,11 @@
+{
+    "redhat.telemetry.enabled": false,
+    "terminal.integrated.fontFamily": "Menlo for Powerline",
+    "terminal.integrated.fontWeightBold": "bold",
+    "[python]": {
+        "editor.formatOnType": true
+    },
+    "go.toolsManagement.autoUpdate": true,
+    "go.survey.prompt": false,
+    "terminal.integrated.enableMultiLinePasteWarning": false
+}
