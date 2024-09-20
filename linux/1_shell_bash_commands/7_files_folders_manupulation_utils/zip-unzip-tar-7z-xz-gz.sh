@@ -1,4 +1,4 @@
-###ZIP
+# ZIP
 #unzip file to specific folder(/etc/ansible/roles)
 unzip /home/den/ansible-haproxy-master.zip -d /etc/ansible/roles/
 #create zip-archive with password
@@ -19,7 +19,8 @@ file=consul_1.8.3_linux_amd64.zip;  curl -O https://releases.hashicorp.com/consu
 apt install fcrackzip
 fcrackzip -u -b -v file.zip
 
-#7z
+
+# 7z
 #install in Ubuntu
 sudo apt install p7zip-full -y
 #untar password-protected archive with password "7928"
@@ -30,7 +31,8 @@ sudo apt install p7zip-full -y
 7z a secure.7z * -p"pa$$word @|"
 
 
-###TAR
+# TAR
+# extracts: *.tar, *.tar.gz,  *.tar.xz, *.tbz
 #create tar
 tar -cvf archive.tar file-to-be-archive
 #create tar.gz from specific dir ( /var/log) and put in in specific dir (/backup)
@@ -51,7 +53,7 @@ tar -tvf archive.tar
 #untar in specific folder /home/den/tst2/ 
 tar -C /home/den/tst2/ -xvf /home/den/tst/app.zip --strip-components 1
 
-#TBZ
+# TBZ by tar
 #extract TBZ
 tar -xjf test.tbz
 #To extract to  folder tmp/test
@@ -60,7 +62,7 @@ tar -xjf test.tbz -C /tmp/test
 sudo wget -c https://github.com/fullstorydev/grpcurl/releases/download/v1.8.0/grpcurl_1.8.0_linux_x86_64.tar.gz -O - | sudo tar -xz -C /usr/local/bin/
 sudo wget -c https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz -O - | sudo tar -xz -C /usr/local/bin/
 
-#XZ by tar
+# XZ by tar
 tar -xpJf archive.tar.xz
 #or
 #XZ - working with *.xz files
@@ -77,7 +79,13 @@ unxz -v  /home/den/git_projects/images/fedora-coreos-32.20200809.3.0-qemu.x86_64
 #or
 xz --decompress file.xz
 
+
 #unpack ARJ archive 
 sudo apt update && sudo apt install unar -y
 cp task task_bkp
 unar task
+
+
+#GZ - not tar.gz
+# -c, --stdout      write on standard output, keep original files unchanged
+gzip -c filename.log.gz > /test_logs/filename.log
