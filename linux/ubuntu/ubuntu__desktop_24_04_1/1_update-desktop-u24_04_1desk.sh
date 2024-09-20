@@ -93,9 +93,10 @@ sudo apt upgrade -y
 git config --global user.name "krasnosvar"
 git config --global user.email "krasnosvar@gmail.com"
 git config --global color.ui auto
-git config --global core.editor "vim"
+# git config --global core.editor "vim"
 #
-sudo apt install -y libreoffice audacity transmission sshpass htop expect tree 
+# calibre - for kindle ebook
+sudo apt install -y libreoffice audacity transmission sshpass htop expect tree gnome-tweaks calibre
 # clear pdf-meta info
 # pdftk file.pdf  dump_data |sed -e 's/\(InfoValue:\)\s.*/\1\ /g' | pdftk file.pdf update_info - output file_no_meta.pdf
 # https://stackoverflow.com/questions/60738960/remove-pdf-metadata-removing-complete-pdf-metadata
