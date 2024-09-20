@@ -4,3 +4,4 @@ linux/services/terraform/libvirt/terraform.tfstate.backup
 linux/services/terraform/libvirt/.terraform/
 linux/2_services/docker/Dockerfiles/sqlplus/instantclient_21_4/
 linux/2_services/docker/Dockerfiles/sqlplus/instantclient_21_6/
+.DS_Store
