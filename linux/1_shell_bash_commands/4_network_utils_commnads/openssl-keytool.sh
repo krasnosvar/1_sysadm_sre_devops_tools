@@ -34,11 +34,11 @@ for cert in *.pem; do newname=$(openssl x509 -noout -subject -in $cert | sed -n 
 while openssl x509 -noout -text; do :; done < cert-bundle.pem
 
 
-#commands to create self-sighned sert
+#commands to create self-sighned cert
 openssl genrsa -out private.key 2048
 openssl req -new -key private.key -out server.csr
 openssl x509 -req -days 365 -in server.csr -signkey private.key -out server.crt
-#self-sighned sert oneliner with "CN" ( CommonName )
+#self-sighned cert oneliner with "CN" ( CommonName )
 openssl req -newkey rsa:4096 -nodes -sha256 -subj '/CN=localhost/O=domain/C=RU/ST=KRD/L=Krasnodar' \
 -keyout domain.local.key -x509 -days 365 -out domain.local.crt
 # same with DNS
