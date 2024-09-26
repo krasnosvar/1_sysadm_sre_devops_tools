@@ -1,10 +1,13 @@
 #use curl without proxy
 curl  --noproxy "*"
 
+# curl with certs
+curl --cert your-domain.crt --key your-domain.key --cacert ca-your-domain.crt https://your-domain.com
+
 #do 10 curl's
 curl http://localhost:80/[1-10]
 
-#Тип запроса определяется с ключем -X (GET идет по-умолчанию, можно не указывать):
+#Request type -X (GET by default):
 curl -X GET http://www.example.com
 curl -X POST http://www.example.com -d '{"variable": "value"}'
 curl -X POST http://www.example.com -d @filename.json
@@ -40,6 +43,9 @@ curl -o /dev/null -s -w "%{http_code}\n" https://google.com
 # ERRORS
 # awoid 302 error
 curl --location https://site.domain
+
+
+
 
 #############################################################################
 #httpie
