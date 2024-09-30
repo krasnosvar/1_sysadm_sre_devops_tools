@@ -49,6 +49,7 @@ brew install expect
 brew install vault
 brew install watch
 brew install byobu
+brew install tree
 brew install --cask termius
 
 #displaylink
