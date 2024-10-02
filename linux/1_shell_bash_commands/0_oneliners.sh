@@ -29,7 +29,7 @@ rsync -vuarP ~/.vimrc $backup_dir && \
 rsync -vuarP -r ~/.byobu $backup_dir && \
 
 
-#генерация самоподписного сертификата oneliner
+#generate self-sighned cert oneliner
 openssl req -newkey rsa:4096 -nodes -sha256 -subj '/CN=localhost/O=domain/C=RU/ST=KRD/L=Krasnodar' \
 -keyout domain.local.key -x509 -days 365 -out domain.local.crt
 #with pem
@@ -63,10 +63,10 @@ for i in {1..100}; do echo $i && curl -s -o /dev/null -w "%{http_code}\n" https:
 # in alpine ash
 for i in $(seq 100); do echo $i && curl -s -o /dev/null -w "%{http_code}\n" https://site.domain; done
 
-#убить процессы пользователя toor (например, для его удаления)
+#del toor processes (to delete user for example)
 ps aux | awk '/^toor/ {print $2}' | xargs kill -9
 
-#переименовать расширение всех файлов
+#rename all files with *.txt extension
 yum -y install rename
 rename 's/\.txt$/.text/' *.txt
 

@@ -29,7 +29,7 @@ curl --insecure \
 -H "Accept: application/json" \
 -H "Content-Type: application/json" \
 -H "Authorization: $AUTH" \
---data @snapvra.json https://tcloud.corp.domain.ru/catalog-service/api/consumer/entitledCatalogItems/b7210569-ce4b-4110-b123-a58f8682fb67/requests| python -m json.tool
+--data @snapvra.json https://tcloud.corp.domain/catalog-service/api/consumer/entitledCatalogItems/b7210569-ce4b-4110-b123-a58f8682fb67/requests| python -m json.tool
 
 ##curl and unzip file from URL
 file=consul_1.8.3_linux_amd64.zip;  curl -O https://releases.hashicorp.com/consul/1.8.3/$file && unzip $file && rm -rf $file
@@ -38,6 +38,8 @@ file=consul_1.8.3_linux_amd64.zip;  curl -O https://releases.hashicorp.com/consu
 #return only response code
 #https://stackoverflow.com/questions/38906626/curl-to-return-http-status-code-along-with-the-response
 curl -o /dev/null -s -w "%{http_code}\n" https://google.com
+# with certs
+curl -s -o /dev/null -w "%{http_code}" --cert domain.crt --key domain.key --cacert ca-domain.crt https://domain.com 
 
 
 # ERRORS
