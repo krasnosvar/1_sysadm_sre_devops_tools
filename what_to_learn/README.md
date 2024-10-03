@@ -19,15 +19,6 @@ https://kodekloud.com/learning-path/cka/
 #theory preparation
 https://kodekloud.com/blog/cka-exam-prep/
 https://devopscube.com/cka-exam-study-guide/
-https://github.com/leandrocostam/cka-preparation-guide
-https://www.linkedin.com/pulse/how-prepare-cka-exam-certified-kubernetes-2024-sohail-tahir-edd7e
-https://abhisheksharma7389.medium.com/how-to-prepare-for-cka-certified-kubernetes-administrator-exam-283c1111a371
-https://kubernetes.io/docs/tutorials/
-
-
-# videos
-Как сдать CKA в 2023 году, опыт Виктора Ведмича DKT48
-https://www.youtube.com/watch?v=h_Wm-tgsJ5I&t=3937s
 
 
 ```

@@ -2,10 +2,10 @@
 #https://kubernetes.io/ru/docs/reference/kubectl/cheatsheet/
 #KUBECTL REFERENCE
 #https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#label
-#Автодополнение ввода для Kubectl
+#autocompletion Kubectl
 sudo yum install bash-completion -y
-source <(kubectl completion bash) # настройка автодополнения в текущую сессию bash, предварительно должен быть установлен пакет bash-completion .
-echo "source <(kubectl completion bash)" >> ~/.bashrc # добавление автодополнения autocomplete постоянно в командную оболочку bash.
+source <(kubectl completion bash) # in current bash session (bash-completion installed already)
+echo "source <(kubectl completion bash)" >> ~/.bashrc 
 #HELP kubectl
 kubectl --help
 kubectl api-resources
@@ -20,10 +20,8 @@ kubectl top pods
 #list all namespaces
 kubectl get namespaces
 kubectl get pods --all-namespaces
-#show pods of namespace "kube-system"
-kubectl get pods -n kube-system
-#show all resources in namespace
-kubectl get all -n kube-system
+
+
 #show all containers in cluster
 #https://kubernetes.io/docs/tasks/access-application-cluster/list-all-running-container-images/#list-container-images-by-pod
 kubectl get pods --all-namespaces -o=jsonpath='{range .items[*]}{"\n"}{.metadata.name}{":\t"}{range .spec.containers[*]}{.image}{", "}{end}{end}' |sort
@@ -43,9 +41,7 @@ kubectl delete all --all -n rook-ceph
 #delete-create namespace
 kubectl delete namespace {namespace}
 kubectl create namespace {namespace}
-#if namespace stuck in terminating state
-https://www.redhat.com/sysadmin/troubleshooting-terminating-namespaces
-https://stackoverflow.com/questions/52369247/namespace-stuck-as-terminating-how-i-removed-it
+
 
 
 #PODs
@@ -68,6 +64,7 @@ k run podName --image=busybox -- "--var=vick"
 # deployment - frontend
 # webapp - container name in the deployment 
 kubectl set image deployment/frontend webapp=kodekloud/webapp-color:v2
+
 
 #SERVICE
 # create service via "kubectl expose" command ( for existing pod, or deployment)
@@ -134,15 +131,6 @@ kubectl create secret generic my-secret --from-literal=key1=supersecret --from-l
 kubectl get secret my-password
 #create secret for registry auth
 kubectl create secret docker-registry regcred --docker-server=hub.docker.local --docker-username=docker_user --docker-password=12345 --docker-email=krasnosvar@gmail.com
-#pin secret to default namespace
-root@node1:~# cat secret.yml 
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: default
-  namespace: default
-imagePullSecrets:
-- name: regcred
 #copy secret "wildcard-tls-secret" to another namespace
 kubectl get secrets wildcard-tls-secret -n app1 -o json \ 
  | jq 'del(.metadata["namespace","creationTimestamp","resourceVersion","selfLink","uid","annotations"])' \
@@ -151,7 +139,7 @@ kubectl get secrets wildcard-tls-secret -n app1 -o json \
 
 
 #write manifests to file
-for i in $(kubectl get all -n default| grep -v NAME| awk '{print $1}'); do kubectl get $i -o yaml; echo "*******************"; done > manifests.yml
+for i in $(kubectl get all -n default| grep -v NAME| awk '{print $1}'); do kubectl get $i -o yaml; echo "#######################################"; done > manifests.yml
 
 # LABELS
 # https://stackoverflow.com/questions/77301400/how-to-list-all-labels-in-kubernetes
@@ -176,3 +164,7 @@ for i in $(k0s kubectl get po -n kube-system| grep konnec| awk '{print $1}'); do
 
 #Clean pods ( Error, Completed, NodeShutdown)
 for i in $(kubectl -n argocd get po | grep "0/1"| awk '{print $1}'); do kubectl -n argocd delete pod $i; done
+
+#if namespace stuck in terminating state
+https://www.redhat.com/sysadmin/troubleshooting-terminating-namespaces
+https://stackoverflow.com/questions/52369247/namespace-stuck-as-terminating-how-i-removed-it
