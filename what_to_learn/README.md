@@ -34,6 +34,8 @@ https://learn.kodekloud.com/user/courses/ultimate-certified-kubernetes-applicati
 ```
 https://learn.kodekloud.com/user/courses/certified-kubernetes-security-specialist-cks
 https://learn.kodekloud.com/user/courses/cks-challenges
+https://github.com/aquasecurity/kube-bench
+https://devopscube.com/cks-exam-guide-tips/
 ```
 
 
