@@ -7,21 +7,35 @@ https://kubernetes.io/docs/home/
 https://kubebyexample.com/
 https://logz.io/blog/what-are-the-hardest-parts-of-kubernetes-to-learn/
 
+
+learn playgrounds
 #PRACTICE
 https://killer.sh
 https://killercoda.com/killer-shell-cka
 https://kodekloud.com/learning-path/cka/
 ```
 
-* CKA
+##### Preparation to certification
+* 1. CKA
 * https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/
 ```
-#theory preparation
 https://kodekloud.com/blog/cka-exam-prep/
+https://learn.kodekloud.com/user/courses/ultimate-certified-kubernetes-administrator-cka-mock-exam-series
 https://devopscube.com/cka-exam-study-guide/
-
-
 ```
+* 2. CKAD
+* https://training.linuxfoundation.org/certification/certified-kubernetes-application-developer-ckad/
+```
+https://learn.kodekloud.com/user/courses/certified-kubernetes-application-developer-ckad
+https://learn.kodekloud.com/user/courses/ultimate-certified-kubernetes-application-developer-ckad-mock-exam-series
+```
+* 3. CKS
+* https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/
+```
+https://learn.kodekloud.com/user/courses/certified-kubernetes-security-specialist-cks
+https://learn.kodekloud.com/user/courses/cks-challenges
+```
+
 
 
 2. AWS
