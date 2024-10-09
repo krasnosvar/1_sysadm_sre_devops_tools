@@ -1,4 +1,45 @@
-1. Kubernetes
+### it Learning materials
+
+1. Basics
+- Computer science
+  - [Open Source Society University. free self-taught education in Computer Science](https://github.com/ossu/computer-science)
+  - [Teach Yourself Computer Science](https://teachyourselfcs.com)
+
+- Linux
+  - [Linux foundation sysadmin certification LFCS](https://training.linuxfoundation.org/certification/linux-foundation-certified-sysadmin-lfcs/)
+  - [KodeKloud course for LFCS](https://learn.kodekloud.com/user/courses/linux-foundation-certified-system-administrator-lfcs)
+
+- Networks
+  - [CCNA](https://www.cisco.com/site/us/en/learn/training-certifications/certifications/enterprise/ccna/index.html)
+  - [online CCNA cource](https://www.cbtnuggets.com/it-training/cisco/ccna)
+* recommended on reddit ( but too mutch long-videos)
+* https://courses.jeremysitlab.com/courses/
+* https://www.youtube.com/playlist?list=PLxbwE86jKRgMpuZuLBivzlM8s2Dk5lXBQ
+
+- DataBases
+  - [postgresqltutorial.com](https://www.postgresqltutorial.com)
+  - [postgres enterprisedb.com](https://www.enterprisedb.com/course/postgresql-13-associate-certification)
+
+
+
+
+2. Programming languages
+- 2.1 Golang
+```
+https://roadmap.sh/golang
+# great book
+https://www.oreilly.com/library/view/pro-go-the/9781484273555/
+# practice without experience
+https://practicum.yandex.kz/go-developer-basic
+https://practicum.yandex.kz/go-advanced
+https://www.ardanlabs.com/training/individual-on-demand/ultimate-go-bundle/
+
+```
+
+
+
+3. Other main technologies
+- 3.1 Kubernetes
 ```
 learn playgrounds
 #THEORY
@@ -12,7 +53,6 @@ https://killer.sh
 https://killercoda.com/killer-shell-cka
 https://kodekloud.com/learning-path/cka/
 ```
-
 * CKA
 * https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/
 ```
@@ -24,16 +64,11 @@ https://www.linkedin.com/pulse/how-prepare-cka-exam-certified-kubernetes-2024-so
 https://abhisheksharma7389.medium.com/how-to-prepare-for-cka-certified-kubernetes-administrator-exam-283c1111a371
 https://kubernetes.io/docs/tutorials/
 
-
-# videos
-Как сдать CKA в 2023 году, опыт Виктора Ведмича DKT48
-https://www.youtube.com/watch?v=h_Wm-tgsJ5I&t=3937s
-
-
 ```
 
 
-2. AWS
+- 3.2 Clouds 
+- 3.2.1 AWS
 ```
 # concept
 https://roadmap.sh/aws
@@ -45,52 +80,9 @@ https://kodekloud.com/learning-path/cloud-engineer/
 https://www.pluralsight.com/browse/aws-cloud-training
 
 ```
-
-
-3. Go
-
-```
-https://roadmap.sh/golang
-# great book
-https://www.oreilly.com/library/view/pro-go-the/9781484273555/
-# practice without experience
-https://practicum.yandex.kz/go-developer-basic
-https://practicum.yandex.kz/go-advanced
-https://www.ardanlabs.com/training/individual-on-demand/ultimate-go-bundle/
-
-```
-
-
-4. Other
-* Terraform
+- 3.2.2 Terraform
 ```
 https://developer.hashicorp.com/terraform/docs
 https://learn.kodekloud.com/user/courses/terraform-associate-certification-hashicorp-certified
 
-```
-* DataBases
-```
-https://www.postgresqltutorial.com
-https://www.enterprisedb.com/course/postgresql-13-associate-certification
-
-```
-
-
-5. Basics
-
-* Linux
-```
-https://training.linuxfoundation.org/certification/linux-foundation-certified-sysadmin-lfcs/
-https://learn.kodekloud.com/user/courses/linux-foundation-certified-system-administrator-lfcs
-```
-* Networks
-```
-# CCNA
-https://www.cisco.com/site/us/en/learn/training-certifications/certifications/enterprise/ccna/index.html
-# online cource
-https://www.cbtnuggets.com/it-training/cisco/ccna
-
-# recommended on reddit ( but too mutch long-videos)
-https://courses.jeremysitlab.com/courses/
-https://www.youtube.com/playlist?list=PLxbwE86jKRgMpuZuLBivzlM8s2Dk5lXBQ
 ```

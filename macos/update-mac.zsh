@@ -125,4 +125,5 @@ export PATH="\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/
 EOF
 # install VScodium - free vscode
 brew install --cask vscodium
+cp ../linux/ubuntu/ubuntu__desktop_24_04_1/files/vscode/settings.json ~/Library/Application\ Support/VSCodium/User/settings.json
 codium --install-extension ms-python.python
