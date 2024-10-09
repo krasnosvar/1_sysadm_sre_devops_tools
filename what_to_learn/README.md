@@ -48,16 +48,19 @@ https://kubernetes.io/docs/home/
 https://kubebyexample.com/
 https://logz.io/blog/what-are-the-hardest-parts-of-kubernetes-to-learn/
 
+
+learn playgrounds
 #PRACTICE
 https://killer.sh
 https://killercoda.com/killer-shell-cka
 https://kodekloud.com/learning-path/cka/
 ```
-* CKA
+##### Preparation to certification
+* 1. CKA
 * https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/
 ```
-#theory preparation
 https://kodekloud.com/blog/cka-exam-prep/
+https://learn.kodekloud.com/user/courses/ultimate-certified-kubernetes-administrator-cka-mock-exam-series
 https://devopscube.com/cka-exam-study-guide/
 https://github.com/leandrocostam/cka-preparation-guide
 https://www.linkedin.com/pulse/how-prepare-cka-exam-certified-kubernetes-2024-sohail-tahir-edd7e
