@@ -5,6 +5,8 @@ list or \l
 \dt
 #list all tables in the current database regardless your search_path
 \dt *.
+#  lists all schemas excluding system's in the current database:
+\dn
 #connect to database
 \c database_name
 #show tables in database

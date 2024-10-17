@@ -37,3 +37,6 @@ postgres=# SELECT pg_is_in_recovery();
 -------------------
  f
 (1 row)
+
+# check DB size
+SELECT pg_size_pretty( pg_database_size('testdbname') );

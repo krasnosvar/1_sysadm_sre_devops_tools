@@ -61,3 +61,33 @@ SELECT oid, oid::regrole::text AS rolename FROM cte;
   711153 | role2
   711155 | role3
   711156 | role4
+
+
+# check user privileges
+# https://stackoverflow.com/questions/40759177/postgresql-show-all-the-privileges-for-a-concrete-user
+# Table permissions:
+SELECT *
+  FROM information_schema.role_table_grants 
+ WHERE grantee = 'YOUR_USER';
+
+# Ownership:
+ SELECT *
+  FROM pg_tables 
+ WHERE tableowner = 'YOUR_USER';
+
+Schema permissions:
+       SELECT r.usename AS grantor,
+             e.usename AS grantee,
+             nspname,
+             privilege_type,
+             is_grantable
+        FROM pg_namespace
+JOIN LATERAL (SELECT *
+                FROM aclexplode(nspacl) AS x) a
+          ON true
+        JOIN pg_user e
+          ON a.grantee = e.usesysid
+        JOIN pg_user r
+          ON a.grantor = r.usesysid 
+       WHERE e.usename = 'YOUR_USER';
+
