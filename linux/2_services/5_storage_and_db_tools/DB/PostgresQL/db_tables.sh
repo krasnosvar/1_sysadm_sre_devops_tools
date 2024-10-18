@@ -17,7 +17,6 @@ INSERT INTO auth_user (password, username, is_superuser) VALUES ('test', 'test',
 
 # Copy a table from one database to another in Postgres
 https://stackoverflow.com/questions/3195125/copy-a-table-from-one-database-to-another-in-postgres
-
 # Extract the table and pipe it directly to the target database:
 pg_dump -t table_to_copy source_db | psql target_db
 # Note: If the other database already has the table set up, you should use the -a flag to import data only, else you may see weird errors like "Out of memory":
@@ -58,3 +57,10 @@ DROP TABLE courses;
 #copy (export) table to csv
 # https://stackoverflow.com/questions/1120109/how-to-export-table-as-csv-with-headings-on-postgresql
 psql -U user -d db_name -c "Copy (Select * From foo_table LIMIT 10) To STDOUT With CSV HEADER DELIMITER ',';" > foo_data.csv
+
+
+# How to Duplicate a Table in PostgreSQL
+# https://popsql.com/learn-sql/postgresql/how-to-duplicate-a-table-in-postgresql
+create table dupe_users as (select * from users);
+# -- The `with no data` here means structure only, no actual rows
+create table dupe_users as (select * from users) with no data;
