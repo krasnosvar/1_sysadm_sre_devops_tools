@@ -91,3 +91,6 @@ JOIN LATERAL (SELECT *
           ON a.grantor = r.usesysid 
        WHERE e.usename = 'YOUR_USER';
 
+
+# grant all to table
+GRANT ALL PRIVILEGES ON TABLE test_activ TO test_db_user;
