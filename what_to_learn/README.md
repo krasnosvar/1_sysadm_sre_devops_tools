@@ -8,7 +8,10 @@
 - Linux
   - [Linux foundation sysadmin certification LFCS](https://training.linuxfoundation.org/certification/linux-foundation-certified-sysadmin-lfcs/)
   - [KodeKloud course for LFCS](https://learn.kodekloud.com/user/courses/linux-foundation-certified-system-administrator-lfcs)
-
+  - [LPIC](https://www.lpi.org/our-certifications/lpic-1-overview/)
+  - [LPIC-1 Exam 101 learning materials](https://learning.lpi.org/pdfstore/LPI-Learning-Material-101-500-en.pdf)
+  - [LPIC-1 Exam 102 learning materials](https://learning.lpi.org/pdfstore/LPI-Learning-Material-102-500-en.pdf)
+  
 - Networks
   - [CCNA](https://www.cisco.com/site/us/en/learn/training-certifications/certifications/enterprise/ccna/index.html)
   - [online CCNA cource](https://www.cbtnuggets.com/it-training/cisco/ccna)
@@ -24,7 +27,12 @@
 
 
 2. Programming languages
-- 2.1 Golang
+- 2.1 Python3
+* https://www.python.org/about/gettingstarted/
+
+
+- 2.2 Golang
+* https://go.dev/learn/
 ```
 https://roadmap.sh/golang
 # great book
@@ -35,6 +43,10 @@ https://practicum.yandex.kz/go-advanced
 https://www.ardanlabs.com/training/individual-on-demand/ultimate-go-bundle/
 
 ```
+
+- 2.3 Rust
+* https://www.rust-lang.org/learn/get-started
+
 
 
 
@@ -48,28 +60,29 @@ https://kubernetes.io/docs/home/
 https://kubebyexample.com/
 https://logz.io/blog/what-are-the-hardest-parts-of-kubernetes-to-learn/
 
-
-learn playgrounds
 #PRACTICE
 https://killer.sh
 https://killercoda.com/killer-shell-cka
 https://kodekloud.com/learning-path/cka/
 ```
-##### Preparation to certification
-* 1. CKA
+- 3.1.1 Kubernetes certification 
+- 3.1.1.1 CKA
 * https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/
 ```
+#theory preparation
 https://kodekloud.com/blog/cka-exam-prep/
-https://learn.kodekloud.com/user/courses/ultimate-certified-kubernetes-administrator-cka-mock-exam-series
 https://devopscube.com/cka-exam-study-guide/
-https://github.com/leandrocostam/cka-preparation-guide
-https://www.linkedin.com/pulse/how-prepare-cka-exam-certified-kubernetes-2024-sohail-tahir-edd7e
-https://abhisheksharma7389.medium.com/how-to-prepare-for-cka-certified-kubernetes-administrator-exam-283c1111a371
 https://kubernetes.io/docs/tutorials/
 
 ```
+- 3.1.1.2 CKAD
+* https://training.linuxfoundation.org/certification/certified-kubernetes-application-developer-ckad/
 
 
+- 3.1.1.3 CKS
+* https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/
+
+  
 - 3.2 Clouds 
 - 3.2.1 AWS
 ```
