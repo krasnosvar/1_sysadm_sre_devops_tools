@@ -28,11 +28,11 @@
 
 2. Programming languages
 - 2.1 Python3
-* https://www.python.org/about/gettingstarted/
+  * https://www.python.org/about/gettingstarted/
 
 
 - 2.2 Golang
-* https://go.dev/learn/
+  * https://go.dev/learn/
 ```
 https://roadmap.sh/golang
 # great book
@@ -45,13 +45,13 @@ https://www.ardanlabs.com/training/individual-on-demand/ultimate-go-bundle/
 ```
 
 - 2.3 Rust
-* https://www.rust-lang.org/learn/get-started
+  * https://www.rust-lang.org/learn/get-started
 
 
 
 
 3. Other main technologies
-- 3.1 Kubernetes
+  - 3.1 Kubernetes
 ```
 learn playgrounds
 #THEORY
@@ -65,9 +65,9 @@ https://killer.sh
 https://killercoda.com/killer-shell-cka
 https://kodekloud.com/learning-path/cka/
 ```
-- 3.1.1 Kubernetes certification 
-- 3.1.1.1 CKA
-* https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/
+  - 3.1.1 Kubernetes certification 
+    - 3.1.1.1 CKA
+    * https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/
 ```
 #theory preparation
 https://kodekloud.com/blog/cka-exam-prep/
@@ -75,16 +75,16 @@ https://devopscube.com/cka-exam-study-guide/
 https://kubernetes.io/docs/tutorials/
 
 ```
-- 3.1.1.2 CKAD
-* https://training.linuxfoundation.org/certification/certified-kubernetes-application-developer-ckad/
+  - 3.1.1.2 CKAD
+    * https://training.linuxfoundation.org/certification/certified-kubernetes-application-developer-ckad/
 
 
-- 3.1.1.3 CKS
-* https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/
+  - 3.1.1.3 CKS
+    * https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/
 
   
 - 3.2 Clouds 
-- 3.2.1 AWS
+  - 3.2.1 AWS
 ```
 # concept
 https://roadmap.sh/aws
@@ -96,7 +96,7 @@ https://kodekloud.com/learning-path/cloud-engineer/
 https://www.pluralsight.com/browse/aws-cloud-training
 
 ```
-- 3.2.2 Terraform
+  - 3.2.2 Terraform
 ```
 https://developer.hashicorp.com/terraform/docs
 https://learn.kodekloud.com/user/courses/terraform-associate-certification-hashicorp-certified
