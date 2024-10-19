@@ -80,9 +80,9 @@ https://kubernetes.io/docs/tutorials/
 
 
   - 3.1.1.3 CKS
-    * https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/
-
-  
+    * https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/  
+<br>
+<br>
 - 3.2 Clouds 
   - 3.2.1 AWS
 ```
