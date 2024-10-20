@@ -78,3 +78,26 @@ sudo firewall-cmd --zone=public --permanent --add-service=https
 firewall-cmd --add-port=1521/tcp
 #To specify that the port be opened in future restarts of the instance, add the --permanent option
 firewall-cmd  --permanent --add-port=1521/tcp
+
+
+
+#UFW
+# https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu
+# https://help.ubuntu.com/community/UFW
+ufw status
+
+# list if app registered in ufw
+sudo ufw app list
+sudo ufw allow OpenSSH
+
+# Allowing SSH by Service Name
+sudo ufw allow ssh
+
+#allow directly by port
+sudo ufw allow 22
+
+# allow incoming traffic from ip-range to 5000-6000 ports by TCP protocol, "to any" means to all interfaces and/or ports and all IPs
+# https://askubuntu.com/questions/1339032/ufw-why-we-write-any-in-allow-statement
+sudo ufw allow from 192.168.10.0/24 to any port 5000:6000 proto tcp
+# will allow traffic from devices on the private network via the eth1 interface to go out to 10.0.0.0/8 addresses via the eth0 interface.
+ufw route allow in on eth0 out on eth1 to 10.0.0.0/8 from 192.168.0.0/16
