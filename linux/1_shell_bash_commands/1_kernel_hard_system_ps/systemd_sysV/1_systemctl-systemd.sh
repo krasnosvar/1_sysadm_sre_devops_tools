@@ -1,43 +1,3 @@
-#Как создать свою службу (unit) в systemd на CentOS 7
-https://wiki.it-kb.ru/unix-linux/systemd/how-to-create-warmup-command-for-apache-httpd-via-custom-service-unit-in-systemd
----------------------------------------------------------------------------------------------
-
-#systemctl
-#To show all installed unit files use 
-systemctl list-unit-files
-#узнать, какие сервисы запущены в данный момент.
-systemctl list-units -t service
-systemctl --type=service
-service --status-all
-#check service name by pid
-ps -ef | grep java
-systemctl status 88842
-#Как мне сделать так, чтобы сервис не запускался автоматически(примерб сервис cups.service)? 
-sudo systemctl disable cups
-#вернуть в автозагрузку
-sudo systemctl enable cups
-#проверить, какие сервисы были остановлены в аварийном режиме
-systemctl list-units -t service --failed
-systemctl --failed --type=service
-#find out which dependencies unit(sshd) has
-systemctl list-dependencies sshd
-#список всех типов юнитов systemd
-[root@test-kvm ~]# systemctl -t help
-Available unit types:
-service
-socket
-busname
-target
-snapshot
-device
-mount
-automount
-swap
-timer
-path
-slice
-scope
----------------------------------------------------------------------------------------------
 #SYSTEMD TARGETS
 Previous versions of Red Hat Enterprise Linux, which were distributed with SysV init or Upstart,
 implemented a predefined set of runlevels that represented specific modes of operation. These
@@ -60,6 +20,63 @@ runlevel5.target, graphical.target
 6 Shut down and reboot the system.
 runlevel6.target ,reboot.target 
 
+#
+#list of all systemd unit types
+[root@test-kvm ~]# systemctl -t help
+Available unit types:
+service
+socket
+busname
+target
+snapshot
+device
+mount
+automount
+swap
+timer
+path
+slice
+scope
+
+
+# How to create your own service (unit) in systemd on CentOS 7
+https://wiki.it-kb.ru/unix-linux/systemd/how-to-create-warmup-command-for-apache-httpd-via-custom-service-unit-in-systemd
+---------------------------------------------------------------------------------------------
+
+#systemctl
+# see the systemd boot logs
+# https://superuser.com/questions/1081851/see-the-systemd-boot-logs
+# shows all syslog messages since the current boot.
+journalctl -b
+# all boots, with 0 being the current boot.
+journalctl --list-boots
+# (replace xxx... with hash from --list-boots) will then let you view logs of that boot.
+journalctl --boot=xxxxxxxxxxxxxxxxxxx 
+
+
+
+#To show all installed unit files use 
+systemctl list-unit-files
+#find out what services are currently running.
+systemctl list-units -t service
+systemctl --type=service
+service --status-all
+#check service name by pid
+ps -ef | grep java
+systemctl status 88842
+#How can I make the service not start automatically (example - cups.service)?
+sudo systemctl disable cups
+#return to startup
+sudo systemctl enable cups
+#check which services were stopped in emergency mode
+systemctl list-units -t service --failed
+systemctl --failed --type=service
+#find out which dependencies unit(sshd) has
+systemctl list-dependencies sshd
+
+---------------------------------------------------------------------------------------------
+
+# targets
 #Lists currently loaded target units.(old command - "runlevel")
 systemctl list-units --type target
 #determine which target unit is used by default
@@ -71,11 +88,13 @@ systemctl isolate rescue.target
 systemctl emergency
 systemctl isolate emergency.target
 
+
 #power management commands with systemctl
 systemctl halt
 systemctl poweroff
 systemctl reboot
 systemctl suspend
+
 
 #list all systend cron tasks(timers)
 systemctl list-timers --all
