@@ -7,7 +7,11 @@ journalctl --disk-usage
 #current boot logs
 journalctl -b
 
-#Выберем только те записи, которые касаются ошибок:
+# check service event and keep termimal to see new events
+# The -f flag keeps the journal logs open for the service to see any new logs.
+journalctl -fu falco
+
+#Only errors:
 journalctl -p err
 #Чтобы видеть, что попадает в логи в данный момент, воспользуйтесь командой:
 journalctl -f
