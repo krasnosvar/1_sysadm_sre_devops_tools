@@ -28,6 +28,8 @@ diskutil list
    2:               Windows_NTFS                         790.5 GB   disk2s2
 
 # install driver and mount drive
+# https://github.com/osxfuse/osxfuse/wiki/NTFS-3G
+brew tap gromgit/homebrew-fuse
 brew install ntfs-3g-mac
 #unount from RO mode
 umount /dev/disk2s2
