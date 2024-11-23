@@ -28,19 +28,6 @@ curl -fsSL https://download.opensuse.org/repositories/home:/hawkeye116477:/water
  sudo tee /etc/apt/trusted.gpg.d/home_hawkeye116477_waterfox.gpg > /dev/null
 echo 'deb http://download.opensuse.org/repositories/home:/hawkeye116477:/waterfox/xUbuntu_20.04/ /' |\
  sudo tee /etc/apt/sources.list.d/home:hawkeye116477:waterfox.list
-#librewolf
-# https://librewolf.net/installation/debian/
-distro=$(if echo " una bookworm vanessa focal jammy bullseye vera uma " |\
- grep -q " $(lsb_release -sc) "; then lsb_release -sc; else echo focal; fi)
-wget -O- https://deb.librewolf.net/keyring.gpg | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/librewolf.gpg
-sudo tee /etc/apt/sources.list.d/librewolf.sources << EOF > /dev/null
-Types: deb
-URIs: https://deb.librewolf.net
-Suites: $distro
-Components: main
-Architectures: amd64
-Signed-By: /usr/share/keyrings/librewolf.gpg
-EOF
 #floorp
 # https://floorp.app/ru/download/
 curl -fsSL https://ppa.ablaze.one/KEY.gpg | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/Floorp.gpg
@@ -94,9 +81,6 @@ git config --global user.name "krasnosvar"
 git config --global user.email "krasnosvar@gmail.com"
 git config --global color.ui auto
 # git config --global core.editor "vim"
-#
-# calibre - for kindle ebook
-sudo apt install -y libreoffice audacity transmission sshpass htop expect tree gnome-tweaks calibre
 # clear pdf-meta info
 # pdftk file.pdf  dump_data |sed -e 's/\(InfoValue:\)\s.*/\1\ /g' | pdftk file.pdf update_info - output file_no_meta.pdf
 # https://stackoverflow.com/questions/60738960/remove-pdf-metadata-removing-complete-pdf-metadata
@@ -131,14 +115,6 @@ sudo ansible -m apt -a deb=https://launchpad.net/veracrypt/trunk/1.26.14/+downlo
 #engineering apps
 sudo apt install librecad -y
 
-#for Razer devices ( need for example to turn off RGB-logo-backlight)
-# https://openrazer.github.io/#ubuntu
-sudo add-apt-repository ppa:openrazer/stable -y
-sudo apt install openrazer-meta -y
-# https://polychromatic.app/download/ubuntu/
-sudo add-apt-repository ppa:polychromatic/stable -y
-sudo apt install polychromatic -y
-
 
 # Browsers
 #firefox-based browsers ( waterfox, librefox, Floorp)
@@ -146,7 +122,7 @@ sudo apt install polychromatic -y
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i google-chrome-stable_current_amd64.deb
 # vivaldi, brave
-sudo apt install vivaldi-stable brave-browser waterfox-g-kpe librewolf floorp -y
+sudo apt install vivaldi-stable brave-browser waterfox-g-kpe floorp -y
 
 
 #nettools
@@ -160,6 +136,7 @@ sudo apt install sshuttle openconnect network-manager-openconnect network-manage
 
 
 #devops-tools ( containers)
+sudo apt install ansible jq yq -y
 # terraform
 terraVer=1.9.5; wget "https://releases.hashicorp.com/terraform/1.9.5/terraform_1.9.5_linux_amd64.zip" && unzip terraform_1.9.5_linux_amd64.zip && sudo cp terraform /usr/bin/ && rm -rf terraform_1.9.5_linux_amd64.zip 
 # terraform-libvirt
@@ -234,15 +211,11 @@ sudo -u den codium --install-extension ms-kubernetes-tools.vscode-kubernetes-too
 sudo -u den codium --install-extension redhat.java
 sudo -u den codium --install-extension eamodio.gitlens
 sudo -u den codium --install-extension gitlab.gitlab-workflow
-sudo -u den codium --install-extension hashicorp.terraform
+sudo -u den codium --install-extension Hashicorp.terraform
 sudo -u den codium --install-extension davidanson.vscode-markdownlint
 sudo -u den codium --install-extension tomoki1207.pdf
 
 
-
-#PIPs
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Install PIPs"
-sudo pip3 install ansible yq jq trash-cli jmespath --break-system-packages
 
 
 # #install DEBs-from-web by ansible
