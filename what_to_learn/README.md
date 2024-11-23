@@ -80,7 +80,14 @@ https://kubernetes.io/docs/tutorials/
 
 
   - 3.1.1.3 CKS
-    * https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/  
+    * [Linux Foundation CKS page](https://training.linuxfoundation.org/certification/certified-kubernetes-security-specialist/)
+    * [CKS resources allowed](https://docs.linuxfoundation.org/tc-docs/certification/certification-resources-allowed#certified-kubernetes-security-specialist-cks)
+    * [KodeKloud CKS cource](https://learn.kodekloud.com/user/courses/certified-kubernetes-security-specialist-cks)
+    * [CloudGuru CKS cource](https://www.pluralsight.com/paths/certified-kubernetes-security-specialist-cks)
+    * [KillerKoda CKS Labs](https://killercoda.com/killer-shell-cks)
+    * [CKS CloudGuru labs ](https://www.pluralsight.com/search?q=(CKS)%20-%20Practice%20Exam&categories=labs%2Ccloud-labs)
+
+
 
 - 3.2 Clouds 
   - 3.2.1 AWS
