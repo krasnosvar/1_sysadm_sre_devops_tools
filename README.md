@@ -22,7 +22,6 @@
 [awesome-vscode](https://github.com/viatsko/awesome-vscode)  
 [awesome-mac](https://github.com/jaywcjlove/awesome-mac)  
 [awesome-docker](https://github.com/veggiemonk/awesome-docker)  
-\
 
 
 3. Main Linux or OpenSource organizations
