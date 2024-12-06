@@ -1,5 +1,7 @@
-his is quite a 'classic' problem and the immediate thought ("just do it mySQL") doesn't work here because of the need to have the rails piece that encodes a password that is entered.
-So you need to actually use rails, something like this (this should all be happening in your local development environment which is the default when working locally):
+his is quite a 'classic' problem and the immediate thought ("just do it mySQL") 
+doesn't work here because of the need to have the rails piece that encodes a password that is entered.
+So you need to actually use rails, something like this (this should all be happening in your local 
+development environment which is the default when working locally):
 
 You need to create a user.
 
