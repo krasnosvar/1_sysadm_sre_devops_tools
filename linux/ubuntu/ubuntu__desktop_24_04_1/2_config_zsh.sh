@@ -30,5 +30,6 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/
 
 cp files/.zshrc ~/.zshrc
 sudo chown -R den: /home/den
-chsh -s $(which zsh)
+# chsh -s $(which zsh)
+chsh -s /bin/zsh
 which $SHELL

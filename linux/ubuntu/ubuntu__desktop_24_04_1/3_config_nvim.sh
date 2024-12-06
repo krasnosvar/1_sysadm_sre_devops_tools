@@ -9,17 +9,7 @@ sudo apt install neovim -y
 git config --global core.editor nvim
 sudo update-alternatives --set vi /usr/bin/nvim
 sudo update-alternatives --set vim /usr/bin/nvim
+sudo update-alternatives --install /usr/bin/vi vi "/usr/bin/nvim" 100
 
-
-#plugin manager
-# https://dev.to/slydragonn/ultimate-neovim-setup-guide-lazynvim-plugin-manager-23b7
-mkdir -p ~/.config/nvim/
-cp files/nvim/init.lua ~/.config/nvim/init.lua
-mkdir -p ~/.config/nvim/lua/config/
-cp files/nvim/lazy.lua ~/.config/nvim/lua/config/lazy.lua
-mkdir -p ~/nvim/lua/plugins/
-cp files/nvim/plugins/* ~/nvim/lua/plugins/
 #plugins
 # https://github.com/rockerBOO/awesome-neovim
-
-

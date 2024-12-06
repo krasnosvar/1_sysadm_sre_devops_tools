@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+
 #set background as solid color ( not photo)
 gsettings set org.gnome.desktop.background picture-uri ''
 gsettings set org.gnome.desktop.background picture-uri-dark ''
@@ -18,16 +19,6 @@ sudo add-apt-repository -y 'deb https://repo.vivaldi.com/archive/deb/ stable mai
 sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|\
 sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-#waterfox
-# https://www.linuxcapable.com/install-waterfox-browser-on-ubuntu-linux/
-curl -fsSL https://download.opensuse.org/repositories/home:hawkeye116477:waterfox/xUbuntu_22.04/Release.key |\
- sudo gpg --batch --yes --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_hawkeye116477_waterfox.gpg > /dev/null
-echo 'deb http://download.opensuse.org/repositories/home:/hawkeye116477:/waterfox/xUbuntu_22.04/ /' |\
- sudo tee /etc/apt/sources.list.d/home:hawkeye116477:waterfox.list
-curl -fsSL https://download.opensuse.org/repositories/home:/hawkeye116477:/waterfox/xUbuntu_20.04/Release.key | sudo gpg --batch --yes --dearmor |\
- sudo tee /etc/apt/trusted.gpg.d/home_hawkeye116477_waterfox.gpg > /dev/null
-echo 'deb http://download.opensuse.org/repositories/home:/hawkeye116477:/waterfox/xUbuntu_20.04/ /' |\
- sudo tee /etc/apt/sources.list.d/home:hawkeye116477:waterfox.list
 #floorp
 # https://floorp.app/ru/download/
 curl -fsSL https://ppa.ablaze.one/KEY.gpg | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/Floorp.gpg
@@ -94,7 +85,7 @@ sudo apt install heif-gdk-pixbuf -y
 # disk utils
 # sudo smartctl --xall /dev/nvme0
 # sudo nvme smart-log /dev/nvme0
-sudo apt install smartmontools nvme-cli  -y
+sudo apt install smartmontools nvme-cli gparted -y
 #*.msg converter ( read outlook files from thunderbird)
 # https://www.matijs.net/software/msgconv/
 # msgconvert YourMessage.msg
@@ -110,7 +101,7 @@ sudo apt install sysstat -y
 
 #Security
 sudo apt install keepassxc -y
-sudo ansible -m apt -a deb=https://launchpad.net/veracrypt/trunk/1.26.14/+download/veracrypt-1.26.14-Ubuntu-24.04-amd64.deb localhost
+
 
 #engineering apps
 sudo apt install librecad -y
@@ -122,7 +113,7 @@ sudo apt install librecad -y
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i google-chrome-stable_current_amd64.deb
 # vivaldi, brave
-sudo apt install vivaldi-stable brave-browser waterfox-g-kpe floorp -y
+sudo apt install vivaldi-stable brave-browser floorp -y
 
 
 #nettools
@@ -172,17 +163,23 @@ curl -sSL https://raw.githubusercontent.com/upciti/wakemeops/main/assets/install
 sudo apt install helmfile=0.163.1-1~ops2deb -y
 #terminal multiplexors
 sudo apt install python3-newt gawk pastebinit run-one tmux byobu -y
-#podman, podman-desktop
-# https://flatpak.org/setup/Ubuntu
-# https://podman-desktop.io/docs/installation/linux-install
-sudo apt install flatpak
-sudo apt-get -y install podman
-flatpak remote-add --if-not-exists --user flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install --user flathub io.podman_desktop.PodmanDesktop
+# #podman, podman-desktop
+# # https://flatpak.org/setup/Ubuntu
+# # https://podman-desktop.io/docs/installation/linux-install
+# sudo apt install flatpak
+# sudo apt-get -y install podman
+# flatpak remote-add --if-not-exists --user flathub https://flathub.org/repo/flathub.flatpakrepo
+# flatpak install --user flathub io.podman_desktop.PodmanDesktop
 # rancher-desktop
 sudo apt install rancher-desktop -y
 #psql
 sudo apt install postgresql-client -y
+# awscli
+# https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+
 
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> INSTALL dev apps"
 #programming, development
@@ -216,14 +213,28 @@ sudo -u den codium --install-extension davidanson.vscode-markdownlint
 sudo -u den codium --install-extension tomoki1207.pdf
 
 
-
-
 # #install DEBs-from-web by ansible
+# install remode debs via ansible in venv
+# venv
+mkdir ~/python-venv && \
+ansVer=11 pythonVer=3.12 && \
+cd ~/python-venv && \
+python$pythonVer -m venv ansible$ansVer && \
+source ansible$ansVer/bin/activate && \
+python$pythonVer -m pip install --upgrade pip && \
+python$pythonVer -m pip install ansible==$ansVer && \
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES && \
+# installation
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Install DEBs-from-web by ansible"
 sudo ansible -m apt -a deb=https://linux.dropbox.com/ubuntu/pool/main/dropbox_2022.12.05_amd64.deb localhost
 sudo ansible -m apt -a deb=https://repo.zabbix.com/zabbix/6.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.2-2%2Bubuntu22.04_all.deb localhost
 # for keychron keyboard 
 sudo ansible -m apt -a deb=https://github.com/the-via/releases/releases/download/v3.0.0/via-3.0.0-linux.deb localhost
+# echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> INSTALL veracrypt"
+sudo apt install libccid pcscd -y
+sudo ansible -m apt -a deb=https://launchpad.net/veracrypt/trunk/1.26.14/+download/veracrypt-1.26.14-Ubuntu-20.04-amd64.deb localhost
+deactivate
+cd -
 
 
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Install SNAPs"
@@ -240,23 +251,12 @@ sudo snap install gimp
 sudo snap install pycharm-community --classic
 sudo snap install postman
 sudo snap install telegram-desktop
-sudo snap install yq
 sudo snap install remmina
 sudo snap install dbeaver-ce
 sudo snap install nmap
 sudo snap install fbreader
+snap install blender --classic
 
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> INSTALL veracrypt"
-sudo apt install libccid pcscd -y
-sudo ansible -m apt -a deb=https://launchpad.net/veracrypt/trunk/1.26.14/+download/veracrypt-1.26.14-Ubuntu-24.04-amd64.deb localhost
-
-
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> INSTALL vim plugins"
-#VIM install plugins
-git clone https://github.com/VundleVim/Vundle.vim.git /home/den/.vim/bundle/Vundle.vim
-#install vundle plugins via cli
-cp files/.vimrc ~/.vimrc
-vim +PluginInstall +qall
 
 chown -R den: /home/den
 
