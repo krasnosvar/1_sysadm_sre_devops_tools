@@ -1,11 +1,22 @@
 #KUBECTL
+# 1. installing kubectl, alias to "k" and auto completion
+# https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management
+sudo apt-get update
+sudo apt-get install -y apt-transport-https ca-certificates curl gnupg
+sudo mkdir -p -m 755 /etc/apt/keyrings
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+sudo chmod 644 /etc/apt/keyrings/kubernetes-apt-keyring.gpg # allow unprivileged APT programs to read this keyring
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo chmod 644 /etc/apt/sources.list.d/kubernetes.list   # helps tools such as command-not-found to work correctly
+#2. autocompletion Kubectl in zsh
+sudo yum install bash-completion -y
+source <(kubectl completion zsh) # in current bash session (bash-completion installed already)
+echo "source <(kubectl completion zsh)" >> ~/.zshrc 
+echo 'complete -o default -F __start_kubectl k' >>~/.zshrc  
 #https://kubernetes.io/ru/docs/reference/kubectl/cheatsheet/
 #KUBECTL REFERENCE
 #https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#label
-#autocompletion Kubectl
-sudo yum install bash-completion -y
-source <(kubectl completion bash) # in current bash session (bash-completion installed already)
-echo "source <(kubectl completion bash)" >> ~/.bashrc 
+
 #HELP kubectl
 kubectl --help
 kubectl api-resources
