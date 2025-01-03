@@ -1,3 +1,7 @@
+# copy from remote server with specific ssh key
+rsync -vuarpP -e 'ssh -i ~/.ssh/other_key.rsa' remote_user@10.8.77.14:/home/remote_user/envoy_configs ~/home/local_user/
+
+
 #Exclude a Specific File
 rsync -a --exclude 'file.txt' src_directory/ dst_directory/
 #Exclude a Specific Directory

@@ -60,6 +60,8 @@ echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https:/
 # python3.13
 #python3.13
 sudo add-apt-repository -y ppa:deadsnakes/ppa
+# for mkiisofs
+sudo add-apt-repository ppa:brandonsnider/cdrtools -y
 
 
 sudo apt update -y
@@ -92,10 +94,23 @@ sudo apt install smartmontools nvme-cli gparted -y
 sudo apt-get install libemail-outlook-message-perl -y
 #flatpak packadge manager
 sudo apt install flatpak -y
+
+
 #Virtualization
 #KVM
 sudo apt install -y qemu-kvm libvirt-daemon libvirt-clients libvirt-dev bridge-utils virt-manager
 echo 'security_driver = "none"' >> /etc/libvirt/qemu.conf
+# init storage pool for tofu-terraform libvirt
+virsh pool-define /dev/stdin <<EOF
+<pool type='dir'>
+  <name>default</name>
+  <target>
+    <path>/var/lib/libvirt/images</path>
+  </target>
+</pool>
+EOF
+virsh pool-start default
+
 #iostat, pidstat
 sudo apt install sysstat -y
 
@@ -137,6 +152,8 @@ unzip terraform-provider-libvirt_0.7.6_linux_amd64.zip -d ~/.terraform.d/plugins
 chmod 0755 ~/.terraform.d/plugins/terraform-provider-libvirt
 # install tofu
 sudo apt-get install -y tofu
+# for libvirt provider cloudinit iso's 
+sudo apt-get install -y cdda2wav cdrecord mkisofs
 #docker
 sudo apt install ca-certificates curl gnupg lsb-release docker-ce docker-ce-cli containerd.io -y
 sudo usermod -aG docker den
