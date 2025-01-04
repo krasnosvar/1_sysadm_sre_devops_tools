@@ -4,3 +4,4 @@
 1. [Programming languages - Python3, Golang, Rust](1_programming_langs.md)
 2. [Kubernetes - theory and CKA, CKAD, CKS](2_k8s.md)
 3. [Clouds - AWS, terraform, opentofu](3_clouds.md)
+4. [DevOps, SRE - ci/cd, agile, etc.](4_devops_sre_theory.md)
