@@ -1,10 +1,10 @@
 ##### Repo for ```scripts, command-examples, etc```
 
 1. Main dirs:
-   * ```linux``` - Linux command examples( main shell commands like cp, grep, find etc.), services
-   * ```macos``` - MacOS and fedora-asahi specific commands, scripts for set-up desktop-os on first install
-   * what_to_learn - list what to learn for sre-devops engineer
-   * ```win10-11``` powershell specific commands, scripts for set-up desktop-os on first install
+   * [linux](/linux/README.md) - Linux command examples( main shell commands like cp, grep, find etc.), services
+   * [macos](/macos/README.md) - MacOS and fedora-asahi specific commands, scripts for set-up desktop-os on first install
+   * [what_to_learn](/what_to_learn/README.md) - list what to learn for sre-devops engineer
+   * [win10-11](/win10-11/README.md) powershell specific commands, scripts for set-up desktop-os on first install
 
 
 2. interesting Links:  
