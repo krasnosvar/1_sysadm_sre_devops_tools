@@ -12,8 +12,8 @@ sudo apt update && sudo apt install -y git wget gnupg lsb-release apt-transport-
 #ADD repos
 # repos vivaldi
 # https://help.vivaldi.com/ru/desktop-ru/install-update-ru/manual-setup-vivaldi-linux-repositories/
-wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -
-sudo add-apt-repository -y 'deb https://repo.vivaldi.com/archive/deb/ stable main'
+# wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -
+# sudo add-apt-repository -y 'deb https://repo.vivaldi.com/archive/deb/ stable main'
 # brave
 # https://brave.com/linux/#release-channel-installation
 sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
@@ -27,12 +27,17 @@ sudo curl -sS --compressed -o /etc/apt/sources.list.d/Floorp.list 'https://ppa.a
 #clipboard manager, в настройках включить autostart
 sudo add-apt-repository ppa:hluk/copyq -y
 #docker
-# repos for docker
-# https://docs.docker.com/engine/install/ubuntu/
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --batch --yes --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+# Add the repository to Apt sources:
 echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 # tofu - free terraform
 # https://opentofu.org/docs/intro/install/deb
 # gpg
@@ -128,7 +133,7 @@ sudo apt install librecad -y
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i google-chrome-stable_current_amd64.deb
 # vivaldi, brave
-sudo apt install vivaldi-stable brave-browser floorp -y
+sudo apt install brave-browser floorp -y
 
 
 #nettools
@@ -155,7 +160,7 @@ sudo apt-get install -y tofu
 # for libvirt provider cloudinit iso's 
 sudo apt-get install -y cdda2wav cdrecord mkisofs
 #docker
-sudo apt install ca-certificates curl gnupg lsb-release docker-ce docker-ce-cli containerd.io -y
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 sudo usermod -aG docker den
 #docker config
 cat <<EOF > /etc/docker/daemon.json
@@ -273,6 +278,8 @@ sudo snap install dbeaver-ce
 sudo snap install nmap
 sudo snap install fbreader
 snap install blender --classic
+sudo snap install vivaldi
+
 
 
 chown -R den: /home/den
