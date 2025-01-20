@@ -106,15 +106,13 @@ sudo apt install flatpak -y
 sudo apt install -y qemu-kvm libvirt-daemon libvirt-clients libvirt-dev bridge-utils virt-manager
 echo 'security_driver = "none"' >> /etc/libvirt/qemu.conf
 # init storage pool for tofu-terraform libvirt
-virsh pool-define /dev/stdin <<EOF
-<pool type='dir'>
-  <name>default</name>
-  <target>
-    <path>/var/lib/libvirt/images</path>
-  </target>
-</pool>
-EOF
-virsh pool-start default
+# https://serverfault.com/questions/840519/how-to-change-the-default-storage-pool-from-libvirt
+sudo virsh pool-destroy default
+sudo virsh pool-undefine default
+# sudo chown -R den: /var/lib/libvirt/images
+sudo virsh pool-define-as --name default --type dir --target /var/lib/libvirt/images
+sudo virsh pool-autostart default
+sudo virsh pool-start default
 
 #iostat, pidstat
 sudo apt install sysstat -y
