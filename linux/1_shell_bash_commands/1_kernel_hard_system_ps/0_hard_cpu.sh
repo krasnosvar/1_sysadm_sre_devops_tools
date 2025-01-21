@@ -35,6 +35,8 @@ sudo prime-select nvidia
 sudo lshw -short -C memory
 # disk info
 sudo lshw -class disk
+# network info
+lshw -C network
 
 
 #check battery
