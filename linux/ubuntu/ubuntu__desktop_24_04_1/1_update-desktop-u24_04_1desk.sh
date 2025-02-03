@@ -67,6 +67,8 @@ echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https:/
 sudo add-apt-repository -y ppa:deadsnakes/ppa
 # for mkiisofs
 sudo add-apt-repository ppa:brandonsnider/cdrtools -y
+#kicad
+sudo add-apt-repository --yes ppa:kicad/kicad-8.0-releases
 
 
 sudo apt update -y
@@ -99,6 +101,20 @@ sudo apt install smartmontools nvme-cli gparted -y
 sudo apt-get install libemail-outlook-message-perl -y
 #flatpak packadge manager
 sudo apt install flatpak -y
+#iostat, pidstat
+sudo apt install sysstat -y
+#Security
+sudo apt install keepassxc -y
+#engineering apps
+sudo apt install librecad -y
+sudo apt install --install-recommends kicad -y
+# Browsers
+#firefox-based browsers ( waterfox, librefox, Floorp)
+#chrome
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+# vivaldi, brave
+sudo apt install brave-browser floorp -y
 
 
 #Virtualization
@@ -109,33 +125,13 @@ echo 'security_driver = "none"' >> /etc/libvirt/qemu.conf
 # https://serverfault.com/questions/840519/how-to-change-the-default-storage-pool-from-libvirt
 sudo virsh pool-destroy default
 sudo virsh pool-undefine default
-# sudo chown -R den: /var/lib/libvirt/images
 sudo virsh pool-define-as --name default --type dir --target /var/lib/libvirt/images
 sudo virsh pool-autostart default
 sudo virsh pool-start default
 
-#iostat, pidstat
-sudo apt install sysstat -y
-
-#Security
-sudo apt install keepassxc -y
-
-
-#engineering apps
-sudo apt install librecad -y
-
-
-# Browsers
-#firefox-based browsers ( waterfox, librefox, Floorp)
-#chrome
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo dpkg -i google-chrome-stable_current_amd64.deb
-# vivaldi, brave
-sudo apt install brave-browser floorp -y
-
 
 #nettools
-#arp-scan - сканер сети, сканировать локалку - arp-scan --interface=enp0s3 --localnet
+#arp-scan - arp-scan --interface=enp0s3 --localnet
 #SIP-protocol analyzer- sngrep
 #mtr combines the functionality of the traceroute and ping programs in a single network diagnostic tool.
 #mtr -i 0.1 yoursite.com
@@ -145,7 +141,7 @@ sudo apt install sshuttle openconnect network-manager-openconnect network-manage
 
 
 #devops-tools ( containers)
-sudo apt install ansible jq yq -y
+sudo apt install jq yq -y
 # terraform
 terraVer=1.9.5; wget "https://releases.hashicorp.com/terraform/1.9.5/terraform_1.9.5_linux_amd64.zip" && unzip terraform_1.9.5_linux_amd64.zip && sudo cp terraform /usr/bin/ && rm -rf terraform_1.9.5_linux_amd64.zip 
 # terraform-libvirt
@@ -218,6 +214,8 @@ sudo apt install -y codium
 # #settings with powerline font for zsh
 mkdir -p $HOME/.config/VSCodium/User/
 cp files/vscode/settings.json $HOME/.config/VSCodium/User/settings.json
+mkdir -p $HOME/.config/Code/User/
+cp files/vscode/settings.json $HOME/.config/Code/User/settings.json
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> INSTALL VScodium extensions"
 #https://stackoverflow.com/questions/34286515/how-to-install-visual-studio-code-extensions-from-command-line
 sudo -u den codium --install-extension ms-python.python
