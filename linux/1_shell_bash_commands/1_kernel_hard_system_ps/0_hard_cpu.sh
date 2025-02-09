@@ -30,15 +30,6 @@ sudo prime-select intel
 sudo prime-select nvidia
 
 
-# LSHW
-#Show RAM type
-sudo lshw -short -C memory
-# disk info
-sudo lshw -class disk
-# network info
-lshw -C network
-
-
 #check battery
 upower –e
 upower -i /org/freedesktop/UPower/devices/battery_BAT0

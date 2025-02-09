@@ -47,3 +47,10 @@ sudo reboot
 #disconnected
 elrepo.org/linux/kernel/el7/x86_64/RPMS
 elrepo.org/linux/kernel/el7/x86_64/RPMS/kernel-lt-5.4.197-1.el7.elrepo.x86_64.rpm
+
+
+# update kernel in Ubuntu 24.04
+sudo add-apt-repository ppa:cappelikan/ppa
+sudo apt update -y
+sudo apt install mainline -y 
+sudo mainline # gui interface

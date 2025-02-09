@@ -208,7 +208,10 @@ sudo apt install openjdk-8-jre-headless -y
 # nvim
 sudo apt install vim neovim -y
 # install codium
-sudo apt install -y codium
+# https://vscodium.com/#install-on-fedora-rhel-centos-rockylinux-opensuse-rpm-package
+sudo rpmkeys --import https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
+printf "[gitlab.com_paulcarroty_vscodium_repo]\nname=download.vscodium.com\nbaseurl=https://download.vscodium.com/rpms/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg\nmetadata_expire=1h\n" | sudo tee -a /etc/yum.repos.d/vscodium.repo
+sudo dnf install codium -y
 # # Migrating from VS Code to VS Codium on Linux
 # # https://www.roboleary.net/tools/2022/06/13/migrate-from-vscode-to-vscodium-on-linux.html
 # #settings with powerline font for zsh
