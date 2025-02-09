@@ -1,0 +1,17 @@
+{
+    "redhat.telemetry.enabled": false,
+    "terminal.integrated.fontFamily": "Menlo for Powerline",
+    "terminal.integrated.fontWeightBold": "bold",
+    "[python]": {
+        "editor.formatOnType": true
+    },
+    "go.toolsManagement.autoUpdate": true,
+    "go.survey.prompt": false,
+    "terminal.integrated.enableMultiLinePasteWarning": false,
+    
+    "editor.scrollbar.verticalScrollbarSize": 50,
+    "editor.scrollbar.horizontal": "visible",
+    "editor.scrollbar.horizontalScrollbarSize": 30,
+    "editor.scrollbar.vertical": "visible",
+    "workbench.editor.titleScrollbarSizing": "large"
+}

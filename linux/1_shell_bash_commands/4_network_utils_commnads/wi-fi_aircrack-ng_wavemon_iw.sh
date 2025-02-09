@@ -13,6 +13,12 @@ sudo apt install iw
 sudo iw dev wlp0s20f3 scan
 # only names
 sudo iw dev wlp0s20f3 scan| grep SSID
+# or via nmcli
+# list wifi ssids arount ( should be disconnectd from known wifi)
+nmcli device wifi list
+# only SSIDs names
+nmcli --fields SSID device wifi list
+
 
 # check current wireless connect (wi-fi net info)
 iw dev wlp0s20f3 link     

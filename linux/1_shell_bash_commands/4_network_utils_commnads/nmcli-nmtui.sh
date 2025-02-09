@@ -18,3 +18,9 @@ nmcli con reload
 
 #pseudo-graphical unterface
 nmtui
+
+
+# list wifi ssids arount ( should be disconnectd from known wifi)
+nmcli device wifi list
+# only SSIDs names
+nmcli --fields SSID device wifi list
