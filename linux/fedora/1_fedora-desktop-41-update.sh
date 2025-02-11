@@ -7,9 +7,10 @@ sudo dnf -y install dnf-plugins-core plasma-workspace-x11 sysfsutils
 
 
 #Main OS apps
+sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
 flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 sudo dnf install git wget gnupg lsb-release apt-transport-https ca-certificates curl \
-  flameshot audacity vlc  -y
+  flameshot audacity vlc telegram -y
 
 #Virtualization
 # https://docs.fedoraproject.org/en-US/quick-docs/virtualization-getting-started/
@@ -92,7 +93,7 @@ sudo dnf install postgresql -y
 sudo dnf install https://dbeaver.io/files/dbeaver-ce-latest-stable.x86_64.rpm -y
 
 #programming, development
-sudo dnf install python3-pip -y
+sudo dnf install python3 python3.9 python3.10 python3.12 -y
 #install go
 # https://developer.fedoraproject.org/tech/languages/go/go-installation.html
 sudo dnf install golang -y

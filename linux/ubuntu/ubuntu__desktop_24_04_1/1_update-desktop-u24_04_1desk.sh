@@ -146,8 +146,8 @@ sudo apt install jq yq -y
 terraVer=1.9.5; wget "https://releases.hashicorp.com/terraform/1.9.5/terraform_1.9.5_linux_amd64.zip" && unzip terraform_1.9.5_linux_amd64.zip && sudo cp terraform /usr/bin/ && rm -rf terraform_1.9.5_linux_amd64.zip 
 # terraform-libvirt
 mkdir -p ~/.terraform.d/plugins
-wget https://github.com/dmacvicar/terraform-provider-libvirt/releases/download/v0.7.6/terraform-provider-libvirt_0.7.6_linux_amd64.zip
-unzip terraform-provider-libvirt_0.7.6_linux_amd64.zip -d ~/.terraform.d/plugins/terraform-provider-libvirt
+wget https://github.com/dmacvicar/terraform-provider-libvirt/releases/download/v0.8.1/terraform-provider-libvirt_0.8.1_linux_amd64.zip
+unzip terraform-provider-libvirt_0.8.1_linux_amd64.zip -d ~/.terraform.d/plugins/terraform-provider-libvirt
 chmod 0755 ~/.terraform.d/plugins/terraform-provider-libvirt
 # install tofu
 sudo apt-get install -y tofu
