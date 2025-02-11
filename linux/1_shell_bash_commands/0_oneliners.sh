@@ -9,10 +9,7 @@ pip3 list --outdated | awk 'NR>2{print $1}'| xargs pip3 install -U
 
 #update fedore apps
 sudo dnf update -y && \
-&& sudo snap refresh \
-&& snap list --all | awk '/disabled/{print $1, $3}' |\
- while read name rev; do sudo snap remove "$name" --revision="$rev"; done \
-&& flatpak update --force-remove -y
+flatpak update --force-remove -y
 
 
 #git
