@@ -24,7 +24,6 @@ sudo usermod -a -G libvirt den
 sudo usermod -a -G kvm den
 
 
-
 #Security
 # https://keepassxc.org/download/
 sudo dnf install keepassxc -y
