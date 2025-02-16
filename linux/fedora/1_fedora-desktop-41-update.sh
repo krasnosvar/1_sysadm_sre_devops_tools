@@ -9,7 +9,7 @@ flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flath
 #iostat, pidstat
 # https://github.com/sysstat/sysstat
 sudo dnf install -y git wget gnupg lsb-release apt-transport-https ca-certificates curl \
-  dnf-plugins-core plasma-workspace-x11 sysfsutils sysstat
+  dnf-plugins-core plasma-workspace-x11 sysfsutils sysstat htop
 
 
 #Main OS apps
@@ -61,7 +61,7 @@ sudo dnf install arp-scan mtr wireshark traceroute openssh-server arping httpie 
 sudo usermod -a -G wireshark den
 
 
-#devops-tools
+# DevOps-Tools
 # terraform
 # https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
 sudo dnf config-manager addrepo --from-repofile=https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
@@ -77,7 +77,13 @@ chmod +x install-opentofu.sh
 ./install-opentofu.sh --install-method rpm
 # Remove the installer:
 rm install-opentofu.sh
-#docker
+# terragrunt
+# https://github.com/gruntwork-io/terragrunt/releases
+# https://terragrunt.gruntwork.io/docs/getting-started/install
+sudo wget -c https://github.com/gruntwork-io/terragrunt/releases/download/v0.73.5/terragrunt_linux_amd64 \
+  -O  /usr/local/bin/terragrunt
+sudo chmod 0655 /usr/local/bin/terragrunt
+# docker
 # https://docs.docker.com/engine/install/fedora/#install-using-the-repository
 sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
 sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y

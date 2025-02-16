@@ -1,0 +1,1 @@
+https://fedoramagazine.org/configuring-neovim-on-fedora-as-an-ide-and-using-lazyvim/
