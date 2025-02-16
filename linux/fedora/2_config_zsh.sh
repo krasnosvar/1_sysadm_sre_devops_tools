@@ -6,6 +6,10 @@ echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> INSTALL-CONFIGURE ZSH"
 #https://www.zsh.org
 #https://github.com/zsh-users
 sudo dnf install zsh -y
+# https://software.opensuse.org/download.html?project=shells%3Azsh-users%3Azsh-completions&package=zsh-completions
+sudo dnf config-manager addrepo \
+  --from-repofile=https://download.opensuse.org/repositories/shells:zsh-users:zsh-completions/Fedora_Rawhide/shells:zsh-users:zsh-completions.repo
+sudo dnf install zsh-completions -y
 
 # Oh My Zsh
 # https://ohmyz.sh/#install
