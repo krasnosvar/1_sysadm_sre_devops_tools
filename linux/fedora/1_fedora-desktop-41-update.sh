@@ -12,8 +12,8 @@ sudo dnf install -y git wget gnupg lsb-release apt-transport-https ca-certificat
   dnf-plugins-core plasma-workspace-x11 sysfsutils sysstat htop
 
 
-#Main OS apps
-sudo dnf install flameshot audacity vlc telegram -y
+#Main OS apps- multimedia, office, etc.
+sudo dnf install flameshot audacity vlc telegram gimp gimp-devel -y
 
 
 #Virtualization
@@ -155,7 +155,9 @@ sudo -u den codium --install-extension redhat.vscode-yaml
 sudo -u den codium --install-extension ms-azuretools.vscode-docker
 sudo -u den codium --install-extension ms-kubernetes-tools.vscode-kubernetes-tools
 sudo -u den codium --install-extension redhat.java
-sudo -u den codium --install-extension eamodio.gitlens
+sudo -u den codium --install-extension eamodio.gitlens # git repo commits view directly in editor
 sudo -u den codium --install-extension gitlab.gitlab-workflow
 sudo -u den codium --install-extension hashicorp.terraform
 sudo -u den codium --install-extension davidanson.vscode-markdownlint
+sudo -u den codium --install-extension mathiasfrohlich.kotlin # kotlin syntax highlight
+sudo -u den codium --install-extension ms-vscode-remote.remote-containers # for docker
