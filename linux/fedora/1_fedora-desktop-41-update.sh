@@ -3,7 +3,19 @@
 # OS Utils, Repos
 #!/usr/bin/env bash
 sudo dnf upgrade --refresh
-sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+# on non-Fedora RHEL-like distribs- enable EPEL first: https://www.redhat.com/en/blog/install-epel-linux
+# add RPM Fusion repo
+# https://rpmfusion.org/Configuration
+# RPM Fusion provides software that the Fedora Project or Red Hat doesn't want to ship
+# https://rpmfusion.org/Configuration
+sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+  https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1
+# add RPM Sphere repo ( install veracrypt )
+# https://rpmsphere.github.io
+sudo dnf install -y https://github.com/rpmsphere/noarch/raw/master/r/rpmsphere-release-40-1.noarch.rpm
+
+# flatpak
 flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 # system utils
 #iostat, pidstat
@@ -13,7 +25,11 @@ sudo dnf install -y git wget gnupg lsb-release apt-transport-https ca-certificat
 
 
 #Main OS apps- multimedia, office, etc.
-sudo dnf install flameshot audacity vlc telegram gimp gimp-devel -y
+# plugins "multimedia" for videos
+# https://docs.fedoraproject.org/en-US/quick-docs/installing-plugins-for-playing-movies-and-music/
+sudo dnf install -y \
+  libreoffice gimp gimp-devel inkscape blender audacity vlc flameshot telegram \
+  librecad kicad kicad-packages3d kicad-doc multimedia ffmpeg-libs # freecad
 
 
 #Virtualization
@@ -26,7 +42,7 @@ sudo usermod -a -G kvm den
 
 #Security
 # https://keepassxc.org/download/
-sudo dnf install keepassxc -y
+sudo dnf install veracrypt keepassxc -y
 
 
 # Browsers
