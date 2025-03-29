@@ -27,8 +27,9 @@ sudo dnf install -y git wget gnupg lsb-release apt-transport-https ca-certificat
 #Main OS apps- multimedia, office, etc.
 # plugins "multimedia" for videos
 # https://docs.fedoraproject.org/en-US/quick-docs/installing-plugins-for-playing-movies-and-music/
+# libheif-freeworld - for open iphone HEIC format in Gwenview or GIMP
 sudo dnf install -y \
-  libreoffice gimp gimp-devel inkscape blender audacity vlc flameshot telegram \
+  libreoffice gimp libheif-freeworld gimp-devel inkscape blender audacity vlc flameshot telegram \
   librecad kicad kicad-packages3d kicad-doc multimedia ffmpeg-libs # freecad
 
 
