@@ -3,6 +3,11 @@
 useradd -r tomcat --shell /bin/false
 #create user 'user' with: home dir, bash shell, and same group as name 
 useradd -mU user --shell /bin/bash
+# or witouot shell
+useradd -mU user --shell /sbin/nologin
+# create new user with home-dir and add to EXISTING GROUP
+useradd -m user -g user_group --shell /sbin/nologin
+
 
 #add user in "hand mode"
 #https://unix.stackexchange.com/questions/153225/what-steps-to-add-a-user-to-a-system-without-using-useradd-adduser
