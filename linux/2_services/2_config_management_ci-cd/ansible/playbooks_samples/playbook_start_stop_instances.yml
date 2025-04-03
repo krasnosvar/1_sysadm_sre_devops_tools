@@ -1,0 +1,34 @@
+- hosts: localhost
+  become: false
+  environment:
+    AWS_ACCESS_KEY_ID: "{{ ci_cd_user_key_id }}"
+    AWS_SECRET_ACCESS_KEY: "{{ ci_cd_user_secret_access_key }}"
+  tasks:
+    - name: Stop only type1 and postgres hosts
+      command: python3 ./files/scripts/aws_manipulations_scripts/start_stop_ec2_instances.py stop type1
+      delegate_to: localhost
+      tags: skip_ansible_lint
+      run_once: yes
+      when: stop_type1 is defined and stop_type1 == 'yes'
+    #   register: print_out1
+    # - debug:
+    #     var: print_out1.stdout_lines
+    - name: Start only type1 and postgres hosts
+      command: python3 ./files/scripts/aws_manipulations_scripts/start_stop_ec2_instances.py start type1
+      delegate_to: localhost
+      tags: skip_ansible_lint
+      run_once: yes
+      when: start_type1 is defined and start_type1 == 'yes'
+    - name: Stop ALL hosts
+      command: python3 ./files/scripts/aws_manipulations_scripts/start_stop_ec2_instances.py stop all
+      delegate_to: localhost
+      tags: skip_ansible_lint
+      run_once: yes
+      when: stop_all is defined and stop_all == 'yes'
+    - name: Start ALL hosts
+      command: python3 ./files/scripts/aws_manipulations_scripts/start_stop_ec2_instances.py start all
+      delegate_to: localhost
+      tags: skip_ansible_lint
+      run_once: yes
+      when: start_all is defined and start_all == 'yes'
+
