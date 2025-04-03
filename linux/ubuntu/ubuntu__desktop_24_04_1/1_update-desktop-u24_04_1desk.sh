@@ -8,7 +8,7 @@ gsettings reset org.gnome.desktop.background color-shading-type
 gsettings set org.gnome.desktop.background primary-color '#df2dd9'
 
 
-sudo apt update && sudo apt install -y git wget gnupg lsb-release apt-transport-https ca-certificates curl
+sudo apt update && sudo apt install -y git wget gnupg lsb-release apt-transport-https ca-certificates curl zip
 #ADD repos
 # repos vivaldi
 # https://help.vivaldi.com/ru/desktop-ru/install-update-ru/manual-setup-vivaldi-linux-repositories/
