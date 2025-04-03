@@ -1,0 +1,19 @@
+
+- hosts: postgres
+  become: true
+  gather_facts: no
+  tasks:
+    - name: Deploy config to PG
+      copy:
+        src: ./files/scripts/pg_onprem_configs/postgresql.conf
+        dest: /opt/postgres/pgdata/postgresql.conf
+        owner: postgres
+        group: postgres
+        mode: '0644'
+      register: copy_config
+      when: copy_pg_conf is defined and copy_pg_conf == 'yes'
+    - name: Restart postgres-service
+      ansible.builtin.service:
+        name: postgresql-17
+        state: restarted
+      when: copy_config is defined and copy_config.changed
