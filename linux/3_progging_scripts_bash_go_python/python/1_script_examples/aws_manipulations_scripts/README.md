@@ -14,7 +14,6 @@ export AWS_SESSION_TOKEN=""
 * Hardcoded variables ( can be changed)
 ```
 duration = 86400*2 #2 days in epoch seconds
-env_bucket = "rh-perf-uat-initial-dumps-bucket"
-env_dir = "perf/"
+env_bucket = "dev-initial-dumps-bucket"
+env_dir = "dev/"
 ```
-
