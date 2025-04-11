@@ -11,7 +11,8 @@ openssl rand -base64 12
 #get cert from kube secret
 kubectl get secret your-secret-name -n your-namespace -o json | jq '."data"."tls.crt"'| sed 's/"//g'| base64 -d -
 
-# get cert or cert INFO
+# OPENSSL
+# get web-domain cert or cert INFO
 #see full chain of cert
 #That command connects to the desired website and pipes the certificate in PEM format on to another openssl command that reads and parses the details.
 #https://serverfault.com/questions/661978/displaying-a-remote-ssl-certificate-details-using-cli-tools
@@ -92,7 +93,7 @@ sudo update-ca-certificates
 
 
 
-# keytool
+# KEYTOOL
 # nstall keytool in Ubuntu
 sudo apt install openjdk-8-jre-headless
 # install keytool on MACOS
