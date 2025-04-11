@@ -54,12 +54,12 @@ git config core.sshCommand "ssh -i ~/.ssh/id_rsa_leg5"
 
 
 #add to one remote several git-repos
-#Добавляем
+#add
 git remote add "all" git@git@github.com:krasnosvar/git.git
 git remote set-url --add --push "all" git@github.com:krasnosvar/git.git
 git remote set-url --add --push "all" git@bitbucket.org:krasnosvar/git.git
 git remote set-url --add --push "all" git@git@gitlab.com:krasnosvar/git.git
-#Отправляем
+#push to all simultaneously
 git push all
 
 
@@ -212,6 +212,18 @@ vi ~/.gitconfig
 git log --max-count=3
 git log -n 3
 
+
+
+# CHERRY PICk
+# add only one commit from branch A to branch B
+#1. fetch commit hash in brnach A
+git checkout branch-A
+git log --pretty
+# 2. move to branch B and add commit
+git checkout branch-B
+git cherry-pick 5a8c6b51a779ecf1ee76f0b884b408f4aa3897b9 --no-commit
+# 3. commit and push to remote
+git add . && git commit -m "added cherry picked commit from A" && git push origin HEAD
 
 
 
