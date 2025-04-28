@@ -7,3 +7,7 @@
 * https://github.com/Ramilito/kubectl.nvim
 * https://monokle.io/lens
 
+
+
+2. Articles
+* [What is a Kubernetes Operator? Definition & Examples](https://spacelift.io/blog/kubernetes-operator)

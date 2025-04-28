@@ -140,3 +140,121 @@ nginx     9.988MiB / 62.66GiB
 
 # count how all containers allocate space (in bytes)
 var=0; for i in $(docker inspect -f "{{ .Size }}" $(docker image ls -q)); do var=$((var + $i)); done; echo $var
+
+
+
+# DOCKER LOGS
+# https://docs.docker.com/config/containers/logging/configure/
+docker info --format '{{.LoggingDriver}}'
+
+#узнать где хранятся логи контейнера "alertmanager"
+docker inspect --format='{{.LogPath}}' alertmanager
+
+
+# DOCKER NETWORK
+#create new network("bridge by default")
+docker network create rbm-24-bridge
+#list networks
+docker network ls
+#remove one network by name
+docker network rm mynetwork
+#remove all networks
+docker network prune
+#run container, attached to new network
+docker run -d --name rbm-dkr-24-nginx --network rbm-24-bridge nginx:stable
+#run alpine, install curl and curl other container by DNS(container name)
+docker run -it --rm --name alp-dkr-24 --network rbm-24-bridge alpine:3.10 /bin/ash -c "apk add --update curl && curl -v container_name" 
+
+
+#netstat, ping, ip in debian-based container
+docker exec container_name /bin/bash -c "apt update && apt install net-tools iputils-ping iproute2 curl -y && netstat -ntulp && ping -c 4 db && ip a"
+#netstat, ping in alpine-based container
+docker exec container_name /bin/ash -c "apk update && apk add ospd-netstat iputils curl && netstat -ntulp"
+#telnet(nc) in alpine-based container
+docker exec container_name /bin/ash -c "nc db 3306"
+
+#show amount of opened connection by container-port 
+#https://cinhtau.net/2018/09/14/check-connections-for-docker-container/
+#by specific container
+docker inspect -f '{{.State.Pid}}' nginx
+nsenter -t 9999 -n netstat -na | grep :443
+#all containers
+for cont_name in $(docker ps --format '{{.Names}}'); \
+do \
+dockr_port=$(docker port $cont_name| cut -f1 -d"/"); \
+cont_pid=$(docker inspect -f '{{.State.Pid}}' $cont_name); \
+echo $cont_name;\
+nsenter -t $cont_pid -n netstat -na | grep :$dockr_port| wc -l; done
+
+#check opened ports inside container without netstat
+#https://www.commandlinefu.com/commands/view/15313/check-open-ports-without-netstat-or-lsof
+declare -a array=($(tail -n +2 /proc/net/tcp | cut -d":" -f"3"|cut -d" " -f"1")) && for port in ${array[@]}; do echo $((0x$port)); done
+#or
+declare -a array=($(tail -n +2 /proc/net/tcp | cut -d":" -f"3"|cut -d" " -f"1")) && for port in ${array[@]}; do echo $((0x$port)); done | sort | uniq
+
+
+# DOCKER VOLUMES
+#mount NFS directly to container, without mount on host
+#https://stackoverflow.com/questions/45282608/how-to-directly-mount-nfs-share-volume-in-container-using-docker-compose-v3
+
+version: "3.2"
+
+services:
+  rsyslog:
+    image: jumanjiman/rsyslog
+    ports:
+      - "514:514"
+      - "514:514/udp"
+    volumes:
+      - type: volume
+        source: example
+        target: /nfs
+        volume:
+          nocopy: true
+volumes:
+  example:
+    driver_opts:
+      type: "nfs"
+      o: "addr=10.40.0.199,nolock,soft,rw"
+      device: ":/docker/example"
+
+
+
+#DOCKER COMPOSE COMMANDS
+docker compose -f docker-compose-unmounted.yml up -d
+docker compose -f docker-compose-mounted.yml down
+
+#restart only one container(service) "alertmanager" from compose
+docker compose -f /var/prometheus/docker-compose_server.yml restart alertmanager
+
+
+#show running compose containers
+docker compose -f /var/prometheus/docker-compose_client.yml ps --services --filter status=running
+
+
+
+# DOCKER SWARM
+# swarm nodes
+docker node ls
+docker node ls --filter role=manager
+
+#drain node
+docker node update --availability drain node02app
+docker node update --availability active node02app
+
+#network
+docker network ls
+
+#check service logs
+docker service logs
+docker service inspect --pretty frontend
+docker service ps --no-trunc claim_claim_bp
+
+#service
+docker service ls
+
+#move services ( for example on new node) on the fly
+for service_name in $(docker service ls | awk '{print $2}'); do docker service update --force $service_name; done
+
+#show all service on all nodes
+for service_name in $(docker service ls | awk '{print $2}'); do docker service ps $service_name; done
