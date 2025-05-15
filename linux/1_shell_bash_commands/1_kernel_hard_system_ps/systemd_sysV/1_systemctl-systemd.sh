@@ -100,3 +100,7 @@ systemctl suspend
 systemctl list-timers --all
 systemctl stop unbound-anchor.timer
 systemctl disable unbound-anchor.timer
+
+
+# see full command in status output
+systemctl status opensearch | cat
