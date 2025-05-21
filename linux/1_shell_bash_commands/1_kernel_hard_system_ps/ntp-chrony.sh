@@ -20,12 +20,13 @@ ntpq -p
 
 #chrony
 #https://chrony.tuxfamily.org/doc/4.0/chronyc.html
-yum install -y chrony  
+yum install -y chrony
 service chrony start
 /etc/rc.d/init.d/chronyd start
 /etc/rc.d/init.d/chronyd start
-vi /etc/chrony.conf 
-chkconfig chronyd on 
+vi /etc/chrony.conf
+chkconfig chronyd on
 #maintenance commands
-chronyc tracking 
-chronyc sources -v 
+chronyc tracking
+chronyc sources -v
+timedatectl status
