@@ -165,8 +165,6 @@ cp files/vscode/settings.json $HOME/.config/Code/User/settings.json
 
 #VScode extensions
 #https://stackoverflow.com/questions/34286515/how-to-install-visual-studio-code-extensions-from-command-line
-# sudo -u den codium --install-extension golang.go
-# sudo -u den codium --install-extension ms-toolsai.jupyter
 sudo -u den codium --install-extension ms-python.python
 sudo -u den codium --install-extension redhat.vscode-yaml
 sudo -u den codium --install-extension ms-azuretools.vscode-docker
@@ -178,3 +176,4 @@ sudo -u den codium --install-extension hashicorp.terraform
 sudo -u den codium --install-extension davidanson.vscode-markdownlint
 sudo -u den codium --install-extension mathiasfrohlich.kotlin # kotlin syntax highlight
 sudo -u den codium --install-extension ms-vscode-remote.remote-containers # for docker
+sudo -u den codium --install-extension golang.Go
