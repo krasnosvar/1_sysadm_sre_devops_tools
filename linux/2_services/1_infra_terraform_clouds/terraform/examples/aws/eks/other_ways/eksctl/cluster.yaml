@@ -1,0 +1,47 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: ts-oms-eks-dev
+  region: us-west-2
+
+# Error: only 1 zone(s) specified [us-west-2a], 2 are required (can be non-unique)
+availabilityZones: ['us-west-2a', 'us-west-2b']
+
+iam:
+  withOIDC: true
+
+vpc:
+
+  cidr: 10.10.80.0/22 
+
+nodeGroups:
+  - name: ng-1
+    availabilityZones: ["us-west-2a"]
+    instanceType: r5a.xlarge
+    desiredCapacity: 3
+    minSize: 3
+    maxSize: 3
+    volumeSize: 100
+    ssh:
+      allow: false
+    labels:
+      role: eks-worker
+      environment: dev
+    iam:
+      withAddonPolicies:
+        autoScaler: true
+        ebs: true
+        cloudWatch: true
+        awsLoadBalancerController: true
+
+addons:
+  - name: vpc-cni
+    version: latest
+  - name: coredns
+    version: latest
+  - name: kube-proxy
+    version: latest
+  - name: aws-ebs-csi-driver
+    version: latest
+    serviceAccountRoleARN: "arn:aws:iam::5...1:role/eks_dev_role"
