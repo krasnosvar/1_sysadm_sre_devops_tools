@@ -1,0 +1,86 @@
+---
+# tasks file for nfs-mount
+
+- hosts: "{{ deploy_target }}_app"
+  vars:
+  # List of NFS shares
+    nfs_share_mounts: # []
+    # - path: /mnt/ex_passno
+    #   location: nfs.example.org:/ex_passno
+    - path: /opt/efs_share
+      location: fs-0...1.efs.us-east-1.amazonaws.com:/
+      # passno: 0
+      # dump: 0
+      # state: absent
+  # NFS version, default 4
+    nfs_version: 4
+  # Default NFS4 mount options
+  # https://docs.aws.amazon.com/efs/latest/ug/wt1-getting-started.html#wt1-test
+    nfs_mount_opts: rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport
+  # for logrotate
+    base_dir: /opt/efs_share
+
+  tasks: 
+  - name: Install NFS mount utility
+    become: true
+    ansible.builtin.dnf:
+      update_cache: true
+      name: nfs-utils
+      state: present
+    when: ansible_os_family == "RedHat"
+  
+  - name: Install NFS mount utility
+    become: true
+    ansible.builtin.apt:
+      update_cache: true
+      pkg: nfs-common
+      state: present
+    when: ansible_os_family == "Debian"
+  
+  # https://docs.ansible.com/ansible/latest/collections/ansible/posix/mount_module.html#ansible-collections-ansible-posix-mount-module
+  # ansible-galaxy collection install ansible.posix
+  - name: Mount NFS share
+    become: true
+    ansible.posix.mount:
+      fstype: nfs
+      name: "{{ item.path }}"
+      opts: "vers={{ nfs_version }},{{ item.opts | default(nfs_mount_opts) }}"
+      src: "{{ item.location }}"
+      dump: "{{ item.dump | default(omit) }}"
+      passno: "{{ item.passno | default(omit) }}"
+      state: "{{ item.state | default( 'mounted' ) }}"
+    with_items: "{{ nfs_share_mounts }}"
+
+
+# Logrotate EFS-NFS
+#  Keep only the last two directories in efs_share on Fridays
+  - name: Find all first-level directories in efs_share
+    find:
+      paths: "{{ base_dir }}"
+      file_type: directory
+      depth: 1
+    register: found_dirs
+
+  - name: Extract sorted list of directory structures (by path/name)
+    set_fact:
+      sorted_dirs: "{{ found_dirs.files | sort(attribute='path') }}"
+  - name: Set list of directories to remove (all but last two)
+    set_fact:
+      dirs_to_remove: "{{ sorted_dirs[:-2] }}"
+
+  - name: Remove old directories, keeping only the last two
+    file:
+      path: "{{ item.path }}"
+      state: absent
+    loop: "{{ dirs_to_remove }}"
+    when: dirs_to_remove | length > 0
+
+  - name: Ensure clean-up is scheduled for Fridays via cron
+    delegate_to: "{{ groups[deploy_target + '_app'][0] }}"
+    cron:
+      name: "Clean up efs_share directories, keep last two"
+      user: root
+      minute: 0
+      hour: 2
+      weekday: 5  # Friday
+      job: 'find /opt/efs_share -mindepth 1 -maxdepth 1 -type d | sort | head -n -2 | xargs -r rm -rf'
