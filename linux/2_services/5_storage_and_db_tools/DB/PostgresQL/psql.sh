@@ -40,3 +40,17 @@ postgres=# SELECT pg_is_in_recovery();
 
 # check DB size
 SELECT pg_size_pretty( pg_database_size('testdbname') );
+
+# get tables size in specific DB ( pg v15)
+psql postgresql://$USER:$PASS@$HOST:5432/$DBNAME << EOF > psql_out.txt
+SELECT
+   table_schema || '.' || table_name AS table_full_name,
+   pg_size_pretty(pg_total_relation_size('"' || table_schema || '"."' || table_name || '"')) AS total_size
+FROM
+   information_schema.tables
+WHERE
+   table_schema NOT IN ('pg_catalog', 'information_schema')
+   AND table_type = 'BASE TABLE'
+ORDER BY
+   pg_total_relation_size('"' || table_schema || '"."' || table_name || '"') DESC;
+EOF
