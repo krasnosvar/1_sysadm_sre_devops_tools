@@ -177,3 +177,4 @@ sudo -u den codium --install-extension davidanson.vscode-markdownlint
 sudo -u den codium --install-extension mathiasfrohlich.kotlin # kotlin syntax highlight
 sudo -u den codium --install-extension ms-vscode-remote.remote-containers # for docker
 sudo -u den codium --install-extension golang.Go
+sudo -u den codium --install-extension tomoki1207.pdf # pdf reader in codium
