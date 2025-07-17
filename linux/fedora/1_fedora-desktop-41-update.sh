@@ -117,13 +117,16 @@ SOPS_VERSION=$(curl -s https://api.github.com/repos/getsops/sops/releases/latest
 dnf install -y https://github.com/getsops/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION:1}-1.x86_64.rpm
 sops --version
 # helm plugins
-helm plugin install https://github.com/jkroepke/helm-secrets --version v4.6.2
-helm plugin install https://github.com/databus23/helm-diff
+helm plugin install https://github.com/jkroepke/helm-secrets --version v4.6.5
+helm plugin install https://github.com/databus23/helm-diff --version v3.12.3
 # psql
 sudo dnf install postgresql -y
 # dbeaver
 # https://dbeaver.io/download/
 sudo dnf install https://dbeaver.io/files/dbeaver-ce-latest-stable.x86_64.rpm -y
+# istioctl
+wget -qO- https://github.com/istio/istio/releases/download/1.26.2/istioctl-1.26.2-linux-amd64.tar.gz | sudo tar xz -C /usr/local/bin && sudo chmod +x /usr/local/bin/istioctl
+
 
 
 #programming, development
