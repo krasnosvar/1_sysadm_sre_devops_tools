@@ -2,7 +2,7 @@
 * [copilot in codium](https://github.com/VSCodium/vscodium/discussions/1487)
 * [Cursor](https://www.cursor.com/)
 * [Zed](https://zed.dev/)
-
+* [Kiro](https://kiro.dev/blog/introducing-kiro/)
 
 2. CLI Ai tools
 * https://github.com/google-gemini/gemini-cli
@@ -17,3 +17,6 @@
 4. LLM Ai services
 * https://chatgpt.com
 * https://www.deepseek.com/en
+* https://www.perplexity.ai
+* https://claude.ai
+* https://gemini.google.com
