@@ -20,3 +20,7 @@
 * https://www.perplexity.ai
 * https://claude.ai
 * https://gemini.google.com
+
+
+5. Other
+* [Prompt Analysis and Optimization](https://promptessor.com/prompt/new)
