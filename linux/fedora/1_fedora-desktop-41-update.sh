@@ -119,6 +119,8 @@ sops --version
 # helm plugins
 helm plugin install https://github.com/jkroepke/helm-secrets --version v4.6.5
 helm plugin install https://github.com/databus23/helm-diff --version v3.12.3
+# helmfile
+wget -qO- https://github.com/helmfile/helmfile/releases/download/v1.1.3/helmfile_1.1.3_linux_amd64.tar.gz | sudo tar xz -C /usr/local/bin && sudo chmod +x /usr/local/bin/helmfile
 # psql
 sudo dnf install postgresql -y
 # dbeaver
