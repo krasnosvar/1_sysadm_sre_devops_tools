@@ -107,10 +107,17 @@ sudo usermod -a -G docker den
 #kubectl
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl"
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+#k9s
+sudo dnf copr enable luminoso/k9s -y
+sudo dnf install k9s -y
 # helm
+wget -qO- https://get.helm.sh/helm-v3.17.4-linux-amd64.tar.gz | tar xz -O linux-amd64/helm | \
+  sudo tee /usr/local/bin/helm > /dev/null && sudo chmod +x /usr/local/bin/helm
+
 # age
 # https://github.com/FiloSottile/age#installation
-sudo dnf install helm age httpie yq jq tmux byobu awscli2 -y
+sudo dnf install age httpie yq jq tmux byobu awscli2 -y
+
 # sops
 # https://gist.github.com/patrickmslatteryvt/d531c5ae4598fd4c9d508833bde6c7c0
 SOPS_VERSION=$(curl -s https://api.github.com/repos/getsops/sops/releases/latest | jq .tag_name | tr -d '"')
@@ -136,12 +143,12 @@ sudo dnf install python3 python3.9 python3.10 python3.12 -y
 #install go
 # https://developer.fedoraproject.org/tech/languages/go/go-installation.html
 sudo dnf install golang -y
+# golangci-lint --version 
+sudo dnf install https://github.com/golangci/golangci-lint/releases/download/v2.3.0/golangci-lint-2.3.0-linux-amd64.rpm -y
 #for java keytool
 dnf search openjdk
 # git, editors - nvim, vscode
 sudo dnf install vim neovim -y
-sudo dnf copr enable vitallium/neovim-default-editor
-sudo dnf install neovim-default-editor --allowerasing
 git config --global user.name "krasnosvar"
 git config --global user.email "krasnosvar@gmail.com"
 git config --global color.ui auto
@@ -166,6 +173,26 @@ mkdir -p $HOME/.config/VSCodium/User/
 cp files/vscode/settings.json $HOME/.config/VSCodium/User/settings.json
 mkdir -p $HOME/.config/Code/User/
 cp files/vscode/settings.json $HOME/.config/Code/User/settings.json
+# arduino
+flatpak install flathub cc.arduino.IDE2
+# Install Arduino Lab for MicroPython
+APPDIR="$HOME/Applications/arduino-lab-micropython"
+mkdir -p "$APPDIR"
+cd /tmp && \
+wget -O ArduinoLab.zip https://github.com/arduino/lab-micropython-editor/releases/latest/download/Arduino-Lab-for-MicroPython_Linux_X86-64.zip && \
+unzip -o ArduinoLab.zip -d "$APPDIR" && \
+unzip -o "$APPDIR/Arduino Lab for MicroPython-linux_x64.zip" -d "$APPDIR" && \
+chmod +x "$APPDIR/arduino-lab-micropython-ide" && \
+cat > ~/.local/share/applications/arduino-lab-micropython.desktop <<EOF
+[Desktop Entry]
+Name=Arduino Lab for MicroPython
+Exec=$APPDIR/arduino-lab-micropython-ide
+Icon=arduino
+Type=Application
+Categories=Development;Electronics;
+Terminal=false
+EOF
+chmod +x ~/.local/share/applications/arduino-lab-micropython.desktop
 
 
 #VScode extensions
@@ -183,3 +210,12 @@ sudo -u den codium --install-extension mathiasfrohlich.kotlin # kotlin syntax hi
 sudo -u den codium --install-extension ms-vscode-remote.remote-containers # for docker
 sudo -u den codium --install-extension golang.Go
 sudo -u den codium --install-extension tomoki1207.pdf # pdf reader in codium
+
+
+# ai tools
+# Cursor
+# https://copr.fedorainfracloud.org/coprs/waaiez/cursor/
+sudo dnf copr enable waaiez/cursor
+sudo dnf install cursor
+#Zed
+flatpak install flathub dev.zed.Zed
