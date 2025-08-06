@@ -20,18 +20,18 @@ tar xvf Python-3.8.0.tar.xz
 cd Python-3.8.0
 ./configure --enable-optimizations
 make altinstall
-export PATH=$PATH:/usr/local/bin/ #или прописать в /etc/env
+export PATH=$PATH:/usr/local/bin/ #or write in /etc/env
 python3.8
 
 
 #PIP
 #already installed in python3.4 and above
-#Если у вас последняя версия пакета, но вы хотите принудительно переустановить его:
+#If you have the latest version of the package, but want to force reinstall it:
 pip install --force-reinstall
-#Посмотреть список установленных пакетов Python можно с помощью команды:
+#To view the list of installed Python packages use the command:
 pip list
-#Когда пакет больше не нужен, пишем:
-pip uninstall имя_пакета
+#When the package is no longer needed, write:
+pip uninstall package_name
 #update all pip packages
 #linux
 pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U 

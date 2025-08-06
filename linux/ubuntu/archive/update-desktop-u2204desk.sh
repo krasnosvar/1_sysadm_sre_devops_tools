@@ -2,7 +2,7 @@
 sudo apt install curl -y
 #ADD repos
 
-#clipboard manager, в настройках включить autostart
+#clipboard manager, enable autostart in settings
 #sudo add-apt-repository ppa:hluk/copyq
 
 # repos vivaldi
@@ -31,7 +31,7 @@ gnome-tweak-tool libreoffice audacity transmission sshpass htop expect tree
 # pdftk file.pdf  dump_data |sed -e 's/\(InfoValue:\)\s.*/\1\ /g' | pdftk file.pdf update_info - output file_no_meta.pdf
 # https://stackoverflow.com/questions/60738960/remove-pdf-metadata-removing-complete-pdf-metadata
 sudo apt install pdftk -y 
-#print screen program, добавить на клавишу printScr командой "flameshot gui"
+#print screen program, add to printScr key with command "flameshot gui"
 sudo apt install flameshot -y
 #sudo apt install copyq -y
 sudo apt install diodon -y #instead of copyq
@@ -121,7 +121,7 @@ sudo apt update && sudo apt install floorp -y
 sudo apt install wireshark -y
 #SIP-protocol analyzer- sngrep
 sudo apt install sngrep -y
-#arp-сканер сети, сканировать локалку - arp-scan --interface=enp0s3 --localnet
+#arp network scanner, scan local network - arp-scan --interface=enp0s3 --localnet
 sudo apt install arp-scan -y
 #mtr combines the functionality of the traceroute and ping programs in a single network diagnostic tool.
 sudo apt install mtr -y #mtr -i 0.1 rtc.podborbanka.com

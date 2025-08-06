@@ -16,13 +16,13 @@ scp ~/.ssh/id_rsa.pub admin@192.168.88.1:/
 user ssh-keys import user=admin public-key-file=id_rsa.pub
 
 sudo vi /etc/ssh/ssh_config
-### Алиасы для быстрого подключения ###
+### Aliases for quick connection ###
 Host userv
 HostName 192.168.43.100 
 User den
 Port 22
 
-#сгенерировать ключ одной командой(для скриптов), without passphrase
+#generate key with one command (for scripts), without passphrase
 # -b bits
 #              Specifies the number of bits in the key to create.  For RSA keys, the minimum size is 1024 bits and the default is 2048 bits.  Generally,
 #              2048 bits is considered sufficient.  DSA keys must be exactly 1024 bits as specified by FIPS 186-2.  For ECDSA keys, the -b flag deter‐

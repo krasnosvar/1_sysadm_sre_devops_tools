@@ -1,5 +1,5 @@
-#Linux bonding — объединение сетевых интерфейсов в Linux
-#параметры скрипта /etc/sysconfig/network-scripts/ifcfg-bond0
+#Linux bonding — combining network interfaces in Linux
+#script parameters /etc/sysconfig/network-scripts/ifcfg-bond0
 http://www.adminia.ru/linux-bonding-obiedinenie-setevyih-interfeysov-v-linux/
 
 #7.7. USING CHANNEL BONDING RHEL7

@@ -53,11 +53,11 @@ iptables -A INPUT -p icmp -j ACCEPT
 iptables -A INPUT -p tcp --destination-port 22 -j ACCEPT
 
 
-#редирект с одного порта на другой( открыт vnc 5900, но зайти можно будет через 5901)
+#redirect from one port to another (vnc 5900 is open, but you can access through 5901)
 #https://habr.com/ru/post/324276/
 #https://www.cyberciti.biz/faq/linux-iptables-delete-prerouting-rule-command/
 iptables -t nat -A PREROUTING -p tcp --dport 5901 -j REDIRECT --to-port 5900
-#редиректить будет, но порт через ss -ntulp виден не будет
+#will redirect, but port won't be visible through ss -ntulp
 
 
 #FIREWALL-CMD(firewalld)

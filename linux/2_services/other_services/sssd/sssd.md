@@ -6,14 +6,14 @@
 * https://docs.pagure.org/SSSD.sssd/users/ad_provider.html
 
 
-1. Установить пакеты
+1. Install packages
 ```
 yum install realmd sssd oddjob oddjob-mkhomedir adcli samba-common samba-common-tools
 realm join -U svc_join adtest.domain.ru
 ```
 
 
-2. Настроить конфиг-sssd
+2. Configure sssd config
 ```
 realm list
 id krasnosvarov_dn@domain.ru
@@ -39,25 +39,25 @@ krb5_store_password_if_offline = True
 default_shell = /bin/bash
 ldap_id_mapping = True
 
-#ИЗМЕНИТЬ ЭТИ ПАРАМЕТРЫ
+#CHANGE THESE PARAMETERS
 use_fully_qualified_names = False
 fallback_homedir = /home/%u
 
-#ДОБАВИТЬ ФИЛЬТР, чтобы пускало только группу nix_adm
+#ADD FILTER to allow only nix_adm group
 #access_provider = ad
 access_provider = ad
 ad_access_filter = (&(memberOf=CN=nix_adm,OU=Groups,OU=gk,DC=domain,DC=ru)(unixHomeDirectory=*))
 
-#пример фильтра для разрешения подключения двух групп ```nix_adm``` и ```ora_adm```
+#example filter for allowing connection of two groups ```nix_adm``` and ```ora_adm```
 #ad_access_filter = (|(memberOf=CN=nix_adm,OU=Groups,OU=gk,DC=domain,DC=ru)(unixHomeDirectory=*)(CN=ORA_ADM,OU=Groups,OU=gk,DC=corp,DC=domain,DC=ru))
 
-#пример фильтра для добавления отдельного пользователя
+#example filter for adding individual user
 #ad_access_filter = (&(memberOf=CN=nix_adm,OU=Groups,OU=gk,DC=domain,DC=ru)(sAMAccountName=krasnosvarov_dn))
 
 ```
 
 
-3. разрешить группе **nix_adm** исполнять sudo
+3. allow group **nix_adm** to execute sudo
 ```
 [root@v396-003app00 ~]# cat /etc/sudoers.d/nix_adm
 %nix_adm    ALL=(ALL)       ALL
@@ -73,7 +73,7 @@ systemctl restart sssd ; sss_cache -E
 
 ### TROUBLESHOOTING
 
-1. если про логине не создается /home/* директория, проверить запущен ли сервис
+1. if /home/* directory is not created during login, check if service is running
 * https://access.redhat.com/solutions/107183
 ```
  service oddjobd status

@@ -1,9 +1,9 @@
 https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#backing-up-an-etcd-cluster
 https://github.com/etcd-io/website/blob/main/content/en/docs/v3.5/op-guide/recovery.md
 
-#Получите доступ к etcd кластера с помощью консольной команды etcdctl. 
-#Создайте key=value пару с произвольными значениями.  
-#Составьте команду вывода данных, созданных в предыдущем пункте. Команду и вывод сохраните.
+#Get access to etcd cluster using console command etcdctl.
+#Create a key=value pair with arbitrary values.
+#Compose a command to output data created in the previous step. Save the command and output.
 #install etcdctl
 #https://github.com/etcd-io/etcd/releases
 ETCD_VER=v3.4.9
@@ -17,7 +17,7 @@ rm -f /tmp/etcd-${ETCD_VER}-linux-amd64.tar.gz
 /tmp/etcd-download-test/etcdctl version
 cp /tmp/etcd-download-test/etcdctl /usr/local/sbin/
 
-#Записать и прочитать пару ```foo-k8s-ex6 bar-k8s-ex6```
+#Write and read pair ```foo-k8s-ex6 bar-k8s-ex6```
 etcdctl --endpoints 127.0.0.1:2379 \
 --cacert /var/lib/minikube/certs/etcd/ca.crt  \
 --cert /var/lib/minikube/certs/etcd/server.crt \

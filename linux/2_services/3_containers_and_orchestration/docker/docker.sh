@@ -8,14 +8,14 @@ sudo usermod -aG docker ${USER}
 sudo usermod -aG docker den
 
 
-#Создать образ 
+#Create image 
 #BUILD
-#-t тэг образа
+#-t image tag
 docker build  -t dkr-16:1.0 .
 docker build  -t dkr-16:latest .
 #create(build) image from directory "docker" from Dockerfile "prod"
 docker build --file ./docker/prod .
-#если Dockerfile файл мультистейж- сделать сборку только определеного образа "grafana" из Dockerfile
+#if Dockerfile is multi-stage - build only specific image "grafana" from Dockerfile
 docker build --target grafana -t grafana:app .
 
 ##############################################
@@ -72,19 +72,19 @@ docker ps -q | xargs -n 1 docker inspect --format '{{ .Name }} {{range .NetworkS
 
 #attach to running container
 docker exec -it CONTAINER_ID /bin/bash
-#по ID контейнера выполнить команду внутри контейнера
+#by container ID execute command inside container
 for i in $(docker ps|awk '{print $1}'); do docker exec $1 /bin/sh -c 'grep -ri "8.8.8.8"'; done
 
-#Docker никогда не удаляет data volumes, даже если контейнеры, которые их создали, удалены.
-#Для того чтобы посмотреть список осиротевших томов, используйте команду:
+#Docker never removes data volumes, even if the containers that created them are deleted.
+#To view the list of orphaned volumes, use the command:
 docker volume ls -qf dangling=true
 
-#Для удаления таких томов:
+#To remove such volumes:
 docker volume rm $(docker volume ls -qf dangling=true)
 
 #CLEAN
-#Эта команда удаляет все контейнеры, у которых статус exited. 
-#Флаг -q возвращает только численные ID, а флаг -f фильтрует вывод на основе предоставленных условий
+#This command removes all containers with exited status.
+#Flag -q returns only numeric IDs, and flag -f filters output based on provided conditions
 docker rm $(docker ps -a -q -f status=exited)
 #One liner to stop / remove all of Docker containers:
 docker stop $(docker ps -a -q)
@@ -147,7 +147,7 @@ var=0; for i in $(docker inspect -f "{{ .Size }}" $(docker image ls -q)); do var
 # https://docs.docker.com/config/containers/logging/configure/
 docker info --format '{{.LoggingDriver}}'
 
-#узнать где хранятся логи контейнера "alertmanager"
+#find out where container "alertmanager" logs are stored
 docker inspect --format='{{.LogPath}}' alertmanager
 
 

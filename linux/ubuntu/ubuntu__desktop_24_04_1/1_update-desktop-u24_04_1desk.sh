@@ -24,7 +24,7 @@ sudo tee /etc/apt/sources.list.d/brave-browser-release.list
 curl -fsSL https://ppa.ablaze.one/KEY.gpg | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/Floorp.gpg
 sudo curl -sS --compressed -o /etc/apt/sources.list.d/Floorp.list 'https://ppa.ablaze.one/Floorp.list'
 # copyq
-#clipboard manager, в настройках включить autostart
+#clipboard manager, enable autostart in settings
 sudo add-apt-repository ppa:hluk/copyq -y
 #docker
 # Add Docker's official GPG key:
@@ -85,7 +85,7 @@ git config --global color.ui auto
 # pdftk file.pdf  dump_data |sed -e 's/\(InfoValue:\)\s.*/\1\ /g' | pdftk file.pdf update_info - output file_no_meta.pdf
 # https://stackoverflow.com/questions/60738960/remove-pdf-metadata-removing-complete-pdf-metadata
 sudo apt install pdftk -y 
-#print screen program, добавить на клавишу printScr командой "flameshot gui"
+#print screen program, add to printScr key with command "flameshot gui"
 sudo apt install flameshot -y
 sudo apt install copyq -y
 sudo apt install diodon -y #instead of copyq

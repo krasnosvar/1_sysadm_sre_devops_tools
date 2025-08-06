@@ -55,11 +55,11 @@ snap install --dangerous vlc1.snap
 
 
 #YUM
-Удалить пакет  без удаления зависимостей.
-Для этого сначала надо найти полное имя пакета: rpm -qa | grep "php55w-mysql"
-В ответ получим что-то типа: php55w-mysql-5.5.33-1.w6.x86_64
-Теперь, используя это имя, действуем: rpm -e --nodeps "php55w-mysql-5.5.33-1.w6.x86_64"
-#Yum, шпаргалка
+Remove package without removing dependencies.
+For this first need to find full package name: rpm -qa | grep "php55w-mysql"
+In response we get something like: php55w-mysql-5.5.33-1.w6.x86_64
+Now, using this name, we act: rpm -e --nodeps "php55w-mysql-5.5.33-1.w6.x86_64"
+#Yum cheat sheet
 https://habr.com/ru/post/301292/
 #delete all php but not "php-common"
 yum remove *php* -- -php-common 

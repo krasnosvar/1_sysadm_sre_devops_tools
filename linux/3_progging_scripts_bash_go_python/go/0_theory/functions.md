@@ -1,7 +1,7 @@
-1. Вывод времени выполнения функции
+1. Function execution time output
 ```
-// Реализуйте функцию logTime(), которая не принимает на вход параметров, определяет и выводит на экран время выполнения вашей программы.
-// Вывод времени должен происходить перед завершением работы функции main().
+// Implement logTime() function that doesn't take input parameters, determines and outputs to screen the execution time of your program.
+// Time output should occur before main() function completion.
 // https://stackoverflow.com/questions/45766572/is-there-an-efficient-way-to-calculate-execution-time-in-golang
 func logTime() func() {
 	start := time.Now()

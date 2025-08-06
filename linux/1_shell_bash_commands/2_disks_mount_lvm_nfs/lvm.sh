@@ -55,10 +55,10 @@ pvresize /dev/sdd
 lvextend -l +100%FREE /dev/data_vg/rcdb_data_lv -r
 resize2fs /dev/data_vg/rcdb_data_lv
 
-#если надо уменьшить до определенного размера, например с 200Г до 100Г
+#if you need to reduce to a specific size, for example from 200G to 100G
 resize2fs /dev/data_vg/rcdb_data_lv 100G
 ###########################################################################################
-#xfs можно только увеличить
+#xfs can only be increased
 xfs_growfs [options] mount-point
 
     -d: Expand the data section of the file system to the maximum size of the underlying device.
@@ -68,25 +68,25 @@ xfs_growfs [options] mount-point
 
 
 ###########################################################################################
-#Задача — уменьшить ubuntu--vg-root, а на освободившееся место — увеличить ubuntu--vg-home.
-#Проверяем целостность ФС:
+#Task — reduce ubuntu--vg-root, and increase ubuntu--vg-home on the freed space.
+#Check filesystem integrity:
 e2fsck -f /dev/ubuntu-vg/root
-#Уменьшаем размер файловой системы до 5 GB
+#Reduce filesystem size to 5 GB
 resize2fs /dev/ubuntu-vg/root 5G
-#Уменьшаем размер тома до 5gb:
+#Reduce volume size to 5gb:
 lvreduce -L 5G /dev/ubuntu-vg/root
-#Проверяем
+#Check
 lsblk /dev/sda5
-#С помощью lvextend — увеличиваем размер ubuntu--vg-home на 5G:
+#Using lvextend — increase ubuntu--vg-home size by 5G:
 lvextend -L +5G /dev/ubuntu-vg/home
-#Проверяем ФС:
+#Check filesystem:
 e2fsck -f /dev/ubuntu-vg/home
-#И выполняем resize. Не укзываем размер, что бы занять 100% свободного места:
+#And perform resize. Don't specify size to occupy 100% of free space:
 resize2fs -p /dev/ubuntu-vg/home
 
 
 ###########################################################################################
-#Добавить целый диск в LVM
+#Add entire disk to LVM
 #check WWN(LUN)
 ls -la /dev/disk/by-id/
 #If you are using a whole disk device for your physical volume, the disk must have no partition table.
@@ -104,21 +104,21 @@ lvextend -l +100%FREE /dev/vg_data/lv_data -r
 
 
 ###########################################################################################
-#Удалить один диск из LVM. Остается диск на 33Гб. Занимаемого места 5Г. 
-#То есть уменьшаем размер LV до 30Г(потом увеличим на весь размер диска).
-#Переносим данные с отключаемого диска и удаляем его из LVM.
-#размонтировать раздел
+#Remove one disk from LVM. Remaining disk is 33GB. Occupied space 5GB.
+#So we reduce LV size to 30GB (then increase by the entire disk size).
+#Move data from the disk being removed and delete it from LVM.
+#unmount partition
 umount /mnt/data/
-#уменьшить размер файловой системы
+#reduce filesystem size
 e2fsck -f /dev/vg_data/lv_data
 resize2fs /dev/vg_data/lv_data 30G
-#уменьшить размер LV
+#reduce LV size
 lvreduce --size 30G /dev/vg_data/lv_data
-#перенести все данные с удаляемого диска
+#move all data from the disk being removed
 pvmove /dev/sdc
-#удалить диск из VG
+#remove disk from VG
 vgreduce vg_data /dev/sdc
-#удалить диск из PV
+#remove disk from PV
 pvremove /dev/sdc
 
 

@@ -87,7 +87,7 @@ kubectl expose pod am-i-ready --port=80 --target-port=80 --name=service-am-i-rea
 #LOGS
 #pod logs by label
 kubectl logs -l app=krasnosvar_at_gmail.com
-#pod logs from all containers constantly( постоянно)
+#pod logs from all containers constantly
 kubectl logs -f first-pod --all-containers=true --tail 10
 
 

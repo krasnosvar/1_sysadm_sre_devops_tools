@@ -1,4 +1,4 @@
-#ping последовательно диапазона адресов
+#ping sequentially range of addresses
 for ((i=120; i <= 130; i++)) do ping -c 1 192.168.43.$i; done
 
 #check if IP not pinging(free) and add first free in variable

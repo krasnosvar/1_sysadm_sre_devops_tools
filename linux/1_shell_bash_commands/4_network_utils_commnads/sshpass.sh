@@ -1,9 +1,9 @@
-Чтобы попадать на сервера без ввода пароля, надо:
+To access servers without entering password, you need to:
 
-    установить sshpass
+    install sshpass
     apt install sshpass
 
-    прописать в ~/.bashrc функцию
+    write function in ~/.bashrc
 
 function kras() {
         sshpass -p password -v ssh -o StrictHostKeychecking=no krasnosvarov_dn@${1}
@@ -12,13 +12,13 @@ export -f kras
 
  
 
-#объяснение переменных функции:
-sshpass- приложение, надо установить
-флаг "-v" - verbose(подробный) вывод, можно не включать, был сделан для отладки написания функции
-StrictHostKeychecking=no при запросе ssh подключения чтобы не было ошибки и продолжалось выполнение
-${1} в фигурных кавычках- чтобы аргумент применялся без пробела, вида user@server
+#explanation of function variables:
+sshpass- application, need to install
+flag "-v" - verbose(detailed) output, can be disabled, was made for debugging function writing
+StrictHostKeychecking=no when ssh connection request so there's no error and execution continues
+${1} in curly quotes- so argument is applied without space, like user@server
 
-такие же функции можно прописать для toor и local
+similar functions can be written for toor and local
 
 ---------------------------------------------------------------------------------------------
 
@@ -39,23 +39,23 @@ export -f toor
 
  ---------------------------------------------------------------------------------------------
 
-Примечание: нельзя называть функцию local, т.к. эта команда в bash используется для указания локальных переменных.
-Использование функции с именем local поломает терминал. Отменить функцию можно командой unset local
+Note: cannot name function local, because this command in bash is used for specifying local variables.
+Using function with name local will break terminal. Function can be cancelled with command unset local
 
-#чтобы применить функцию как алиас, выполнить команду в bash:
+#to apply function as alias, execute command in bash:
 source .bashrc
 
- #теперь можно заходить на сервера простой командой вида user server, пример для сервера rundeck:
+ #now you can access servers with simple command like user server, example for rundeck server:
 loc rundeck
 
-или
+or
 
 toor 10.5.46.30
 
 -------------------------------------------------------------------------------------------------------------------------------------------------
 
-#Выполнить команду через sshpass на удаленном сервере сразу в sudo:
+#Execute command via sshpass on remote server immediately in sudo:
 
 sshpass -p PASSWORD -v ssh -o StrictHostKeychecking=no local@rundeck 'echo PASSWORD | sudo -S -s /bin/bash -c "whoami; ping localhost -c 4"'
 
-#если ругается на символы "!" и т.п., их надо экранировать "\", например PASSWORD! надо записывать вида PASSWORD\!
+#if it complains about symbols "!" etc., they need to be escaped "\", for example PASSWORD! should be written as PASSWORD\!

@@ -2,7 +2,7 @@
 diff <(host 10.0.162.4) <(host 10.0.162.5)
 
 
-#Сравнить построчно
+#Compare line by line
 #diff -y Dockerfile Dockerfile_test_diff 
 FROM alpine:latest                                              FROM alpine:latest
 LABEL authors="krasnosvar@gmail.com"                          | LABEL authors="krasnosvar@yandex.ru"
@@ -34,11 +34,11 @@ RUN apk add --no-cache \                                        RUN apk add --no
 RUN if [ ! -e /usr/bin/pip ]; then ln -s /usr/bin/pip3 /usr/b   RUN if [ ! -e /usr/bin/pip ]; then ln -s /usr/bin/pip3 /usr/b
 if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /   if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /
 
-#С ключом -q просто скажет различаются ли файлы или нет 
+#With -q flag it will simply say whether files differ or not 
 #diff -q Dockerfile Dockerfile_test_diff 
 Files Dockerfile and Dockerfile_test_diff differ
 
-#Покажет различающиеся строчки
+#Show differing lines
 #diff Dockerfile Dockerfile_test_diff 
 2c2
 < LABEL authors="krasnosvar@gmail.com"

@@ -1,10 +1,10 @@
-#Используем KVM для создания виртуальных машин на сервере
+#Using KVM to create virtual machines on server
 https://khashtamov.com/ru/kvm-setup-server/
-#Введение в Vagrant
+#Introduction to Vagrant
 https://khashtamov.com/ru/vagrant-how-to-setup/
 #How to use vagrant-kvm 
 https://gist.github.com/yuanying/924ce2ce61b75ab818b5
-#Перестаем бояться виртуализации при помощи KVM
+#Stop being afraid of virtualization with KVM
 https://eax.me/kvm/
 #Official site
 http://www.linux-kvm.org/page/Main_Page
@@ -14,11 +14,11 @@ http://www.linux-kvm.org/page/Main_Page
 apt install qemu-kvm libvirt-bin virtinst virt-manager virt-viewer
 yum groupinstall “Virtualization Host”
 
-#Что где принято хранить:
-    /var/lib/libvirt/boot/ — ISO-образы для установки гостевых систем;
-    /var/lib/libvirt/images/ — образы жестких дисков гостевых систем;
-    /var/log/libvirt/ — тут следует искать все логи;
-    /etc/libvirt/ — каталог с файлами конфигурации;
+#What is typically stored where:
+    /var/lib/libvirt/boot/ — ISO images for guest system installation;
+    /var/lib/libvirt/images/ — hard disk images of guest systems;
+    /var/log/libvirt/ — all logs should be looked for here;
+    /etc/libvirt/ — directory with configuration files;
 
 #create vm
 virt-install --connect qemu:///system \
@@ -43,10 +43,10 @@ sudo virt-install \
 --graphics vnc \
 --disk path=/media/den/250gb/vm-disks/centos8_boot.img,size=20,bus=virtio
 
-#Стоит обратить внимание на параметр --os-variant, он указывает гипервизору под какую именно ОС следует адаптировать настройки.
-#Список доступных вариантов ОС можно получить, выполнив команду:
+#Pay attention to the --os-variant parameter, it tells the hypervisor which OS to adapt settings for.
+#List of available OS variants can be obtained by running the command:
 osinfo-query os
-#Если такой утилиты нет в вашей системе, то устанавливаем:
+#If such utility is not in your system, then install:
 sudo apt install libosinfo-bin
 
 
@@ -59,9 +59,9 @@ virsh list --all
 virsh -c qemu:///system list --all
 #testkvm VM info
 virsh dominfo testkvm
-#вывести только имена запущенных ВМ
+#output only names of running VMs
 virsh list|tail -n+3|awk '{print $2}'
-#вывести ip-адреса запущенных ВМ
+#output IP addresses of running VMs
 for i in $(virsh list|tail -n+3|awk '{print $2}'); do virsh domifaddr $i; done
 #Start VM "testkvm"
 virsh start testkvm
@@ -85,7 +85,7 @@ reboot testkvm
 virsh net-list --all
 #see ip addr of VM
 virsh domifaddr --domain cs8-kub-nod2
-#включить сеть в centos8
+#enable network in centos8
 sudo nmcli device connect ens3
 #port forwarding
 sudo iptables -t nat -A PREROUTING -p tcp -d 10.104.20.228 --dport 5555 -j DNAT --to-destination 192.168.122.132:22

@@ -9,12 +9,12 @@ service crond restart
 #https://www.cyberciti.biz/faq/linux-execute-cron-job-after-system-reboot/
 crontab -e
 @reboot rsync -vuarP /home/den/git_projects --exclude 'images/*' * /media/den/240Gb/backup/
-#в 0 часов
+#at 0 hours
 0 0 * * * docker-compose -f /var/prometheus/docker-compose_server.yml restart pushgateway
 
 #at
 #https://linuxize.com/post/at-command-in-linux/
-Создать разовое задание на перезагрузку операционной системы, используя at.
+Create a one-time task to reboot the operating system using at.
 
 sudo apt-get install at 
 systemctl start atd

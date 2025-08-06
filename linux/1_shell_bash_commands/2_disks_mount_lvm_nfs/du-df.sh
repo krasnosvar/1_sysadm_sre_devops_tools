@@ -1,15 +1,15 @@
-#опция -s выводит итоговый объям для кадого аргумента, 
-#опция -h пишет нам в удобочитаемом формате, опция -c заканчивает список общей суммой.
+#option -s outputs the total volume for each argument,
+#option -h writes to us in human-readable format, option -c ends the list with a total sum.
 
 du -shc /*
 
 #show space usage on laptop( MAX on TOP), without extra disks
 du -shc /* --exclude=/media/*  2>/dev/null |sort -hr
 
-#пропустить одну папку( например NFS-шару), слэш в конце не указывать!
+#skip one folder (for example NFS share), don't specify slash at the end!
 du -shc /* --exclude=/var/lov/html
 
-#пропустить несколько папок
+#skip several folders
 du -shc --exclude=/{proc,sys,dev} /*
 
 #sort by size( MAX on TOP)

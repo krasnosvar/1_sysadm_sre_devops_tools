@@ -12,29 +12,29 @@ taskset
 cgroups
 
 
-#убить процессы пользователя toor (например, для его удаления)
+#kill processes of user toor (for example, for his deletion)
 ps aux | awk '/^toor/ {print $2}' | xargs kill -9
 pkill -u toor
 ---------------------------------------------------------------------------------------------
 
-# удалили файл, открывший приложение. Как нам его восстановить?
+# deleted file that opened application. How do we restore it?
 # https://habr.com/ru/articles/208104/
-# Файл лежит где лежал, пока он открыт хоть одним процессом. Как только все процессы закроют файл или завершатся, 
-# место на диске помечается как свободное и может быть перезаписано другим файлом.
-# 1. восстановить исполняемый файл( лежит по пути):
+# File lies where it was, as long as it's open by at least one process. As soon as all processes close the file or terminate, 
+# disk space is marked as free and can be overwritten by another file.
+# 1. restore executable file (lies at path):
 sudo ls -lia /proc/526/exe 
-17961405 lrwxrwxrwx 1 root root 0 авг  6 00:10 /proc/526/exe -> /usr/sbin/rsyslogd
-# 2. Восстанавливаем файл, который открыт процессом:
-# у нас стоит приложение lsof и примонтирован procfs в /proc.
-# Первым делом нам нужно найти открытый файл с помощью программы lsof:
+17961405 lrwxrwxrwx 1 root root 0 Aug  6 00:10 /proc/526/exe -> /usr/sbin/rsyslogd
+# 2. Restore file that is open by process:
+# we have lsof application installed and procfs mounted in /proc.
+# First we need to find open file using lsof program:
 $ sudo lsof | grep /home/anton/.xsession-errors
 kwin 2031 4002 anton 2w REG 253,3 4486557 1835028 /home/anton/.xsession-errors
-# Нас интересуют вот эти значения:
-# Номер процесса (pid) - 2031
-# Файловый дескриптор (file descriptor) - 2w
-# Дальше восстанавливаем его (вы можете также его сохранить в другом месте):
+# We're interested in these values:
+# Process number (pid) - 2031
+# File descriptor - 2w
+# Then restore it (you can also save it elsewhere):
 sudo cp /proc/2031/fd/2 /home/anton/.xsession-error
-# 3. еще в теории можно создать хардлинк на файл и счетчик не будет равен 0 и файл не удалится
+# 3. also in theory you can create hardlink to file and counter won't be 0 and file won't be deleted
 
 
 
@@ -70,8 +70,8 @@ ps vg | head -1; ps vg | grep -w wait
 #Wait process bound to CPU
 ps -mo THREAD -p <PID>
 
-#не совсем ps но тоже относится к процессам
-#запустить графическую программу из консоли чтобы она отпустила консоль при запуске
+#not quite ps but also relates to processes
+#launch graphical program from console so it releases console when starting
 sudo pac  > /dev/null 2>&1 &
 
 #Cpu usage with priority levels
@@ -107,26 +107,26 @@ sudo renice -n -10 p 1310
 kill "PID" #This sends the SIGTERM signal to the process, which normally causes the process to cease its activity
 kill -9 #sends the SIGKILL signal to the process. SIGKILL signal cannot be ignored, it forces the process to stop, but you also risk losing data while using this command
 kill -l #show a list of available signals that can be used with kill
-# - типов сигналов много ( kill- передать сигнал процессу)
+# - many signal types (kill - send signal to process)
 kill -l
  1) SIGHUP	 2) SIGINT	 3) SIGQUIT	 4) SIGILL	 5) SIGTRAP
  6) SIGABRT	 7) SIGBUS	 8) SIGFPE	 9) SIGKILL	10) SIGUSR1
 11) SIGSEGV	12) SIGUSR2	13) SIGPIPE	14) SIGALRM	15) SIGTERM
-# - Некоторые из наиболее часто используемых сигналов:
-1 HUP (hang up) — повесить.
-2 INT (interrupt) — прерывание.
-3 QUIT (quit) — выход.
-6 ABRT (abort) — прерывания.
+# - Some of the most commonly used signals:
+1 HUP (hang up) — hang up.
+2 INT (interrupt) — interrupt.
+3 QUIT (quit) — exit.
+6 ABRT (abort) — abort.
 9 KILL (non-catchable, non-ignorable kill)
-14 ALRM (alarm clock) — будильник.
-15 TERM (software termination signal) — Программное обеспечение для прекращения сигнала.
-# - убить процесс:
+14 ALRM (alarm clock) — alarm clock.
+15 TERM (software termination signal) — Software termination signal.
+# - kill process:
 ps aux| grep java
 kill SIGKILL PID
 kill -9 8976
-# - убить процесс не по PID а по имени
+# - kill process not by PID but by name
 pkill java
-# - убить все процессы пользователя
+# - kill all user processes
 pkill -u nobody
 
 

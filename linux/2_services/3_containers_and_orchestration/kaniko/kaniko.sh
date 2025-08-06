@@ -1,10 +1,10 @@
-# Собирать сами образы мы будем с помощью инструмента Kaniko от Google. 
-# А почему бы не использовать для создания образов обычную команду Docker? 
-# В том, чтобы использовать Kaniko, есть смысл. Объясняю.
-# Для эффективной сборки Docker использует кэш, который позволяет не пересобирать заново те слои в образе, в которых ничего не менялось. 
-# Но. Ты используешь GitLab Runner в Kubernetes, который на каждую задачу создает новый контейнер. 
-# Из-за этого кэш самой сборки никогда не сохранится: после выполнения задачи всё удаляется. 
-# Kaniko позволит тебе сохранять и скачивать кэш сборки в сторонних хранилищах вроде registry или S3.
+# We will build images ourselves using Google's Kaniko tool. 
+# Why not use regular Docker command for creating images?
+# There is sense in using Kaniko. Let me explain.
+# For efficient building Docker uses cache, which allows not to rebuild layers in image where nothing has changed. 
+# But. You use GitLab Runner in Kubernetes, which creates new container for each task.
+# Because of this build cache will never be saved: after task execution everything is deleted. 
+# Kaniko will allow you to save and download build cache in external storages like registry or S3.
 
 
 # cd to Dockerfile_dir

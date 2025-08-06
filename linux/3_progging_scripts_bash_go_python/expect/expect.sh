@@ -1,17 +1,17 @@
- Беспарольная авторизация на серверах через ssh
+ Passwordless authorization on servers via ssh
 
-Чтобы попадать на сервера без ввода пароля, надо:
+To access servers without entering password, you need:
 
-1.Установить expect
+1.Install expect
 apt install expect
 
 
 
-2. создать expect-скрипт,
+2. create expect script,
 
-(PASSWORD заменить на пароль логина, от которого подключаемся),
+(Replace PASSWORD with login password from which we connect),
 
-у меня два скрипта, от admin_user и от доменной учетки:
+I have two scripts, from admin_user and from domain account:
 #!/usr/bin/expect -f
  
 set password "PASSWORD"
@@ -30,9 +30,9 @@ interact
 
  
 
-3. Прописать алиасы в .bashrc
+3. Add aliases to .bashrc
 echo 'alias loc="expect /usr/git/work/scripts/ssh-auto-login/ssh-local.exp.sh"' >> ~/.bashrc
 source ~/.bashrc
 
-4. Теперь можно заходить на сервера командой loc server, попадаем сразу в sudo:
+4. Now you can access servers with loc server command, get into sudo immediately:
 loc rundeck

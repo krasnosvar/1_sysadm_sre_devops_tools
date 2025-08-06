@@ -20,8 +20,8 @@ sudo mv Menlo*.tff /usr/share/fonts
 Menlo for Powerline
 
 
-#zsh-syntax-highlighting — добавляет подсветку синтаксиса, подсвечивает команду если в написании допущена ошибка;
-#zsh-autosuggestions — предугадывает команды на основе ранее вводимых.
+#zsh-syntax-highlighting — adds syntax highlighting, highlights command if there's an error in writing;
+#zsh-autosuggestions — predicts commands based on previously entered ones.
 sudo apt install zsh-syntax-highlighting
 
 git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions

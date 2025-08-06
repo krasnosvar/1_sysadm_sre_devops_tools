@@ -1,4 +1,4 @@
-#После удаления файла место не освободилось Linux
+#After deleting file space was not freed Linux
 #On Linux or Unix systems, deleting a file via rm or through a file manager application 
 #will unlink the file from the file system's directory structure; 
 #however, if the file is still open (in use by a running process) it will still 

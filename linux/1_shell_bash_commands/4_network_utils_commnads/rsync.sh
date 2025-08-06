@@ -10,79 +10,79 @@ rsync -a --exclude 'dir1' src_directory/ dst_directory/
 rsync -a --exclude 'dir1/*' src_directory/ dst_directory/
 
 
-#Если при копировании на удаленный сервер выходит ошибка Permission denied
-#Надо принудительно указать что rsync на той стороне выполняется с sudo:
+#If when copying to remote server you get Permission denied error
+#Need to force specify that rsync on that side runs with sudo:
 rsync -a -e "ssh" --rsync-path="sudo rsync" /source/path /destination/path
 
 
 =======
-#Задача: скопировать с 10.8.98.62 папку /var/www/html/domain.ru/upload на 10.8.37.1
-#Оба сервена напрямую недоступны, 
-#Команду вида:
+#Task: copy from 10.8.98.62 folder /var/www/html/domain.ru/upload to 10.8.37.1
+#Both servers are not directly accessible,
+#Command like:
 #rsync -vuar host1:/var/www host2:/var/www
-#выполнить нельзя, тк источник копирования и сервер куда копируем не могут быть оба не локальными серверами при подключении
+#cannot be executed, because source and destination server cannot both be non-local when connecting
 #The source and destination cannot both be remote.
-#решение- использовать ПК админа как шлюз для rsync
+#solution- use admin PC as gateway for rsync
 #https://unix.stackexchange.com/questions/183504/how-to-rsync-files-between-two-remotes
 ssh -v -R 50000:10.8.37.1:22 local@10.8.98.62
-#после выполнения этой команды мы попадаем на 10.8.98.62:
+#after executing this command we get to 10.8.98.62:
 [local@v00mkworker1 ~]$
-#на 10.8.98.62 выполняем команду:
+#on 10.8.98.62 execute command:
 rsync -e "ssh -p 50000" -vuar --progress /var/www/html/domain.ru/upload user@localhost:/sql_db/upload
-#Для возобновления закачки при обрыве нужно добавить ключи -P --append-verify
+#For resuming download when interrupted need to add keys -P --append-verify
 rsync -e "ssh -p 50000" -vuarP --append-verify --progress /var/www/html/domain.ru/upload user@localhost:/sql_db/upload
 
 
 ######################################################################################################
-#объяснение ключей
+#explanation of keys
 #from ssh man
--R порт:машина:порт_машины
-    Указывает заданный порт на удаленной машине (сервере) который будет перенаправлен к заданной машине и локальному порту. 
-    Это реализовано путём назначения доменного подключения "прослушиваемому" порту со стороны удаленной машины и всякий раз, 
-    когда производится соединение на этот порт, оно будет перенаправлено через защищенный канал и произведено соединение 
-    к порту порт_машины локальной машины. Перенаправление портов может быть так же указано в файле конфигурации. 
-    Только суперпользователь может осуществлять перенаправление привилегированных портов. 
+-R port:machine:port_machine
+    Specifies the given port on remote machine (server) which will be redirected to given machine and local port.
+    This is implemented by assigning domain connection to "listening" port on remote machine side and every time
+    when connection is made to this port, it will be redirected through secure channel and connection will be made
+    to port_machine port of local machine. Port forwarding can also be specified in configuration file.
+    Only superuser can perform privileged port forwarding. 
 
 #man rsync
     -e, --rsh=COMMAND
-    указывает замену программу удаленной оболочки
+    specifies replacement remote shell program
     -v, --verbose
-    увеличить уровень подробностей 
+    increase verbosity level
     -u, --update
-    только обновление (не переписывает более новые файлы) 
+    update only (doesn't overwrite newer files)
     -a, --archive
-    архивный режим, эквивалент для -rlptgoD 
+    archive mode, equivalent to -rlptgoD
     -r, --recursive
-    рекурсивно входить в подкаталоги 
+    recursively enter subdirectories
     -P
-    эквивалент для --partial --progress 
+    equivalent to --partial --progress
         --partial
-        сохранять частично переданные файлы 
+        preserve partially transferred files
         --progress
-        показать % выполнения во время передачи 
+        show % progress during transfer 
     --append-verify         --append w/old data in file checksum
 
-#Для сохранения аттрибутов применить ключи:
+#To preserve attributes apply keys:
 -l, --links
-    копировать символьные ссылки как символьные ссылки 
+    copy symbolic links as symbolic links
 -L, --copy-links
-    копировать то, на что ссылаются символьные ссылки 
+    copy what symbolic links point to
 --copy-unsafe-links
-    копировать ccылки за пределы исходного дерева каталогов 
+    copy links outside source directory tree
 --safe-links
-    не копировать любые символьные ссылки, которые ссылаются за пределы дерева каталогов назначения 
+    don't copy any symbolic links that point outside destination directory tree
 -H, --hard-links
-    сохранять жесткие ссылки 
+    preserve hard links
 -p, --perms
-    сохранять разрешения 
+    preserve permissions
 -o, --owner
-    сохранять владельца (только root) 
+    preserve owner (root only)
 -g, --group
-    сохранять группу 
+    preserve group
 -D, --devices
-    сохранять файлы устройств (только root) 
+    preserve device files (root only)
 -t, --times
-    сохранять время 
+    preserve times 
 ################################################################################
 
 backup_dir=/media/den/1tb_wd/backup;\

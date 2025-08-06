@@ -1,4 +1,4 @@
-#20 Потрясающих Примеров Команды Nmap
+#20 Amazing Examples of Nmap Command
 #https://www.shellhacks.com/ru/20-nmap-examples/
 #https://www.digitalocean.com/community/tutorials/how-to-use-nmap-to-scan-for-open-ports-on-your-vps
 
@@ -20,7 +20,7 @@ sudo nmap -sP network_address_range
 #scan all information about host
 nmap -A localhost
 
-# Стандартный ICMP пинг
+# Standard ICMP ping
 nmap -sn 192.168.1.0/24
 
 #Scan ports 1-65535

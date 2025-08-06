@@ -1,12 +1,12 @@
 #### App Headers show
-* написано для теста хедеров
-* необходимо было видеть какие хедеры отдаются приложению ( какие хедеры видит именно само приложение) при клиентском запросе
+* written for header testing
+* needed to see what headers are sent to application (what headers the application itself sees) during client request
 
 
-1. Приложение возвращает в ответе хедеры что были переданы ему ( хедеры которые видит приложение, после того как к нему обратились)
+1. Application returns in response headers that were passed to it (headers that application sees after being accessed)
 
 
-2. Сборка
+2. Build
 ```
 docker build --no-cache --tag "headers_test:v1" -f Dockerfile . 
 
@@ -15,8 +15,8 @@ curl -v http://127.0.0.1:5000
 ```
 
 
-3. Ответы ( примеры)
-* локально
+3. Responses (examples)
+* locally
 ```
 curl http://127.0.0.1:5000 
 x-forwarded-for: None
@@ -30,7 +30,7 @@ Accept: */*
 
 ```
 
-* в кубе
+* in kube
 ```
 curl -k https://tst-headers.k8sdomain.local     
 x-forwarded-for: 10.101.102.103, 10.101.102.99
@@ -55,7 +55,7 @@ Accept: */*
 
 
 4. PS
-* команда tcpdump,показывающая только хедеры
+* tcpdump command showing only headers
 ```
 tcpdump -i eth0 -A -s 10240 'tcp port 80 and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)' | egrep --line-buffered "^........(GET |HTTP\/|POST |HEAD )|^[A-Za-z0-9-]+: " | sed -r 's/^........(GET |HTTP\/|POST |HEAD )/\n\1/g'
 ```

@@ -1,8 +1,8 @@
 #CHPASSWD
-#Изменение пароля одной строкой
+#Change password in one line
 echo root:password | chpasswd
 cat file.txt| chpasswd
-echo "Password123" | passwd root --stdin > /dev/null #не везде сработает
+echo "Password123" | passwd root --stdin > /dev/null #won't work everywhere
 #generate password
 head /dev/urandom | tr -dc A-Za-z0-9 | head -c 13 ; echo '' #generate random pass
 #or

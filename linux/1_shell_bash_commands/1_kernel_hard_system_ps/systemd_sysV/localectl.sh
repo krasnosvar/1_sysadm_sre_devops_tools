@@ -1,21 +1,21 @@
 #localectl 
-#централизованное управление языковыми и региональными параметрами.
+#centralized management of language and regional settings.
 
-#вывести текущие настройки
+#display current settings
 localectl
 localectl status
 
-#объяснение вывода:
-System Locale — текущая системная локаль, т. е. набор правил, определяющих язык системы, формат денежных единиц, часовой пояс и т. д.
-VC Keymap — раскладка клавиатуры для консоли.
-X11 Layout — раскладки клавиатуры, используемые в графической системе.
-X11 Model — тип/модель клавиатуры
-X11 Variant — варианты раскладки клавиатуры, используемые в графической системе. Примеры: русская машинописная, DVORAK, QUERTY и т. д.
-X11 Options — опции, в том числе горячие клавиши для переключения раскладки и отображение текущего состояния с помощью индикатора Scroll Lock.
+#explanation of output:
+System Locale — current system locale, i.e. set of rules defining system language, currency format, timezone, etc.
+VC Keymap — keyboard layout for console.
+X11 Layout — keyboard layouts used in graphical system.
+X11 Model — keyboard type/model
+X11 Variant — keyboard layout variants used in graphical system. Examples: Russian typewriter, DVORAK, QUERTY, etc.
+X11 Options — options, including hotkeys for layout switching and displaying current state using Scroll Lock indicator.
 
-#Вывести список доступных локалей:
+#Display list of available locales:
 localectl list-locales
-#Изменить язык системы на английский:
+#Change system language to English:
 localectl set-locale LANG="en_EN.utf8"
-#Вывести список доступных раскладок клавиатуры:
+#Display list of available keyboard layouts:
 localectl list-x11-keymap-layouts

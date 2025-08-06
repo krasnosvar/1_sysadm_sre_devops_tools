@@ -2,7 +2,7 @@
 #already installed in python3.4 and above
 #force reinstall package:
 pip install --force-reinstall
-#Посмотреть список установленных пакетов Python можно с помощью команды:
+#To view the list of installed Python packages use the command:
 pip list
 #upgrade pacage
 sudo pip3 install --upgrade ansible

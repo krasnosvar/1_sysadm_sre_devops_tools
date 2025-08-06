@@ -37,7 +37,7 @@ fi
 
 
 
-#вывести общий список json-файлом
+#output general list as json file
 curl --insecure -H "Accept: application/json" -H "Authorization: $AUTH" https://tcloud.corp.domain.ru/catalog-service/api/consumer/entitledCatalogItems | python -m json.tool
 
 #save snapshot template in file

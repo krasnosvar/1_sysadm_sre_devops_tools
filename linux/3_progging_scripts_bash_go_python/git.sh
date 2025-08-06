@@ -2,13 +2,13 @@
 # https://semver.org/lang/ru/
 
 #MARKDOWN
-#Гайд по Markdown
+#Markdown guide
 https://guides.github.com/features/mastering-markdown/
-#Шаблон хорошего Readme
+#Good Readme template
 https://gist.github.com/PurpleBooth/109311bb0361f32d87a2
 
 
-#Самые типичные ошибки и вопросы, связанные с Git, и удобные способы их решения
+#Most typical errors and questions related to Git, and convenient ways to solve them
 https://tproger.ru/translations/most-common-git-screwupsquestions-and-solutions/
 
 #files
@@ -85,7 +85,7 @@ git sparse-checkout set kube-prometheus-stack
 #create new branch and push to github or gitlab
 git checkout -b release/2.0
 git push --set-upstream origin release/2.0
-#скопировать проект в пустой удаленный репозиторий
+#copy project to empty remote repository
 cd project_folder
 git init 
 git remote add origin git@gitlab.ru:project/env-menu.git
@@ -110,8 +110,8 @@ git push -u origin develop
 
 
 #GITIGNORE
-#При добавлении в .gitignore файлов или папок, необходимо обнулить кэш гита
-#выполнив команду( -r значит рекурсивно в папке)
+#When adding files or folders to .gitignore, you need to clear git cache
+#by running command ( -r means recursively in folder)
 git rm -r --cached scripts/menu/*
 
 
@@ -119,44 +119,44 @@ git rm -r --cached scripts/menu/*
 #switch to commit
 git checkout e8b3ec06b
 
-#Объединить коммиты(6 - по кол-ву коммитов до которого надо объединить):
-#https://git-scm.com/book/ru/v2/Инструменты-Git-Исправление-истории
-#https://ru.stackoverflow.com/questions/462251/Как-объединить-несколько-коммитов-в-один
+#Merge commits (6 - by number of commits to which you need to merge):
+#https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
+#https://stackoverflow.com/questions/462251/how-to-merge-several-commits-into-one
 git log --pretty=oneline 
 git rebase -i HEAD~6
 git log --pretty=oneline 
-#объединить коммиты с первым(2 - по общему кол-ву коммитов):
+#merge commits with first (2 - by total number of commits):
 git reset --hard HEAD~2
 git merge --squash HEAD@{1}
 
-#Git — Удалить Все Коммиты — Очистить Историю в Git
+#Git — Remove All Commits — Clear History in Git
 https://www.shellhacks.com/ru/git-remove-all-commits-clear-git-history-local-remote/
-#Создайте временную ветку и перейдите в нее:
+#Create temporary branch and switch to it:
 git checkout --orphan temp_branch
-#Добавьте все файлы в новую ветку и сделайте коммит изменений:
+#Add all files to new branch and commit changes:
 git add -A
 git commit -am "The first commit"
-#Удалите master-ветку:
+#Delete master branch:
 git branch -D master
-#Переименуйте временную ветку в master:
+#Rename temporary branch to master:
 git branch -m master
-#Принудительно обновите удаленный репозиторий:
+#Force update remote repository:
 git push -f origin master
 
-#Отмена изменений
-#отмена не добавленного, но измененного файла
+#Undo changes
+#undo not added but modified file
 git reset HEAD hello.html
-#отмена добавленного(git add)файла
+#undo added (git add) file
 git checkout hello.html
-#отмена последнего коммита(с созданием нового коммита REVERT)
+#undo last commit (with creating new REVERT commit)
 git revert HEAD --no-edit
-#удаление коммитов насовсем
-#1. затегировать последние изменения, которые надо удалить, затегировать изменения, на которые надо откатиться
+#delete commits completely
+#1. tag last changes that need to be deleted, tag changes to which you need to rollback
 git tag oops
 git reset --hard v1
 git tag -d oops
-git log --pretty=oneline --all #проверка изменений
-#Внесение изменений в коммит
+git log --pretty=oneline --all #check changes
+#Making changes to commit
 git commit --amend -m "Add an author/email comment"
 
 
@@ -188,27 +188,27 @@ git push --tags
 
 
 #GIT LOG
-#однострочный формат вывода логов
+#single line log output format
 git log --pretty=oneline
-#еще один тип вывода, с датой
+#another output type, with date
 git log --all --pretty=format:"%h %cd %s (%an)" --since='7 days ago'
-#или
-# --pretty="..." — определяет формат вывода.
-# %h — укороченный хэш коммита
-# %d — дополнения коммита («головы» веток или теги)
-# %ad — дата коммита
-# %s — комментарий
-# %an — имя автора
-# --graph — отображает дерево коммитов в виде ASCII-графика
-# --date=short — сохраняет формат даты коротким и симпатичным
+#or
+# --pretty="..." — defines output format.
+# %h — shortened commit hash
+# %d — commit additions ("heads" of branches or tags)
+# %ad — commit date
+# %s — comment
+# %an — author name
+# --graph — displays commit tree as ASCII graph
+# --date=short — keeps date format short and nice
 git log --pretty=format:"%h %ad | %s%d [%an]" --graph --date=short
 #make alias
 vi ~/.gitconfig
 [alias]
   co = checkout
   hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
-#теперь можно вводить git hist
-#Предоставить 3 последних коммита
+#now you can enter git hist
+#Provide last 3 commits
 git log --max-count=3
 git log -n 3
 
@@ -258,5 +258,5 @@ git pull origin master --allow-unrelated-histories
 #fatal: unable to access 'https://gitlab.ru/repository.ru.git/': Peer's Certificate has expired
 git -c http.sslVerify=false push origin master
 
-#если в ремоте и локале разные коммиты и не дает скачать-отправить
+#if remote and local have different commits and won't let download-send
 git pull https://gitlab.cserv.local/den/docker-hello-world.git --allow-unrelated-histories

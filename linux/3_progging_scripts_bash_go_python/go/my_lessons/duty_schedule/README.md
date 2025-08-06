@@ -35,4 +35,4 @@ DayNum| Year| Month| WeekNum| WeekDay| Day| Admin on Duty
 
 
 * BUGS
-1. если число дежурных админов -7 вылетает баг ( поправлю позже_) - поправил
+1. if number of duty admins is 7, bug occurs (will fix later_) - fixed
