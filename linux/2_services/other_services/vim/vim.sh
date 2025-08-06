@@ -1,4 +1,4 @@
-#Зачем использовать vim
+#Why use vim
 https://guides.hexlet.io/vim/
 #great VIM tips site
 https://vim.fandom.com/wiki/Vim_documentation

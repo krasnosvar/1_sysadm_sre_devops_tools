@@ -113,11 +113,9 @@ sudo dnf install k9s -y
 # helm
 wget -qO- https://get.helm.sh/helm-v3.17.4-linux-amd64.tar.gz | tar xz -O linux-amd64/helm | \
   sudo tee /usr/local/bin/helm > /dev/null && sudo chmod +x /usr/local/bin/helm
-
 # age
 # https://github.com/FiloSottile/age#installation
 sudo dnf install age httpie yq jq tmux byobu awscli2 -y
-
 # sops
 # https://gist.github.com/patrickmslatteryvt/d531c5ae4598fd4c9d508833bde6c7c0
 SOPS_VERSION=$(curl -s https://api.github.com/repos/getsops/sops/releases/latest | jq .tag_name | tr -d '"')
@@ -135,6 +133,8 @@ sudo dnf install postgresql -y
 sudo dnf install https://dbeaver.io/files/dbeaver-ce-latest-stable.x86_64.rpm -y
 # istioctl
 wget -qO- https://github.com/istio/istio/releases/download/1.26.2/istioctl-1.26.2-linux-amd64.tar.gz | sudo tar xz -C /usr/local/bin && sudo chmod +x /usr/local/bin/istioctl
+# jsonnet
+sudo dnf install -y jsonnet
 
 
 

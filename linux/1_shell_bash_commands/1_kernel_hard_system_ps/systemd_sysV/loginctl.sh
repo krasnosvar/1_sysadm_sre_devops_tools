@@ -1,15 +1,15 @@
 #loginctl: 
-#управление сеансами пользователей.
-#заблокировать текущую сессию
+#user session management.
+#lock current session
 loginctl lock-session
-#вывести список открытых сеансов
+#list open sessions
 loginctl list-sessions
-#Получить список залогинившихся пользователей:
+#Get list of logged in users:
 loginctl list-users
-#уничтожить текущий сеанс, закрыв все приложения и освободив ресурсы
+#terminate current session, closing all applications and freeing resources
 loginctl terminate-session
-#Вывести информацию о состоянии текущего сеанса (или любого другого, если добавить id), 
-#включая список дочерних процессов и номер виртуальной консоли:
+#Display information about current session status (or any other if id is added),
+#including list of child processes and virtual console number:
 loginctl session-status
 
 

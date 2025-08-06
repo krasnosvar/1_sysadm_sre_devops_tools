@@ -24,7 +24,7 @@ Do you want to configure a default Compute zone? [Y/n] n
 
 yc config profile activate <a>
 
-#2. Создадим группу безопасности, которая понадобится и для Gitlab, и для Kubernetes.
+#2. Create security group that will be needed for both Gitlab and Kubernetes.
 
 yc vpc security-group create --name yc-security-group --network-name default \
 --rule 'direction=ingress,port=443,protocol=tcp,v4-cidrs=0.0.0.0/0' \

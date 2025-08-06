@@ -2,7 +2,7 @@
 # https://www.liquidweb.com/kb/how-to-set-up-and-manage-sudo-permissions/
 # Sudo is a Linux program meant to allow a user to use root privileges for a limited timeframe to users and log root activity.  
 # The basic thought is to give as few privileges as possible to a user while allowing  the user to accomplish a task. 
-# The term “Sudo” means substitute user, and do. It is a program used for managing of user permission based on a system configuration file. 
+# The term "Sudo" means substitute user, and do. It is a program used for managing of user permission based on a system configuration file. 
 # It allows users to run programs with the privileges of another user, by default, the superuser. 
 # The program is supplied for most UNIX and Linux-based operating systems.
 
@@ -36,13 +36,13 @@ zabbix ALL=(root) NOPASSWD:APACHESVC
 sudo update-alternatives --config editor
 
 
-#ПОВРЕЖДЕННЫЙ /ETC/SUDOERS — ОШИБКА В СИНТАКСИСЕ
+#DAMAGED /ETC/SUDOERS — SYNTAX ERROR
 #https://obu4alka.ru/resheno-povrezhdennyj-etc-sudoers-oshibka-v-sintaksise.html
-#1. Откройте два сеанса ssh к серваку (или работа в двух терминалах или две вкладки в терминале).
+#1. Open two ssh sessions to server (or work in two terminals or two tabs in terminal).
 echo $$
-#2. Во второй запустите агент аутентификации с помощью:
-pkttyagent --process Ваш_PID
-#3. Вернувшись в первый сеанс, запустите:
+#2. In second session start authentication agent using:
+pkttyagent --process Your_PID
+#3. Returning to first session, run:
 pkexec visudo
 #or
 pkexec visudo -f /etc/sudoers.d/file

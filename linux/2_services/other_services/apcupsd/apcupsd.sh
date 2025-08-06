@@ -1,13 +1,13 @@
 grep -v '^#' /etc/apcupsd/apcupsd.conf | sed '/^$/d' 
 
-#управление сервисом
+#service management
 systemctl start apcupsd.service
 systemctl status apcupsd.service
 
-#логи
+#logs
 cat /var/log/apcupsd.events
 
-#общий статус
+#general status
 apcaccess status
 apcaccess | grep 'STATUS' | cut -d : -f 2
 apcaccess

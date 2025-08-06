@@ -1,25 +1,25 @@
 #https://habr.com/ru/post/126996/
-Очень хороший способ запустить tmux:
-# tmux attach || tmux new — делая так, вы сперва пытаетесь подключиться к уже существующему серверу tmux, если он существует; если такого ещё нет — создаёте новый.
+Very good way to start tmux:
+# tmux attach || tmux new — doing this way, you first try to connect to existing tmux server if it exists; if there isn't one yet — you create a new one.
 
-# После этого вы попадаете в полноценную консоль.
-# Ctrl+b d — отключиться. (Точно так же вы отключитесь, если прервётся соединение. Как подключиться обратно и продолжить работу — см. выше.)
+# After this you get into a full console.
+# Ctrl+b d — disconnect. (You will disconnect the same way if connection is interrupted. How to connect back and continue work — see above.)
 
-# В одной сессии может быть сколько угодно окошек:
-# Ctrl+b c — создать окошко;
-# Ctrl+b 0...9 — перейти в такое-то окошко;
-# Ctrl+b p — перейти в предыдущее окошко;
-# Ctrl+b n — перейти в следующее окошко;
-# Ctrl+b l — перейти в предыдущее активное окошко (из которого вы переключились в текущее);
-# Ctrl+b & — закрыть окошко (а можно просто набрать exit в терминале).
+# In one session there can be as many windows as you want:
+# Ctrl+b c — create window;
+# Ctrl+b 0...9 — go to such window;
+# Ctrl+b p — go to previous window;
+# Ctrl+b n — go to next window;
+# Ctrl+b l — go to previous active window (from which you switched to current);
+# Ctrl+b & — close window (or you can just type exit in terminal).
 
-# В одном окошке может быть много панелей:
-# Ctrl+b % — разделить текущую панель на две, по вертикали;
-# Ctrl+b " — разделить текущую панель на две, по горизонтали (это кавычка, которая около Enter, а не Shift+2);
-# Ctrl+b →←↑↓ — переходить между панелями;
-# Ctrl+b x — закрыть панель (а можно просто набрать exit в терминале).
+# In one window there can be many panels:
+# Ctrl+b % — split current panel into two, vertically;
+# Ctrl+b " — split current panel into two, horizontally (this is quote near Enter, not Shift+2);
+# Ctrl+b →←↑↓ — navigate between panels;
+# Ctrl+b x — close panel (or you can just type exit in terminal).
 
-# Недостаток — непривычным становится скроллинг:
-# Ctrl+b PgUp — вход в «режим копирования», после чего:
-# PgUp, PgDown — скроллинг;
-# q — выход из «режима копирования».
+# Disadvantage — scrolling becomes unusual:
+# Ctrl+b PgUp — enter "copy mode", after which:
+# PgUp, PgDown — scrolling;
+# q — exit "copy mode".

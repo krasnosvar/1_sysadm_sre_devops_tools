@@ -1,10 +1,10 @@
-#Вывести только первую строку файла
+#Output only the first line of file
 sudo awk 'NR==1{print $1}' /etc/*release*
 
-#вывести второй столбец( в примере - PID процессов)
+#output second column (in example - process PIDs)
 ps aux | grep "dd "|awk '{print $2}'
 
-#Вывести число 15
+#Output number 15
 echo "2020-02-21 15:22" | awk '{print $2}' |awk -F ":" '{print $1}' 
 
 #print FROM 2nd string of 1st table
@@ -13,12 +13,12 @@ ls -al | awk 'NR>1{print $1}'
 #kill all "dd" procecess
 for i in $(ps aux | grep "dd "|awk '{print $2}'); do kill -9 $i; done
 
-#Вывести кол-во ядер процессора(4 строка, 2 столбец)
+#Output number of CPU cores (4th row, 2nd column)
 lscpu|awk 'NR == 4{print$2}'
-#умножить полученное значение на 2(например, для получения числа потоков)
+#multiply the obtained value by 2 (for example, to get number of threads)
 cores=$(lscpu|awk 'NR == 4{print$2}'); echo $(($cores*2))
 
-#посмотреть память
+#check memory
 egrep 'Mem|Swap|High|Low' /proc/meminfo| awk '{$2=$2/1000; $3="Mb"; print $0}'
 #Output
 MemTotal: 8074.48 Mb

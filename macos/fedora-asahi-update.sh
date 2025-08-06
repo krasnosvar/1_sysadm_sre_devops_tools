@@ -6,7 +6,7 @@ sudo dnf -y install dnf-plugins-core
 
 
 #Main OS apps
-#print screen program, добавить на клавишу printScr командой "flameshot gui"
+#print screen program, add to printScr key with command "flameshot gui"
 sudo dnf install flameshot -y
 sudo dnf install audacity vlc -y
 #Virtualization

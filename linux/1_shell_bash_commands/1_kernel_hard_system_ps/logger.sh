@@ -1,4 +1,4 @@
-#Отправка сообщений в syslog из оболочки
+#Sending messages to syslog from shell
 #http://ashep.org/2011/otpravka-soobshhenij-v-syslog-iz-obolochki/#.XgScdNlS9hF
 
 #Logger makes entries in the system log.  It provides a shell command interface to the syslog(3) system log module

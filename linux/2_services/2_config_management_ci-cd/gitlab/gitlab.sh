@@ -1,6 +1,6 @@
-1. создать директорию в gitlab
-2. сделать git clone(ssh ссылка появится в gitlab)
-3. для пуша изменений:
+1. create directory in gitlab
+2. do git clone (ssh link will appear in gitlab)
+3. for pushing changes:
 #git add .
 #git commit -m "message"
 #git push
@@ -56,7 +56,7 @@ user.confirmation_token
 https://PutYourGitlabHere/users/confirmation?confirmation_token=PutYourTokenHere
 ---------------------------------------------------------------------------------------------
 
-#регистрация gitlab-runner
+#gitlab-runner registration
 1. add gitlab(domain local gitlab) to no_proxy in /etc/environment
 NO_PROXY="localhost,127.0.0.0/24,gitlab.corp.domain.ru"
 no_proxy="localhost,127.0.0.0/24,gitlab.corp.domain.ru"

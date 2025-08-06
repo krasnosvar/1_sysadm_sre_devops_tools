@@ -48,8 +48,8 @@ mpatha	(254:1)
 
 
 # ls -lahd /dev/dm*
-brw-rw---- 1 root disk 254, 0 июл  3 12:22 /dev/dm-0
-brw-rw---- 1 root disk 254, 1 июл  3 12:22 /dev/dm-1
+brw-rw---- 1 root disk 254, 0 Jul  3 12:22 /dev/dm-0
+brw-rw---- 1 root disk 254, 1 Jul  3 12:22 /dev/dm-1
 
 
 # pvcreate /dev/dm-1

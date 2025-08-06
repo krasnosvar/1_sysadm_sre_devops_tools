@@ -1,13 +1,13 @@
 #https://wiki.centos.org/HowTos/Custom_Kernel
 #install packets
-#скорее всего команда yum groupinstall "Development Tools" не сработает, надо поставить пакеты вручную:
+#most likely the yum groupinstall "Development Tools" command won't work, need to install packages manually:
 #Before installing the Development tools, run the yum clean all command. This will clear the yum cache and force it to reread any changed configuration files.
 yum clean all
 yum install bison byacc cscope ctags cvs diffstat doxygen flex gcc gcc-c++ gcc-gfortran gettext git indent intltool libtool patch patchutils rcs redhat-rpm-config rpm-build subversion swig systemtap
 yum install ncurses-devel
 yum install hmaccalc zlib-devel binutils-devel elfutils-libelf-devel
 --------------------------------------------------------------------------------
-#папка, в которой лежит конфиг на кассвой заливке
+#folder containing the config for custom kernel
 /usr/src/kernels/3.10.0-957.21.3.el7.centos.plus.i686
 
 

@@ -10,10 +10,10 @@
 
 
 #SYSCTL
-# Любые изменения, сделанные с помощью sysctl, работают до первой перезагрузки. 
-# Чтобы эти изменения действовали после перезагрузки, необходимо открыть файл /etc/sysconf 
-# в любом текстовом редакторе и внести изменения в него. В этом файле содержатся не все параметры ядра, 
-# поэтому если вы не нашли в нем нужный параметр, то просто добавьте его вместе с нужным значением.
+# Any changes made using sysctl work until the first reboot. 
+# For these changes to take effect after reboot, you need to open /etc/sysconf file 
+# in any text editor and make changes to it. This file doesn't contain all kernel parameters, 
+# so if you didn't find the needed parameter in it, just add it along with the needed value.
 https://wiki.archlinux.org/title/Sysctl
 https://access.redhat.com/documentation/ru-ru/red_hat_enterprise_linux/7/html/kernel_administration_guide/working_with_sysctl_and_kernel_tunables
 https://man7.org/linux/man-pages/man8/sysctl.8.html

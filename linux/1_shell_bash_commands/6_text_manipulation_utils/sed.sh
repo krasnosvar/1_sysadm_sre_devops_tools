@@ -1,7 +1,7 @@
-#оставить только строки, начинающиеся на Sep, в файлах /var/log/
+#keep only lines starting with Sep, in /var/log/ files
 for f in /var/log/*; do sed -i '/Sep.*/! d ' $f; done
 
-#Найти и заменить
+#Find and replace
 # word in files
 find . -type f -exec sed -i 's/word/new_word/g' {} + 2> /dev/null
 # ip
@@ -16,10 +16,10 @@ find ~/.kube -type f -exec sed -i 's#/root#/home/den#g' {} + 2> /dev/null
 sed -i 's/app-service-backend-v1/app2-service-backend-v2/g' $(find . -type f)
 
 
-#Вывод конфига(ну или любого файла) без закоментированных строк
+#Output config (or any file) without commented lines
 grep -v '^#' /etc/zabbix/zabbix_agentd.conf | sed '/^$/d'
 grep -v -e '^#' /etc/conf
-#Вывод без комментариев и пустых строк
+#Output without comments and empty lines
 grep -v -e '^#' -e'^$' /etc/config
 
 #Show 9 line of etc passwd

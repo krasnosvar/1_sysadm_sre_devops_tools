@@ -1,4 +1,4 @@
-1. Установка helm, age, sops, helm-secrets
+1. Installing helm, age, sops, helm-secrets
 * https://helm.sh/docs/intro/install/
 ```
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
@@ -8,13 +8,13 @@ sudo ansible localhost -m apt -a deb=https://github.com/getsops/sops/releases/do
 helm plugin install https://github.com/jkroepke/helm-secrets --version v4.4.2 
 ```
 
-2. генерация ключа
+2. key generation
 ```
 age-keygen -o key.txt
 Public key: age16nlnz96egfpexmmep6vxqn3mgl4tusjwzk2pvky9w3y9setk2qxsh7e5rj
 
 
-ключ можно передать по пути файла или сразу значение
+* key can be passed by file path or directly as value
 export SOPS_AGE_KEY_FILE=$(pwd)/key.txt
 #or
 export SOPS_AGE_KEY=AGE-SECRET-KEY-1M36JVT9HNVL2VYR8SK7D4KXC7F2UU8USA64W9PC4UGLRRAZV3YMQVKKM8C
@@ -22,9 +22,9 @@ export SOPS_AGE_RECIPIENTS=age16nlnz96egfpexmmep6vxqn3mgl4tusjwzk2pvky9w3y9setk2
 ```
 
 
-3. шифровка файла ```secrets.prod.yaml ```
+3. encrypting file ```secrets.prod.yaml ```
 ```
-#сразу в файл
+#directly to file
 helm secrets encrypt helm-secrets/.infra/secrets.prod.yaml > helm-secrets/.infra/secrets.prod.yaml_enc
 ```
 

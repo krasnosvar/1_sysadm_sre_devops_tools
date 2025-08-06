@@ -1,6 +1,6 @@
-#Все о Samba
+#All about Samba
 https://smb-conf.ru/rpcclient-command-line-ms-rpc-client.html
-#Как получить срок действия пароля пользователя из Active Directory?
+#How to get user password expiration date from Active Directory?
 http://qaru.site/questions/1622894/how-to-get-user-password-expiration-date-from-active-directory
 
 apt install 

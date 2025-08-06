@@ -13,9 +13,9 @@ yum install -y openldap openldap-clients openldap-servers
 yum install openldap*
 
 
-#проверить наличие у этого пользователя аттрибутов
+#check if this user has attributes
 ldapsearch -h adldap.corp.domain.ru -LLL -D "admin_user@corp.domain.ru" -W -b "dc=corp,dc=domain,dc=ru" -s sub "(cn=user)" loginShell unixHomeDirectory
-#вывод с LDAP группами
+#output with LDAP groups
 ldapsearch -h adldap.corp.domain.ru -LLL -D "admin_user@corp.domain.ru" -W -b "dc=corp,dc=domain,dc=ru" -s sub "(cn=user)" loginShell unixHomeDirectory memberOf
-#проверить наличие у этого сервера аттрибутов
+#check if this server has attributes
 ldapsearch -h adldap.corp.domain.ru -LLL -D "admin_user@corp.domain.ru" -W -b "dc=corp,dc=domain,dc=ru" -s sub "(cn=V00SOLVOORA-TST)" userAccountControl sAMAccountName dNSHostName userPrincipalName servicePrincipalName

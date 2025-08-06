@@ -1,4 +1,4 @@
-# terrraform для Яндекс Облака
+# terraform for Yandex Cloud
 
 0. yandex tander federation link
 * https://console.cloud.yandex.ru/federations/bpfsbv43mnjahtv4sp6q

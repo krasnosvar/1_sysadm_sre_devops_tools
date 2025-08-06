@@ -38,7 +38,7 @@ cat cert.crt > my.pem && cat private.key >> my.pem
 #Random password generation
 openssl rand -base64 12
 
-#сгенерировать ключ одной командой(для скриптов), without passphrase
+#generate key with one command (for scripts), without passphrase
 ssh-keygen -b 2048 -t rsa -f /path/to/file/ssh_key_name -q -N ""
 
 #erase external USB-stick
@@ -50,7 +50,7 @@ echo "passssssword" | passwd root --stdin > /dev/null
 echo root:passssssword | chpasswd
 
 # for-loop example
-#ping последовательно диапазона адресов
+#ping sequentially range of addresses
 for ((i=120; i <= 130; i++)) do ping -c 1 192.168.43.$i; done
 #or
 for i in {120..130}; do ping -c 1 192.168.43.$i; done

@@ -13,12 +13,12 @@ make altinstall
 python3.8
 #PIP
 #already installed in python3.4 and above
-#Если у вас последняя версия пакета, но вы хотите принудительно переустановить его:
+#If you have the latest version of the package, but want to force reinstall it:
 pip install --force-reinstall
-#Посмотреть список установленных пакетов Python можно с помощью команды:
+#To view the list of installed Python packages use the command:
 pip list
-#Когда пакет больше не нужен, пишем:
-pip uninstall имя_пакета
+#When the package is no longer needed, write:
+pip uninstall package_name
 
 
 
@@ -33,7 +33,7 @@ pip3 install ansible --user
 pip2 install ansible --user
 
 #NETWORK
-#включить сеть в centos8
+#enable network in centos8
 sudo nmcli device connect ens3
 #enable network on boot
 sudo systemctl enable NetworkManager.service

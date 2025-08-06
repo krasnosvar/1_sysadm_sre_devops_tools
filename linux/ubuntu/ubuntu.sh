@@ -1,10 +1,10 @@
-#ubuntu запретить открытие Activities через Super(Win key)
+#ubuntu disable opening Activities through Super(Win key)
 dconf write /org/gnome/mutter/overlay-key "'Alt_R'"
 
 ---------------------------------------------------------------------------------------------
-#ubuntu 18.04 крышка ноута закрыта но ноут не выключается
+#ubuntu 18.04 laptop lid closed but laptop doesn't shut down
 vi /etc/systemd/logind.conf
-#раскомментировать:
+#uncomment:
 #HandleLidSwitch=ignore
 
 
