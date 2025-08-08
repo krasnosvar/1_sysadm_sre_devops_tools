@@ -3,6 +3,7 @@
 * [Cursor](https://www.cursor.com/)
 * [Zed](https://zed.dev/)
 * [Kiro](https://kiro.dev/blog/introducing-kiro/)
+* [Windsurf](https://windsurf.com/download/editor?os=linux)
 
 
 2. CLI Ai tools

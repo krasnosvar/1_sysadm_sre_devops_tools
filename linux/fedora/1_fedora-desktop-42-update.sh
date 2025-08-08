@@ -84,15 +84,8 @@ sudo dnf config-manager addrepo --from-repofile=https://rpm.releases.hashicorp.c
 sudo dnf -y install terraform
 # install tofu - free terraform
 # https://opentofu.org/docs/intro/install/rpm/
-# Download the installer script:
-curl --proto '=https' --tlsv1.2 -fsSL https://get.opentofu.org/install-opentofu.sh -o install-opentofu.sh
-# Alternatively: wget --secure-protocol=TLSv1_2 --https-only https://get.opentofu.org/install-opentofu.sh -O install-opentofu.sh
-# Give it execution permissions:
-chmod +x install-opentofu.sh
-# Run the installer:
-./install-opentofu.sh --install-method rpm
-# Remove the installer:
-rm install-opentofu.sh
+# One-liner using the official installer (RPM method):
+curl --proto '=https' --tlsv1.2 -fsSL https://get.opentofu.org/install-opentofu.sh | sudo bash -s -- --install-method rpm
 # terragrunt
 # https://github.com/gruntwork-io/terragrunt/releases
 # https://terragrunt.gruntwork.io/docs/getting-started/install
@@ -217,5 +210,21 @@ sudo -u den codium --install-extension tomoki1207.pdf # pdf reader in codium
 # https://copr.fedorainfracloud.org/coprs/waaiez/cursor/
 sudo dnf copr enable waaiez/cursor
 sudo dnf install cursor
-#Zed
+#Zed IDE
 flatpak install flathub dev.zed.Zed
+# Windsurf IDE
+# https://windsurf.com/download/editor?os=linux
+# add gpg-key
+sudo rpm --import https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf
+# add repo
+sudo tee /etc/yum.repos.d/windsurf.repo > /dev/null <<EOF
+[windsurf]
+name=Windsurf Repository
+baseurl=https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/repo/
+enabled=1
+autorefresh=1
+gpgcheck=1
+gpgkey=https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf
+EOF
+# install
+sudo dnf install windsurf -y
