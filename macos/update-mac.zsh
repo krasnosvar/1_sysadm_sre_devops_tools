@@ -222,14 +222,11 @@ mkdir -p "$APPDIR"
 echo "Downloading Arduino Lab for MicroPython..."
 curl -L -o "$APPDIR/Arduino-Lab-for-MicroPython.zip" \
   https://github.com/arduino/lab-micropython-editor/releases/latest/download/Arduino-Lab-for-MicroPython_macOS_Universal.zip
-
 # Extract and install the application
 echo "Installing Arduino Lab for MicroPython..."
 unzip -o "$APPDIR/Arduino-Lab-for-MicroPython.zip" -d "$APPDIR"
-
 # Move to Applications
 mv "$APPDIR/Arduino Lab for MicroPython.app" "/Applications/"
-
 echo "Arduino Lab for MicroPython has been installed to /Applications/"
 
 

@@ -80,6 +80,82 @@ sudo dnf install arp-scan mtr wireshark traceroute openssh-server arping \
 sudo usermod -a -G wireshark den
 
 
+# Database Tools
+# =============
+# Database CLI Client Tools
+# -----------------------
+# PostgreSQL client tools
+sudo dnf install postgresql-client postgresql-contrib -y
+# MySQL/MariaDB client
+sudo dnf install mysql-client -y
+# SQLite tools
+sudo dnf install sqlite -y
+# Redis CLI client
+sudo dnf install redis-tools -y
+# Enhanced CLI clients
+sudo dnf install pgcli mycli litecli -y
+# Universal SQL CLI with autocomplete
+pip3 install --user usql
+# Microsoft SQL Server client tools
+curl https://packages.microsoft.com/config/rhel/8/prod.repo | sudo tee /etc/yum.repos.d/msprod.repo
+sudo dnf install -y mssql-tools unixODBC-devel
+# Database GUI Applications
+# ------------------------
+# DBeaver - Universal Database Tool
+# https://dbeaver.io/download/
+sudo dnf install https://dbeaver.io/files/dbeaver-ce-latest-stable.x86_64.rpm -y
+# TablePlus - Modern, native tool with a free tier
+sudo rpm --import https://deb.tableplus.com/apt.tableplus.com.gpg.key
+sudo sh -c 'echo -e "[TablePlus]
+name=TablePlus
+baseurl=https://yum.tableplus.com/38/fedora/`rpm -E %fedora`/
+gpgcheck=1
+gpgkey=https://yum.tableplus.com/tableplus.asc
+enabled=1" > /etc/yum.repos.d/tableplus.repo'
+sudo dnf install tableplus -y
+# Beekeeper Studio - Modern SQL client
+# https://docs.beekeeperstudio.io/installation/#linux
+sudo rpm --import https://download.beekeeperstudio.io/linux/beekeeper.key
+sudo sh -c 'echo -e "[beekeeper-studio]
+name=Beekeeper Studio
+baseurl=https://download.beekeeperstudio.io/linux/rpm
+enabled=1
+gpgcheck=1
+gpgkey=https://download.beekeeperstudio.io/linux/beekeeper.key" > /etc/yum.repos.d/beekeeper-studio.repo'
+sudo dnf install beekeeper-studio -y
+# MongoDB Tools
+# ------------
+# MongoDB CLI tools
+# mongocli - MongoDB Command Line Interface
+# https://www.mongodb.com/docs/mongocli/current/install/
+ARCH=$(uname -m)
+sudo tee /etc/yum.repos.d/mongodb-org-6.0.repo <<EOF
+[mongodb-org-6.0]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/9/mongodb-org/6.0/$ARCH/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-6.0.asc
+EOF
+sudo dnf install mongocli mongodb-database-tools -y
+# MongoDB Compass - Official GUI
+# https://www.mongodb.com/try/download/compass
+wget -O mongodb-compass.rpm https://downloads.mongodb.com/compass/mongodb-compass-1.40.4.x86_64.rpm
+sudo dnf install -y ./mongodb-compass.rpm
+rm mongodb-compass.rpm
+# MongoDB Atlas CLI
+# https://www.mongodb.com/docs/atlas/cli/current/install-atlas-cli/#install-the-atlas-cli.-1
+sudo dnf install -y https://fastdl.mongodb.org/mongocli/mongodb-atlas-cli_1.46.2_linux_x86_64.rpm
+# Redis Tools
+# ----------
+# RedisInsight - GUI for Redis
+wget -O redisinsight.rpm https://download.redisinsight.redis.com/latest/redisinsight-linux64.rpm
+sudo dnf install -y ./redisinsight.rpm
+rm redisinsight.rpm
+# SQLite Browser - GUI for SQLite
+sudo dnf install sqlitebrowser -y
+
+
 # DevOps-Tools
 # terraform
 # https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
@@ -144,31 +220,12 @@ helm plugin install https://github.com/jkroepke/helm-secrets --version v4.6.5
 helm plugin install https://github.com/databus23/helm-diff --version v3.12.3
 # helmfile
 wget -qO- https://github.com/helmfile/helmfile/releases/download/v1.1.3/helmfile_1.1.3_linux_amd64.tar.gz | sudo tar xz -C /usr/local/bin && sudo chmod +x /usr/local/bin/helmfile
-# psql
-sudo dnf install postgresql -y
-# dbeaver
-# https://dbeaver.io/download/
-sudo dnf install https://dbeaver.io/files/dbeaver-ce-latest-stable.x86_64.rpm -y
+# Database tools moved to the 'Database Tools' section above
+
 # istioctl
 wget -qO- https://github.com/istio/istio/releases/download/1.26.2/istioctl-1.26.2-linux-amd64.tar.gz | sudo tar xz -C /usr/local/bin && sudo chmod +x /usr/local/bin/istioctl
 # jsonnet
 sudo dnf install -y jsonnet
-# DB tools
-# mongocli
-# https://www.mongodb.com/docs/mongocli/current/install/
-ARCH=$(uname -m)
-sudo tee /etc/yum.repos.d/mongodb-org-6.0.repo <<EOF
-[mongodb-org-6.0]
-name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/redhat/9/mongodb-org/6.0/$ARCH/
-gpgcheck=1
-enabled=1
-gpgkey=https://www.mongodb.org/static/pgp/server-6.0.asc
-EOF
-sudo dnf install mongocli -y
-# mongodb cloud atlas
-# https://www.mongodb.com/docs/atlas/cli/current/install-atlas-cli/#install-the-atlas-cli.-1
-dnf install -yhttps://fastdl.mongodb.org/mongocli/mongodb-atlas-cli_1.46.2_linux_x86_64.rpm
 
 
 #programming, development
