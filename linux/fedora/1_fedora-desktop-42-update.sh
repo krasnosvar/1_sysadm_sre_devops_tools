@@ -22,6 +22,10 @@ flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flath
 # https://github.com/sysstat/sysstat
 sudo dnf install -y git wget gnupg lsb-release apt-transport-https ca-certificates curl \
   dnf-plugins-core plasma-workspace-x11 sysfsutils sysstat htop
+# sudo sensors-detect
+# sensors
+# sensors | grep -E 'temp[0-9]|Core|Tctl'
+sudo dnf install lm_sensors -y
 
 
 #Main OS apps- multimedia, office, etc.
@@ -71,8 +75,7 @@ flatpak install --user flathub one.ablaze.floorp -y
 #SIP-protocol analyzer- sngrep
 #mtr combines the functionality of the traceroute and ping programs in a single network diagnostic tool.
 #mtr -i 0.1 yoursite.com
-# https://httpie.io/docs/cli/fedora
-sudo dnf install arp-scan mtr wireshark traceroute openssh-server arping httpie \
+sudo dnf install arp-scan mtr wireshark traceroute openssh-server arping \
   sshuttle openconnect NetworkManager-openconnect openfortivpn -y
 sudo usermod -a -G wireshark den
 
@@ -100,6 +103,28 @@ sudo usermod -a -G docker den
 #kubectl
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl"
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+# kubectl plugins
+# cd ~/Downloads && \
+OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
+ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
+KREW="krew-${OS}_${ARCH}" &&
+curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
+tar zxvf "${KREW}.tar.gz" &&
+./"${KREW}" install krew && \
+echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' >> ~/.zshrc && \
+source ~/.zshrc && \
+kubectl krew install neat && \
+kubectl krew install tree && \
+kubectl krew install topology && \
+kubectl krew install who-can && \
+kubectl krew install ctx && \
+kubectl krew install ns && \
+kubectl krew install sudo && \
+kubectl krew install view-allocations
+# install kubectl node-shell
+curl -LO https://github.com/kvaps/kubectl-node-shell/raw/master/kubectl-node_shell && \
+chmod +x ./kubectl-node_shell && \
+sudo mv ./kubectl-node_shell /usr/local/bin/kubectl-node_shell
 #k9s
 sudo dnf copr enable luminoso/k9s -y
 sudo dnf install k9s -y
@@ -108,7 +133,7 @@ wget -qO- https://get.helm.sh/helm-v3.17.4-linux-amd64.tar.gz | tar xz -O linux-
   sudo tee /usr/local/bin/helm > /dev/null && sudo chmod +x /usr/local/bin/helm
 # age
 # https://github.com/FiloSottile/age#installation
-sudo dnf install age httpie yq jq tmux byobu awscli2 -y
+sudo dnf install age yq jq tmux byobu awscli2 -y
 # sops
 # https://gist.github.com/patrickmslatteryvt/d531c5ae4598fd4c9d508833bde6c7c0
 SOPS_VERSION=$(curl -s https://api.github.com/repos/getsops/sops/releases/latest | jq .tag_name | tr -d '"')
@@ -128,7 +153,22 @@ sudo dnf install https://dbeaver.io/files/dbeaver-ce-latest-stable.x86_64.rpm -y
 wget -qO- https://github.com/istio/istio/releases/download/1.26.2/istioctl-1.26.2-linux-amd64.tar.gz | sudo tar xz -C /usr/local/bin && sudo chmod +x /usr/local/bin/istioctl
 # jsonnet
 sudo dnf install -y jsonnet
-
+# DB tools
+# mongocli
+# https://www.mongodb.com/docs/mongocli/current/install/
+ARCH=$(uname -m)
+sudo tee /etc/yum.repos.d/mongodb-org-6.0.repo <<EOF
+[mongodb-org-6.0]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/9/mongodb-org/6.0/$ARCH/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-6.0.asc
+EOF
+sudo dnf install mongocli -y
+# mongodb cloud atlas
+# https://www.mongodb.com/docs/atlas/cli/current/install-atlas-cli/#install-the-atlas-cli.-1
+dnf install -yhttps://fastdl.mongodb.org/mongocli/mongodb-atlas-cli_1.46.2_linux_x86_64.rpm
 
 
 #programming, development
@@ -190,19 +230,39 @@ chmod +x ~/.local/share/applications/arduino-lab-micropython.desktop
 
 #VScode extensions
 #https://stackoverflow.com/questions/34286515/how-to-install-visual-studio-code-extensions-from-command-line
-sudo -u den codium --install-extension ms-python.python
-sudo -u den codium --install-extension redhat.vscode-yaml
-sudo -u den codium --install-extension ms-azuretools.vscode-docker
-sudo -u den codium --install-extension ms-kubernetes-tools.vscode-kubernetes-tools
-sudo -u den codium --install-extension redhat.java
-sudo -u den codium --install-extension eamodio.gitlens # git repo commits view directly in editor
-sudo -u den codium --install-extension gitlab.gitlab-workflow
-sudo -u den codium --install-extension hashicorp.terraform
-sudo -u den codium --install-extension davidanson.vscode-markdownlint
-sudo -u den codium --install-extension mathiasfrohlich.kotlin # kotlin syntax highlight
-sudo -u den codium --install-extension ms-vscode-remote.remote-containers # for docker
-sudo -u den codium --install-extension golang.Go
-sudo -u den codium --install-extension tomoki1207.pdf # pdf reader in codium
+
+
+for ideEditor in code codium; do
+$ideEditor --install-extension ms-python.python
+$ideEditor --install-extension redhat.vscode-yaml
+$ideEditor --install-extension ms-azuretools.vscode-docker
+$ideEditor --install-extension ms-kubernetes-tools.vscode-kubernetes-tools
+$ideEditor --install-extension redhat.java
+$ideEditor --install-extension eamodio.gitlens # git repo commits view directly in editor
+$ideEditor --install-extension gitlab.gitlab-workflow
+$ideEditor --install-extension hashicorp.terraform
+$ideEditor --install-extension davidanson.vscode-markdownlint
+$ideEditor --install-extension mathiasfrohlich.kotlin # kotlin syntax highlight
+$ideEditor --install-extension ms-vscode-remote.remote-containers # for docker
+$ideEditor --install-extension golang.Go
+$ideEditor --install-extension tomoki1207.pdf # pdf reader in codium
+$ideEditor --install-extension Codeium.codeium # windsurf AI plugin
+done
+
+
+# Testing, debugging tools
+# https://httpie.io/docs/cli/fedora
+sudo dnf httpie -y
+#Postman
+# The Postman VS Code extension
+# https://marketplace.visualstudio.com/items?itemName=Postman.postman-for-vscode
+# flatpak via flatpak
+# flatpak install flathub com.getpostman.Postman
+flatpak install --user --assumeyes flathub rest.insomnia.Insomnia
+#Insomnia
+# https://insomnia.rest
+# https://flathub.org/apps/rest.insomnia.Insomnia
+flatpak install --user -y flathub rest.insomnia.Insomnia
 
 
 # ai tools

@@ -158,6 +158,26 @@ return {
 }
 EOF
 
+# --- Set default project directory on empty Neovim start ---
+# Ensure the directory exists
+mkdir -p "$HOME/my_projects"
+
+# Append an autocmd to change cwd to ~/my_projects when launching nvim with no file args
+cat >> "$NVIM_CONFIG_DIR/lua/config/autocmds.lua" <<'EOF_ACMD'
+-- Auto change working directory to ~/my_projects on empty startup
+-- (only when launching nvim without file arguments)
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    if vim.fn.argc() == 0 then
+      local dir = vim.fn.expand("~/my_projects")
+      if vim.fn.isdirectory(dir) == 1 then
+        vim.cmd("cd " .. vim.fn.fnameescape(dir))
+      end
+    end
+  end,
+})
+EOF_ACMD
+
 # --- Initial plugin sync (headless) ---
 require_cmd nvim
 info "Syncing plugins headlessly (this may take a while on first run)..."
