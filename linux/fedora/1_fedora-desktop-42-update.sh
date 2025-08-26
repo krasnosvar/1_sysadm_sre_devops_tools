@@ -4,16 +4,20 @@
 #!/usr/bin/env bash
 sudo dnf upgrade --refresh
 # on non-Fedora RHEL-like distribs- enable EPEL first: https://www.redhat.com/en/blog/install-epel-linux
-# add RPM Fusion repo
+# Detect Fedora version
+FEDORA_VERSION=$(grep -oP 'VERSION_ID=\K\d+' /etc/os-release)
+FEDORA_VERSION=${FEDORA_VERSION:-$(rpm -E %fedora 2>/dev/null || echo "38")}  # Fallback to 38 if not detected
+
+# Add RPM Fusion repo
 # https://rpmfusion.org/Configuration
 # RPM Fusion provides software that the Fedora Project or Red Hat doesn't want to ship
-# https://rpmfusion.org/Configuration
-sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-  https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-${FEDORA_VERSION}.noarch.rpm \
+  https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-${FEDORA_VERSION}.noarch.rpm
 sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1
 # add RPM Sphere repo ( install veracrypt )
 # https://rpmsphere.github.io
-sudo dnf install -y https://github.com/rpmsphere/noarch/raw/master/r/rpmsphere-release-40-1.noarch.rpm
+# RPM Sphere repo (architecture-independent)
+sudo dnf install -y https://github.com/rpmsphere/noarch/raw/master/r/rpmsphere-release-${FEDORA_VERSION}-1.noarch.rpm
 
 # flatpak
 flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -128,11 +132,22 @@ sudo dnf install beekeeper-studio -y
 # MongoDB CLI tools
 # mongocli - MongoDB Command Line Interface
 # https://www.mongodb.com/docs/mongocli/current/install/
-ARCH=$(uname -m)
+# Detect and set MongoDB architecture
+MONGODB_ARCH=$(uname -m)
+if [ "${MONGODB_ARCH}" = "x86_64" ]; then
+    MONGODB_ARCH="x86_64"
+elif [ "${MONGODB_ARCH}" = "aarch64" ]; then
+    MONGODB_ARCH="aarch64"
+else
+    echo "Unsupported architecture for MongoDB: ${MONGODB_ARCH}"
+    exit 1
+fi
+
+# MongoDB repository configuration
 sudo tee /etc/yum.repos.d/mongodb-org-6.0.repo <<EOF
 [mongodb-org-6.0]
 name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/redhat/9/mongodb-org/6.0/$ARCH/
+baseurl=https://repo.mongodb.org/yum/redhat/9/mongodb-org/6.0/${MONGODB_ARCH}/
 gpgcheck=1
 enabled=1
 gpgkey=https://www.mongodb.org/static/pgp/server-6.0.asc
@@ -140,16 +155,37 @@ EOF
 sudo dnf install mongocli mongodb-database-tools -y
 # MongoDB Compass - Official GUI
 # https://www.mongodb.com/try/download/compass
-wget -O mongodb-compass.rpm https://downloads.mongodb.com/compass/mongodb-compass-1.40.4.x86_64.rpm
+# Download MongoDB Compass for the correct architecture
+if [ "$(uname -m)" = "x86_64" ]; then
+    wget -O mongodb-compass.rpm https://downloads.mongodb.com/compass/mongodb-compass-1.40.4.x86_64.rpm
+elif [ "$(uname -m)" = "aarch64" ]; then
+    wget -O mongodb-compass.rpm https://downloads.mongodb.com/compass/mongodb-compass-1.40.4.aarch64.rpm
+else
+    echo "MongoDB Compass not available for architecture $(uname -m)"
+fi
 sudo dnf install -y ./mongodb-compass.rpm
 rm mongodb-compass.rpm
 # MongoDB Atlas CLI
 # https://www.mongodb.com/docs/atlas/cli/current/install-atlas-cli/#install-the-atlas-cli.-1
-sudo dnf install -y https://fastdl.mongodb.org/mongocli/mongodb-atlas-cli_1.46.2_linux_x86_64.rpm
+# Install MongoDB Atlas CLI for the correct architecture
+if [ "$(uname -m)" = "x86_64" ]; then
+    sudo dnf install -y https://fastdl.mongodb.org/mongocli/mongodb-atlas-cli_1.46.2_linux_x86_64.rpm
+elif [ "$(uname -m)" = "aarch64" ]; then
+    sudo dnf install -y https://fastdl.mongodb.org/mongocli/mongodb-atlas-cli_1.46.2_linux_arm64.rpm
+else
+    echo "MongoDB Atlas CLI not available for architecture $(uname -m)"
+fi
 # Redis Tools
 # ----------
 # RedisInsight - GUI for Redis
-wget -O redisinsight.rpm https://download.redisinsight.redis.com/latest/redisinsight-linux64.rpm
+# Download RedisInsight for the correct architecture
+if [ "$(uname -m)" = "x86_64" ]; then
+    wget -O redisinsight.rpm https://download.redisinsight.redis.com/latest/redisinsight-linux64.rpm
+elif [ "$(uname -m)" = "aarch64" ]; then
+    wget -O redisinsight.rpm https://download.redisinsight.redis.com/latest/redisinsight-linux-aarch64.rpm
+else
+    echo "RedisInsight not available for architecture $(uname -m)"
+fi
 sudo dnf install -y ./redisinsight.rpm
 rm redisinsight.rpm
 # SQLite Browser - GUI for SQLite
@@ -177,8 +213,22 @@ sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linu
 sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 sudo usermod -a -G docker den
 #kubectl
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl"
+# Detect architecture for kubectl
+ARCH=$(uname -m)
+case "${ARCH}" in
+    x86_64) ARCH=amd64 ;;
+    aarch64) ARCH=arm64 ;;
+    armv7l) ARCH=arm ;;
+    ppc64le) ARCH=ppc64le ;;
+    s390x) ARCH=s390x ;;
+    *) echo "Unsupported architecture: ${ARCH}"; exit 1 ;;
+esac
+
+KUBE_VERSION=$(curl -L -s https://dl.k8s.io/release/stable.txt)
+curl -LO "https://dl.k8s.io/release/${KUBE_VERSION}/bin/linux/${ARCH}/kubectl"
+chmod +x kubectl
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+rm kubectl
 # kubectl plugins
 # cd ~/Downloads && \
 OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
