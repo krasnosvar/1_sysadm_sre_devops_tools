@@ -30,6 +30,12 @@ sudo dnf install -y git wget gnupg lsb-release apt-transport-https ca-certificat
 # sensors
 # sensors | grep -E 'temp[0-9]|Core|Tctl'
 sudo dnf install lm_sensors -y
+# GPU diagnostic tools
+# sudo intel_gpu_top
+# sudo radeontop
+# sudo nvtop
+sudo dnf install -y intel-gpu-tools radeontop nvtop
+
 
 
 #Main OS apps- multimedia, office, etc.
@@ -39,7 +45,9 @@ sudo dnf install lm_sensors -y
 sudo dnf install -y \
   libreoffice gimp libheif-freeworld gimp-devel inkscape blender audacity vlc flameshot telegram \
   librecad kicad kicad-packages3d kicad-doc multimedia ffmpeg-libs # freecad
-
+# screen recording, streaming
+# https://github.com/obsproject/obs-studio/wiki/install-instructions#flatpak
+flatpak install --user -y flathub com.obsproject.Studio
 
 #Virtualization
 # https://docs.fedoraproject.org/en-US/quick-docs/virtualization-getting-started/
@@ -108,25 +116,6 @@ sudo dnf install -y mssql-tools unixODBC-devel
 # DBeaver - Universal Database Tool
 # https://dbeaver.io/download/
 sudo dnf install https://dbeaver.io/files/dbeaver-ce-latest-stable.x86_64.rpm -y
-# TablePlus - Modern, native tool with a free tier
-sudo rpm --import https://deb.tableplus.com/apt.tableplus.com.gpg.key
-sudo sh -c 'echo -e "[TablePlus]
-name=TablePlus
-baseurl=https://yum.tableplus.com/38/fedora/`rpm -E %fedora`/
-gpgcheck=1
-gpgkey=https://yum.tableplus.com/tableplus.asc
-enabled=1" > /etc/yum.repos.d/tableplus.repo'
-sudo dnf install tableplus -y
-# Beekeeper Studio - Modern SQL client
-# https://docs.beekeeperstudio.io/installation/#linux
-sudo rpm --import https://download.beekeeperstudio.io/linux/beekeeper.key
-sudo sh -c 'echo -e "[beekeeper-studio]
-name=Beekeeper Studio
-baseurl=https://download.beekeeperstudio.io/linux/rpm
-enabled=1
-gpgcheck=1
-gpgkey=https://download.beekeeperstudio.io/linux/beekeeper.key" > /etc/yum.repos.d/beekeeper-studio.repo'
-sudo dnf install beekeeper-studio -y
 # MongoDB Tools
 # ------------
 # MongoDB CLI tools
@@ -395,3 +384,8 @@ gpgkey=https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-
 EOF
 # install
 sudo dnf install windsurf -y
+# warp terminal
+# https://docs.warp.dev/getting-started/readme/installation-and-setup
+sudo rpm --import https://releases.warp.dev/linux/keys/warp.asc
+sudo sh -c 'echo -e "[warpdotdev]\nname=warpdotdev\nbaseurl=https://releases.warp.dev/linux/rpm/stable\nenabled=1\ngpgcheck=1\ngpgkey=https://releases.warp.dev/linux/keys/warp.asc" > /etc/yum.repos.d/warpdotdev.repo'
+sudo dnf install warp-terminal
