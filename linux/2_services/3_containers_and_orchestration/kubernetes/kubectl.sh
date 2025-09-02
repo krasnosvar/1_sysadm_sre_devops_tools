@@ -68,6 +68,12 @@ kubectl exec -it podname -- /bin/bash
 for i in $(kubectl get po -n kube-system| grep konnec| awk '{print $1}'); do kubectl delete pod $i --grace-period=0 --force --namespace kube-system; done
 # creater pod with argument "--var=vick"
 k run podName --image=busybox -- "--var=vick"
+# show container names in pod
+kubectl -n tigerbeetle get pods \
+-o=jsonpath='{range .items[*]}{.metadata.name}{"\n"}{range .spec.containers[*]}{"  - "}{.image}{"\n"}{end}{end}'
+# or
+k -n tigerbeetle get pods \
+-o=jsonpath='{range .items[*]}{.metadata.name}{"\t"}{range .spec.containers[*]}{.image}{" "}{end}{"\n"}{end}'
 
 
 #DEPLOYMENTS
@@ -179,3 +185,15 @@ for i in $(kubectl -n argocd get po | grep "0/1"| awk '{print $1}'); do kubectl 
 #if namespace stuck in terminating state
 https://www.redhat.com/sysadmin/troubleshooting-terminating-namespaces
 https://stackoverflow.com/questions/52369247/namespace-stuck-as-terminating-how-i-removed-it
+
+
+
+# DEBUG to check consuming resources bu pods
+export KUBECONFIG=kubeconfig && kubectl describe nodes |\
+ grep -E "(Name:|memory:)" | grep -B1 -A1 "database-worker"
+
+export KUBECONFIG=kubeconfig && kubectl get nodes -l node-role.kubernetes.io/database-worker=true \
+-o custom-columns=NAME:.metadata.name,CPU:.status.capacity.cpu,MEMORY:.status.capacity.memory
+
+export KUBECONFIG=kubeconfig && kubectl top pods -n tigerbeetle
+kubectl top pods -n tigerbeetle --sort-by=memory
