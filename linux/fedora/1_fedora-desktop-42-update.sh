@@ -16,7 +16,7 @@ sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-releas
 sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1
 # add RPM Sphere repo ( install veracrypt )
 # https://rpmsphere.github.io
-# RPM Sphere repo (architecture-independent)
+# RPM Sphere repo (architecture-indepen$USERt)
 sudo dnf install -y https://github.com/rpmsphere/noarch/raw/master/r/rpmsphere-release-${FEDORA_VERSION}-1.noarch.rpm
 
 # flatpak
@@ -53,8 +53,8 @@ flatpak install --user -y flathub com.obsproject.Studio
 # https://docs.fedoraproject.org/en-US/quick-docs/virtualization-getting-started/
 sudo dnf install @virtualization -y
 sudo systemctl start libvirtd
-sudo usermod -a -G libvirt den
-sudo usermod -a -G kvm den
+sudo usermod -a -G libvirt $USER
+sudo usermod -a -G kvm $USER
 
 
 #Security
@@ -78,8 +78,20 @@ sudo dnf install google-chrome-stable -y
 sudo dnf config-manager addrepo --from-repofile=https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
 sudo rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
 sudo dnf install brave-browser -y
-#floorp
+# floorp
 flatpak install --user flathub one.ablaze.floorp -y
+# repo Opera
+sudo tee /etc/yum.repos.d/opera.repo << 'EOF'
+[opera]
+name=Opera packages
+type=rpm
+baseurl=https://rpm.opera.com/rpm
+gpgcheck=1
+gpgkey=https://rpm.opera.com/rpmrepo.key
+enabled=1
+EOF
+# install Opera
+sudo dnf install opera-stable -y
 
 
 #nettools
@@ -88,8 +100,8 @@ flatpak install --user flathub one.ablaze.floorp -y
 #mtr combines the functionality of the traceroute and ping programs in a single network diagnostic tool.
 #mtr -i 0.1 yoursite.com
 sudo dnf install arp-scan mtr wireshark traceroute openssh-server arping \
-  sshuttle openconnect NetworkManager-openconnect openfortivpn -y
-sudo usermod -a -G wireshark den
+  sshuttle openconnect NetworkManager-openconnect openfortivpn remmina -y
+sudo usermod -a -G wireshark $USER
 
 
 # Database Tools
@@ -200,7 +212,7 @@ sudo chmod 0655 /usr/local/bin/terragrunt
 # https://docs.docker.com/engine/install/fedora/#install-using-the-repository
 sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
 sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
-sudo usermod -a -G docker den
+sudo usermod -a -G docker $USER
 #kubectl
 # Detect architecture for kubectl
 ARCH=$(uname -m)
