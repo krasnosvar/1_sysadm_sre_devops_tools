@@ -334,6 +334,11 @@ Categories=Development;Electronics;
 Terminal=false
 EOF
 chmod +x ~/.local/share/applications/arduino-lab-micropython.desktop
+# Node.js and npm
+# https://github.com/nodesource/distributions#rpminstall
+curl -fsSL https://rpm.nodesource.com/setup_lts.x | sudo bash -
+sudo dnf install -y nodejs
+
 
 
 #VScode extensions
@@ -402,3 +407,6 @@ sudo dnf install windsurf -y
 sudo rpm --import https://releases.warp.dev/linux/keys/warp.asc
 sudo sh -c 'echo -e "[warpdotdev]\nname=warpdotdev\nbaseurl=https://releases.warp.dev/linux/rpm/stable\nenabled=1\ngpgcheck=1\ngpgkey=https://releases.warp.dev/linux/keys/warp.asc" > /etc/yum.repos.d/warpdotdev.repo'
 sudo dnf install warp-terminal
+# Install Google Gemini CLI
+# https://github.com/google-gemini/gemini-cli
+sudo npm install -g @google/gemini-cli
