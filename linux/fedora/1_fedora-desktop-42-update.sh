@@ -6,7 +6,7 @@ sudo dnf upgrade --refresh
 # on non-Fedora RHEL-like distribs- enable EPEL first: https://www.redhat.com/en/blog/install-epel-linux
 # Detect Fedora version
 FEDORA_VERSION=$(grep -oP 'VERSION_ID=\K\d+' /etc/os-release)
-FEDORA_VERSION=${FEDORA_VERSION:-$(rpm -E %fedora 2>/dev/null || echo "38")}  # Fallback to 38 if not detected
+FEDORA_VERSION=${FEDORA_VERSION:-$(rpm -E %fedora 2>/dev/null || echo "42")}  # Fallback to 42 if not detected
 
 # Add RPM Fusion repo
 # https://rpmfusion.org/Configuration
@@ -410,3 +410,7 @@ sudo dnf install warp-terminal
 # Install Google Gemini CLI
 # https://github.com/google-gemini/gemini-cli
 sudo npm install -g @google/gemini-cli
+
+
+# time management
+flatpak install flathub io.github.mlm_games.pomodorot
