@@ -31,110 +31,481 @@ func Sum256(data []byte) [Size]byte
 
 ```
 
-3. Modules commands
-
-```
-go mod init module-name          # Initialize new module
-go mod init github.com/user/repo # Initialize with repository path
-
-go mod why -m golang.org/x/sys   # check module dependencies
 
 
-# Download Dependencies
-go get package-name              # Download and add dependency
-go get github.com/gin-gonic/gin  # Download specific package
-go get ./...                     # Download all dependencies for current module
-go get -u                        # Update all dependencies to latest minor/patch
-go get -u=patch                  # Update to latest patch versions only
-go get package@version           # Get specific version
-go get package@latest            # Get latest version
-go get package@none              # Remove dependency
+comprehensive Go knowledge structure:
+1. Go Basics
 
+Variables & Constants
+Data Types (int, string, bool, float, etc.)
+Operators
+Control Flow (if, switch, for)
+Functions (parameters, returns, variadic, defer)
+Pointers
+Structs
+Arrays & Slices
+Maps
+Interfaces
+Error Handling
+Packages & Imports (including _ blank identifier)
+Go Modules (go.mod, go.sum, go mod tidy)
+GOPATH vs Modules
 
-Module Maintenance
-go mod download                  # Download modules to local cache
-go mod verify                    # Verify dependencies have expected content
-go mod tidy                      # Add missing and remove unused modules
-go mod vendor                    # Make vendored copy of dependencies
-go mod graph                     # Print module requirement graph
-go mod why package-name          # Explain why package is needed
+2. Advanced Go Concepts
 
+Methods (value vs pointer receivers)
+Embedding & Composition
+Type Assertions & Type Switches
+Generics (type parameters, constraints)
+Reflection
+Unsafe Package
+Build Tags & Conditional Compilation
 
-Module Information
-go list -m all                   # List all modules
-go list -m -versions package     # List available versions of package
-go list -u -m all               # List modules with updates available
-go mod edit -go=1.21            # Change Go version requirement
-go mod edit -require=package@v1.2.3  # Add requirement
-go mod edit -droprequire=package     # Remove requirement
+3. Concurrency
 
+Goroutines
+Channels (buffered, unbuffered, directional)
+Select Statement
+Sync Package (Mutex, RWMutex, WaitGroup)
+Context (WithTimeout, WithCancel, WithDeadline)
+Race Conditions & Data Races
+Atomic Operations
+Worker Pools
+Pipeline Patterns
 
-Working with Versions
-go get package@v1.2.3           # Get specific version
-go get package@master           # Get master branch
-go get package@commit-hash      # Get specific commit
-go get package@>=v1.2.3         # Get version >= 1.2.3
-go get package@<v2.0.0          # Get version < 2.0.0
+4. Error Handling & Panic
 
+Error Interface
+Custom Errors
+Error Wrapping (fmt.Errorf with %w)
+errors.Is() & errors.As()
+Panic & Recover
+Best Practices for Error Handling
 
-Module Replacement
-go mod edit -replace=old@v1.0.0=new@v1.0.0     # Replace module
-go mod edit -replace=package=./local-package    # Replace with local path
-go mod edit -dropreplace=package                # Remove replacement
+5. Testing
 
+Unit Testing (testing package)
+Table-Driven Tests
+Subtests (t.Run)
+Test Coverage (go test -cover)
+Benchmarking
+Example Tests
+Testing with Mocks
+Testify Package
+Integration Testing
+Test Fixtures & Setup/Teardown
 
-Cache Management
-go clean -modcache              # Remove entire module cache
-go clean -cache                 # Clean build cache
+6. Database
 
+database/sql Package
+Connection Pooling
+Prepared Statements
+Transactions
+PostgreSQL (lib/pq, pgx)
+SQLite (mattn/go-sqlite3, modernc.org/sqlite)
+MongoDB (mongo-go-driver)
+MySQL (go-sql-driver/mysql)
+ORMs (GORM, sqlx, ent)
+Migrations
+Context with Database Operations
 
-Module File Operations
-go mod edit -fmt                # Format go.mod file
-go mod edit -print              # Print go.mod in JSON format
-go mod edit -json               # Print go.mod as JSON
+7. Web & HTTP
 
+net/http Package
+HTTP Handlers & HandlerFunc
+ServeMux & Routing
+Middleware Pattern
+Request & Response
+HTTP Methods (GET, POST, PUT, DELETE)
+Query Parameters & Path Variables
+JSON Encoding/Decoding
+Form Data & File Uploads
+Cookies & Sessions
+CORS
+HTTP Client (timeouts, custom transport)
+Web Frameworks (Gin, Echo, Fiber, Chi)
 
+8. REST API Development
+
+RESTful Principles
+API Versioning
+Request Validation
+Response Formatting
+Status Codes
+Authentication (JWT, OAuth2)
+Authorization & Permissions
+Rate Limiting
+API Documentation (Swagger/OpenAPI)
+Logging & Monitoring
+
+9. Working with Data
+
+JSON (encoding/json, custom marshaling)
+XML
+YAML
+CSV (encoding/csv)
+Protocol Buffers
+MessagePack
+Data Validation
+Struct Tags
+
+10. File & I/O Operations
+
+Reading & Writing Files (os, io, ioutil)
+Bufio Package
+File Permissions
+Directory Operations
+Path & Filepath
+Temporary Files
+Embedding Files (embed package)
+Streaming Large Files
+
+11. Networking
+
+TCP/UDP Sockets
+net Package
+HTTP/2 & HTTP/3
+WebSockets
+gRPC
+Network Timeouts
+Keep-Alive Connections
+
+12. Security
+
+crypto Package (hashing, encryption)
+TLS/SSL
+Password Hashing (bcrypt)
+Input Sanitization
+SQL Injection Prevention
+XSS & CSRF Protection
+Secure Headers
+Secrets Management
+
+13. Performance & Optimization
+
+Profiling (pprof)
+Memory Management
+Garbage Collection
+Benchmarking
+Performance Tuning
+Caching Strategies
+Connection Pooling
+
+14. Logging & Monitoring
+
+log Package
+Structured Logging (zap, zerolog, logrus)
+Log Levels
+Error Tracking (Sentry, Rollbar)
+Metrics (Prometheus)
+Tracing (OpenTelemetry, Jaeger)
+Health Checks
+
+15. Dependency Management
+
+go get & go install
+go mod vendor
+Private Modules
+Module Proxy
+go.work (workspaces)
+Semantic Versioning
+
+16. Build & Deployment
+
+go build & go install
+Cross-Compilation (GOOS, GOARCH)
+Build Tags
+Linker Flags (-ldflags)
+Reducing Binary Size
+Docker & Containers
+CI/CD Integration
 Environment Variables
-export GOPROXY=direct           # Set proxy (direct, off, or URL)
-export GOSUMDB=off              # Disable checksum database
-export GOPRIVATE=*.corp.com     # Set private module patterns
-export GONOPROXY=*.corp.com     # Bypass proxy for patterns
-export GONOSUMDB=*.corp.com     # Skip checksum for patterns
+
+17. CLI Development
+
+flag Package
+cobra Package
+urfave/cli
+Terminal UI (bubbletea, termui)
+Command-Line Parsing
+Configuration Files
+
+18. Time & Date
+
+time Package
+Parsing & Formatting
+Timezones
+Durations & Timeouts
+Tickers & Timers
+Time Comparisons
+
+19. Standard Library Essentials
+
+strings & strconv
+fmt (formatting, printing)
+regexp (regular expressions)
+sort Package
+math Package
+encoding/base64
+compress (gzip, zlib)
+archive (tar, zip)
+html/template & text/template
+
+20. Design Patterns in Go
+
+Singleton
+Factory
+Builder
+Strategy
+Observer
+Dependency Injection
+Repository Pattern
+Service Layer Pattern
+
+21. Best Practices & Idioms
+
+Code Organization
+Project Structure
+Naming Conventions
+Error Handling Patterns
+Interface Design
+Composition over Inheritance
+Effective Go Guidelines
+Code Comments & Documentation
+
+22. Tools & Ecosystem
+
+go fmt & gofmt
+go vet
+golint & golangci-lint
+go doc & godoc
+delve (debugger)
+gopls (language server)
+go generate
+Air (live reload)
+
+23. Advanced Topics
+
+Assembly in Go
+CGO (C interop)
+Plugins
+Syscalls
+Memory-Mapped Files
+Signal Handling
+Process Management
+
+24. Real-World Projects
+
+Microservices Architecture
+Message Queues (RabbitMQ, Kafka)
+Caching (Redis, Memcached)
+Background Jobs & Workers
+API Gateway
+Service Mesh
+Event-Driven Architecture
+
+25. Go Under the Hood - Runtime & Internals
+Go Runtime
+
+What is the Go Runtime?
+Runtime vs Standard Library
+runtime Package Overview
+Runtime Initialization Process
+GOMAXPROCS - Managing CPU Cores
+Runtime Statistics (runtime.MemStats)
+Forcing Garbage Collection (runtime.GC())
+Stack Management
+runtime.Caller() & Stack Traces
+
+Go Scheduler (GMP Model)
+
+G (Goroutine) - Lightweight threads
+M (Machine/OS Thread) - OS-level threads
+P (Processor) - Logical processor/context
+How Goroutines are Scheduled
+Work Stealing Algorithm
+Preemptive Scheduling
+Cooperative vs Preemptive Scheduling
+Syscall Handling & Blocking Operations
+Network Poller Integration
+GOMAXPROCS Impact on Scheduling
+Goroutine States (running, runnable, waiting)
+Local Run Queues vs Global Run Queue
+
+Memory Management
+
+Stack vs Heap Allocation
+Escape Analysis
+How Go Decides Stack vs Heap
+Stack Growth (contiguous stacks)
+Memory Allocator (tcmalloc-based)
+Span & Size Classes
+Memory Arena
+new() vs make()
+Zero Values
+
+Garbage Collection (GC)
+
+Tri-Color Mark & Sweep Algorithm
+Concurrent GC
+Write Barriers
+GC Phases (mark setup, marking, mark termination, sweep)
+GC Pacer & Trigger
+GC Tuning (GOGC environment variable)
+GC Trace Analysis
+Reducing GC Pressure
+Object Pooling (sync.Pool)
+Finalizers (runtime.SetFinalizer)
+
+Channels Internals
+
+Channel Data Structure (hchan)
+Buffered vs Unbuffered Implementation
+Send & Receive Operations
+Channel Blocking & Parking Goroutines
+Select Statement Implementation
+Channel Closing Mechanics
+Memory Layout of Channels
+
+Interface Internals
+
+Interface Data Structure (iface, eface)
+Type & Value Pointers
+Method Dispatch (vtable)
+Type Assertions Implementation
+Interface vs Concrete Type Performance
+Empty Interface (interface{} / any)
+Dynamic Dispatch Cost
+
+Slice Internals
+
+Slice Header Structure (ptr, len, cap)
+Backing Array
+Slice Growth Strategy
+Copy-on-Write Behavior
+Slice Memory Leaks
+Slice vs Array Performance
+append() Implementation
+
+Map Internals
+
+Hash Map Implementation
+Bucket Structure
+Load Factor & Rehashing
+Map Growth Strategy
+Hash Function
+Collision Handling
+Map Iteration Order (randomized)
+Map Memory Layout
+Concurrent Map Access Issues
+
+String Internals
+
+String Immutability
+String Header (ptr, len)
+String Interning
+String Concatenation Performance
+strings.Builder vs += vs fmt.Sprintf
+Rune vs Byte
+UTF-8 Encoding
+
+Defer, Panic, Recover Internals
+
+Defer Chain Implementation
+Defer Performance Cost
+Panic/Recover Stack Unwinding
+Defer in Loops (gotcha)
+
+Compilation & Linking
+
+Go Compiler Phases
+AST (Abstract Syntax Tree)
+SSA (Static Single Assignment)
+Compiler Optimizations
+
+Inlining
+Dead Code Elimination
+Bounds Check Elimination
+Escape Analysis
 
 
-Common Workflows
-# Start new project
-go mod init myproject
-go get needed-packages
-go mod tidy
+Assembly Output (go build -gcflags="-S")
+Object Files & Linking
+Static vs Dynamic Linking
+Build Cache
 
-# Update dependencies
-go get -u
-go mod tidy
+Type System Internals
 
-# Clean up unused dependencies
-go mod tidy
+Type Identity
+Type Representation
+reflect Package Internals
+Type Metadata
+Method Sets
 
-# Work with local development
-go mod edit -replace=package=../local-package
-go mod tidy
+Profiling & Diagnostics
 
-# Prepare for production
-go mod vendor    # Optional: create vendor directory
-go mod verify    # Verify integrity
+CPU Profiling
+Memory Profiling (heap, allocs)
+Block Profiling
+Mutex Profiling
+Goroutine Profiling
+Trace Analysis (go tool trace)
+pprof Tool
+Reading Flame Graphs
+Execution Tracer
+
+Runtime Debugging
+
+GODEBUG Environment Variable
+gctrace - GC Tracing
+schedtrace - Scheduler Tracing
+Race Detector Implementation (-race)
+Memory Sanitizer
+Building Go from Source
+Runtime Hacker's Guide
+
+Performance Implications
+
+Function Call Overhead
+Inlining Decisions
+Pointer vs Value Semantics
+Cache Locality
+False Sharing
+Memory Alignment
+Struct Padding
+Hot Path Optimization
+
+Advanced Runtime Topics
+
+Signal Handling in Go
+Cgo Performance Impact
+Go Assembly (Plan 9 syntax)
+Writing Assembly in Go
+Compiler Directives (//go:)
+
+//go:noinline
+//go:nosplit
+//go:linkname
 
 
-Troubleshooting
-go clean -modcache              # Clear module cache
-go mod download                 # Re-download modules
-go get -d ./...                 # Download without installing
-go list -m -json all            # Debug module information
-```
+Runtime Locks & Atomics
+M:N Threading Model
+OS Thread Limits
 
+Tools for Understanding Internals
 
+go build -gcflags="-m" - Escape Analysis
+go tool compile -S - Assembly Output
+go tool objdump - Disassemble Binary
+go tool nm - Symbol Table
+go tool pprof - Profiling
+go tool trace - Execution Trace
+dlv (Delve Debugger)
 
-4. Testing
-```
-# check tests coverage
-go test ./... -cover
-```
+Reading Material & Resources
+
+Go Runtime Source Code (runtime/ package)
+Go Internal Documentation
+GopherCon Talks on Internals
+"Go Under the Hood" Book
+Compiler & Runtime Papers
