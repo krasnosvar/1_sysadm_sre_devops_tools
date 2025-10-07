@@ -407,9 +407,28 @@ sudo dnf install windsurf -y
 sudo rpm --import https://releases.warp.dev/linux/keys/warp.asc
 sudo sh -c 'echo -e "[warpdotdev]\nname=warpdotdev\nbaseurl=https://releases.warp.dev/linux/rpm/stable\nenabled=1\ngpgcheck=1\ngpgkey=https://releases.warp.dev/linux/keys/warp.asc" > /etc/yum.repos.d/warpdotdev.repo'
 sudo dnf install warp-terminal
+# nvm for Ai cli tools
 # Install Google Gemini CLI
 # https://github.com/google-gemini/gemini-cli
-sudo npm install -g @google/gemini-cli
+# sudo npm install -g @google/gemini-cli
+# sudo npm uninstall -g @google/gemini-cli
+# https://github.com/nvm-sh/nvm#installing-and-updating
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+nvm install --lts
+nvm use --lts
+# ai tools
+# https://openai.com/codex/
+#  To get started, describe a task or try one of these commands:
+#   /init - create an AGENTS.md file with instructions for Codex
+#   /status - show current session configuration
+#   /approvals - choose what Codex can do without approval
+#   /model - choose what model and reasoning effort to use
+npx @openai/codex
+# https://claude.com/product/claude-code
+npx @anthropic-ai/claude-code
+# https://github.com/google-gemini/gemini-cli
+npx @google/gemini-cli
+
 
 
 # time management
