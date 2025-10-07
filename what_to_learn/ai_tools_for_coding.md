@@ -9,6 +9,8 @@
 2. CLI Ai tools
 * [Warp](https://www.warp.dev/download)
 * [gemini-cli](https://github.com/google-gemini/gemini-cli)
+* [Codex from OpenAi](https://openai.com/codex/)
+* [Claude code from Anthropic](https://claude.com/product/claude-code)
 * [aider](https://aider.chat)
 * [aicmdtools](https://github.com/Piotr1215/aicmdtools)
 
