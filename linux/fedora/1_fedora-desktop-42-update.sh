@@ -2,11 +2,55 @@
 
 # OS Utils, Repos
 #!/usr/bin/env bash
-sudo dnf upgrade --refresh
-# on non-Fedora RHEL-like distribs- enable EPEL first: https://www.redhat.com/en/blog/install-epel-linux
+
+# ============================================================================
+# ARCHITECTURE AND VERSION DETECTION
+# ============================================================================
 # Detect Fedora version
 FEDORA_VERSION=$(grep -oP 'VERSION_ID=\K\d+' /etc/os-release)
 FEDORA_VERSION=${FEDORA_VERSION:-$(rpm -E %fedora 2>/dev/null || echo "42")}  # Fallback to 42 if not detected
+
+# Detect system architecture once
+SYSTEM_ARCH=$(uname -m)
+
+# Map architecture to common naming conventions
+case "${SYSTEM_ARCH}" in
+    x86_64)
+        ARCH_AMD64="amd64"
+        ARCH_X86_64="x86_64"
+        ARCH_LINUX64="linux64"
+        ARCH_ARM64=""
+        ARCH_AARCH64=""
+        ;;
+    aarch64)
+        ARCH_AMD64="arm64"
+        ARCH_X86_64="aarch64"
+        ARCH_LINUX64="linux-aarch64"
+        ARCH_ARM64="arm64"
+        ARCH_AARCH64="aarch64"
+        ;;
+    *)
+        echo "Unsupported architecture: ${SYSTEM_ARCH}"
+        exit 1
+        ;;
+esac
+
+# ============================================================================
+# APPLICATION VERSIONS
+# ============================================================================
+TERRAGRUNT_VERSION="v0.73.5"
+HELM_VERSION="v3.17.4"
+HELM_SECRETS_VERSION="v4.6.5"
+HELM_DIFF_VERSION="v3.12.3"
+HELMFILE_VERSION="v1.1.3"
+ISTIO_VERSION="1.26.2"
+GOLANGCI_LINT_VERSION="v2.3.0"
+MONGODB_COMPASS_VERSION="1.40.4"
+MONGODB_ATLAS_CLI_VERSION="1.46.2"
+NVM_VERSION="v0.40.3"
+
+sudo dnf upgrade --refresh
+# on non-Fedora RHEL-like distribs- enable EPEL first: https://www.redhat.com/en/blog/install-epel-linux
 
 # Add RPM Fusion repo
 # https://rpmfusion.org/Configuration
@@ -48,6 +92,9 @@ sudo dnf install -y \
 # screen recording, streaming
 # https://github.com/obsproject/obs-studio/wiki/install-instructions#flatpak
 flatpak install --user -y flathub com.obsproject.Studio
+# time management
+flatpak install --user -y flathub io.github.mlm_games.pomodorot
+
 
 #Virtualization
 # https://docs.fedoraproject.org/en-US/quick-docs/virtualization-getting-started/
@@ -127,28 +174,23 @@ sudo dnf install -y mssql-tools unixODBC-devel
 # ------------------------
 # DBeaver - Universal Database Tool
 # https://dbeaver.io/download/
-sudo dnf install https://dbeaver.io/files/dbeaver-ce-latest-stable.x86_64.rpm -y
+if [ "${SYSTEM_ARCH}" = "x86_64" ]; then
+    sudo dnf install https://dbeaver.io/files/dbeaver-ce-latest-stable.x86_64.rpm -y
+else
+    echo "DBeaver RPM not available for architecture ${SYSTEM_ARCH}, consider flatpak or manual installation"
+fi
+# DataGrip - JetBrains Database IDE
+flatpak install --user -y flathub com.jetbrains.DataGrip
 # MongoDB Tools
 # ------------
 # MongoDB CLI tools
 # mongocli - MongoDB Command Line Interface
 # https://www.mongodb.com/docs/mongocli/current/install/
-# Detect and set MongoDB architecture
-MONGODB_ARCH=$(uname -m)
-if [ "${MONGODB_ARCH}" = "x86_64" ]; then
-    MONGODB_ARCH="x86_64"
-elif [ "${MONGODB_ARCH}" = "aarch64" ]; then
-    MONGODB_ARCH="aarch64"
-else
-    echo "Unsupported architecture for MongoDB: ${MONGODB_ARCH}"
-    exit 1
-fi
-
 # MongoDB repository configuration
 sudo tee /etc/yum.repos.d/mongodb-org-6.0.repo <<EOF
 [mongodb-org-6.0]
 name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/redhat/9/mongodb-org/6.0/${MONGODB_ARCH}/
+baseurl=https://repo.mongodb.org/yum/redhat/9/mongodb-org/6.0/${ARCH_X86_64}/
 gpgcheck=1
 enabled=1
 gpgkey=https://www.mongodb.org/static/pgp/server-6.0.asc
@@ -157,38 +199,38 @@ sudo dnf install mongocli mongodb-database-tools -y
 # MongoDB Compass - Official GUI
 # https://www.mongodb.com/try/download/compass
 # Download MongoDB Compass for the correct architecture
-if [ "$(uname -m)" = "x86_64" ]; then
-    wget -O mongodb-compass.rpm https://downloads.mongodb.com/compass/mongodb-compass-1.40.4.x86_64.rpm
-elif [ "$(uname -m)" = "aarch64" ]; then
-    wget -O mongodb-compass.rpm https://downloads.mongodb.com/compass/mongodb-compass-1.40.4.aarch64.rpm
+if [ -n "${ARCH_X86_64}" ]; then
+    wget -O mongodb-compass.rpm https://downloads.mongodb.com/compass/mongodb-compass-${MONGODB_COMPASS_VERSION}.${ARCH_X86_64}.rpm
+    sudo dnf install -y ./mongodb-compass.rpm
+    rm mongodb-compass.rpm
 else
-    echo "MongoDB Compass not available for architecture $(uname -m)"
+    echo "MongoDB Compass not available for architecture ${SYSTEM_ARCH}"
 fi
-sudo dnf install -y ./mongodb-compass.rpm
-rm mongodb-compass.rpm
 # MongoDB Atlas CLI
 # https://www.mongodb.com/docs/atlas/cli/current/install-atlas-cli/#install-the-atlas-cli.-1
 # Install MongoDB Atlas CLI for the correct architecture
-if [ "$(uname -m)" = "x86_64" ]; then
-    sudo dnf install -y https://fastdl.mongodb.org/mongocli/mongodb-atlas-cli_1.46.2_linux_x86_64.rpm
-elif [ "$(uname -m)" = "aarch64" ]; then
-    sudo dnf install -y https://fastdl.mongodb.org/mongocli/mongodb-atlas-cli_1.46.2_linux_arm64.rpm
+if [ "${SYSTEM_ARCH}" = "x86_64" ]; then
+    sudo dnf install -y https://fastdl.mongodb.org/mongocli/mongodb-atlas-cli_${MONGODB_ATLAS_CLI_VERSION}_linux_x86_64.rpm
+elif [ "${SYSTEM_ARCH}" = "aarch64" ]; then
+    sudo dnf install -y https://fastdl.mongodb.org/mongocli/mongodb-atlas-cli_${MONGODB_ATLAS_CLI_VERSION}_linux_arm64.rpm
 else
-    echo "MongoDB Atlas CLI not available for architecture $(uname -m)"
+    echo "MongoDB Atlas CLI not available for architecture ${SYSTEM_ARCH}"
 fi
 # Redis Tools
 # ----------
 # RedisInsight - GUI for Redis
 # Download RedisInsight for the correct architecture
-if [ "$(uname -m)" = "x86_64" ]; then
+if [ "${SYSTEM_ARCH}" = "x86_64" ]; then
     wget -O redisinsight.rpm https://download.redisinsight.redis.com/latest/redisinsight-linux64.rpm
-elif [ "$(uname -m)" = "aarch64" ]; then
+    sudo dnf install -y ./redisinsight.rpm
+    rm redisinsight.rpm
+elif [ "${SYSTEM_ARCH}" = "aarch64" ]; then
     wget -O redisinsight.rpm https://download.redisinsight.redis.com/latest/redisinsight-linux-aarch64.rpm
+    sudo dnf install -y ./redisinsight.rpm
+    rm redisinsight.rpm
 else
-    echo "RedisInsight not available for architecture $(uname -m)"
+    echo "RedisInsight not available for architecture ${SYSTEM_ARCH}"
 fi
-sudo dnf install -y ./redisinsight.rpm
-rm redisinsight.rpm
 # SQLite Browser - GUI for SQLite
 sudo dnf install sqlitebrowser -y
 
@@ -205,7 +247,7 @@ curl --proto '=https' --tlsv1.2 -fsSL https://get.opentofu.org/install-opentofu.
 # terragrunt
 # https://github.com/gruntwork-io/terragrunt/releases
 # https://terragrunt.gruntwork.io/docs/getting-started/install
-sudo wget -c https://github.com/gruntwork-io/terragrunt/releases/download/v0.73.5/terragrunt_linux_amd64 \
+sudo wget -c https://github.com/gruntwork-io/terragrunt/releases/download/${TERRAGRUNT_VERSION}/terragrunt_linux_${ARCH_AMD64} \
   -O  /usr/local/bin/terragrunt
 sudo chmod 0655 /usr/local/bin/terragrunt
 # docker
@@ -214,19 +256,8 @@ sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linu
 sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 sudo usermod -a -G docker $USER
 #kubectl
-# Detect architecture for kubectl
-ARCH=$(uname -m)
-case "${ARCH}" in
-    x86_64) ARCH=amd64 ;;
-    aarch64) ARCH=arm64 ;;
-    armv7l) ARCH=arm ;;
-    ppc64le) ARCH=ppc64le ;;
-    s390x) ARCH=s390x ;;
-    *) echo "Unsupported architecture: ${ARCH}"; exit 1 ;;
-esac
-
 KUBE_VERSION=$(curl -L -s https://dl.k8s.io/release/stable.txt)
-curl -LO "https://dl.k8s.io/release/${KUBE_VERSION}/bin/linux/${ARCH}/kubectl"
+curl -LO "https://dl.k8s.io/release/${KUBE_VERSION}/bin/linux/${ARCH_AMD64}/kubectl"
 chmod +x kubectl
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 rm kubectl
@@ -256,7 +287,7 @@ sudo mv ./kubectl-node_shell /usr/local/bin/kubectl-node_shell
 sudo dnf copr enable luminoso/k9s -y
 sudo dnf install k9s -y
 # helm
-wget -qO- https://get.helm.sh/helm-v3.17.4-linux-amd64.tar.gz | tar xz -O linux-amd64/helm | \
+wget -qO- https://get.helm.sh/helm-${HELM_VERSION}-linux-${ARCH_AMD64}.tar.gz | tar xz -O linux-${ARCH_AMD64}/helm | \
   sudo tee /usr/local/bin/helm > /dev/null && sudo chmod +x /usr/local/bin/helm
 # age
 # https://github.com/FiloSottile/age#installation
@@ -264,17 +295,21 @@ sudo dnf install age yq jq tmux byobu awscli2 -y
 # sops
 # https://gist.github.com/patrickmslatteryvt/d531c5ae4598fd4c9d508833bde6c7c0
 SOPS_VERSION=$(curl -s https://api.github.com/repos/getsops/sops/releases/latest | jq .tag_name | tr -d '"')
-dnf install -y https://github.com/getsops/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION:1}-1.x86_64.rpm
-sops --version
+if [ "${SYSTEM_ARCH}" = "x86_64" ]; then
+    dnf install -y https://github.com/getsops/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION:1}-1.x86_64.rpm
+    sops --version
+else
+    echo "SOPS RPM not available for architecture ${SYSTEM_ARCH}, consider manual installation"
+fi
 # helm plugins
-helm plugin install https://github.com/jkroepke/helm-secrets --version v4.6.5
-helm plugin install https://github.com/databus23/helm-diff --version v3.12.3
+helm plugin install https://github.com/jkroepke/helm-secrets --version ${HELM_SECRETS_VERSION}
+helm plugin install https://github.com/databus23/helm-diff --version ${HELM_DIFF_VERSION}
 # helmfile
-wget -qO- https://github.com/helmfile/helmfile/releases/download/v1.1.3/helmfile_1.1.3_linux_amd64.tar.gz | sudo tar xz -C /usr/local/bin && sudo chmod +x /usr/local/bin/helmfile
+wget -qO- https://github.com/helmfile/helmfile/releases/download/${HELMFILE_VERSION}/helmfile_${HELMFILE_VERSION:1}_linux_${ARCH_AMD64}.tar.gz | sudo tar xz -C /usr/local/bin && sudo chmod +x /usr/local/bin/helmfile
 # Database tools moved to the 'Database Tools' section above
 
 # istioctl
-wget -qO- https://github.com/istio/istio/releases/download/1.26.2/istioctl-1.26.2-linux-amd64.tar.gz | sudo tar xz -C /usr/local/bin && sudo chmod +x /usr/local/bin/istioctl
+wget -qO- https://github.com/istio/istio/releases/download/${ISTIO_VERSION}/istioctl-${ISTIO_VERSION}-linux-${ARCH_AMD64}.tar.gz | sudo tar xz -C /usr/local/bin && sudo chmod +x /usr/local/bin/istioctl
 # jsonnet
 sudo dnf install -y jsonnet
 
@@ -284,10 +319,10 @@ sudo dnf install python3 python3.9 python3.10 python3.12 -y
 #install go
 # https://developer.fedoraproject.org/tech/languages/go/go-installation.html
 sudo dnf install golang -y
-# golangci-lint --version 
-sudo dnf install https://github.com/golangci/golangci-lint/releases/download/v2.3.0/golangci-lint-2.3.0-linux-amd64.rpm -y
 #for java keytool
 dnf search openjdk
+# golangci-lint
+sudo dnf install https://github.com/golangci/golangci-lint/releases/download/${GOLANGCI_LINT_VERSION}/golangci-lint-${GOLANGCI_LINT_VERSION:1}-linux-${ARCH_AMD64}.rpm -y
 # git, editors - nvim, vscode
 sudo dnf install vim neovim -y
 git config --global user.name "krasnosvar"
@@ -315,7 +350,7 @@ cp files/vscode/settings.json $HOME/.config/VSCodium/User/settings.json
 mkdir -p $HOME/.config/Code/User/
 cp files/vscode/settings.json $HOME/.config/Code/User/settings.json
 # arduino
-flatpak install flathub cc.arduino.IDE2
+flatpak install --user -y flathub cc.arduino.IDE2
 # Install Arduino Lab for MicroPython
 APPDIR="$HOME/Applications/arduino-lab-micropython"
 mkdir -p "$APPDIR"
@@ -371,7 +406,7 @@ sudo dnf httpie -y
 # The Postman VS Code extension
 # https://marketplace.visualstudio.com/items?itemName=Postman.postman-for-vscode
 # flatpak via flatpak
-# flatpak install flathub com.getpostman.Postman
+# flatpak install --user -y flathub com.getpostman.Postman
 flatpak install --user --assumeyes flathub rest.insomnia.Insomnia
 #Insomnia
 # https://insomnia.rest
@@ -385,7 +420,7 @@ flatpak install --user -y flathub rest.insomnia.Insomnia
 sudo dnf copr enable waaiez/cursor
 sudo dnf install cursor
 #Zed IDE
-flatpak install flathub dev.zed.Zed
+flatpak install --user -y flathub dev.zed.Zed
 # Windsurf IDE
 # https://windsurf.com/download/editor?os=linux
 # add gpg-key
@@ -413,7 +448,7 @@ sudo dnf install warp-terminal
 # sudo npm install -g @google/gemini-cli
 # sudo npm uninstall -g @google/gemini-cli
 # https://github.com/nvm-sh/nvm#installing-and-updating
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash
 nvm install --lts
 nvm use --lts
 # ai tools
@@ -431,5 +466,3 @@ npx @google/gemini-cli
 
 
 
-# time management
-flatpak install flathub io.github.mlm_games.pomodorot
