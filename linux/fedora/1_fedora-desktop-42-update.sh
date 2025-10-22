@@ -44,6 +44,7 @@ HELM_SECRETS_VERSION="v4.6.5"
 HELM_DIFF_VERSION="v3.12.3"
 HELMFILE_VERSION="v1.1.3"
 ISTIO_VERSION="1.26.2"
+GOLANG_VERSION="1.25.3"
 GOLANGCI_LINT_VERSION="v2.3.0"
 MONGODB_COMPASS_VERSION="1.40.4"
 MONGODB_ATLAS_CLI_VERSION="1.46.2"
@@ -286,6 +287,11 @@ sudo mv ./kubectl-node_shell /usr/local/bin/kubectl-node_shell
 #k9s
 sudo dnf copr enable luminoso/k9s -y
 sudo dnf install k9s -y
+# kops k0ps
+# https://kops.sigs.k8s.io/getting_started/install/
+curl -Lo kops https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64 
+chmod +x kops
+sudo mv kops /usr/local/bin/kops
 # helm
 wget -qO- https://get.helm.sh/helm-${HELM_VERSION}-linux-${ARCH_AMD64}.tar.gz | tar xz -O linux-${ARCH_AMD64}/helm | \
   sudo tee /usr/local/bin/helm > /dev/null && sudo chmod +x /usr/local/bin/helm
@@ -318,7 +324,11 @@ sudo dnf install -y jsonnet
 sudo dnf install python3 python3.9 python3.10 python3.12 -y
 #install go
 # https://developer.fedoraproject.org/tech/languages/go/go-installation.html
-sudo dnf install golang -y
+# sudo dnf install golang -y
+sudo rm -rf /usr/local/go && \
+sudo curl -L https://go.dev/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz | sudo tar -C /usr/local -xz && \
+grep -qxF 'export PATH=$PATH:/usr/local/go/bin' ~/.zshrc || echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.zshrc && \
+source ~/.zshrc && go version
 #for java keytool
 dnf search openjdk
 # golangci-lint
@@ -451,18 +461,15 @@ sudo dnf install warp-terminal
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash
 nvm install --lts
 nvm use --lts
-# ai tools
-# https://openai.com/codex/
-#  To get started, describe a task or try one of these commands:
-#   /init - create an AGENTS.md file with instructions for Codex
-#   /status - show current session configuration
-#   /approvals - choose what Codex can do without approval
-#   /model - choose what model and reasoning effort to use
-npx @openai/codex
-# https://claude.com/product/claude-code
-npx @anthropic-ai/claude-code
-# https://github.com/google-gemini/gemini-cli
-npx @google/gemini-cli
-
-
-
+# # ai tools
+# # https://openai.com/codex/
+# #  To get started, describe a task or try one of these commands:
+# #   /init - create an AGENTS.md file with instructions for Codex
+# #   /status - show current session configuration
+# #   /approvals - choose what Codex can do without approval
+# #   /model - choose what model and reasoning effort to use
+# npx @openai/codex
+# # https://claude.com/product/claude-code
+# npx @anthropic-ai/claude-code
+# # https://github.com/google-gemini/gemini-cli
+# npx @google/gemini-cli
