@@ -28,11 +28,11 @@ git config --global user.name "krasnosvar"
 
 #Main OS apps
 brew install --cask keepassxc
-brew install --cask copyq
+brew install --cask maccy
 # Install additional multimedia and productivity apps
 brew install --cask blender
 brew install --cask inkscape
-brew install --cask flameshot
+brew install --cask lightshot
 brew install --cask libreoffice
 # Install libheif for HEIC image support
 brew install libheif
@@ -58,6 +58,7 @@ brew install watch
 brew install byobu
 brew install tree
 brew install --cask termius
+brew install --cask wifi-explorer
 
 #displaylink
 brew tap homebrew/cask-drivers
