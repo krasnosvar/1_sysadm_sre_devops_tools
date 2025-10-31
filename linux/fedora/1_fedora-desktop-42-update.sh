@@ -150,6 +150,10 @@ sudo dnf install opera-stable -y
 sudo dnf install arp-scan mtr wireshark traceroute openssh-server arping \
   sshuttle openconnect NetworkManager-openconnect openfortivpn remmina -y
 sudo usermod -a -G wireshark $USER
+# GlobalProtect OpenConnect VPN client
+# https://github.com/yuezk/GlobalProtect-openconnect
+sudo dnf copr enable yuezk/globalprotect-openconnect -y
+sudo dnf install globalprotect-openconnect -y
 
 
 # Database Tools
@@ -289,6 +293,17 @@ sudo mv ./kubectl-node_shell /usr/local/bin/kubectl-node_shell
 #k9s
 sudo dnf copr enable luminoso/k9s -y
 sudo dnf install k9s -y
+# Lens - Kubernetes IDE
+# https://k8slens.dev/
+sudo tee /etc/yum.repos.d/lens.repo > /dev/null <<EOF
+[lens-repo]
+name=Lens Repo
+baseurl=https://downloads.k8slens.dev/rpm/packages
+enabled=1
+gpgcheck=1
+gpgkey=https://downloads.k8slens.dev/keys/gpg
+EOF
+sudo dnf install lens -y
 # kops k0ps
 # https://kops.sigs.k8s.io/getting_started/install/
 curl -Lo kops https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64 
@@ -424,15 +439,42 @@ flatpak install --user --assumeyes flathub rest.insomnia.Insomnia
 # https://insomnia.rest
 # https://flathub.org/apps/rest.insomnia.Insomnia
 flatpak install --user -y flathub rest.insomnia.Insomnia
+# Slack
+# https://slack.com/downloads/linux
+sudo tee /etc/yum.repos.d/slack.repo > /dev/null <<EOF
+[slack]
+name=slack
+baseurl=https://packagecloud.io/slacktechnologies/slack/fedora/21/x86_64
+enabled=1
+gpgcheck=0
+gpgkey=https://packagecloud.io/gpg.key
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+EOF
+sudo dnf install slack -y
 
 
 # ai tools
 # Cursor
-# https://copr.fedorainfracloud.org/coprs/waaiez/cursor/
-sudo dnf copr enable waaiez/cursor
-sudo dnf install cursor
+# https://cursor.com/
+# https://downloads.cursor.com/
+sudo tee /etc/yum.repos.d/cursor.repo > /dev/null <<EOF
+[cursor]
+name=Cursor
+baseurl=https://downloads.cursor.com/yumrepo
+enabled=1
+gpgcheck=1
+gpgkey=https://downloads.cursor.com/keys/anysphere.asc
+repo_gpgcheck=1
+EOF
+sudo dnf install cursor -y
 #Zed IDE
-flatpak install --user -y flathub dev.zed.Zed
+# https://zed.dev/
+# Option 1: via COPR
+sudo dnf copr enable iitzrohan/zed -y
+sudo dnf install zed -y
+# Option 2: via Flatpak (commented out, use one or the other)
+# flatpak install --user -y flathub dev.zed.Zed
 # Windsurf IDE
 # https://windsurf.com/download/editor?os=linux
 # add gpg-key
