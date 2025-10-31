@@ -241,6 +241,8 @@ sudo dnf install sqlitebrowser -y
 # https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
 sudo dnf config-manager addrepo --from-repofile=https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
 sudo dnf -y install terraform
+# packer
+sudo dnf -y install packer
 # install tofu - free terraform
 # https://opentofu.org/docs/intro/install/rpm/
 # One-liner using the official installer (RPM method):
