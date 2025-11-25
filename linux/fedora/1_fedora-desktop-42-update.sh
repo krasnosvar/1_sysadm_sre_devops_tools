@@ -90,6 +90,8 @@ sudo dnf install -y intel-gpu-tools radeontop nvtop
 sudo dnf install -y \
   libreoffice gimp libheif-freeworld gimp-devel inkscape blender audacity vlc flameshot telegram \
   librecad kicad kicad-packages3d kicad-doc multimedia ffmpeg-libs # freecad
+# Obsidian stores notes privately on your device
+flatpak install --user -y flathub md.obsidian.Obsidian
 # screen recording, streaming
 # https://github.com/obsproject/obs-studio/wiki/install-instructions#flatpak
 flatpak install --user -y flathub com.obsproject.Studio
