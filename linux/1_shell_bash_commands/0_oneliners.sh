@@ -1,5 +1,7 @@
 ---------------------------------------------------------------------------------------------
 #most used oneliners
+
+
 #update ubuntu apps ( apt and snap, and remove older versions of snaps)
 sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y && sudo snap refresh && snap list --all | \
 awk '/disabled/{print $1, $3}' | while read name rev; do sudo snap remove "$name" --revision="$rev"; done && \
@@ -7,9 +9,9 @@ flatpak update -y && sudo pip3 list --outdated | awk 'NR>2{print $1}'| xargs pip
 pip3 list --outdated | awk 'NR>2{print $1}'| xargs pip3 install -U
 
 
-#update fedore apps
-sudo dnf update -y && \
-flatpak update --force-remove -y
+#update fedora apps
+sudo dnf update --refresh -y && sudo dnf autoremove -y && \
+flatpak update --force-remove -y && npm install -g npm@latest && npm outdated -g && npm update -g
 
 
 #git
@@ -89,5 +91,3 @@ for f in *; do mv "$f" `echo $f | tr ' ' '_'`; done
 
 #create sleep, fetch PID and renice it
 ( sleep 10000 & echo $! >&3 ) 3>pid | renice -n 15 -p $(<pid)
-
-
