@@ -44,7 +44,7 @@ HELM_SECRETS_VERSION="v4.6.5"
 HELM_DIFF_VERSION="v3.12.3"
 HELMFILE_VERSION="v1.1.3"
 ISTIO_VERSION="1.26.2"
-GOLANG_VERSION="1.25.3"
+GOLANG_VERSION="1.25.5"
 GOLANGCI_LINT_VERSION="v2.3.0"
 MONGODB_COMPASS_VERSION="1.40.4"
 MONGODB_ATLAS_CLI_VERSION="1.46.2"
@@ -178,11 +178,7 @@ sudo dnf install -y mssql-tools unixODBC-devel
 # ------------------------
 # DBeaver - Universal Database Tool
 # https://dbeaver.io/download/
-if [ "${SYSTEM_ARCH}" = "x86_64" ]; then
-    sudo dnf install https://dbeaver.io/files/dbeaver-ce-latest-stable.x86_64.rpm -y
-else
-    echo "DBeaver RPM not available for architecture ${SYSTEM_ARCH}, consider flatpak or manual installation"
-fi
+flatpak install --user -y flathub io.dbeaver.DBeaverCommunity
 # DataGrip - JetBrains Database IDE
 flatpak install --user -y flathub com.jetbrains.DataGrip
 # MongoDB Tools
@@ -345,10 +341,12 @@ sudo rm -rf /usr/local/go && \
 sudo curl -L https://go.dev/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz | sudo tar -C /usr/local -xz && \
 grep -qxF 'export PATH=$PATH:/usr/local/go/bin' ~/.zshrc || echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.zshrc && \
 source ~/.zshrc && go version
-#for java keytool
-dnf search openjdk
 # golangci-lint
 sudo dnf install https://github.com/golangci/golangci-lint/releases/download/${GOLANGCI_LINT_VERSION}/golangci-lint-${GOLANGCI_LINT_VERSION:1}-linux-${ARCH_AMD64}.rpm -y
+# go grpc tools
+sudo dnf install protobuf-compiler golang-google-protobuf golang-google-grpc -y
+#for java keytool
+dnf search openjdk
 # git, editors - nvim, vscode
 sudo dnf install vim neovim -y
 git config --global user.name "krasnosvar"
