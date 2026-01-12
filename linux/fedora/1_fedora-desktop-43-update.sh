@@ -92,8 +92,8 @@ sudo dnf install -y \
   librecad kicad kicad-packages3d kicad-doc multimedia ffmpeg-libs obs-studio
 # Obsidian stores notes privately on your device
 flatpak install --user -y flathub md.obsidian.Obsidian
-
-
+# video editors
+flatpak install --user -y flathub org.openshot.OpenShot org.shotcut.Shotcut
 
 
 #Virtualization
