@@ -44,7 +44,7 @@ HELM_SECRETS_VERSION="v4.6.5"
 HELM_DIFF_VERSION="v3.12.3"
 HELMFILE_VERSION="v1.1.3"
 ISTIO_VERSION="1.26.2"
-GOLANG_VERSION="1.25.5"
+GOLANG_VERSION="1.25.6"
 GOLANGCI_LINT_VERSION="v2.3.0"
 MONGODB_COMPASS_VERSION="1.40.4"
 MONGODB_ATLAS_CLI_VERSION="1.46.2"
@@ -141,18 +141,48 @@ EOF
 sudo dnf install opera-stable -y
 
 
-#nettools
-#arp-scan - arp-scan --interface=enp0s3 --localnet
-#SIP-protocol analyzer- sngrep
-#mtr combines the functionality of the traceroute and ping programs in a single network diagnostic tool.
-#mtr -i 0.1 yoursite.com
-sudo dnf install arp-scan mtr wireshark traceroute openssh-server arping \
-  sshuttle openconnect NetworkManager-openconnect openfortivpn remmina -y
+# Network Tools & VPN Clients
+# ==========================
+
+# Network Diagnostic Tools
+# ------------------------
+# arp-scan: ARP scanning tool to discover hosts on a local network
+# mtr: Real-time network diagnostic tool (combines ping and traceroute)
+# wireshark: Network protocol analyzer (packet sniffer)
+# traceroute: Tool to trace the path of packets to a host
+# arping: Tool to send ARP requests to a neighbor host
+# sngrep: SIP (Session Initiation Protocol) packet analyzer
+sudo dnf install -y arp-scan mtr wireshark traceroute arping sngrep
 sudo usermod -a -G wireshark $USER
-# GlobalProtect OpenConnect VPN client
-# https://github.com/yuezk/GlobalProtect-openconnect
-sudo dnf copr enable yuezk/globalprotect-openconnect -y
-sudo dnf install globalprotect-openconnect -y
+
+# Remote Access & Administration
+# ------------------------------
+# openssh-server: Secure Shell server for remote access
+# remmina: Universal remote desktop client (RDP, VNC, SSH)
+# sshuttle: VPN-like tunnel over SSH (doesn't require admin on server)
+sudo dnf install -y openssh-server remmina sshuttle
+
+# VPN Clients & Network Integration
+# ---------------------------------
+# plasma-nm: KDE Plasma NetworkManager applet
+# openvpn: Open source VPN software and its NetworkManager plugin
+# openconnect: Client for Cisco AnyConnect, GlobalProtect, and Juniper VPNs
+# wireguard-tools: Tools for configuring WireGuard VPN tunnels
+# openfortivpn: Client for Fortinet SSL VPNs
+sudo dnf install -y \
+  plasma-nm \
+  openvpn NetworkManager-openvpn \
+  openconnect NetworkManager-openconnect \
+  wireguard-tools \
+  openfortivpn
+
+# Specialized VPN Desktop Clients
+# -------------------------------
+# Happ: Modern proxy-based VPN client (RPM)
+sudo dnf install -y https://github.com/Happ-proxy/happ-desktop/releases/download/1.5.2/Happ.linux.x64.rpm
+
+# Amnezia: Self-hosted VPN client for privacy (Flatpak)
+flatpak install --user -y flathub org.amnezia.VPN
 
 
 # Database Tools
