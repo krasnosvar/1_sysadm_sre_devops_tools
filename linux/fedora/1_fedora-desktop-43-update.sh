@@ -448,7 +448,7 @@ $ideEditor --install-extension ms-vscode-remote.remote-containers # for docker
 $ideEditor --install-extension golang.Go
 $ideEditor --install-extension tomoki1207.pdf # pdf reader in codium
 $ideEditor --install-extension Codeium.codeium # windsurf AI plugin
-$ideEditor --install-extension saoudrizwan.claude-dev
+# $ideEditor --install-extension saoudrizwan.claude-dev
 $ideEditor --install-extension github.copilot-chat # ai chat
 done
 
