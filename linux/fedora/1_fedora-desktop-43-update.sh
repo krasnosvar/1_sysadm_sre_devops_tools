@@ -432,8 +432,6 @@ sudo dnf install -y nodejs
 
 #VScode extensions
 #https://stackoverflow.com/questions/34286515/how-to-install-visual-studio-code-extensions-from-command-line
-
-
 for ideEditor in code codium; do
 $ideEditor --install-extension ms-python.python
 $ideEditor --install-extension redhat.vscode-yaml
@@ -444,11 +442,13 @@ $ideEditor --install-extension eamodio.gitlens # git repo commits view directly 
 $ideEditor --install-extension gitlab.gitlab-workflow
 $ideEditor --install-extension hashicorp.terraform
 $ideEditor --install-extension davidanson.vscode-markdownlint
+$ideEditor --install-extension domdomegg.markdown-inline-preview-vscode # removes md symbols in editor
 $ideEditor --install-extension mathiasfrohlich.kotlin # kotlin syntax highlight
 $ideEditor --install-extension ms-vscode-remote.remote-containers # for docker
 $ideEditor --install-extension golang.Go
 $ideEditor --install-extension tomoki1207.pdf # pdf reader in codium
 $ideEditor --install-extension Codeium.codeium # windsurf AI plugin
+$ideEditor --install-extension saoudrizwan.claude-dev
 $ideEditor --install-extension github.copilot-chat # ai chat
 done
 
