@@ -544,3 +544,13 @@ nvm use --lts
 # npx @anthropic-ai/claude-code
 # # https://github.com/google-gemini/gemini-cli
 # npx @google/gemini-cli
+# Google Antigravity IDE
+# https://antigravity.google
+sudo tee /etc/yum.repos.d/antigravity.repo <<'EOF'
+[antigravity-rpm]
+name=Antigravity RPM Repository
+baseurl=https://us-central1-yum.pkg.dev/projects/antigravity-auto-updater-dev/antigravity-rpm
+enabled=1
+gpgcheck=0
+EOF
+sudo dnf install -y antigravity
