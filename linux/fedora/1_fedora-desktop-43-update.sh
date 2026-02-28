@@ -89,7 +89,8 @@ sudo dnf install -y intel-gpu-tools radeontop nvtop
 # libheif-freeworld - for open iphone HEIC format in Gwenview or GIMP
 sudo dnf install -y \
   libreoffice gimp libheif-freeworld gimp-devel inkscape blender audacity vlc flameshot telegram \
-  librecad kicad kicad-packages3d kicad-doc multimedia ffmpeg-libs obs-studio
+  librecad kicad kicad-packages3d kicad-doc multimedia ffmpeg-libs obs-studio 
+sudo dnf install mpv -y # video player, no sound ussues
 # Obsidian stores notes privately on your device
 flatpak install --user -y flathub md.obsidian.Obsidian
 # video editors
@@ -375,6 +376,8 @@ source ~/.zshrc && go version
 sudo dnf install https://github.com/golangci/golangci-lint/releases/download/${GOLANGCI_LINT_VERSION}/golangci-lint-${GOLANGCI_LINT_VERSION:1}-linux-${ARCH_AMD64}.rpm -y
 # go grpc tools
 sudo dnf install protobuf-compiler golang-google-protobuf golang-google-grpc -y
+# go pprof web UI dependency (Graphviz)
+sudo dnf install graphviz -y
 #for java keytool
 dnf search openjdk
 # git, editors - nvim, vscode
@@ -450,6 +453,7 @@ $ideEditor --install-extension tomoki1207.pdf # pdf reader in codium
 $ideEditor --install-extension Codeium.codeium # windsurf AI plugin
 # $ideEditor --install-extension saoudrizwan.claude-dev
 $ideEditor --install-extension github.copilot-chat # ai chat
+$ideEditor --install-extension mtxr.sqltools # SQLTools
 done
 
 
