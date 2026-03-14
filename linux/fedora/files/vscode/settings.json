@@ -1,37 +1,89 @@
 {
     // ==============================================================================
-    // VS Code Settings - Merged Configuration
-    // Includes Go package auto-completion disabled + your existing settings
+    // VS Code Settings - Final Stable Configuration (GoLand-like)
     // ==============================================================================
-    
-    // Red Hat telemetry
+    // --- UI & Theme ---
+    "workbench.colorTheme": "Visual Studio Light",
+    "workbench.editor.titleScrollbarSizing": "large",
     "redhat.telemetry.enabled": false,
-    
-    // Terminal configuration
+    // --- Terminal ---
     "terminal.integrated.fontFamily": "Menlo for Powerline",
     "terminal.integrated.fontWeightBold": "bold",
     "terminal.integrated.enableMultiLinePasteWarning": false,
-
-    // Python formatting
-    "[python]": {
-        "editor.formatOnType": true
-    },
-    
-    // Go extension settings
-    "go.toolsManagement.autoUpdate": true,
-    "go.survey.prompt": false,
-    // Disable automatic package insertion in new Go files
-    "go.templateAutoImports": false,
-    "go.addTags": false,
-    "go.formatOnSave": false,
-    "go.useCodeSnippetsOnFunctionSuggest": false,
-    "editor.snippetSuggestions": "none",
-
-    
-    // Editor scrollbar configuration
+    // --- Scrollbars (Your Custom Style) ---
     "editor.scrollbar.verticalScrollbarSize": 50,
     "editor.scrollbar.horizontal": "visible",
     "editor.scrollbar.horizontalScrollbarSize": 30,
     "editor.scrollbar.vertical": "visible",
-    "workbench.editor.titleScrollbarSizing": "large"
+    // ==========================================
+    // 🚀 GOLAND-LIKE EXPERIENCE SETTINGS
+    // ==========================================
+    // 1. Language Server & Formatting
+    "go.useLanguageServer": true,
+    "go.formatTool": "gofumpt", // Рекомендую выполнить: go install mvdan.cc/gofumpt@latest
+    "go.lintTool": "golangci-lint", // Рекомендую выполнить: go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+    "go.lintOnSave": "package",
+    "go.toolsManagement.autoUpdate": true,
+    "go.survey.prompt": false,
+    // 2. Editor Actions (Auto-save & Auto-imports)
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+    },
+    "editor.semanticHighlighting.enabled": true,
+    // 3. Autocomplete & Snippets
+    "go.useCodeSnippetsOnFunctionSuggest": true,
+    "editor.snippetSuggestions": "bottom",
+    "go.templateAutoImports": false, // Как вы просили: не вставлять пакеты в пустые файлы
+    "go.addTags": {
+        "tags": "json",
+        "options": "json=omitempty",
+        "promptForTags": false
+    },
+    // 4. Inlay Hints (Visual aids)
+    "editor.inlayHints.enabled": "onUnlessPressed", // Нажмите Ctrl+Alt чтобы временно скрыть
+    "go.inlayHints.parameterNames": true,
+    "go.inlayHints.variableTypes": true,
+    "go.inlayHints.constantValues": true,
+    "go.inlayHints.compositeLiteralTypes": true,
+    "go.inlayHints.compositeLiteralFields": true,
+    "go.inlayHints.functionTypeParameters": true,
+    // 5. Gopls (Deep Analysis)
+    "go.goplsOptions": {
+        "formatting.gofumpt": true, // Важно включить здесь для корректной работы gofumpt
+        "ui.completion.usePlaceholders": true,
+        "ui.semanticTokens": true,
+        "ui.diagnostic.staticcheck": true,
+        "ui.navigation.importShortcut": "Definition",
+        "hoverKind": "FullDocumentation",
+        "analyses": {
+            "nilness": true,
+            "shadow": true,
+            "unusedparams": true,
+            "unusedwrite": true,
+            "useany": true,
+            "fieldalignment": true
+        }
+    },
+    // 6. Test and Build
+    "go.testFlags": [
+        "-v",
+        "-race"
+    ],
+    "go.testTimeout": "30s",
+    // 7. Дополнительно: Навигация (GoLand Style)
+    "editor.gotoLocation.multipleDefinitions": "peek",
+    "editor.gotoLocation.multipleImplementations": "peek",
+    "editor.gotoLocation.multipleTypeDefinitions": "peek",
+    // --- File Types Specific ---
+    "[go]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "always"
+        }
+    },
+    "[dockercompose]": {
+        "editor.tabSize": 2,
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    }
 }

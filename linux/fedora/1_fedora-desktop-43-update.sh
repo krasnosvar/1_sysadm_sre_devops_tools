@@ -386,26 +386,9 @@ git config --global user.name "krasnosvar"
 git config --global user.email "krasnosvar@gmail.com"
 git config --global color.ui auto
 git config --global core.editor "nvim"
-# vscode
-# https://code.visualstudio.com/docs/setup/linux
-sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
-# install VScodium - free vscode
-# https://vscodium.com/#install
-sudo rpmkeys --import https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
-printf "[gitlab.com_paulcarroty_vscodium_repo]\nname=download.vscodium.com\nbaseurl=https://download.vscodium.com/rpms/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg\nmetadata_expire=1h" | sudo tee -a /etc/yum.repos.d/vscodium.repo
-sudo dnf check-update
-sudo dnf install code codium -y
-# Migrating from VS Code to VS Codium on Linux
-# https://www.roboleary.net/tools/2022/06/13/migrate-from-vscode-to-vscodium-on-linux.html
-# copy everything
-# cp -r $HOME/.config/Code/User/* $HOME/.config/VSCodium/User
-# copy extensions
-# sudo cp -R ~/.vscode/extensions ~/.vscode-oss
-mkdir -p $HOME/.config/VSCodium/User/
-cp files/vscode/settings.json $HOME/.config/VSCodium/User/settings.json
-mkdir -p $HOME/.config/Code/User/
-cp files/vscode/settings.json $HOME/.config/Code/User/settings.json
+# VSCode & its AI forks (Cursor, VSCodium, Windsurf, Antigravity) 
+# have been moved to: 4_config_vscode.sh
+
 # arduino
 flatpak install --user -y flathub cc.arduino.IDE2
 # Install Arduino Lab for MicroPython
@@ -433,28 +416,7 @@ sudo dnf install -y nodejs
 
 
 
-#VScode extensions
-#https://stackoverflow.com/questions/34286515/how-to-install-visual-studio-code-extensions-from-command-line
-for ideEditor in code codium; do
-$ideEditor --install-extension ms-python.python
-$ideEditor --install-extension redhat.vscode-yaml
-$ideEditor --install-extension ms-azuretools.vscode-docker
-$ideEditor --install-extension ms-kubernetes-tools.vscode-kubernetes-tools
-$ideEditor --install-extension redhat.java
-$ideEditor --install-extension eamodio.gitlens # git repo commits view directly in editor
-$ideEditor --install-extension gitlab.gitlab-workflow
-$ideEditor --install-extension hashicorp.terraform
-$ideEditor --install-extension davidanson.vscode-markdownlint
-$ideEditor --install-extension domdomegg.markdown-inline-preview-vscode # removes md symbols in editor
-$ideEditor --install-extension mathiasfrohlich.kotlin # kotlin syntax highlight
-$ideEditor --install-extension ms-vscode-remote.remote-containers # for docker
-$ideEditor --install-extension golang.Go
-$ideEditor --install-extension tomoki1207.pdf # pdf reader in codium
-$ideEditor --install-extension Codeium.codeium # windsurf AI plugin
-# $ideEditor --install-extension saoudrizwan.claude-dev
-$ideEditor --install-extension github.copilot-chat # ai chat
-$ideEditor --install-extension mtxr.sqltools # SQLTools
-done
+
 
 
 # Testing, debugging tools
@@ -486,19 +448,7 @@ sudo dnf install slack -y
 
 
 # ai tools
-# Cursor
-# https://cursor.com/
-# https://downloads.cursor.com/
-sudo tee /etc/yum.repos.d/cursor.repo > /dev/null <<EOF
-[cursor]
-name=Cursor
-baseurl=https://downloads.cursor.com/yumrepo
-enabled=1
-gpgcheck=1
-gpgkey=https://downloads.cursor.com/keys/anysphere.asc
-repo_gpgcheck=1
-EOF
-sudo dnf install cursor -y
+
 #Zed IDE
 # https://zed.dev/
 # Option 1: via COPR
@@ -506,22 +456,7 @@ sudo dnf copr enable iitzrohan/zed -y
 sudo dnf install zed -y
 # Option 2: via Flatpak (commented out, use one or the other)
 # flatpak install --user -y flathub dev.zed.Zed
-# Windsurf IDE
-# https://windsurf.com/download/editor?os=linux
-# add gpg-key
-sudo rpm --import https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf
-# add repo
-sudo tee /etc/yum.repos.d/windsurf.repo > /dev/null <<EOF
-[windsurf]
-name=Windsurf Repository
-baseurl=https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/repo/
-enabled=1
-autorefresh=1
-gpgcheck=1
-gpgkey=https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf
-EOF
-# install
-sudo dnf install windsurf -y
+
 # warp terminal
 # https://docs.warp.dev/getting-started/readme/installation-and-setup
 sudo rpm --import https://releases.warp.dev/linux/keys/warp.asc
@@ -548,13 +483,4 @@ nvm use --lts
 # npx @anthropic-ai/claude-code
 # # https://github.com/google-gemini/gemini-cli
 # npx @google/gemini-cli
-# Google Antigravity IDE
-# https://antigravity.google
-sudo tee /etc/yum.repos.d/antigravity.repo <<'EOF'
-[antigravity-rpm]
-name=Antigravity RPM Repository
-baseurl=https://us-central1-yum.pkg.dev/projects/antigravity-auto-updater-dev/antigravity-rpm
-enabled=1
-gpgcheck=0
-EOF
-sudo dnf install -y antigravity
+
