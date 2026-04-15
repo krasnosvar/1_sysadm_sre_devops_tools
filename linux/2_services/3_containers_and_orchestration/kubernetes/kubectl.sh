@@ -66,6 +66,8 @@ kubectl get pods -o wide --all-namespaces
 kubectl exec -it podname -- /bin/bash
 # delete pods forcefully
 for i in $(kubectl get po -n kube-system| grep konnec| awk '{print $1}'); do kubectl delete pod $i --grace-period=0 --force --namespace kube-system; done
+# delete all pods in all namespaces in terminating state
+kubectl get pods --all-namespaces | grep Terminating | awk '{print $1, $2}' | xargs -r -n2 sh -c 'kubectl delete pod -n "$0" "$1" --force --grace-period=0'
 # creater pod with argument "--var=vick"
 k run podName --image=busybox -- "--var=vick"
 # show container names in pod
