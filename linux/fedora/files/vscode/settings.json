@@ -1,89 +1,117 @@
 {
-    // ==============================================================================
-    // VS Code Settings - Final Stable Configuration (GoLand-like)
-    // ==============================================================================
-    // --- UI & Theme ---
-    "workbench.colorTheme": "Visual Studio Light",
-    "workbench.editor.titleScrollbarSizing": "large",
-    "redhat.telemetry.enabled": false,
-    // --- Terminal ---
-    "terminal.integrated.fontFamily": "Menlo for Powerline",
-    "terminal.integrated.fontWeightBold": "bold",
-    "terminal.integrated.enableMultiLinePasteWarning": false,
-    // --- Scrollbars (Your Custom Style) ---
-    "editor.scrollbar.verticalScrollbarSize": 50,
-    "editor.scrollbar.horizontal": "visible",
-    "editor.scrollbar.horizontalScrollbarSize": 30,
-    "editor.scrollbar.vertical": "visible",
-    // ==========================================
-    // 🚀 GOLAND-LIKE EXPERIENCE SETTINGS
-    // ==========================================
-    // 1. Language Server & Formatting
-    "go.useLanguageServer": true,
-    "go.formatTool": "gofumpt", // Рекомендую выполнить: go install mvdan.cc/gofumpt@latest
-    "go.lintTool": "golangci-lint", // Рекомендую выполнить: go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
-    "go.lintOnSave": "package",
-    "go.toolsManagement.autoUpdate": true,
-    "go.survey.prompt": false,
-    // 2. Editor Actions (Auto-save & Auto-imports)
+  // ==============================================================================
+  // 🛠 VSCodium Go-IDE Configuration (Ultimate Edition)
+  // ==============================================================================
+
+  // --- 1. UI & UX (Максимальное сходство с GoLand + современные фишки) ---
+  "workbench.colorTheme": "Visual Studio Light",
+  "workbench.editor.titleScrollbarSizing": "large",
+  "workbench.iconTheme": "vscode-icons",
+  "redhat.telemetry.enabled": false,
+  "editor.stickyScroll.enabled": true, // Видим заголовок функции при скролле
+  "editor.guides.bracketPairs": "active", // Цветные связи скобок
+  "editor.guides.bracketPairsHorizontal": true,
+  "editor.renderWhitespace": "selection",
+  "editor.minimap.enabled": false, // В GoLand мини-карта обычно выключена
+  "editor.cursorSmoothCaretAnimation": "on", // Плавный курсор
+
+  // --- 2. Custom Scrollbars (Ваш стиль) ---
+  "editor.scrollbar.verticalScrollbarSize": 50,
+  "editor.scrollbar.horizontal": "visible",
+  "editor.scrollbar.horizontalScrollbarSize": 30,
+  "editor.scrollbar.vertical": "visible",
+
+  // --- 3. Terminal & Fonts ---
+  "terminal.integrated.fontFamily": "Menlo for Powerline",
+  "terminal.integrated.fontWeightBold": "bold",
+  "terminal.integrated.enableMultiLinePasteWarning": false,
+  "editor.fontLigatures": true,
+
+  // ==========================================
+  // 🚀 GOLANG CORE SETTINGS
+  // ==========================================
+
+  // 1. Language Server & Formatting
+  "go.useLanguageServer": true,
+  "go.formatTool": "gofumpt", // Строгий форматтер
+  "go.lintTool": "golangci-lint",
+  "go.lintOnSave": "workspace", // Проверяем весь проект, а не один файл
+  "go.toolsManagement.autoUpdate": true,
+  "go.survey.prompt": false,
+
+  // 2. Editor Actions (Умное сохранение)
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "source.fixAll": "explicit" // Авто-исправление мелких ошибок линтера
+  },
+  "editor.semanticHighlighting.enabled": true,
+
+  // 3. Autocomplete & Snippets
+  "go.useCodeSnippetsOnFunctionSuggest": true,
+  "editor.snippetSuggestions": "bottom",
+  "go.templateAutoImports": false,
+  "go.addTags": {
+    "tags": "json",
+    "options": "json=omitempty",
+    "promptForTags": false
+  },
+
+  // 4. Inlay Hints (Подсказки типов и имен параметров как в JetBrains)
+  "editor.inlayHints.enabled": "onUnlessPressed",
+  "go.inlayHints.parameterNames": true,
+  "go.inlayHints.variableTypes": true,
+  "go.inlayHints.constantValues": true,
+  "go.inlayHints.compositeLiteralTypes": true,
+  "go.inlayHints.compositeLiteralFields": true,
+  "go.inlayHints.functionTypeParameters": true,
+  "go.inlayHints.assignVariableTypes": true,
+
+  // 5. Gopls Deep Analysis (Максимальный интеллект)
+  "go.goplsOptions": {
+    "formatting.gofumpt": true,
+    "ui.completion.usePlaceholders": true,
+    "ui.semanticTokens": true,
+    "ui.diagnostic.staticcheck": true,
+    "ui.navigation.importShortcut": "Definition",
+    "hoverKind": "FullDocumentation",
+    "diagnosticDelay": "100ms", // Быстрый отклик на ошибки
+    "analyses": {
+      "nilness": true, // Проверка на nil pointer dereference
+      "shadow": true, // Поиск скрытых переменных
+      "unusedparams": true, // Поиск неиспользуемых аргументов
+      "unusedwrite": true, // Поиск лишних записей в переменные
+      "useany": true, // Предлагать interface{} -> any
+      "fieldalignment": true, // Оптимизация памяти структур (Padding)
+      "nonewvars": true, // Ошибки при лишнем использовании :=
+      "nillesslen": true // Оптимизация проверки длины слайсов
+    }
+  },
+
+  // 6. Test, Build & Coverage (Визуализация как в GoLand)
+  "go.testFlags": ["-v", "-race"],
+  "go.testTimeout": "30s",
+  "go.coverOnSave": true, // Показывает покрытие кода тестами (зеленые/красные полосы)
+  "go.coverageOptions": "showUncoveredCodeOnly",
+  "go.testExplorer.enable": true, // Дерево тестов в боковой панели
+
+  // 7. Навигация (GoLand Style)
+  "editor.gotoLocation.multipleDefinitions": "peek",
+  "editor.gotoLocation.multipleImplementations": "peek",
+  "editor.gotoLocation.multipleTypeDefinitions": "peek",
+  "editor.peekWidget.sticky": true,
+
+  // --- File Types Specific ---
+  "[go]": {
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-        "source.organizeImports": "explicit"
+      "source.organizeImports": "always"
     },
-    "editor.semanticHighlighting.enabled": true,
-    // 3. Autocomplete & Snippets
-    "go.useCodeSnippetsOnFunctionSuggest": true,
-    "editor.snippetSuggestions": "bottom",
-    "go.templateAutoImports": false, // Как вы просили: не вставлять пакеты в пустые файлы
-    "go.addTags": {
-        "tags": "json",
-        "options": "json=omitempty",
-        "promptForTags": false
-    },
-    // 4. Inlay Hints (Visual aids)
-    "editor.inlayHints.enabled": "onUnlessPressed", // Нажмите Ctrl+Alt чтобы временно скрыть
-    "go.inlayHints.parameterNames": true,
-    "go.inlayHints.variableTypes": true,
-    "go.inlayHints.constantValues": true,
-    "go.inlayHints.compositeLiteralTypes": true,
-    "go.inlayHints.compositeLiteralFields": true,
-    "go.inlayHints.functionTypeParameters": true,
-    // 5. Gopls (Deep Analysis)
-    "go.goplsOptions": {
-        "formatting.gofumpt": true, // Важно включить здесь для корректной работы gofumpt
-        "ui.completion.usePlaceholders": true,
-        "ui.semanticTokens": true,
-        "ui.diagnostic.staticcheck": true,
-        "ui.navigation.importShortcut": "Definition",
-        "hoverKind": "FullDocumentation",
-        "analyses": {
-            "nilness": true,
-            "shadow": true,
-            "unusedparams": true,
-            "unusedwrite": true,
-            "useany": true,
-            "fieldalignment": true
-        }
-    },
-    // 6. Test and Build
-    "go.testFlags": [
-        "-v",
-        "-race"
-    ],
-    "go.testTimeout": "30s",
-    // 7. Дополнительно: Навигация (GoLand Style)
-    "editor.gotoLocation.multipleDefinitions": "peek",
-    "editor.gotoLocation.multipleImplementations": "peek",
-    "editor.gotoLocation.multipleTypeDefinitions": "peek",
-    // --- File Types Specific ---
-    "[go]": {
-        "editor.formatOnSave": true,
-        "editor.codeActionsOnSave": {
-            "source.organizeImports": "always"
-        }
-    },
-    "[dockercompose]": {
-        "editor.tabSize": 2,
-        "editor.defaultFormatter": "redhat.vscode-yaml"
-    }
+    "editor.defaultFormatter": "golang.go"
+  },
+  "[dockercompose]": {
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "errorLens.enabledDiagnosticLevels": ["error", "warning"]
 }

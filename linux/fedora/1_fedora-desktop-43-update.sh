@@ -95,7 +95,10 @@ sudo dnf install mpv -y # video player, no sound ussues
 flatpak install --user -y flathub md.obsidian.Obsidian
 # video editors
 flatpak install --user -y flathub org.openshot.OpenShot org.shotcut.Shotcut
-
+# clear pdf-meta info
+# pdftk file.pdf  dump_data |sed -e 's/\(InfoValue:\)\s.*/\1\ /g' | pdftk file.pdf update_info - output file_no_meta.pdf
+# https://stackoverflow.com/questions/60738960/remove-pdf-metadata-removing-complete-pdf-metadata
+sudo dnf install pdftk-java -y
 
 #Virtualization
 # https://docs.fedoraproject.org/en-US/quick-docs/virtualization-getting-started/
@@ -267,6 +270,11 @@ sudo dnf install sqlitebrowser -y
 
 
 # DevOps-Tools
+# taskfile
+# https://taskfile.dev/docs/installation
+curl -1sLf 'https://dl.cloudsmith.io/public/task/task/setup.rpm.sh' | sudo -E bash
+sudo dnf install task -y
+
 # terraform
 # https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
 sudo dnf config-manager addrepo --from-repofile=https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
@@ -288,14 +296,26 @@ sudo chmod 0655 /usr/local/bin/terragrunt
 sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
 sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 sudo usermod -a -G docker $USER
-#kubectl
+# kubectl (Kubernetes command-line tool)
+# Allows you to run commands against Kubernetes clusters to deploy applications,
+# inspect and manage cluster resources, and view logs.
 KUBE_VERSION=$(curl -L -s https://dl.k8s.io/release/stable.txt)
 curl -LO "https://dl.k8s.io/release/${KUBE_VERSION}/bin/linux/${ARCH_AMD64}/kubectl"
 chmod +x kubectl
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 rm kubectl
-# kubectl plugins
-# cd ~/Downloads && \
+
+# Krew: The plugin manager for kubectl (similar to apt or dnf, but for kubectl)
+# https://krew.sigs.k8s.io/
+# This installs Krew and then uses it to install several useful kubectl plugins:
+# - neat: Removes clutter from Kubernetes manifests for better readability
+# - tree: Shows a tree view of Kubernetes objects and their relationships
+# - topology: Explores resources based on cluster topology
+# - who-can: Shows which subjects have RBAC permissions to perform an action
+# - ctx: Switch between contexts (clusters) quickly
+# - ns: Switch between namespaces quickly
+# - sudo: Run Kubernetes commands with the privileges of another user
+# - view-allocations: View resource allocations (CPU, memory) of pods and nodes
 OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
 ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
 KREW="krew-${OS}_${ARCH}" &&
@@ -312,7 +332,9 @@ kubectl krew install ctx && \
 kubectl krew install ns && \
 kubectl krew install sudo && \
 kubectl krew install view-allocations
+
 # install kubectl node-shell
+# Plugin to easily spawn a root shell on any node in the Kubernetes cluster
 curl -LO https://github.com/kvaps/kubectl-node-shell/raw/master/kubectl-node_shell && \
 chmod +x ./kubectl-node_shell && \
 sudo mv ./kubectl-node_shell /usr/local/bin/kubectl-node_shell
@@ -363,7 +385,41 @@ wget -qO- https://github.com/istio/istio/releases/download/${ISTIO_VERSION}/isti
 sudo dnf install -y jsonnet
 
 
+# arduino
+flatpak install --user -y flathub cc.arduino.IDE2
+# Install Arduino Lab for MicroPython
+APPDIR="$HOME/Applications/arduino-lab-micropython"
+mkdir -p "$APPDIR"
+cd /tmp && \
+wget -O ArduinoLab.zip https://github.com/arduino/lab-micropython-editor/releases/latest/download/Arduino-Lab-for-MicroPython_Linux_X86-64.zip && \
+unzip -o ArduinoLab.zip -d "$APPDIR" && \
+unzip -o "$APPDIR/Arduino Lab for MicroPython-linux_x64.zip" -d "$APPDIR" && \
+chmod +x "$APPDIR/arduino-lab-micropython-ide" && \
+cat > ~/.local/share/applications/arduino-lab-micropython.desktop <<EOF
+[Desktop Entry]
+Name=Arduino Lab for MicroPython
+Exec=$APPDIR/arduino-lab-micropython-ide
+Icon=arduino
+Type=Application
+Categories=Development;Electronics;
+Terminal=false
+EOF
+chmod +x ~/.local/share/applications/arduino-lab-micropython.desktop
+
+
 #programming, development
+# Node.js and npm
+# https://github.com/nodesource/distributions#rpminstall
+curl -fsSL https://rpm.nodesource.com/setup_lts.x | sudo bash -
+sudo dnf install -y nodejs
+
+# NVM (Node Version Manager)
+# It is often recommended to use a user-specific Node environment (like NVM)
+# to avoid permission issues when globally installing npm packages.
+# https://github.com/nvm-sh/nvm#installing-and-updating
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash
+nvm install --lts
+nvm use --lts
 sudo dnf install python3 python3.9 python3.10 python3.12 -y
 #install go
 # https://developer.fedoraproject.org/tech/languages/go/go-installation.html
@@ -388,34 +444,6 @@ git config --global color.ui auto
 git config --global core.editor "nvim"
 # VSCode & its AI forks (Cursor, VSCodium, Windsurf, Antigravity) 
 # have been moved to: 4_config_vscode.sh
-
-# arduino
-flatpak install --user -y flathub cc.arduino.IDE2
-# Install Arduino Lab for MicroPython
-APPDIR="$HOME/Applications/arduino-lab-micropython"
-mkdir -p "$APPDIR"
-cd /tmp && \
-wget -O ArduinoLab.zip https://github.com/arduino/lab-micropython-editor/releases/latest/download/Arduino-Lab-for-MicroPython_Linux_X86-64.zip && \
-unzip -o ArduinoLab.zip -d "$APPDIR" && \
-unzip -o "$APPDIR/Arduino Lab for MicroPython-linux_x64.zip" -d "$APPDIR" && \
-chmod +x "$APPDIR/arduino-lab-micropython-ide" && \
-cat > ~/.local/share/applications/arduino-lab-micropython.desktop <<EOF
-[Desktop Entry]
-Name=Arduino Lab for MicroPython
-Exec=$APPDIR/arduino-lab-micropython-ide
-Icon=arduino
-Type=Application
-Categories=Development;Electronics;
-Terminal=false
-EOF
-chmod +x ~/.local/share/applications/arduino-lab-micropython.desktop
-# Node.js and npm
-# https://github.com/nodesource/distributions#rpminstall
-curl -fsSL https://rpm.nodesource.com/setup_lts.x | sudo bash -
-sudo dnf install -y nodejs
-
-
-
 
 
 
@@ -462,16 +490,24 @@ sudo dnf install zed -y
 sudo rpm --import https://releases.warp.dev/linux/keys/warp.asc
 sudo sh -c 'echo -e "[warpdotdev]\nname=warpdotdev\nbaseurl=https://releases.warp.dev/linux/rpm/stable\nenabled=1\ngpgcheck=1\ngpgkey=https://releases.warp.dev/linux/keys/warp.asc" > /etc/yum.repos.d/warpdotdev.repo'
 sudo dnf install warp-terminal
-# nvm for Ai cli tools
-# Install Google Gemini CLI
+# ============================================================================
+# AI CLI Tools Section
+# ============================================================================
+# Note on Node.js / NPM:
+# Node.js, NVM, and 'npm' are already installed above in the 
+# "programming, development" section. We use those tools here to run AI CLIs.
+
+# Install Google Gemini CLI globally via npm
 # https://github.com/google-gemini/gemini-cli
 # sudo npm install -g @google/gemini-cli
 # sudo npm uninstall -g @google/gemini-cli
-# https://github.com/nvm-sh/nvm#installing-and-updating
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash
-nvm install --lts
-nvm use --lts
-# # ai tools
+
+# # AI Tools (Executable via npx)
+# # 'npx' is an npm package runner that comes with npm. It executes tools 
+# # temporarily without having to install them globally first.
+# # Just uncomment the npx lines below to run them interactively.
+
+# # Codex / OpenAI CLI
 # # https://openai.com/codex/
 # #  To get started, describe a task or try one of these commands:
 # #   /init - create an AGENTS.md file with instructions for Codex
@@ -479,8 +515,12 @@ nvm use --lts
 # #   /approvals - choose what Codex can do without approval
 # #   /model - choose what model and reasoning effort to use
 # npx @openai/codex
+
+# # Claude Code setup
 # # https://claude.com/product/claude-code
 # npx @anthropic-ai/claude-code
+
+# # Google Gemini CLI runner
 # # https://github.com/google-gemini/gemini-cli
 # npx @google/gemini-cli
 
