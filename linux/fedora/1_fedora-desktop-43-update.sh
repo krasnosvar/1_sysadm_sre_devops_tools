@@ -490,12 +490,32 @@ sudo dnf install zed -y
 sudo rpm --import https://releases.warp.dev/linux/keys/warp.asc
 sudo sh -c 'echo -e "[warpdotdev]\nname=warpdotdev\nbaseurl=https://releases.warp.dev/linux/rpm/stable\nenabled=1\ngpgcheck=1\ngpgkey=https://releases.warp.dev/linux/keys/warp.asc" > /etc/yum.repos.d/warpdotdev.repo'
 sudo dnf install warp-terminal
+
+# LM Studio - local LLM runner (desktop GUI + `lms` CLI)
+# https://lmstudio.ai/
+# CLI bootstrap (installs the `lms` command for headless/server use):
+curl -fsSL https://lmstudio.ai/install.sh | bash
+lms bootstrap
+# For the GUI app, download the AppImage from https://lmstudio.ai/download :
+#   chmod +x LM-Studio-*.AppImage && ./LM-Studio-*.AppImage
+
+# OpenAgent - self-hosted single-binary AI assistant (web dashboard on :14000)
+# https://www.openagentai.org/
+curl -fsSL https://raw.githubusercontent.com/the-open-agent/openagent/master/scripts/install.sh | bash
+# then open http://localhost:14000
 # ============================================================================
 # AI CLI Tools Section
 # ============================================================================
 # Note on Node.js / NPM:
 # Node.js, NVM, and 'npm' are already installed above in the 
 # "programming, development" section. We use those tools here to run AI CLIs.
+
+# opencode - open-source AI coding agent for the terminal
+# https://opencode.ai/
+# Option 1: official installer (installs to ~/.opencode/bin)
+curl -fsSL https://opencode.ai/install | bash
+# Option 2: via npm (Node/npm already installed above)
+# npm install -g opencode-ai
 
 # Install Google Gemini CLI globally via npm
 # https://github.com/google-gemini/gemini-cli
