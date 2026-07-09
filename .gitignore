@@ -5,3 +5,8 @@ linux/services/terraform/libvirt/.terraform/
 linux/2_services/docker/Dockerfiles/sqlplus/instantclient_21_4/
 linux/2_services/docker/Dockerfiles/sqlplus/instantclient_21_6/
 .DS_Store
+
+# Local workstation restore secrets; keep samples in git, never real values.
+linux/fedora/private/*
+!linux/fedora/private/
+!linux/fedora/private/*.sample

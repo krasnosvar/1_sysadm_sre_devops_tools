@@ -1,9 +1,24 @@
+#!/usr/bin/env zsh
+set -euo pipefail
+
 # backgroung colour Turquoise Green #30D5C8
 # sudo scutil --set HostName denAir
 
+SCRIPT_DIR="${0:A:h}"
+REPO_ROOT="${SCRIPT_DIR:h}"
+FEDORA_FILES_DIR="${REPO_ROOT}/linux/fedora/files"
+
 #install brew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/den/.zprofile eval "$(/opt/homebrew/bin/brew shellenv)"
+if ! command -v brew >/dev/null 2>&1; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+if [ -x /opt/homebrew/bin/brew ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+  grep -qxF 'eval "$(/opt/homebrew/bin/brew shellenv)"' "$HOME/.zprofile" 2>/dev/null || echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME/.zprofile"
+elif [ -x /usr/local/bin/brew ]; then
+  eval "$(/usr/local/bin/brew shellenv)"
+  grep -qxF 'eval "$(/usr/local/bin/brew shellenv)"' "$HOME/.zprofile" 2>/dev/null || echo 'eval "$(/usr/local/bin/brew shellenv)"' >> "$HOME/.zprofile"
+fi
 
 #inprove zsh
 #show only last dir
@@ -33,6 +48,7 @@ brew install --cask maccy
 brew install --cask blender
 brew install --cask inkscape
 brew install --cask lightshot
+brew install --cask marta
 brew install --cask libreoffice
 # Install libheif for HEIC image support
 brew install libheif
@@ -43,6 +59,19 @@ brew install --cask audacity
 brew install --cask veracrypt
 brew install --cask vlc
 brew install gnu-sed
+# Parity with Fedora/Windows scripts: media / office / notes / comms
+brew install --cask obs                 # OBS Studio - screen recording / streaming
+brew install --cask shotcut             # video editor
+brew install --cask openshot-video-editor
+brew install --cask obsidian            # private markdown notes
+brew install --cask kicad               # EDA / PCB design
+brew install --cask openscad            # programmatic 3D CAD
+brew install --cask flameshot           # screenshots (Fedora parity)
+brew install --cask zoom                # video conferencing
+brew install --cask slack               # team chat
+brew install --cask qbittorrent         # BitTorrent client (KTorrent parity)
+brew install ffmpeg mpv                 # media codecs + player
+brew install pdftk-java                 # PDF metadata / manipulation
 #for VMs
 brew install qemu gcc libvirt
 brew install virt-manager
@@ -56,9 +85,21 @@ brew install expect
 brew install vault
 brew install watch
 brew install byobu
+brew install tmux screen
 brew install tree
 brew install --cask termius
 brew install --cask wifi-explorer
+# Modern CLI utilities (parity with Fedora ../1_shell_bash_commands toolkit)
+# fzf: fuzzy finder; bat: better cat; eza: modern ls; ncdu: disk usage TUI; btop/htop: monitors
+brew install fzf bat eza ncdu btop htop
+# monitoring / net diagnostics: iperf3, socat, iftop, whois, telnet(inetutils)
+brew install iperf3 socat iftop whois inetutils
+# aircrack-ng (wifi audit); sshpass already installed above (esolitos tap)
+brew install aircrack-ng
+# pipe/compression helpers + GNU parallel + moreutils (sponge, ts, ...)
+brew install pv pigz parallel moreutils
+# backup / sync tools: rclone (cloud sync), restic + borgbackup (dedup backups), trash (safe rm)
+brew install rclone restic borgbackup trash
 
 #displaylink
 brew tap homebrew/cask-drivers
@@ -86,6 +127,9 @@ brew install --cask tor-browser
 # brew install openconnect
 # sudo sh -c 'echo "%admin ALL=(ALL) NOPASSWD: /opt/homebrew/opt/openconnect/bin/openconnect" >> /etc/sudoers.d/den'
 brew install --cask forticlient-vpn
+brew install openvpn openconnect wireguard-tools
+brew install --cask tunnelblick
+brew install --cask wireguard
 brew install --cask wireshark
 brew install sshuttle
 brew install openfortivpn
@@ -103,6 +147,16 @@ brew install quartz-wm
 # Install additional network tools
 brew install mtr
 brew install arp-scan
+# Parity with Fedora: port scanner + modern CLI utils + REST client
+brew install nmap
+brew install tcpdump bind
+brew install ripgrep fd direnv
+brew install httpie
+brew install --cask insomnia            # REST/GraphQL client
+brew install --cask tigervnc-viewer     # VNC client
+brew install --cask filezilla           # FTP/SFTP client
+brew install --cask cyberduck           # SFTP/S3 client (macOS equivalent of WinSCP)
+brew install --cask postman
 
 
 #devops-tools
@@ -124,7 +178,7 @@ cat << 'EOF' >> ~/.zshrc
 # Krew plugins
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 EOF
-source ~/.zshrc
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 kubectl krew install neat
 kubectl krew install tree
 kubectl krew install topology
@@ -139,6 +193,8 @@ kubectl krew install node-shell
 brew install k9s
 brew install helm helmfile
 brew install sops age
+# Parity with Fedora: kops (kOps clusters), packer (images)
+brew install kops packer
 # Install helm plugins
 helm plugin install https://github.com/jkroepke/helm-secrets --version v4.6.5
 helm plugin install https://github.com/databus23/helm-diff --version v3.12.3
@@ -161,6 +217,7 @@ brew install --cask dbeaver-community
 brew install --cask mongodb-compass
 brew install --cask beekeeper-studio  # For PostgreSQL, MySQL, SQLite
 brew install --cask another-redis-desktop-manager
+brew install --cask redisinsight        # official Redis GUI (Fedora parity)
 # MongoDB Tools
 brew tap mongodb/brew
 brew install mongodb-database-tools
@@ -169,6 +226,7 @@ brew install mongodb-atlas-cli
 # SQL Tools
 brew install mycli  # MySQL CLI with autocomplete
 brew install pgcli  # Postgres CLI with autocomplete
+brew install litecli usql
 brew install sqlite  # SQLite
 # Redis
 # Install just the Redis CLI without the server
@@ -179,7 +237,8 @@ brew install redis-cli
 #programming, development
 brew install openjdk
 brew install golang
-brew install pip3
+brew install python
+brew install node
 # Install additional development tools
 brew install golangci-lint
 
@@ -193,13 +252,13 @@ code --install-extension hashicorp.terraform
 code --install-extension redhat.vscode-yaml
 code --install-extension golang.go
 code --install-extension ms-python.python
-cat << EOF >> ~/.zprofile\
-# Add Visual Studio Code (code)\
-export PATH="\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"\
-EOF
+grep -qxF 'export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"' "$HOME/.zprofile" 2>/dev/null || \
+  echo 'export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"' >> "$HOME/.zprofile"
 # install VScodium - free vscode
 brew install --cask vscodium
-cp ../linux/ubuntu/ubuntu__desktop_24_04_1/files/vscode/settings.json ~/Library/Application\ Support/VSCodium/User/settings.json
+mkdir -p "$HOME/Library/Application Support/Code/User" "$HOME/Library/Application Support/VSCodium/User"
+cp "$FEDORA_FILES_DIR/vscode/settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
+cp "$FEDORA_FILES_DIR/vscode/settings.json" "$HOME/Library/Application Support/VSCodium/User/settings.json"
 # install extensions
 codium --install-extension ms-kubernetes-tools.vscode-kubernetes-tools
 codium --install-extension ms-azuretools.vscode-docker
@@ -214,6 +273,7 @@ codium --install-extension ms-python.python
 brew install --cask arduino-ide
 # Arduino CLI
 brew install arduino-cli
+brew install esptool
 
 # Install Arduino Lab for MicroPython
 APPDIR="$HOME/Applications/arduino-lab-micropython"
@@ -231,7 +291,61 @@ mv "$APPDIR/Arduino Lab for MicroPython.app" "/Applications/"
 echo "Arduino Lab for MicroPython has been installed to /Applications/"
 
 
-
 # AI Development Tools
 brew install --cask windsurf
 brew install --cask cursor
+brew install --cask antigravity
+brew install --cask warp                # Warp terminal (Fedora parity)
+brew install --cask lm-studio
+for editor in "${editor_commands[@]}"; do
+  if command -v "$editor" >/dev/null 2>&1; then
+    for extension in "${vscode_extensions[@]}"; do
+      "$editor" --install-extension "$extension" --force || true
+    done
+  fi
+done
+npm install -g @anthropic-ai/claude-code @openai/codex @google/gemini-cli
+
+
+vscode_extensions=(
+  ms-python.python
+  golang.Go
+  redhat.java
+  redhat.vscode-yaml
+  ms-azuretools.vscode-docker
+  ms-kubernetes-tools.vscode-kubernetes-tools
+  hashicorp.terraform
+  ms-vscode-remote.remote-containers
+  eamodio.gitlens
+  gitlab.gitlab-workflow
+  mtxr.sqltools
+  davidanson.vscode-markdownlint
+  tomoki1207.pdf
+  Codeium.codeium
+  github.copilot-chat
+  usernamehw.errorlens
+  Gruntfuggly.todo-tree
+  alefragnani.Bookmarks
+  humao.rest-client
+  esbenp.prettier-vscode
+)
+
+editor_commands=(
+  code
+  codium
+  cursor
+  antigravity
+  # Windsurf/Devin naming has changed across releases; keep all known CLI names.
+  windsurf
+  windsurf-next
+  devin
+  devin-desktop
+)
+
+for editor in "${editor_commands[@]}"; do
+  if command -v "$editor" >/dev/null 2>&1; then
+    for extension in "${vscode_extensions[@]}"; do
+      "$editor" --install-extension "$extension" --force || true
+    done
+  fi
+done

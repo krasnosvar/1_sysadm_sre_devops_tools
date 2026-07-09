@@ -1,7 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
 # background colour #1d99f3
 
 # OS Utils, Repos
-#!/usr/bin/env bash
 
 # ============================================================================
 # ARCHITECTURE AND VERSION DETECTION
@@ -19,6 +21,7 @@ case "${SYSTEM_ARCH}" in
         ARCH_AMD64="amd64"
         ARCH_X86_64="x86_64"
         ARCH_LINUX64="linux64"
+        GOLANG_ARCH="amd64"
         ARCH_ARM64=""
         ARCH_AARCH64=""
         ;;
@@ -26,6 +29,7 @@ case "${SYSTEM_ARCH}" in
         ARCH_AMD64="arm64"
         ARCH_X86_64="aarch64"
         ARCH_LINUX64="linux-aarch64"
+        GOLANG_ARCH="arm64"
         ARCH_ARM64="arm64"
         ARCH_AARCH64="aarch64"
         ;;
@@ -44,13 +48,15 @@ HELM_SECRETS_VERSION="v4.6.5"
 HELM_DIFF_VERSION="v3.12.3"
 HELMFILE_VERSION="v1.1.3"
 ISTIO_VERSION="1.26.2"
-GOLANG_VERSION="1.25.6"
-GOLANGCI_LINT_VERSION="v2.3.0"
+GOLANG_VERSION="1.26.4"
+GOLANGCI_LINT_VERSION="v2.11.3"
 MONGODB_COMPASS_VERSION="1.40.4"
-MONGODB_ATLAS_CLI_VERSION="1.46.2"
+MONGODB_ATLAS_CLI_VERSION="1.56.0"
 NVM_VERSION="v0.40.3"
 
-sudo dnf upgrade --refresh
+SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+
+sudo dnf upgrade -y --refresh
 # on non-Fedora RHEL-like distribs- enable EPEL first: https://www.redhat.com/en/blog/install-epel-linux
 
 # Add RPM Fusion repo
@@ -71,6 +77,19 @@ flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flath
 # https://github.com/sysstat/sysstat
 sudo dnf install -y git wget gnupg lsb-release apt-transport-https ca-certificates curl \
   dnf-plugins-core plasma-workspace-x11 sysfsutils sysstat htop
+# Modern CLI utilities (present on this laptop, added for parity)
+# fd-find: fast find; ripgrep: fast grep; direnv: per-dir env; tree; byobu/tmux
+sudo dnf install -y fd-find ripgrep direnv tree byobu tmux screen
+# fzf: fuzzy finder; bat: cat with syntax highlight; eza: modern ls; ncdu: disk usage TUI
+sudo dnf install -y fzf bat eza ncdu
+# trash-cli: safe rm (the `rm` alias points to trash-put); pv: pipe progress; pigz: parallel gzip
+sudo dnf install -y trash-cli pv pigz moreutils
+# Backup / sync tools: rsync (mirroring), rclone (cloud sync), restic + borgbackup (dedup backups)
+sudo dnf install -y rsync rclone restic borgbackup
+# System monitoring / tracing (referenced in ../1_shell_bash_commands)
+# atop/iotop/iftop/nethogs: resource monitors; btop/htop: TUI monitors;
+# lsof: open files; strace/ltrace: syscall/library trace; smartmontools: disk SMART
+sudo dnf install -y atop iotop iftop nethogs btop lsof strace ltrace smartmontools
 # sudo sensors-detect
 # sensors
 # sensors | grep -E 'temp[0-9]|Core|Tctl'
@@ -89,8 +108,14 @@ sudo dnf install -y intel-gpu-tools radeontop nvtop
 # libheif-freeworld - for open iphone HEIC format in Gwenview or GIMP
 sudo dnf install -y \
   libreoffice gimp libheif-freeworld gimp-devel inkscape blender audacity vlc flameshot telegram \
-  librecad kicad kicad-packages3d kicad-doc multimedia ffmpeg-libs obs-studio 
+  librecad kicad kicad-packages3d kicad-doc multimedia ffmpeg-libs obs-studio
+# LibreOffice Russian language + help pack (UI localisation)
+sudo dnf install -y libreoffice-langpack-ru libreoffice-help-ru
 sudo dnf install mpv -y # video player, no sound ussues
+# KTorrent - KDE BitTorrent client (present on this laptop)
+sudo dnf install ktorrent -y
+# OpenSCAD - programmatic 3D CAD (pairs with KiCad electronics stack)
+sudo dnf install openscad -y
 # Obsidian stores notes privately on your device
 flatpak install --user -y flathub md.obsidian.Obsidian
 # video editors
@@ -104,8 +129,8 @@ sudo dnf install pdftk-java -y
 # https://docs.fedoraproject.org/en-US/quick-docs/virtualization-getting-started/
 sudo dnf install @virtualization -y
 sudo systemctl start libvirtd
-sudo usermod -a -G libvirt $USER
-sudo usermod -a -G kvm $USER
+sudo usermod -a -G libvirt "$USER"
+sudo usermod -a -G kvm "$USER"
 
 
 #Security
@@ -122,7 +147,7 @@ sudo dnf install vivaldi-stable -y
 # https://docs.fedoraproject.org/en-US/quick-docs/installing-chromium-or-google-chrome-browsers/
 sudo dnf install chromium -y
 sudo dnf install fedora-workstation-repositories -y
-sudo dnf config-manager --set-enabled google-chrome
+sudo dnf config-manager --set-enabled google-chrome # or sudo dnf config-manager setopt google-chrome.enabled=1
 sudo dnf install google-chrome-stable -y
 # brave
 # https://brave.com/linux/#fedora-rockyrhel
@@ -157,14 +182,27 @@ sudo dnf install opera-stable -y
 # arping: Tool to send ARP requests to a neighbor host
 # sngrep: SIP (Session Initiation Protocol) packet analyzer
 sudo dnf install -y arp-scan mtr wireshark traceroute arping sngrep
-sudo usermod -a -G wireshark $USER
+# nmap: port scanner / network mapper; nmap-ncat: netcat implementation
+sudo dnf install -y nmap nmap-ncat
+# More net diagnostics (referenced in ../1_shell_bash_commands):
+# iperf3: bandwidth test; tcpdump: packet capture CLI; whois; bind-utils: dig/nslookup/host
+# telnet: TCP client; socat: multipurpose relay; ethtool: NIC settings; iproute-tc: traffic control
+sudo dnf install -y iperf3 tcpdump whois bind-utils telnet socat ethtool iproute-tc
+# Wi-Fi tools: iw (nl80211 config), wavemon (signal TUI), aircrack-ng (auditing)
+sudo dnf install -y iw wavemon aircrack-ng
+# sshpass: non-interactive ssh password auth (scripting only)
+sudo dnf install -y sshpass
+# openldap-clients: ldapsearch / ldapadd for directory queries
+sudo dnf install -y openldap-clients
+sudo usermod -a -G wireshark "$USER"
 
 # Remote Access & Administration
 # ------------------------------
 # openssh-server: Secure Shell server for remote access
 # remmina: Universal remote desktop client (RDP, VNC, SSH)
 # sshuttle: VPN-like tunnel over SSH (doesn't require admin on server)
-sudo dnf install -y openssh-server remmina sshuttle
+# tigervnc: VNC client/server; filezilla: FTP/SFTP client
+sudo dnf install -y openssh-server remmina sshuttle tigervnc filezilla
 
 # VPN Clients & Network Integration
 # ---------------------------------
@@ -272,7 +310,46 @@ sudo dnf install sqlitebrowser -y
 # DevOps-Tools
 # taskfile
 # https://taskfile.dev/docs/installation
-curl -1sLf 'https://dl.cloudsmith.io/public/task/task/setup.rpm.sh' | sudo -E bash
+sudo tee /etc/yum.repos.d/task-task.repo > /dev/null <<EOF
+[task-task]
+name=task-task
+baseurl=https://dl.cloudsmith.io/public/task/task/rpm/fedora/${FEDORA_VERSION}/\$basearch
+repo_gpgcheck=1
+enabled=1
+skip_if_unavailable=1
+gpgkey=https://dl.cloudsmith.io/public/task/task/gpg.046FD1186CA342F0.key
+gpgcheck=1
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+type=rpm-md
+
+[task-task-noarch]
+name=task-task-noarch
+baseurl=https://dl.cloudsmith.io/public/task/task/rpm/fedora/${FEDORA_VERSION}/noarch
+repo_gpgcheck=1
+enabled=1
+skip_if_unavailable=1
+gpgkey=https://dl.cloudsmith.io/public/task/task/gpg.046FD1186CA342F0.key
+gpgcheck=1
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+type=rpm-md
+
+[task-task-source]
+name=task-task-source
+baseurl=https://dl.cloudsmith.io/public/task/task/rpm/fedora/${FEDORA_VERSION}/SRPMS
+repo_gpgcheck=1
+enabled=1
+skip_if_unavailable=1
+gpgkey=https://dl.cloudsmith.io/public/task/task/gpg.046FD1186CA342F0.key
+gpgcheck=1
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+type=rpm-md
+EOF
 sudo dnf install task -y
 
 # terraform
@@ -295,7 +372,7 @@ sudo chmod 0655 /usr/local/bin/terragrunt
 # https://docs.docker.com/engine/install/fedora/#install-using-the-repository
 sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
 sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
-sudo usermod -a -G docker $USER
+sudo usermod -a -G docker "$USER"
 # kubectl (Kubernetes command-line tool)
 # Allows you to run commands against Kubernetes clusters to deploy applications,
 # inspect and manage cluster resources, and view logs.
@@ -322,8 +399,8 @@ KREW="krew-${OS}_${ARCH}" &&
 curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
 tar zxvf "${KREW}.tar.gz" &&
 ./"${KREW}" install krew && \
-echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' >> ~/.zshrc && \
-source ~/.zshrc && \
+grep -qxF 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' "$HOME/.zshrc" || echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' >> "$HOME/.zshrc" && \
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH" && \
 kubectl krew install neat && \
 kubectl krew install tree && \
 kubectl krew install topology && \
@@ -354,7 +431,8 @@ EOF
 sudo dnf install lens -y
 # kops k0ps
 # https://kops.sigs.k8s.io/getting_started/install/
-curl -Lo kops https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64 
+KOPS_VERSION=$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | jq -r .tag_name)
+curl -Lo kops "https://github.com/kubernetes/kops/releases/download/${KOPS_VERSION}/kops-linux-${ARCH_AMD64}"
 chmod +x kops
 sudo mv kops /usr/local/bin/kops
 # helm
@@ -367,7 +445,7 @@ sudo dnf install age yq jq tmux byobu awscli2 -y
 # https://gist.github.com/patrickmslatteryvt/d531c5ae4598fd4c9d508833bde6c7c0
 SOPS_VERSION=$(curl -s https://api.github.com/repos/getsops/sops/releases/latest | jq .tag_name | tr -d '"')
 if [ "${SYSTEM_ARCH}" = "x86_64" ]; then
-    dnf install -y https://github.com/getsops/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION:1}-1.x86_64.rpm
+    sudo dnf install -y https://github.com/getsops/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION:1}-1.x86_64.rpm
     sops --version
 else
     echo "SOPS RPM not available for architecture ${SYSTEM_ARCH}, consider manual installation"
@@ -387,6 +465,9 @@ sudo dnf install -y jsonnet
 
 # arduino
 flatpak install --user -y flathub cc.arduino.IDE2
+# Serial console + ESP8266/ESP32 flashing tools (present on this laptop)
+# minicom: serial terminal; esptool: flash Espressif chips
+sudo dnf install -y minicom esptool
 # Install Arduino Lab for MicroPython
 APPDIR="$HOME/Applications/arduino-lab-micropython"
 mkdir -p "$APPDIR"
@@ -418,24 +499,29 @@ sudo dnf install -y nodejs
 # to avoid permission issues when globally installing npm packages.
 # https://github.com/nvm-sh/nvm#installing-and-updating
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 nvm install --lts
 nvm use --lts
-sudo dnf install python3 python3.9 python3.10 python3.12 -y
+sudo dnf install python3 -y
 #install go
 # https://developer.fedoraproject.org/tech/languages/go/go-installation.html
 # sudo dnf install golang -y
 sudo rm -rf /usr/local/go && \
-sudo curl -L https://go.dev/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz | sudo tar -C /usr/local -xz && \
-grep -qxF 'export PATH=$PATH:/usr/local/go/bin' ~/.zshrc || echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.zshrc && \
-source ~/.zshrc && go version
+sudo curl -L "https://go.dev/dl/go${GOLANG_VERSION}.linux-${GOLANG_ARCH}.tar.gz" | sudo tar -C /usr/local -xz && \
+grep -qxF 'export PATH=$PATH:/usr/local/go/bin' "$HOME/.zshrc" || echo 'export PATH=$PATH:/usr/local/go/bin' >> "$HOME/.zshrc" && \
+export PATH="$PATH:/usr/local/go/bin" && go version
 # golangci-lint
 sudo dnf install https://github.com/golangci/golangci-lint/releases/download/${GOLANGCI_LINT_VERSION}/golangci-lint-${GOLANGCI_LINT_VERSION:1}-linux-${ARCH_AMD64}.rpm -y
 # go grpc tools
 sudo dnf install protobuf-compiler golang-google-protobuf golang-google-grpc -y
 # go pprof web UI dependency (Graphviz)
 sudo dnf install graphviz -y
-#for java keytool
-dnf search openjdk
+# Java JDKs available in current Fedora repos:
+# - 21: conservative current LTS baseline
+# - 25: latest LTS baseline
+# Java 8 is kept in the offline backup as Temurin standalone installers.
+sudo dnf install -y java-21-openjdk-devel java-25-openjdk-devel
 # git, editors - nvim, vscode
 sudo dnf install vim neovim -y
 git config --global user.name "krasnosvar"
@@ -449,7 +535,7 @@ git config --global core.editor "nvim"
 
 # Testing, debugging tools
 # https://httpie.io/docs/cli/fedora
-sudo dnf httpie -y
+sudo dnf install httpie -y
 #Postman
 # The Postman VS Code extension
 # https://marketplace.visualstudio.com/items?itemName=Postman.postman-for-vscode
@@ -473,6 +559,9 @@ sslverify=1
 sslcacert=/etc/pki/tls/certs/ca-bundle.crt
 EOF
 sudo dnf install slack -y
+# Zoom - video conferencing (present on this laptop)
+# https://zoom.us/download?os=linux
+sudo dnf install -y https://zoom.us/client/latest/zoom_x86_64.rpm
 
 
 # ai tools (Warp, LM Studio, OpenAgent, opencode, AI CLIs)

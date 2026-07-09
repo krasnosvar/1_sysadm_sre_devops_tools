@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 
 
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> INSTALL-CONFIGURE ZSH"
@@ -6,25 +9,34 @@ echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> INSTALL-CONFIGURE ZSH"
 #https://www.zsh.org
 #https://github.com/zsh-users
 sudo dnf install zsh -y
-# https://software.opensuse.org/download.html?project=shells%3Azsh-users%3Azsh-completions&package=zsh-completions
-sudo dnf config-manager addrepo \
-  --from-repofile=https://download.opensuse.org/repositories/shells:zsh-users:zsh-completions/Fedora_Rawhide/shells:zsh-users:zsh-completions.repo
 sudo dnf install zsh-completions -y
 
 # Oh My Zsh
 # https://ohmyz.sh/#install
 # sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+if [ -d "$HOME/.oh-my-zsh/.git" ]; then
+  git -C "$HOME/.oh-my-zsh" pull --ff-only
+else
+  git clone https://github.com/ohmyzsh/ohmyzsh.git "$HOME/.oh-my-zsh"
+fi
 
 #zsh fonts
 # for vscode
-sudo cp files/Menlo_for_Powerline.ttf /usr/share/fonts/
+sudo cp "$SCRIPT_DIR/files/Menlo_for_Powerline.ttf" /usr/share/fonts/
 sudo fc-cache -vf /usr/share/fonts/
 
 # plugins
 #https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+if [ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions/.git" ]; then
+  git -C "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" pull --ff-only
+else
+  git clone https://github.com/zsh-users/zsh-autosuggestions "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+fi
+if [ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/.git" ]; then
+  git -C "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" pull --ff-only
+else
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+fi
 
 # Configure zsh-autosuggestions (history + completion strategies)
 ZA_DIR="$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
@@ -54,11 +66,10 @@ if [ -f "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions/local.config.zsh" ]
 fi
 EOF
 
-cp files/.zshrc ~/.zshrc
-sudo chown -R den: /home/den
+cp "$SCRIPT_DIR/files/.zshrc" "$HOME/.zshrc"
 # chsh -s $(which zsh)
-chsh -s /bin/zsh
-which $SHELL
+chsh -s "$(command -v zsh)" "$USER" || echo "Could not change shell automatically; run: chsh -s $(command -v zsh) $USER"
+which "$SHELL" || true
 
 
 
@@ -75,12 +86,12 @@ fi
 EOF
 
 # Ensure 'tofu' appears in plugins=(...) list
-if ! grep -qE '^plugins\(.*\btofu\b' "$HOME/.zshrc" 2>/dev/null; then
+if ! grep -qE '^plugins=.*\btofu\b' "$HOME/.zshrc" 2>/dev/null; then
   # Insert tofu before trailing highlighting plugins if present; else append
-  if grep -qE '^plugins\(.*zsh-syntax-highlighting.*zsh-autosuggestions.*\)' "$HOME/.zshrc"; then
-    sed -i 's/^plugins(\(.*\) zsh-syntax-highlighting zsh-autosuggestions)/plugins(\1 tofu zsh-syntax-highlighting zsh-autosuggestions)/' "$HOME/.zshrc"
+  if grep -qE '^plugins=.*zsh-syntax-highlighting.*zsh-autosuggestions.*\)' "$HOME/.zshrc"; then
+    sed -i 's/^plugins=(\(.*\) zsh-syntax-highlighting zsh-autosuggestions)/plugins=(\1 tofu zsh-syntax-highlighting zsh-autosuggestions)/' "$HOME/.zshrc"
   else
-    sed -i 's/^plugins(\(.*\))/plugins(\1 tofu)/' "$HOME/.zshrc"
+    sed -i 's/^plugins=(\(.*\))/plugins=(\1 tofu)/' "$HOME/.zshrc"
   fi
 fi
 

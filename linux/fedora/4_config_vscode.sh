@@ -84,7 +84,7 @@ log "3. Installing Extensions"
 log "======================================================================"
 
 for ideEditor in code codium cursor windsurf antigravity; do
-  if command -v $ideEditor &> /dev/null; then
+  if command -v "$ideEditor" &> /dev/null; then
     log "-> Installing extensions via $ideEditor..."
 
     # --- Languages ---
@@ -117,12 +117,12 @@ for ideEditor in code codium cursor windsurf antigravity; do
     $ideEditor --install-extension github.copilot-chat --force || true  # GitHub Copilot Chat: AI-чат и inline-подсказки от GitHub
 
     # --- Productivity ---
-    $ideEditor --install-extension usernamehw.errorlens --force  # Error Lens: ошибки и предупреждения прямо в строке кода
-    $ideEditor --install-extension t-p-f.go-group-imports --force  # Go Group Imports: группировка импортов (stdlib / external / internal)
-    $ideEditor --install-extension Gruntfuggly.todo-tree --force  # Todo Tree: панель со всеми TODO и FIXME по проекту
-    $ideEditor --install-extension alefragnani.Bookmarks --force  # Bookmarks: закладки для быстрой навигации по коду
-    $ideEditor --install-extension humao.rest-client --force  # REST Client: HTTP-запросы через .http файлы (замена Postman)
-    $ideEditor --install-extension esbenp.prettier-vscode --force  # Prettier: автоформатирование JSON, YAML, Markdown
+    $ideEditor --install-extension usernamehw.errorlens --force || true  # Error Lens: ошибки и предупреждения прямо в строке кода
+    $ideEditor --install-extension t-p-f.go-group-imports --force || true  # Go Group Imports: группировка импортов (stdlib / external / internal)
+    $ideEditor --install-extension Gruntfuggly.todo-tree --force || true  # Todo Tree: панель со всеми TODO и FIXME по проекту
+    $ideEditor --install-extension alefragnani.Bookmarks --force || true  # Bookmarks: закладки для быстрой навигации по коду
+    $ideEditor --install-extension humao.rest-client --force || true  # REST Client: HTTP-запросы через .http файлы (замена Postman)
+    $ideEditor --install-extension esbenp.prettier-vscode --force || true  # Prettier: автоформатирование JSON, YAML, Markdown
   fi
 done
 
@@ -130,7 +130,7 @@ log "======================================================================"
 log "4. Special Cursor/MCP Rules setup"
 log "======================================================================"
 
-CURSOR_CONFIG_DIR="${HOME}/.config/cursor"
+CURSOR_CONFIG_DIR="${HOME}/.cursor"
 AGENTS_FILE="${HOME}/AGENTS.md"
 MCP_FILE="${CURSOR_CONFIG_DIR}/mcp.json"
 BACKUP_SUFFIX="backup_$(date +%Y%m%d_%H%M%S)"
