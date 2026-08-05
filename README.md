@@ -4,8 +4,7 @@
    * [linux](/linux/README.md) - Linux command examples( main shell commands like cp, grep, find etc.), services
    * [macos](/macos/README.md) - MacOS and fedora-asahi specific commands, scripts for set-up desktop-os on first install
    * [what_to_learn](/what_to_learn/README.md) - list what to learn for sre-devops engineer
-   * [win10-11](/win10-11/README.md) powershell specific commands, scripts for set-up desktop-os on first install
-
+   * [win](/win/README.md) powershell specific commands, scripts for set-up desktop-os on first install
 
 2. interesting Links:  
 
@@ -23,8 +22,8 @@
 [awesome-mac](https://github.com/jaywcjlove/awesome-mac)  
 [awesome-docker](https://github.com/veggiemonk/awesome-docker)  
 
+1. Main Linux or OpenSource organizations
 
-3. Main Linux or OpenSource organizations
-* https://www.linuxfoundation.org/about
-* https://opencontainers.org/about/overview/
-* https://www.cncf.io/about/who-we-are/
+* <https://www.linuxfoundation.org/about>
+* <https://opencontainers.org/about/overview/>
+* <https://www.cncf.io/about/who-we-are/>

@@ -53,8 +53,11 @@ GOLANGCI_LINT_VERSION="v2.11.3"
 MONGODB_COMPASS_VERSION="1.40.4"
 MONGODB_ATLAS_CLI_VERSION="1.56.0"
 NVM_VERSION="v0.40.3"
+V2RAYN_VERSION="7.24.4"
 
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+# shellcheck source=lib_fedora_setup.sh
+. "$SCRIPT_DIR/lib_fedora_setup.sh"
 
 sudo dnf upgrade -y --refresh
 # on non-Fedora RHEL-like distribs- enable EPEL first: https://www.redhat.com/en/blog/install-epel-linux
@@ -62,7 +65,7 @@ sudo dnf upgrade -y --refresh
 # Add RPM Fusion repo
 # https://rpmfusion.org/Configuration
 # RPM Fusion provides software that the Fedora Project or Red Hat doesn't want to ship
-sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-${FEDORA_VERSION}.noarch.rpm \
+sudo dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-${FEDORA_VERSION}.noarch.rpm \
   https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-${FEDORA_VERSION}.noarch.rpm
 sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1
 # add RPM Sphere repo ( install veracrypt )
@@ -225,6 +228,42 @@ sudo dnf install -y https://github.com/Happ-proxy/happ-desktop/releases/download
 
 # Amnezia: Self-hosted VPN client for privacy (Flatpak)
 flatpak install --user -y flathub org.amnezia.VPN
+
+# v2rayN: GUI client (Avalonia) for Xray/sing-box cores
+# vless / vmess / trojan / ss / hysteria2 / tuic / anytls / wireguard
+# https://github.com/2dust/v2rayN/releases
+# Upstream ships an RHEL RPM (installs to /opt/v2rayN) plus a detached PGP
+# signature; the release is not in any repo, so verify the .sig before install.
+case "${SYSTEM_ARCH}" in
+    x86_64)  V2RAYN_RPM="v2rayN-linux-rhel-64.rpm" ;;
+    aarch64) V2RAYN_RPM="v2rayN-linux-rhel-arm64.rpm" ;;
+    *)       V2RAYN_RPM="" ;;
+esac
+if [ -z "${V2RAYN_RPM}" ]; then
+    warn "v2rayN not available for architecture ${SYSTEM_ARCH}"
+elif rpm -q v2rayN 2>/dev/null | grep -q "^v2rayN-${V2RAYN_VERSION}-"; then
+    log "v2rayN ${V2RAYN_VERSION} already installed"
+else
+    V2RAYN_URL="https://github.com/2dust/v2rayN/releases/download/${V2RAYN_VERSION}"
+    V2RAYN_TMP="$(mktemp -d)"
+    curl -fsSL -o "${V2RAYN_TMP}/${V2RAYN_RPM}" "${V2RAYN_URL}/${V2RAYN_RPM}"
+    curl -fsSL -o "${V2RAYN_TMP}/${V2RAYN_RPM}.sig" "${V2RAYN_URL}/${V2RAYN_RPM}.sig"
+    curl -fsSL -o "${V2RAYN_TMP}/v2rayN-public-key.asc" "${V2RAYN_URL}/v2rayN-public-key.asc"
+    # verify in a throwaway keyring so the signing key is not added to ~/.gnupg
+    if (
+        export GNUPGHOME="${V2RAYN_TMP}/gnupg"
+        mkdir -m 700 -p "$GNUPGHOME"
+        gpg -q --import "${V2RAYN_TMP}/v2rayN-public-key.asc"
+        gpg --verify "${V2RAYN_TMP}/${V2RAYN_RPM}.sig" "${V2RAYN_TMP}/${V2RAYN_RPM}"
+    ); then
+        sudo dnf install -y "${V2RAYN_TMP}/${V2RAYN_RPM}"
+    else
+        warn "v2rayN signature verification FAILED, skipping install"
+    fi
+    rm -rf "${V2RAYN_TMP}"
+fi
+# After first launch: Settings -> Core basic settings, subscriptions/servers are
+# stored in ~/.config/v2rayN (keep it out of git, see 'Приватные данные' in README)
 
 
 # Database Tools
@@ -451,8 +490,8 @@ else
     echo "SOPS RPM not available for architecture ${SYSTEM_ARCH}, consider manual installation"
 fi
 # helm plugins
-helm plugin install https://github.com/jkroepke/helm-secrets --version ${HELM_SECRETS_VERSION}
-helm plugin install https://github.com/databus23/helm-diff --version ${HELM_DIFF_VERSION}
+helm plugin list | awk '{print $1}' | grep -qx secrets || helm plugin install https://github.com/jkroepke/helm-secrets --version ${HELM_SECRETS_VERSION}
+helm plugin list | awk '{print $1}' | grep -qx diff || helm plugin install https://github.com/databus23/helm-diff --version ${HELM_DIFF_VERSION}
 # helmfile
 wget -qO- https://github.com/helmfile/helmfile/releases/download/${HELMFILE_VERSION}/helmfile_${HELMFILE_VERSION:1}_linux_${ARCH_AMD64}.tar.gz | sudo tar xz -C /usr/local/bin && sudo chmod +x /usr/local/bin/helmfile
 # Database tools moved to the 'Database Tools' section above
@@ -493,12 +532,18 @@ chmod +x ~/.local/share/applications/arduino-lab-micropython.desktop
 # https://github.com/nodesource/distributions#rpminstall
 curl -fsSL https://rpm.nodesource.com/setup_lts.x | sudo bash -
 sudo dnf install -y nodejs
+ensure_npm_user_prefix "$HOME/.local"
+append_line_if_missing "$HOME/.zshrc" 'export PATH="$HOME/.local/bin:$PATH"'
 
 # NVM (Node Version Manager)
 # It is often recommended to use a user-specific Node environment (like NVM)
 # to avoid permission issues when globally installing npm packages.
 # https://github.com/nvm-sh/nvm#installing-and-updating
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash
+if [ -s "$HOME/.nvm/nvm.sh" ]; then
+  echo "NVM already installed: $HOME/.nvm"
+else
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash
+fi
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 nvm install --lts
@@ -507,10 +552,15 @@ sudo dnf install python3 -y
 #install go
 # https://developer.fedoraproject.org/tech/languages/go/go-installation.html
 # sudo dnf install golang -y
-sudo rm -rf /usr/local/go && \
-sudo curl -L "https://go.dev/dl/go${GOLANG_VERSION}.linux-${GOLANG_ARCH}.tar.gz" | sudo tar -C /usr/local -xz && \
-grep -qxF 'export PATH=$PATH:/usr/local/go/bin' "$HOME/.zshrc" || echo 'export PATH=$PATH:/usr/local/go/bin' >> "$HOME/.zshrc" && \
-export PATH="$PATH:/usr/local/go/bin" && go version
+if [ -x /usr/local/go/bin/go ] && /usr/local/go/bin/go version | grep -q "go${GOLANG_VERSION}"; then
+  echo "Go ${GOLANG_VERSION} already installed"
+else
+  sudo rm -rf /usr/local/go
+  curl -L "https://go.dev/dl/go${GOLANG_VERSION}.linux-${GOLANG_ARCH}.tar.gz" | sudo tar -C /usr/local -xz
+fi
+append_line_if_missing "$HOME/.zshrc" 'export PATH=$PATH:/usr/local/go/bin'
+export PATH="$PATH:/usr/local/go/bin"
+go version
 # golangci-lint
 sudo dnf install https://github.com/golangci/golangci-lint/releases/download/${GOLANGCI_LINT_VERSION}/golangci-lint-${GOLANGCI_LINT_VERSION:1}-linux-${ARCH_AMD64}.rpm -y
 # go grpc tools

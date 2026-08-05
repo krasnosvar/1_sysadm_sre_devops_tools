@@ -2,16 +2,19 @@
 #most used oneliners
 
 
+#update fedora apps
+sudo dnf update --refresh -y && \
+sudo dnf autoremove -y && \
+flatpak update --force-remove -y && npm install -g npm@latest && \
+npm outdated -g --parseable 2>/dev/null | awk -F: '{print $4}' | \
+sed -E 's/@[^@]+$//' | sort -u | xargs -r -I{} npm install -g {}@latest
+
+
 #update ubuntu apps ( apt and snap, and remove older versions of snaps)
 sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y && sudo snap refresh && snap list --all | \
 awk '/disabled/{print $1, $3}' | while read name rev; do sudo snap remove "$name" --revision="$rev"; done && \
 flatpak update -y && sudo pip3 list --outdated | awk 'NR>2{print $1}'| xargs pip3 install -U && \
 pip3 list --outdated | awk 'NR>2{print $1}'| xargs pip3 install -U
-
-
-#update fedora apps
-sudo dnf update --refresh -y && sudo dnf autoremove -y && \
-flatpak update --force-remove -y && npm install -g npm@latest && npm outdated -g && npm update -g
 
 
 #git

@@ -2,46 +2,39 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+# shellcheck source=lib_fedora_setup.sh
+. "$SCRIPT_DIR/lib_fedora_setup.sh"
 
 
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> INSTALL-CONFIGURE ZSH"
 #ZSH
 #https://www.zsh.org
 #https://github.com/zsh-users
-sudo dnf install zsh -y
-sudo dnf install zsh-completions -y
+dnf_install_if_missing zsh zsh-completions
 
 # Oh My Zsh
 # https://ohmyz.sh/#install
 # sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-if [ -d "$HOME/.oh-my-zsh/.git" ]; then
-  git -C "$HOME/.oh-my-zsh" pull --ff-only
-else
-  git clone https://github.com/ohmyzsh/ohmyzsh.git "$HOME/.oh-my-zsh"
-fi
+git_clone_or_update https://github.com/ohmyzsh/ohmyzsh.git "$HOME/.oh-my-zsh"
 
 #zsh fonts
 # for vscode
-sudo cp "$SCRIPT_DIR/files/Menlo_for_Powerline.ttf" /usr/share/fonts/
-sudo fc-cache -vf /usr/share/fonts/
+if ! sudo test -f /usr/share/fonts/Menlo_for_Powerline.ttf || ! sudo cmp -s "$SCRIPT_DIR/files/Menlo_for_Powerline.ttf" /usr/share/fonts/Menlo_for_Powerline.ttf; then
+  sudo install -m 0644 "$SCRIPT_DIR/files/Menlo_for_Powerline.ttf" /usr/share/fonts/Menlo_for_Powerline.ttf
+  sudo fc-cache -vf /usr/share/fonts/
+else
+  log "Font already installed: Menlo_for_Powerline.ttf"
+fi
 
 # plugins
 #https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md
-if [ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions/.git" ]; then
-  git -C "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" pull --ff-only
-else
-  git clone https://github.com/zsh-users/zsh-autosuggestions "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-fi
-if [ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/.git" ]; then
-  git -C "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" pull --ff-only
-else
-  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-fi
+git_clone_or_update https://github.com/zsh-users/zsh-autosuggestions "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+git_clone_or_update https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
 
 # Configure zsh-autosuggestions (history + completion strategies)
 ZA_DIR="$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
 mkdir -p "$ZA_DIR"
-cat > "$ZA_DIR/local.config.zsh" <<'EOF'
+write_file_if_changed "$ZA_DIR/local.config.zsh" <<'EOF'
 # Local tuning for zsh-autosuggestions
 # Use history first, then completion as a fallback for richer suggestions
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
@@ -59,14 +52,19 @@ EOF
 
 # Ensure OMZ loads the autosuggestions config (custom files are sourced automatically)
 OMZ_CUSTOM_MAIN="$HOME/.oh-my-zsh/custom/10-zsh-autosuggestions-config.zsh"
-cat > "$OMZ_CUSTOM_MAIN" <<'EOF'
+write_file_if_changed "$OMZ_CUSTOM_MAIN" <<'EOF'
 # Load local tuning for zsh-autosuggestions
 if [ -f "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions/local.config.zsh" ]; then
   source "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions/local.config.zsh"
 fi
 EOF
 
-cp "$SCRIPT_DIR/files/.zshrc" "$HOME/.zshrc"
+if [ ! -f "$HOME/.zshrc" ] || cmp -s "$HOME/.zshrc" "$SCRIPT_DIR/files/.zshrc"; then
+  install -m 0644 "$SCRIPT_DIR/files/.zshrc" "$HOME/.zshrc"
+  log "Installed zshrc template: $HOME/.zshrc"
+else
+  warn "$HOME/.zshrc already exists and differs from template; preserving user file"
+fi
 # chsh -s $(which zsh)
 chsh -s "$(command -v zsh)" "$USER" || echo "Could not change shell automatically; run: chsh -s $(command -v zsh) $USER"
 which "$SHELL" || true
@@ -76,7 +74,7 @@ which "$SHELL" || true
 # --- Oh My Zsh custom plugin for OpenTofu (plugin-based completion) ---
 OMZ_CUSTOM_DIR="$HOME/.oh-my-zsh/custom/plugins/tofu"
 mkdir -p "$OMZ_CUSTOM_DIR"
-cat > "$OMZ_CUSTOM_DIR/tofu.plugin.zsh" <<'EOF'
+write_file_if_changed "$OMZ_CUSTOM_DIR/tofu.plugin.zsh" <<'EOF'
 # OpenTofu completion via custom Oh My Zsh plugin
 if command -v tofu >/dev/null 2>&1; then
   if tofu completion zsh >/dev/null 2>&1; then

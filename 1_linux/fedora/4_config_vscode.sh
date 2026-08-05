@@ -7,7 +7,9 @@
 
 set -euo pipefail
 
-log() { printf '%s\n' "$*"; }
+SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+# shellcheck source=lib_fedora_setup.sh
+. "$SCRIPT_DIR/lib_fedora_setup.sh"
 
 log "======================================================================"
 log "1. Installing VS Code & Forks"
@@ -61,7 +63,6 @@ log "======================================================================"
 log "2. Distributing settings.json"
 log "======================================================================"
 
-SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 SETTINGS_FILE="${SCRIPT_DIR}/files/vscode/settings.json"
 
 if [ -f "$SETTINGS_FILE" ]; then
@@ -133,25 +134,14 @@ log "======================================================================"
 CURSOR_CONFIG_DIR="${HOME}/.cursor"
 AGENTS_FILE="${HOME}/AGENTS.md"
 MCP_FILE="${CURSOR_CONFIG_DIR}/mcp.json"
-BACKUP_SUFFIX="backup_$(date +%Y%m%d_%H%M%S)"
-
-backup_if_exists() {
-  local p="$1"
-  if [ -e "$p" ]; then
-    local dest="${p}_${BACKUP_SUFFIX}"
-    log "Backing up $p -> $dest"
-    mv "$p" "$dest"
-  fi
-}
 
 # Create Cursor config directory if needed
 mkdir -p "${CURSOR_CONFIG_DIR}"
 
 # --- 1. Create AGENTS.md file ---
 log "Creating agent rules file: ${AGENTS_FILE}"
-backup_if_exists "${AGENTS_FILE}"
 
-cat > "${AGENTS_FILE}" << 'EOF'
+write_file_if_changed "${AGENTS_FILE}" << 'EOF'
 # AI Agent General Rules
 # Strict minimal-edit discipline & professional coding standards
 
@@ -193,9 +183,8 @@ fi
 
 # --- 2. Create mcp.json for MCP ---
 log "Creating Context7 MCP configuration: ${MCP_FILE}"
-backup_if_exists "${MCP_FILE}"
 
-cat > "${MCP_FILE}" << 'EOF'
+write_file_if_changed "${MCP_FILE}" << 'EOF'
 {
   "mcpServers": {
     "context7": {
