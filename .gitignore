@@ -1,12 +1,26 @@
-linux/services/terraform/libvirt/images/*
-linux/services/terraform/libvirt/terraform.tfstate
-linux/services/terraform/libvirt/terraform.tfstate.backup
-linux/services/terraform/libvirt/.terraform/
-linux/2_services/docker/Dockerfiles/sqlplus/instantclient_21_4/
-linux/2_services/docker/Dockerfiles/sqlplus/instantclient_21_6/
+# --- Terraform ---
+**/.terraform/
+**/.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfplan
+1_linux/2_services/1_infra_terraform_clouds/terraform/examples/libvirt/**/images/*
+
+# --- Vendored SDKs / large downloads ---
+1_linux/2_services/3_containers_and_orchestration/docker/examples/Dockerfiles/sqlplus/instantclient_21_4/
+1_linux/2_services/3_containers_and_orchestration/docker/examples/Dockerfiles/sqlplus/instantclient_21_6/
+
 .DS_Store
+*.swp
+*.swo
+*~
+
+# --- Build & profiling artifacts ---
+*.prof
+__pycache__/
+*.pyc
 
 # Local workstation restore secrets; keep samples in git, never real values.
-linux/fedora/private/*
-!linux/fedora/private/
-!linux/fedora/private/*.sample
+1_linux/fedora/private/*
+!1_linux/fedora/private/
+!1_linux/fedora/private/*.sample

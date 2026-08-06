@@ -10,4 +10,4 @@
 
 ##### Other
 * [EverGreen Skills](https://github.com/romenrg/evergreen-skills-developers)
-* [Ai Tools](ai_tools_for_coding.md)
+* [AI Tools for Coding](ai_tools_for_coding/README.md)

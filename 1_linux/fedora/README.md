@@ -4,7 +4,7 @@
 Запускаются из этой папки.
 
 ```bash
-cd /home/den/my_projects/00_for_public_git/1_sysadm_sre_devops_tools/1_linux/fedora
+cd 1_linux/fedora   # relative to the repo root
 ```
 
 ## Порядок запуска
@@ -52,6 +52,17 @@ AnythingLLM Desktop.
 
 Общие функции для скриптов: проверка Fedora, idempotent dnf/npm installs,
 безопасная запись файлов, git clone/update.
+
+`fedora_docs.sh`
+
+Заметка-ссылка на переключение desktop environment (GNOME) в официальной
+документации Fedora - ничего не устанавливает.
+
+`fedora-coreos/`
+
+Отдельно от основного workflow: разворачивание Fedora CoreOS VM на libvirt/KVM
+(`pure_install_on_libvirt.sh`, `coreos-libvirt-terraform/` - Terraform + minikube,
+`create_vm_by_bash_command/` - Ignition config примеры).
 
 ## Повторный запуск
 

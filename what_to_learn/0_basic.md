@@ -2,7 +2,6 @@
 - Computer science
   - [Open Source Society University. free self-taught education in Computer Science](https://github.com/ossu/computer-science)
   - [Teach Yourself Computer Science](https://teachyourselfcs.com)
-  - [How CPU works and interracts with Operating system](/Basics/How_cpu_works.md)
 
 - Linux
   - [Linux foundation sysadmin certification LFCS](https://training.linuxfoundation.org/certification/linux-foundation-certified-sysadmin-lfcs/)
