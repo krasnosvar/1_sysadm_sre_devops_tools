@@ -24,3 +24,8 @@ __pycache__/
 1_linux/fedora/private/*
 !1_linux/fedora/private/
 !1_linux/fedora/private/*.sample
+
+# Claude Code local settings can capture machine-specific absolute paths
+# (e.g. permission allow-rules with a full $HOME path); never commit those
+# to a public repo.
+.claude/settings.local.json

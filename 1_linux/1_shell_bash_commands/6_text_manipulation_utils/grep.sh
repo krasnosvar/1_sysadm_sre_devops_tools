@@ -36,7 +36,7 @@ cat /etc/os-release | grep -E "Oracle.*Linux.*7"
 
 #find and show only last names in directory path
 #cut command:
-#-d(delimiter) "/"- slash, -f 7 - seventh stolbetsc(last in output path)
+#-d(delimiter) "/"- slash, -f 7 - seventh column (last in output path)
 #https://www.geeksforgeeks.org/cut-command-linux-examples/
 grep "/suag" ansible/suag_update/*|cut -d "/" -f 7
 

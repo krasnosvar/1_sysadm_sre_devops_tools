@@ -80,7 +80,7 @@ systemctl list-dependencies sshd
 #Lists currently loaded target units.(old command - "runlevel")
 systemctl list-units --type target
 #determine which target unit is used by default
-systemctl het-default
+systemctl get-default
 #enter rescue mode in the current session
 systemctl rescue
 systemctl isolate rescue.target

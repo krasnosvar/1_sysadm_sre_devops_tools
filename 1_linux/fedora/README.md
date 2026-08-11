@@ -30,7 +30,11 @@ cd 1_linux/fedora   # relative to the repo root
 `2_config_zsh.sh`
 
 Zsh, Oh My Zsh, autosuggestions, syntax highlighting, powerline font, local
-zsh config, OpenTofu completion.
+zsh config, OpenTofu completion. Also installs byobu + tmux (idempotent) and
+configures Konsole F-keybindings (Fedora/Konsole eats modified F1-F4 by
+default - only Ubuntu/GNOME Terminal gets these for free), plus the default
+window set (1:htop 2:ide 3:claude 4:codex). `--check` to diagnose the
+byobu/Konsole part only, `--revert` to undo it.
 
 `3_config_nvim.sh`
 

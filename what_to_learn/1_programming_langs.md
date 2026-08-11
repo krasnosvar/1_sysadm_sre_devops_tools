@@ -1,10 +1,12 @@
 #### 2. Programming languages
 - 2.1 Python3
   * https://www.python.org/about/gettingstarted/
+  * my notes/exercises: [programming_notes/python_theory](programming_notes/python_theory)
 
 
 - 2.2 Golang
   * https://go.dev/learn/
+  * my notes/exercises: [programming_notes/go](programming_notes/go/README.md)
 ```
 https://roadmap.sh/golang
 # great book

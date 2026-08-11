@@ -1,7 +1,7 @@
 ##### Repo for ```scripts, command-examples, etc```
 
 1. Main dirs:
-   * [1_linux](/1_linux/README.md) - Linux command examples (main shell commands like cp, grep, find etc.), services, terraform/ansible/docker/k8s examples, bash/go/python scripts
+   * [1_linux](/1_linux/README.md) - Linux command examples (main shell commands like cp, grep, find etc.), services, terraform/ansible/docker/k8s examples, bash/python scripts
    * [2_win](/2_win/README.md) - Windows/PowerShell specific commands, scripts for setting up a desktop OS on first install
    * [3_macos](/3_macos/README.md) - macOS and Fedora Asahi specific commands, scripts for setting up a desktop OS on first install
    * [what_to_learn](/what_to_learn/README.md) - list of what to learn for an SRE/DevOps engineer

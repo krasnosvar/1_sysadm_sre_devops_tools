@@ -81,8 +81,10 @@ flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flath
 sudo dnf install -y git wget gnupg lsb-release apt-transport-https ca-certificates curl \
   dnf-plugins-core plasma-workspace-x11 sysfsutils sysstat htop
 # Modern CLI utilities (present on this laptop, added for parity)
-# fd-find: fast find; ripgrep: fast grep; direnv: per-dir env; tree; byobu/tmux
-sudo dnf install -y fd-find ripgrep direnv tree byobu tmux screen
+# fd-find: fast find; ripgrep: fast grep; direnv: per-dir env; tree; screen
+sudo dnf install -y fd-find ripgrep direnv tree screen
+# byobu + tmux (packages, F-keybindings, Konsole keytab) have been moved to:
+# 2_config_zsh.sh
 # fzf: fuzzy finder; bat: cat with syntax highlight; eza: modern ls; ncdu: disk usage TUI
 sudo dnf install -y fzf bat eza ncdu
 # trash-cli: safe rm (the `rm` alias points to trash-put); pv: pipe progress; pigz: parallel gzip
@@ -479,7 +481,7 @@ wget -qO- https://get.helm.sh/helm-${HELM_VERSION}-linux-${ARCH_AMD64}.tar.gz | 
   sudo tee /usr/local/bin/helm > /dev/null && sudo chmod +x /usr/local/bin/helm
 # age
 # https://github.com/FiloSottile/age#installation
-sudo dnf install age yq jq tmux byobu awscli2 -y
+sudo dnf install age yq jq awscli2 -y
 # sops
 # https://gist.github.com/patrickmslatteryvt/d531c5ae4598fd4c9d508833bde6c7c0
 SOPS_VERSION=$(curl -s https://api.github.com/repos/getsops/sops/releases/latest | jq .tag_name | tr -d '"')

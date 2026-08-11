@@ -11,3 +11,4 @@
 ##### Other
 * [EverGreen Skills](https://github.com/romenrg/evergreen-skills-developers)
 * [AI Tools for Coding](ai_tools_for_coding/README.md)
+* [Programming notes - Go, Python (personal exercises/code, not links)](programming_notes/README.md)
