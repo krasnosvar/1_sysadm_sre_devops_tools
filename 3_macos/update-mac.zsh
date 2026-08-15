@@ -61,6 +61,16 @@ brew install --cask vlc
 brew install gnu-sed
 # Parity with Fedora/Windows scripts: media / office / notes / comms
 brew install --cask obs                 # OBS Studio - screen recording / streaming
+brew install --cask davinci-resolve     # Hollywood-grade video editor
+brew install --cask kdenlive            # Open-source video editor
+brew install --cask figma               # UI/UX design & vector
+brew install --cask drawio              # Architecture / block diagrams
+brew install --cask krita               # Painting and raster graphics
+brew install --cask freecad             # Parametric 3D CAD
+brew install --cask sweet-home3d        # Interior design 3D CAD
+brew install --cask calibre             # E-book manager
+brew install --cask iina                # Modern macOS media player
+brew install --cask rustdesk            # Open-source remote desktop
 brew install --cask shotcut             # video editor
 brew install --cask openshot-video-editor
 brew install --cask obsidian            # private markdown notes
@@ -130,6 +140,8 @@ brew install --cask forticlient-vpn
 brew install openvpn openconnect wireguard-tools
 brew install --cask tunnelblick
 brew install --cask wireguard
+brew install --cask amneziavpn
+brew install --cask v2rayu
 brew install --cask wireshark
 brew install sshuttle
 brew install openfortivpn
@@ -151,18 +163,22 @@ brew install arp-scan
 brew install nmap
 brew install tcpdump bind
 brew install ripgrep fd direnv
+brew install zoxide git-delta tealdeer lazygit
 brew install httpie
 brew install --cask insomnia            # REST/GraphQL client
 brew install --cask tigervnc-viewer     # VNC client
 brew install --cask filezilla           # FTP/SFTP client
 brew install --cask cyberduck           # SFTP/S3 client (macOS equivalent of WinSCP)
 brew install --cask postman
+brew install k6 grpcurl
 
 
 #devops-tools
 brew install ansible
+brew install go-task
 brew install docker docker-compose terraform
 brew install terragrunt
+brew install tflint
 brew install --cask docker
 brew install jq yq
 brew install awscli
@@ -190,8 +206,11 @@ kubectl krew install view-allocations
 # Install kubectl node-shell
 brew install kube-ps1
 kubectl krew install node-shell
+brew install --cask lens
 brew install k9s
 brew install helm helmfile
+brew install kustomize
+brew install stern dive lazydocker kind trivy
 brew install sops age
 # Parity with Fedora: kops (kOps clusters), packer (images)
 brew install kops packer
@@ -214,6 +233,8 @@ brew install opentofu
 # Database Tools
 # GUI Database Clients
 brew install --cask dbeaver-community
+brew install --cask datagrip
+brew install --cask db-browser-for-sqlite
 brew install --cask mongodb-compass
 brew install --cask beekeeper-studio  # For PostgreSQL, MySQL, SQLite
 brew install --cask another-redis-desktop-manager
@@ -238,6 +259,8 @@ brew install redis-cli
 brew install openjdk
 brew install golang
 brew install python
+brew install ruby
+brew install rust
 brew install node
 # Install additional development tools
 brew install golangci-lint

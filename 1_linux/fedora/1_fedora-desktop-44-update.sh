@@ -86,7 +86,10 @@ sudo dnf install -y fd-find ripgrep direnv tree screen
 # byobu + tmux (packages, F-keybindings, Konsole keytab) have been moved to:
 # 2_config_zsh.sh
 # fzf: fuzzy finder; bat: cat with syntax highlight; eza: modern ls; ncdu: disk usage TUI
-sudo dnf install -y fzf bat eza ncdu
+# zoxide: smarter cd; git-delta: better git diff; tealdeer: fast tldr client
+sudo dnf install -y fzf bat eza ncdu zoxide git-delta tealdeer
+sudo dnf copr enable atim/lazygit -y
+sudo dnf install lazygit -y
 # trash-cli: safe rm (the `rm` alias points to trash-put); pv: pipe progress; pigz: parallel gzip
 sudo dnf install -y trash-cli pv pigz moreutils
 # Backup / sync tools: rsync (mirroring), rclone (cloud sync), restic + borgbackup (dedup backups)
@@ -113,7 +116,8 @@ sudo dnf install -y intel-gpu-tools radeontop nvtop
 # libheif-freeworld - for open iphone HEIC format in Gwenview or GIMP
 sudo dnf install -y \
   libreoffice gimp libheif-freeworld gimp-devel inkscape blender audacity vlc flameshot telegram \
-  librecad kicad kicad-packages3d kicad-doc multimedia ffmpeg-libs obs-studio
+  librecad kicad kicad-packages3d kicad-doc multimedia ffmpeg-libs obs-studio \
+  kdenlive krita freecad sweethome3d calibre
 # LibreOffice Russian language + help pack (UI localisation)
 sudo dnf install -y libreoffice-langpack-ru libreoffice-help-ru
 sudo dnf install mpv -y # video player, no sound ussues
@@ -123,6 +127,10 @@ sudo dnf install ktorrent -y
 sudo dnf install openscad -y
 # Obsidian stores notes privately on your device
 flatpak install --user -y flathub md.obsidian.Obsidian
+# Design & Architecture
+flatpak install --user -y flathub com.jgraph.drawio.desktop io.github.Figma_Linux.figma_linux
+# Remote Desktop
+flatpak install --user -y flathub com.rustdesk.RustDesk
 # video editors
 flatpak install --user -y flathub org.openshot.OpenShot org.shotcut.Shotcut
 # clear pdf-meta info
@@ -409,11 +417,31 @@ curl --proto '=https' --tlsv1.2 -fsSL https://get.opentofu.org/install-opentofu.
 sudo wget -c https://github.com/gruntwork-io/terragrunt/releases/download/${TERRAGRUNT_VERSION}/terragrunt_linux_${ARCH_AMD64} \
   -O  /usr/local/bin/terragrunt
 sudo chmod 0655 /usr/local/bin/terragrunt
+# tflint
+# https://github.com/terraform-linters/tflint
+curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
 # docker
 # https://docs.docker.com/engine/install/fedora/#install-using-the-repository
 sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
 sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 sudo usermod -a -G docker "$USER"
+
+# Kubernetes & Container tools: stern, dive, lazydocker, kind, trivy
+curl -L -s https://github.com/stern/stern/releases/latest/download/stern_linux_amd64.tar.gz | tar xz && sudo mv stern /usr/local/bin/
+curl -L -s https://github.com/wagoodman/dive/releases/download/v0.12.0/dive_0.12.0_linux_amd64.tar.gz | tar xz && sudo mv dive /usr/local/bin/
+curl -s https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64 && chmod +x ./kind && sudo mv ./kind /usr/local/bin/kind
+
+sudo tee /etc/yum.repos.d/trivy.repo << EOF
+[trivy]
+name=Trivy repository
+baseurl=https://aquasecurity.github.io/trivy-repo/rpm/releases/\$basearch/
+gpgcheck=1
+enabled=1
+gpgkey=https://aquasecurity.github.io/trivy-repo/rpm/public.key
+EOF
+sudo dnf install -y trivy
+
 # kubectl (Kubernetes command-line tool)
 # Allows you to run commands against Kubernetes clusters to deploy applications,
 # inspect and manage cluster resources, and view logs.
@@ -422,6 +450,11 @@ curl -LO "https://dl.k8s.io/release/${KUBE_VERSION}/bin/linux/${ARCH_AMD64}/kube
 chmod +x kubectl
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 rm kubectl
+
+# kustomize
+# https://kubectl.docs.kubernetes.io/installation/kustomize/
+curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+sudo mv kustomize /usr/local/bin/
 
 # Krew: The plugin manager for kubectl (similar to apt or dnf, but for kubectl)
 # https://krew.sigs.k8s.io/
@@ -476,6 +509,8 @@ KOPS_VERSION=$(curl -s https://api.github.com/repos/kubernetes/kops/releases/lat
 curl -Lo kops "https://github.com/kubernetes/kops/releases/download/${KOPS_VERSION}/kops-linux-${ARCH_AMD64}"
 chmod +x kops
 sudo mv kops /usr/local/bin/kops
+sudo chown root:root /usr/local/bin/kops
+sudo chmod 0755 /usr/local/bin/kops
 # helm
 wget -qO- https://get.helm.sh/helm-${HELM_VERSION}-linux-${ARCH_AMD64}.tar.gz | tar xz -O linux-${ARCH_AMD64}/helm | \
   sudo tee /usr/local/bin/helm > /dev/null && sudo chmod +x /usr/local/bin/helm
@@ -551,6 +586,12 @@ export NVM_DIR="$HOME/.nvm"
 nvm install --lts
 nvm use --lts
 sudo dnf install python3 -y
+
+# Ruby
+# ruby-devel and gcc/make are often required to compile gems with C extensions
+sudo dnf install ruby ruby-devel rubygems -y
+# Install Bundler (standard dependency manager for Ruby projects)
+gem install bundler
 #install go
 # https://developer.fedoraproject.org/tech/languages/go/go-installation.html
 # sudo dnf install golang -y
@@ -583,11 +624,32 @@ git config --global core.editor "nvim"
 # VSCode & its AI forks (Cursor, VSCodium, Windsurf, Antigravity) 
 # have been moved to: 4_config_vscode.sh
 
+# rust
+# C compiler, make, and OpenSSL headers are frequently needed to compile Rust crates natively
+sudo dnf install gcc gcc-c++ make openssl-devel pkgconf-pkg-config -y
+# Install rustup (toolchain manager), rustc (compiler) and cargo (package manager)
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+# Ensure cargo is sourced in zshrc
+append_line_if_missing "$HOME/.zshrc" 'source "$HOME/.cargo/env"'
+
+# Install cargo-binstall to install pre-compiled Rust binaries instantly (avoids slow local compilation)
+curl -L --secure -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
+# Temporarily source cargo env to install some useful dev tools right now
+source "$HOME/.cargo/env"
+cargo binstall -y cargo-watch cargo-outdated cargo-audit
+
 
 
 # Testing, debugging tools
 # https://httpie.io/docs/cli/fedora
 sudo dnf install httpie -y
+
+# k6 - load testing
+sudo dnf install https://dl.k6.io/rpm/repo.rpm -y
+sudo dnf install k6 -y
+
+# grpcurl
+curl -L -s https://github.com/fullstorydev/grpcurl/releases/download/v1.9.1/grpcurl_1.9.1_linux_x86_64.tar.gz | tar xz && sudo mv grpcurl /usr/local/bin/
 #Postman
 # The Postman VS Code extension
 # https://marketplace.visualstudio.com/items?itemName=Postman.postman-for-vscode

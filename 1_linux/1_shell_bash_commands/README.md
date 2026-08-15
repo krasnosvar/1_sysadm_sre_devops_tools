@@ -21,7 +21,7 @@
 3. ```3_users_and_groups``` - users/groups: useradd, chmod, acl, sudo, ldapsearch, vipw
 4. ```4_network_utils_commands``` - network: ip, ssh/sshpass, curl/wget, dig, nmap, tcpdump, iptables/firewalld/ufw, wi-fi
 5. ```5_packages_apt_yum_pip``` - package managers: apt/dpkg/yum, pip, snap
-6. ```6_text_manipulation_utils``` - text tools: awk, sed, grep, jq/yq, cut, sort, xargs
-7. ```7_files_folders_manipulation_utils``` - file/folder tools: find, cp, rm, rename, zip/tar/7z, trash-cli
-8. ```8_sh_bash_zsh_scripting``` - shell scripting: bash/zsh basics, crontab/at, history, completion
+6. ```6_text_manipulation_utils``` - text tools: awk, sed, grep, jq/yq, cut, sort, xargs, delta
+7. ```7_files_folders_manipulation_utils``` - file/folder tools: find, cp, rm, rename, zip/tar/7z, trash-cli, zoxide
+8. ```8_sh_bash_zsh_scripting``` - shell scripting: bash/zsh basics, crontab/at, history, completion, tealdeer, lazygit
 9. ```direnv.sh``` - direnv setup and usage
