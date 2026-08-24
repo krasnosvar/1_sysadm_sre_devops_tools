@@ -1,17 +1,46 @@
-#### 3. Clouds 
-- 3.1 AWS
-```
-# concept
-https://roadmap.sh/aws
-https://coggle.it/diagram/ZNyWdlpO0W45uyGP/t/star-fundamental-aws-concepts-star/e32b8f30645ef1e3ac58b95a70c8eeeff3d0f53796c601930f3752cae1f959e6
-https://aws.amazon.com/certification/
+# Clouds и IaC — что изучать
 
-# practice
-https://kodekloud.com/learning-path/cloud-engineer/
-https://www.pluralsight.com/browse/aws-cloud-training
+> Практическая база знаний:
+> **[5_devops_sre_knowledgebase/4_iac/](../../5_devops_sre_knowledgebase/4_iac/)**
+> **[5_devops_sre_knowledgebase/6_compute_platforms/](../../5_devops_sre_knowledgebase/6_compute_platforms/)**
 
-```
-- 3.2 Terraform
-```
-https://developer.hashicorp.com/terraform/docs
-https://learn.kodekloud.com/user/courses/terraform-associate-certification-hashicorp-certified
+## AWS
+
+### Изучение
+
+- [roadmap.sh/aws](https://roadmap.sh/aws) — интерактивная карта AWS
+- [AWS Skill Builder](https://skillbuilder.aws/) — бесплатные официальные курсы от AWS
+- [AWS Free Tier](https://aws.amazon.com/free/) — 12 месяцев бесплатных ресурсов для практики
+
+### Сертификации AWS
+
+- **AWS Cloud Practitioner** — $100, начальный уровень, хорошо для знакомства с AWS
+- **AWS Solutions Architect Associate** — $300, самая популярная, рекомендуется
+- **AWS DevOps Engineer Professional** — $300, CI/CD + IaC + операции, для опытных
+
+Лучший курс для SAA: [Adrian Cantrill](https://learn.cantrill.io/) (платный, высокое качество)
+или Stephane Maarek на Udemy.
+
+## Terraform / OpenTofu
+
+- [developer.hashicorp.com/terraform/tutorials](https://developer.hashicorp.com/terraform/tutorials) — бесплатные официальные туториалы
+- [terraform-best-practices.com](https://www.terraform-best-practices.com/) — best practices
+- [registry.terraform.io](https://registry.terraform.io/) — публичный реестр модулей и провайдеров
+- **Terraform Associate** — $70, онлайн тест, хорошее начало для IaC
+- **OpenTofu** (форк, MIT лицензия) — [opentofu.org](https://opentofu.org/)
+
+## GCP
+
+- [cloud.google.com/training](https://cloud.google.com/training) — бесплатные курсы Google
+- Уникальные сильные стороны: BigQuery, Vertex AI, GKE Autopilot
+
+## Azure
+
+- [learn.microsoft.com](https://learn.microsoft.com/azure/) — бесплатное обучение Microsoft
+- Сильные стороны: Active Directory, .NET экосистема, AKS
+
+## Инструменты (шпаргалки)
+
+- Terraform команды → `../1_linux/2_services/1_infra_terraform_clouds/terraform/terraform.sh`
+- Terraform примеры (AWS/libvirt/VMware/Yandex) → `../1_linux/2_services/1_infra_terraform_clouds/terraform/examples/`
+- AWS CLI, doctl, cloud-init → `../1_linux/2_services/1_infra_terraform_clouds/`
