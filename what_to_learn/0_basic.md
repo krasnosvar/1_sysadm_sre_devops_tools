@@ -12,8 +12,8 @@
   
 - Networks
   - [CCNA](https://www.cisco.com/site/us/en/learn/training-certifications/certifications/enterprise/ccna/index.html)
-  - [online CCNA cource](https://www.cbtnuggets.com/it-training/cisco/ccna)
-* recommended on reddit ( but too mutch long-videos)
+  - [online CCNA course](https://www.cbtnuggets.com/it-training/cisco/ccna)
+* recommended on reddit (but the videos are very long)
 * https://courses.jeremysitlab.com/courses/
 * https://www.youtube.com/playlist?list=PLxbwE86jKRgMpuZuLBivzlM8s2Dk5lXBQ
 

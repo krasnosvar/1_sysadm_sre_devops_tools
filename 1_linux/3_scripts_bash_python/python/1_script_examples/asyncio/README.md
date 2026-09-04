@@ -1,12 +1,11 @@
-#### Execute with python simultameously one command 10 times
+# Bounded subprocess runner
 
-* In example PSQL remote multiline-command, but it can be any shell command
+`shell_10_times.py` запускает одну программу несколько раз с ограничением
+параллелизма. Команда передаётся напрямую в subprocess, без shell expansion.
+
+```bash
+./shell_10_times.py --count 10 --concurrency 3 -- psql -c 'select now()'
 ```
-psql -U root -p 5432 -h postgreas-host postgres << EOF
-\\timing on
-SELECT *
-  FROM information_schema.role_table_grants 
- WHERE grantee = 'root';
-SELECT pg_size_pretty( pg_database_size('postgres') );
-EOF
-```
+
+Пароли в командной строке не передавать. Использовать `.pgpass`, переменные
+окружения процесса или другой нативный credential provider.

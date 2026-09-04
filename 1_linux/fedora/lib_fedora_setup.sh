@@ -15,6 +15,36 @@ require_cmd() {
   command -v "$1" >/dev/null 2>&1 || die "Required command not found: $1"
 }
 
+# Download the complete installer before execution. This avoids executing a
+# truncated response and leaves one auditable trust boundary: the documented
+# upstream HTTPS URL. Prefer a signed RPM repository whenever one is available.
+run_https_bash_installer() {
+  local as_root=0
+  local url
+  local installer
+  local status=0
+
+  if [ "${1:-}" = "--sudo" ]; then
+    as_root=1
+    shift
+  fi
+  url="$1"
+  shift
+  installer="$(mktemp)"
+  if ! curl --proto '=https' --tlsv1.2 -fsSL "$url" -o "$installer"; then
+    rm -f "$installer"
+    die "Failed to download installer: $url"
+  fi
+  chmod 0700 "$installer"
+  if [ "$as_root" -eq 1 ]; then
+    sudo /bin/bash "$installer" "$@" || status=$?
+  else
+    /bin/bash "$installer" "$@" || status=$?
+  fi
+  rm -f "$installer"
+  return "$status"
+}
+
 dnf_install() {
   require_fedora
   sudo dnf install -y "$@"
@@ -152,6 +182,8 @@ pipx_install_or_upgrade() {
   local binary="${2:-}"
 
   require_cmd pipx
+  # Keep HOME and PATH literal: this line is evaluated by future shells.
+  # shellcheck disable=SC2016
   append_line_if_missing "$HOME/.zshrc" 'export PATH="$HOME/.local/bin:$PATH"'
 
   if [ -n "$binary" ] && command -v "$binary" >/dev/null 2>&1; then

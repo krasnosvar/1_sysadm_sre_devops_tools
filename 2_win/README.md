@@ -1,34 +1,28 @@
-#### Win11 scripts
+# Windows 11 scripts
 
-```
-.
-├── README.md
-├── choco.ps1
-├── powershell.sh
-└── win11_lock_screen.png
-```
+`choco.ps1` — идемпотентный bootstrap для Windows PowerShell 5.1+ / PowerShell 7. Он проверяет уже
+установленные пакеты, продолжает после недоступного package и возвращает общий
+failure summary.
 
+```powershell
+# Read-only preview, elevation is not required
+pwsh -File .\choco.ps1 -Profile DevOps -WhatIf
 
-1. ```choco.ps1``` Win11 packages installation script via chocolatey
-* Execute script with admin privileges
-```
-powershell -executionpolicy bypass -File 'C:\Users\Den\Documents\choco.ps1'
-```
-The package list mirrors the Fedora workstation setup where Windows packages are
-available: CLI utilities, browsers, media apps, DevOps/Kubernetes tooling,
-database clients, IDEs, Arduino tools and AI tools. Windows-specific
-open-source alternatives are used where there is no direct Linux equivalent
-(`ShareX`, `Greenshot`, `SumatraPDF`, `WinDump`, `WinMTR`, `WinSCP`, etc.).
+# Run from an elevated PowerShell session
+pwsh -File .\choco.ps1 -Profile All
 
-Do not store private SSH/GPG keys, VPN profiles, cloud credentials, MCP tokens
-or API keys in this public repo. Keep them in an encrypted backup or a local
-restore folder outside git.
-
-* update installed via choco packages
-* https://docs.chocolatey.org/en-us/choco/commands/upgrade/
-```
-choco upgrade all
+# Add/update WSL2 and install the moving Ubuntu Store distribution
+pwsh -File .\choco.ps1 -Profile DevOps -InstallWSL
 ```
 
+Профили: `Minimal`, `DevOps`, `Desktop`, `All`. `Minimal` используется по
+умолчанию. Google Antigravity входит в `DevOps` и `Desktop`. Ansible и другие
+Linux-centric tools следует запускать в WSL, а
+native `kubectl`, cloud CLI и container clients оставлены для Windows workflow.
 
-2. ```powershell.sh``` some useful Powershell commands 
+`powershell.sh` — command-reference fragments, а не исполняемый shell script.
+`win11_lock_screen.png` — optional personal asset.
+
+Полный offline manifest приложений находится в
+[`2_lin_win_mac_apps_bkp`](https://github.com/krasnosvar/2_lin_win_mac_apps_bkp).
+Credentials, SSH keys, kubeconfig и VPN profiles не должны попадать в репу.

@@ -1,19 +1,30 @@
-#https://docs.fedoraproject.org/en-US/fedora-coreos/provisioning-libvirt/
+#!/usr/bin/env bash
+set -euo pipefail
 
-# STREAM="stable"
-# coreos-installer download -s "${STREAM}" -p qemu -f qcow2.xz --decompress -C /home/den/git_projects/images/
+# Provision a Fedora CoreOS VM from an existing qcow2 image and Ignition file.
+# Download/update the image separately with coreos-installer.
 
-#create ignition
-#docker run -i --rm quay.io/coreos/fcct:release --pretty --strict < example.fcc > example.ign
+usage() {
+  echo "Usage: $0 IMAGE.qcow2 CONFIG.ign [VM_NAME]" >&2
+}
 
-IGNITION_CONFIG="/home/den/git_projects/github/linux/fedora-coreos/example.ign"
-IMAGE="/home/den/git_projects/images/fedora-coreos-32.20200809.3.0-qemu.x86_64.qcow2"
-VM_NAME="fcos-test-01"
-RAM_MB="2048"
-DISK_GB="10"
+[ "$#" -ge 2 ] || { usage; exit 2; }
+[ -f "$1" ] || { echo "image not found: $1" >&2; exit 2; }
+[ -f "$2" ] || { echo "Ignition config not found: $2" >&2; exit 2; }
+IMAGE="$(realpath "$1")"
+IGNITION_CONFIG="$(realpath "$2")"
+VM_NAME="${3:-fcos-test-01}"
+RAM_MB="${RAM_MB:-2048}"
+DISK_GB="${DISK_GB:-10}"
 
+command -v virt-install >/dev/null 2>&1 || { echo "virt-install is required" >&2; exit 2; }
 
-#virt-install requires both the OS image and Ignition file to be specified as absolute paths.
-virt-install --connect qemu:///system -n "${VM_NAME}" -r "${RAM_MB}" --os-variant=fedora31 \
-        --import --graphics=none --disk "size=${DISK_GB},backing_store=${IMAGE}" \
-        --qemu-commandline="-fw_cfg name=opt/com.coreos/config,file=${IGNITION_CONFIG}"
+virt-install \
+  --connect qemu:///system \
+  --name "$VM_NAME" \
+  --memory "$RAM_MB" \
+  --os-variant fedora-coreos-stable \
+  --import \
+  --graphics none \
+  --disk "size=${DISK_GB},backing_store=${IMAGE}" \
+  --qemu-commandline="-fw_cfg name=opt/com.coreos/config,file=${IGNITION_CONFIG}"

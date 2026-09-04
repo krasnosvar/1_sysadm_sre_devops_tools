@@ -8,9 +8,15 @@ set -euo pipefail
 # ============================================================================
 # ARCHITECTURE AND VERSION DETECTION
 # ============================================================================
-# Detect Fedora version
-FEDORA_VERSION=$(grep -oP 'VERSION_ID=\K\d+' /etc/os-release)
-FEDORA_VERSION=${FEDORA_VERSION:-$(rpm -E %fedora 2>/dev/null || echo "42")}  # Fallback to 42 if not detected
+SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+# shellcheck source=lib_fedora_setup.sh
+. "$SCRIPT_DIR/lib_fedora_setup.sh"
+require_fedora
+
+# shellcheck disable=SC1091
+. /etc/os-release
+[ "${ID:-}" = fedora ] || die "This script supports Fedora only."
+FEDORA_VERSION="${VERSION_ID%%.*}"
 
 # Detect system architecture once
 SYSTEM_ARCH=$(uname -m)
@@ -21,7 +27,6 @@ case "${SYSTEM_ARCH}" in
         ARCH_AMD64="amd64"
         ARCH_X86_64="x86_64"
         ARCH_LINUX64="linux64"
-        GOLANG_ARCH="amd64"
         ARCH_ARM64=""
         ARCH_AARCH64=""
         ;;
@@ -29,7 +34,6 @@ case "${SYSTEM_ARCH}" in
         ARCH_AMD64="arm64"
         ARCH_X86_64="aarch64"
         ARCH_LINUX64="linux-aarch64"
-        GOLANG_ARCH="arm64"
         ARCH_ARM64="arm64"
         ARCH_AARCH64="aarch64"
         ;;
@@ -43,21 +47,14 @@ esac
 # APPLICATION VERSIONS
 # ============================================================================
 TERRAGRUNT_VERSION="v0.73.5"
-HELM_VERSION="v3.17.4"
 HELM_SECRETS_VERSION="v4.6.5"
 HELM_DIFF_VERSION="v3.12.3"
 HELMFILE_VERSION="v1.1.3"
 ISTIO_VERSION="1.26.2"
-GOLANG_VERSION="1.26.4"
-GOLANGCI_LINT_VERSION="v2.11.3"
 MONGODB_COMPASS_VERSION="1.40.4"
 MONGODB_ATLAS_CLI_VERSION="1.56.0"
 NVM_VERSION="v0.40.3"
 V2RAYN_VERSION="7.24.4"
-
-SCRIPT_DIR="$(dirname "$(realpath "$0")")"
-# shellcheck source=lib_fedora_setup.sh
-. "$SCRIPT_DIR/lib_fedora_setup.sh"
 
 sudo dnf upgrade -y --refresh
 # on non-Fedora RHEL-like distribs- enable EPEL first: https://www.redhat.com/en/blog/install-epel-linux
@@ -410,7 +407,7 @@ sudo dnf -y install packer
 # install tofu - free terraform
 # https://opentofu.org/docs/intro/install/rpm/
 # One-liner using the official installer (RPM method):
-curl --proto '=https' --tlsv1.2 -fsSL https://get.opentofu.org/install-opentofu.sh | sudo bash -s -- --install-method rpm
+run_https_bash_installer --sudo https://get.opentofu.org/install-opentofu.sh --install-method rpm
 # terragrunt
 # https://github.com/gruntwork-io/terragrunt/releases
 # https://terragrunt.gruntwork.io/docs/getting-started/install
@@ -419,7 +416,7 @@ sudo wget -c https://github.com/gruntwork-io/terragrunt/releases/download/${TERR
 sudo chmod 0655 /usr/local/bin/terragrunt
 # tflint
 # https://github.com/terraform-linters/tflint
-curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+run_https_bash_installer https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh
 # docker
 # https://docs.docker.com/engine/install/fedora/#install-using-the-repository
 sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
@@ -429,7 +426,7 @@ sudo usermod -a -G docker "$USER"
 # Kubernetes & Container tools: stern, dive, lazydocker, kind, trivy
 curl -L -s https://github.com/stern/stern/releases/latest/download/stern_linux_amd64.tar.gz | tar xz && sudo mv stern /usr/local/bin/
 curl -L -s https://github.com/wagoodman/dive/releases/download/v0.12.0/dive_0.12.0_linux_amd64.tar.gz | tar xz && sudo mv dive /usr/local/bin/
-curl -s https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+run_https_bash_installer https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh
 curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64 && chmod +x ./kind && sudo mv ./kind /usr/local/bin/kind
 
 sudo tee /etc/yum.repos.d/trivy.repo << EOF
@@ -447,14 +444,14 @@ sudo dnf install -y trivy
 # inspect and manage cluster resources, and view logs.
 KUBE_VERSION=$(curl -L -s https://dl.k8s.io/release/stable.txt)
 curl -LO "https://dl.k8s.io/release/${KUBE_VERSION}/bin/linux/${ARCH_AMD64}/kubectl"
+curl -L -sS "https://dl.k8s.io/release/${KUBE_VERSION}/bin/linux/${ARCH_AMD64}/kubectl.sha256" -o kubectl.sha256
+printf '%s  kubectl\n' "$(cat kubectl.sha256)" | sha256sum --check
 chmod +x kubectl
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-rm kubectl
+rm kubectl kubectl.sha256
 
-# kustomize
-# https://kubectl.docs.kubernetes.io/installation/kustomize/
-curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
-sudo mv kustomize /usr/local/bin/
+# kustomize is available as a signed Fedora package.
+dnf_install_if_missing kustomize
 
 # Krew: The plugin manager for kubectl (similar to apt or dnf, but for kubectl)
 # https://krew.sigs.k8s.io/
@@ -511,9 +508,8 @@ chmod +x kops
 sudo mv kops /usr/local/bin/kops
 sudo chown root:root /usr/local/bin/kops
 sudo chmod 0755 /usr/local/bin/kops
-# helm
-wget -qO- https://get.helm.sh/helm-${HELM_VERSION}-linux-${ARCH_AMD64}.tar.gz | tar xz -O linux-${ARCH_AMD64}/helm | \
-  sudo tee /usr/local/bin/helm > /dev/null && sudo chmod +x /usr/local/bin/helm
+# Helm is maintained as a signed Fedora package.
+dnf_install_if_missing helm
 # age
 # https://github.com/FiloSottile/age#installation
 sudo dnf install age yq jq awscli2 -y
@@ -567,7 +563,7 @@ chmod +x ~/.local/share/applications/arduino-lab-micropython.desktop
 #programming, development
 # Node.js and npm
 # https://github.com/nodesource/distributions#rpminstall
-curl -fsSL https://rpm.nodesource.com/setup_lts.x | sudo bash -
+run_https_bash_installer --sudo https://rpm.nodesource.com/setup_lts.x
 sudo dnf install -y nodejs
 ensure_npm_user_prefix "$HOME/.local"
 append_line_if_missing "$HOME/.zshrc" 'export PATH="$HOME/.local/bin:$PATH"'
@@ -579,7 +575,7 @@ append_line_if_missing "$HOME/.zshrc" 'export PATH="$HOME/.local/bin:$PATH"'
 if [ -s "$HOME/.nvm/nvm.sh" ]; then
   echo "NVM already installed: $HOME/.nvm"
 else
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash
+  run_https_bash_installer "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh"
 fi
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
@@ -592,20 +588,9 @@ sudo dnf install python3 -y
 sudo dnf install ruby ruby-devel rubygems -y
 # Install Bundler (standard dependency manager for Ruby projects)
 gem install bundler
-#install go
-# https://developer.fedoraproject.org/tech/languages/go/go-installation.html
-# sudo dnf install golang -y
-if [ -x /usr/local/go/bin/go ] && /usr/local/go/bin/go version | grep -q "go${GOLANG_VERSION}"; then
-  echo "Go ${GOLANG_VERSION} already installed"
-else
-  sudo rm -rf /usr/local/go
-  curl -L "https://go.dev/dl/go${GOLANG_VERSION}.linux-${GOLANG_ARCH}.tar.gz" | sudo tar -C /usr/local -xz
-fi
-append_line_if_missing "$HOME/.zshrc" 'export PATH=$PATH:/usr/local/go/bin'
-export PATH="$PATH:/usr/local/go/bin"
+# Go and golangci-lint are maintained in Fedora 44; avoid stale pinned tarballs.
+dnf_install_if_missing golang golangci-lint
 go version
-# golangci-lint
-sudo dnf install https://github.com/golangci/golangci-lint/releases/download/${GOLANGCI_LINT_VERSION}/golangci-lint-${GOLANGCI_LINT_VERSION:1}-linux-${ARCH_AMD64}.rpm -y
 # go grpc tools
 sudo dnf install protobuf-compiler golang-google-protobuf golang-google-grpc -y
 # go pprof web UI dependency (Graphviz)
@@ -617,23 +602,22 @@ sudo dnf install graphviz -y
 sudo dnf install -y java-21-openjdk-devel java-25-openjdk-devel
 # git, editors - nvim, vscode
 sudo dnf install vim neovim -y
-git config --global user.name "krasnosvar"
-git config --global user.email "krasnosvar@gmail.com"
+# Git identity is personal input and is deliberately not written by bootstrap.
 git config --global color.ui auto
 git config --global core.editor "nvim"
-# VSCode & its AI forks (Cursor, VSCodium, Windsurf, Antigravity) 
+# VSCode and maintained forks (Cursor, VSCodium, Windsurf)
 # have been moved to: 4_config_vscode.sh
 
 # rust
 # C compiler, make, and OpenSSL headers are frequently needed to compile Rust crates natively
 sudo dnf install gcc gcc-c++ make openssl-devel pkgconf-pkg-config -y
 # Install rustup (toolchain manager), rustc (compiler) and cargo (package manager)
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+run_https_bash_installer https://sh.rustup.rs -s -- -y
 # Ensure cargo is sourced in zshrc
 append_line_if_missing "$HOME/.zshrc" 'source "$HOME/.cargo/env"'
 
 # Install cargo-binstall to install pre-compiled Rust binaries instantly (avoids slow local compilation)
-curl -L --secure -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
+run_https_bash_installer https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh
 # Temporarily source cargo env to install some useful dev tools right now
 source "$HOME/.cargo/env"
 cargo binstall -y cargo-watch cargo-outdated cargo-audit
@@ -660,19 +644,8 @@ flatpak install --user --assumeyes flathub rest.insomnia.Insomnia
 # https://insomnia.rest
 # https://flathub.org/apps/rest.insomnia.Insomnia
 flatpak install --user -y flathub rest.insomnia.Insomnia
-# Slack
-# https://slack.com/downloads/linux
-sudo tee /etc/yum.repos.d/slack.repo > /dev/null <<EOF
-[slack]
-name=slack
-baseurl=https://packagecloud.io/slacktechnologies/slack/fedora/21/x86_64
-enabled=1
-gpgcheck=0
-gpgkey=https://packagecloud.io/gpg.key
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-EOF
-sudo dnf install slack -y
+# Slack: use the Flatpak instead of the obsolete unsigned Fedora 21 repository.
+flatpak_user_install_if_missing flathub com.slack.Slack
 # Zoom - video conferencing (present on this laptop)
 # https://zoom.us/download?os=linux
 sudo dnf install -y https://zoom.us/client/latest/zoom_x86_64.rpm

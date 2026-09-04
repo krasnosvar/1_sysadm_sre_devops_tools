@@ -80,8 +80,7 @@ sudo dnf install golang -y
 dnf search openjdk
 # git
 sudo dnf install git -y 
-git config --global user.name "krasnosvar"
-git config --global user.email "krasnosvar@gmail.com"
+# Configure personal Git name/email outside the public bootstrap.
 git config --global color.ui auto
 git config --global core.editor "vim"
 sudo dnf install vim neovim -y
@@ -119,22 +118,21 @@ pip3 install ansible jq
 #https://stackoverflow.com/questions/34286515/how-to-install-visual-studio-code-extensions-from-command-line
 
 #-u den codium --install-extension golang.go 
-sudo -u den codium --install-extension ms-python.python
-sudo -u den codium --install-extension ms-toolsai.jupyter
-sudo -u den codium --install-extension redhat.vscode-yaml
-sudo -u den codium --install-extension ms-azuretools.vscode-docker
-sudo -u den codium --install-extension ms-kubernetes-tools.vscode-kubernetes-tools
-# sudo -u den codium --install-extension redhat.vscode-openshift-extension-pack
-sudo -u den codium --install-extension redhat.java
-sudo -u den codium --install-extension eamodio.gitlens
-sudo -u den codium --install-extension gitlab.gitlab-workflow
-sudo -u den codium --install-extension hashicorp.terraform
-sudo -u den codium --install-extension davidanson.vscode-markdownlint
+codium --install-extension ms-python.python
+codium --install-extension ms-toolsai.jupyter
+codium --install-extension redhat.vscode-yaml
+codium --install-extension ms-azuretools.vscode-docker
+codium --install-extension ms-kubernetes-tools.vscode-kubernetes-tools
+codium --install-extension redhat.java
+codium --install-extension eamodio.gitlens
+codium --install-extension gitlab.gitlab-workflow
+codium --install-extension hashicorp.terraform
+codium --install-extension davidanson.vscode-markdownlint
 
 
 #VIM install plugins
-git clone https://github.com/VundleVim/Vundle.vim.git /home/den/.vim/bundle/Vundle.vim
-cat <<EOF > /home/den/.vimrc
+git clone https://github.com/VundleVim/Vundle.vim.git "$HOME/.vim/bundle/Vundle.vim"
+cat <<EOF > "$HOME/.vimrc"
 set nocompatible              " be iMproved, required
 filetype off                  " required
 "set the runtime path to include Vundle and initialize"
@@ -185,7 +183,7 @@ rm -rf Menlo-for-Powerline
 # plugins
 #https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md
 git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/den/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
 
 cp ~/git_projects/.zshrc_linux ~/.zshrc
 # cat <<EOF > ~/.zshrc
