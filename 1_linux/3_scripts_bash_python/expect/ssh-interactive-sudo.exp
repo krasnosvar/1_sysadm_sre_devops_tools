@@ -1,0 +1,25 @@
+#!/usr/bin/expect -f
+# Open an interactive root shell while SSH and sudo handle authentication.
+
+set timeout -1
+
+if {$argc < 1 || $argc > 2} {
+    send_user "Usage: ssh-interactive-sudo.exp HOST ?USER?\n"
+    exit 2
+}
+
+set host [lindex $argv 0]
+if {$argc == 2} {
+    set user [lindex $argv 1]
+} elseif {[info exists env(SSH_USER)] && $env(SSH_USER) ne ""} {
+    set user $env(SSH_USER)
+} else {
+    set user $env(USER)
+}
+
+spawn ssh -o StrictHostKeyChecking=accept-new -t -- "$user@$host" sudo -i
+interact
+
+catch wait result
+set exit_status [lindex $result 3]
+exit $exit_status

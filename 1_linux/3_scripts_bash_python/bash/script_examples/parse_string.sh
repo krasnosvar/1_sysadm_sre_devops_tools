@@ -1,10 +1,9 @@
-#parse one_line_data to readble list
+# Parse comma-separated data into one value per line.
 
 STR="server1, server2, server3"
- 
- IFS=', ' read -ra NAMES <<< "$STR"    #Convert string to array
- 
-   #Print all names from array
- for i in "${NAMES[@]}"; do
-     echo $i
- done
+
+IFS=', ' read -ra NAMES <<< "$STR"
+
+for name in "${NAMES[@]}"; do
+    printf '%s\n' "$name"
+done

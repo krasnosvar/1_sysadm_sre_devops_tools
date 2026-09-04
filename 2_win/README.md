@@ -1,34 +1,29 @@
-#### Win11 scripts
+# Windows 11 scripts
 
-```
-.
-├── README.md
-├── choco.ps1
-├── powershell.sh
-└── win11_lock_screen.png
-```
+`choco.ps1` — полный workstation bootstrap для Windows PowerShell 5.1+ /
+PowerShell 7. Он сохраняет исходный каталог приложений, проверяет уже
+установленные пакеты, продолжает после недоступного package и возвращает общий
+failure summary.
 
+```powershell
+# Read-only preview, elevation is not required
+pwsh -File .\choco.ps1 -WhatIf
 
-1. ```choco.ps1``` Win11 packages installation script via chocolatey
-* Execute script with admin privileges
-```
-powershell -executionpolicy bypass -File 'C:\Users\Den\Documents\choco.ps1'
-```
-The package list mirrors the Fedora workstation setup where Windows packages are
-available: CLI utilities, browsers, media apps, DevOps/Kubernetes tooling,
-database clients, IDEs, Arduino tools and AI tools. Windows-specific
-open-source alternatives are used where there is no direct Linux equivalent
-(`ShareX`, `Greenshot`, `SumatraPDF`, `WinDump`, `WinMTR`, `WinSCP`, etc.).
-
-Do not store private SSH/GPG keys, VPN profiles, cloud credentials, MCP tokens
-or API keys in this public repo. Keep them in an encrypted backup or a local
-restore folder outside git.
-
-* update installed via choco packages
-* https://docs.chocolatey.org/en-us/choco/commands/upgrade/
-```
-choco upgrade all
+# Install the selected applications and configure editors, AI CLI tools and WSL
+# Run from an elevated PowerShell session after reviewing the preview
+pwsh -File .\choco.ps1
 ```
 
+В `$Packages`, `$Extensions`, `$EditorCommands` и `$AITools` каждый элемент
+записан на отдельной строке и сгруппирован по назначению. Закомментируйте или
+удалите строку приложения, расширения либо CLI, которое не нужно, затем снова
+запустите `-WhatIf`. По умолчанию после Chocolatey packages устанавливаются
+расширения редакторов, Claude Code, Codex, Gemini CLI и настраивается WSL2 с
+Ubuntu. Google Antigravity сохранён и в списке приложений, и среди редакторов.
 
-2. ```powershell.sh``` some useful Powershell commands 
+`powershell.sh` — command-reference fragments, а не исполняемый shell script.
+`win11_lock_screen.png` — optional personal asset.
+
+Полный offline manifest приложений находится в
+[`2_lin_win_mac_apps_bkp`](https://github.com/krasnosvar/2_lin_win_mac_apps_bkp).
+Credentials, SSH keys, kubeconfig и VPN profiles не должны попадать в репу.

@@ -43,12 +43,12 @@ Neovim + LazyVim. Если рабочий `~/.config/nvim` уже есть, ск
 
 `4_config_vscode.sh`
 
-VS Code, VSCodium, Cursor, Windsurf, Antigravity, общий `settings.json`,
+VS Code, VSCodium, Cursor, Windsurf, Google Antigravity, общий `settings.json`,
 extensions, `~/AGENTS.md`, `~/.cursor/mcp.json`.
 
 `5_ai_tools.sh`
 
-AI tools: Cursor/Windsurf/Antigravity repos, Claude Code, Codex, Gemini CLI,
+AI tools: Cursor/Windsurf/Google Antigravity repos, Claude Code, Codex, Gemini CLI,
 Qwen Code, Crush, Aider, opencode, goose, Warp, LM Studio CLI/AppImage launcher,
 AnythingLLM Desktop.
 
@@ -112,5 +112,5 @@ npm config get prefix
 Ожидаемый npm prefix:
 
 ```text
-/home/den/.local
+$HOME/.local
 ```

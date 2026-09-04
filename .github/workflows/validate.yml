@@ -1,0 +1,246 @@
+name: validate
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  maintained-scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Guard retained repository sections
+        run: |
+          for path in \
+            1_linux/1_shell_bash_commands/2_disks_mount_lvm_nfs/smartctl.sh \
+            1_linux/1_shell_bash_commands/6_text_manipulation_utils/grep-practical.sh \
+            1_linux/1_shell_bash_commands/6_text_manipulation_utils/jq-yq-practical.sh \
+            1_linux/3_scripts_bash_python/PRACTICAL_EXAMPLES.md \
+            1_linux/3_scripts_bash_python/bash/script_examples/parse_string.sh \
+            1_linux/3_scripts_bash_python/bash/service_recovery_guard.sh \
+            1_linux/3_scripts_bash_python/expect/ssh-kras.exp.sh \
+            1_linux/3_scripts_bash_python/expect/ssh-interactive-sudo.exp \
+            1_linux/3_scripts_bash_python/go/port-matrix/main.go \
+            1_linux/3_scripts_bash_python/python/cert_inventory.py \
+            1_linux/3_scripts_bash_python/python/k8s_why_pending.py \
+            1_linux/3_scripts_bash_python/python/oom_explain.py \
+            1_linux/3_scripts_bash_python/python/rename_extensions.py \
+            1_linux/3_scripts_bash_python/python/text_search.py \
+            1_linux/3_scripts_bash_python/python/1_script_examples/minio_check.py \
+            1_linux/3_scripts_bash_python/python/cloud/aws/s3_cleaner.py \
+            1_linux/3_scripts_bash_python/python/cloud/aws/ec2_power.py \
+            1_linux/3_scripts_bash_python/python/cloud/aws/who_changed.py \
+            1_linux/3_scripts_bash_python/python/cloud/gcp/asset_change_timeline.py \
+            1_linux/3_scripts_bash_python/python/cloud/azure/change_timeline.py \
+            1_linux/3_scripts_bash_python/python/cloud/gcp/README.md \
+            1_linux/3_scripts_bash_python/python/cloud/azure/README.md \
+            1_linux/3_scripts_bash_python/SCRIPT_BACKLOG.md \
+            what_to_learn/programming_notes/go/README.md \
+            what_to_learn/programming_notes/python_theory/arguments.py; do
+            test -e "$path" || { echo "Missing retained path: $path" >&2; exit 1; }
+          done
+          printf '%s\n' \
+            'd8c39007679c922fd9ff469e03c9fbdb538636a7ab63052a89e90ee788adcc5b  1_linux/1_shell_bash_commands/6_text_manipulation_utils/grep.sh' \
+            'f93f75ca00739f4cdc8cb788569ef1d598940e96e9d733341dd552d64c1eeb0a  1_linux/1_shell_bash_commands/6_text_manipulation_utils/jq-yq.sh' \
+            '4811021069020732b518ee7c64eb78ed61bff6d61ec7b6d4042e3194b4a9859d  1_linux/3_scripts_bash_python/expect/expect.sh' \
+            '37b532249cf2849618994db9e3e8d1ee0a9d1c2d67e6e29b0b5118114264fe6c  1_linux/3_scripts_bash_python/expect/ssh-kras.exp.sh' | \
+            sha256sum --check --strict
+          grep -q 'antigravity' 1_linux/fedora/4_config_vscode.sh
+          grep -q 'antigravity' 1_linux/fedora/5_ai_tools.sh
+
+          choco_file=2_win/choco.ps1
+          package_count=$(sed -n '/^\$Packages = @(/,/^)/p' "$choco_file" | grep -c "^[[:space:]]*'")
+          extension_count=$(sed -n '/^\$Extensions = @(/,/^)/p' "$choco_file" | grep -c "^[[:space:]]*'")
+          editor_count=$(sed -n '/^\$EditorCommands = @(/,/^)/p' "$choco_file" | grep -c "^[[:space:]]*'")
+          ai_cli_count=$(sed -n '/^\$AITools = @(/,/^)/p' "$choco_file" | grep -c "^[[:space:]]*'")
+          test "$package_count" -ge 157
+          test "$extension_count" -ge 20
+          test "$editor_count" -ge 8
+          test "$ai_cli_count" -ge 3
+          for package in \
+            smartmontools inkscape telegram forticlientvpn nodejs-lts ansible \
+            vault helmfile virtualbox arduino-ide cursoride windsurf antigravity \
+            warp lm-studio; do
+            grep -Fq "'$package'" "$choco_file" || {
+              echo "Missing retained Chocolatey package: $package" >&2
+              exit 1
+            }
+          done
+          grep -Fq "'@anthropic-ai/claude-code'" "$choco_file"
+          grep -Fq "'@openai/codex'" "$choco_file"
+          grep -Fq "'@google/gemini-cli'" "$choco_file"
+          grep -q '^Configure-WSL$' "$choco_file"
+
+      - name: Install shell validators
+        run: sudo apt-get update && sudo apt-get install -y shellcheck zsh
+
+      - name: Validate maintained shell scripts
+        run: |
+          bash -n 1_linux/fedora/*.sh
+          bash -n 1_linux/fedora/fedora-coreos/pure_install_on_libvirt.sh
+          bash -n 1_linux/ubuntu/ubuntu__desktop_24_04_1/*.sh
+          bash -n 1_linux/3_scripts_bash_python/bash/host_health.sh
+          bash -n 1_linux/3_scripts_bash_python/bash/nginx_access_report.sh
+          bash -n 1_linux/3_scripts_bash_python/bash/retry.sh
+          bash -n 1_linux/3_scripts_bash_python/bash/service_recovery_guard.sh
+          bash -n 1_linux/1_shell_bash_commands/2_disks_mount_lvm_nfs/smartctl.sh
+          bash -n 1_linux/1_shell_bash_commands/6_text_manipulation_utils/grep-practical.sh
+          bash -n 1_linux/1_shell_bash_commands/6_text_manipulation_utils/jq-yq-practical.sh
+          shellcheck 1_linux/fedora/lib_fedora_setup.sh
+          shellcheck 1_linux/fedora/fedora-coreos/pure_install_on_libvirt.sh
+          shellcheck 1_linux/ubuntu/ubuntu__desktop_24_04_1/*.sh
+          shellcheck 1_linux/3_scripts_bash_python/bash/host_health.sh
+          shellcheck 1_linux/3_scripts_bash_python/bash/nginx_access_report.sh
+          shellcheck 1_linux/3_scripts_bash_python/bash/retry.sh
+          shellcheck 1_linux/3_scripts_bash_python/bash/service_recovery_guard.sh
+          shellcheck 1_linux/1_shell_bash_commands/2_disks_mount_lvm_nfs/smartctl.sh
+          shellcheck 1_linux/1_shell_bash_commands/6_text_manipulation_utils/grep-practical.sh
+          shellcheck 1_linux/1_shell_bash_commands/6_text_manipulation_utils/jq-yq-practical.sh
+          1_linux/3_scripts_bash_python/bash/service_recovery_guard.sh --help >/dev/null
+          zsh -n 3_macos/update-mac.zsh 3_macos/.zshrc_mac
+
+      - name: Smoke test access-log report
+        run: |
+          printf '%s\n' \
+            '192.0.2.1 - - [01/Jan/2026:00:00:00 +0000] "GET /health HTTP/1.1" 200 2 "-" "curl"' \
+            '192.0.2.2 - - [01/Jan/2026:00:00:01 +0000] "GET /api HTTP/1.1" 503 2 "-" "curl"' | \
+            1_linux/3_scripts_bash_python/bash/nginx_access_report.sh --top 5 | \
+            grep -q '1 503'
+
+      - name: Smoke test retry wrapper
+        run: |
+          1_linux/3_scripts_bash_python/bash/retry.sh -a 2 -d 0 -- true
+          if 1_linux/3_scripts_bash_python/bash/retry.sh -a 2 -d 0 -- false; then
+            echo 'retry unexpectedly returned success' >&2
+            exit 1
+          fi
+
+      - name: Validate PowerShell syntax
+        shell: pwsh
+        run: |
+          $errors = $null
+          [void][System.Management.Automation.Language.Parser]::ParseFile(
+            (Resolve-Path '2_win/choco.ps1'),
+            [ref]$null,
+            [ref]$errors
+          )
+          if ($errors.Count) { $errors | Format-List; exit 1 }
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+
+      - name: Validate Python utilities
+        run: |
+          python -m pip install PyYAML boto3 cryptography minio privatebinapi psycopg2-binary ruff==0.16.6
+          python -m compileall -q 1_linux/3_scripts_bash_python/python
+          ruff check \
+            1_linux/3_scripts_bash_python/python/yaml_set.py \
+            1_linux/3_scripts_bash_python/python/json_log_summary.py \
+            1_linux/3_scripts_bash_python/python/config_diff.py \
+            1_linux/3_scripts_bash_python/python/rename_extensions.py \
+            1_linux/3_scripts_bash_python/python/text_search.py \
+            1_linux/3_scripts_bash_python/python/oom_explain.py \
+            1_linux/3_scripts_bash_python/python/cert_inventory.py \
+            1_linux/3_scripts_bash_python/python/k8s_why_pending.py \
+            1_linux/3_scripts_bash_python/python/cloud/aws/s3_cleaner.py \
+            1_linux/3_scripts_bash_python/python/cloud/aws/ec2_power.py \
+            1_linux/3_scripts_bash_python/python/cloud/aws/who_changed.py \
+            1_linux/3_scripts_bash_python/python/cloud/gcp/asset_change_timeline.py \
+            1_linux/3_scripts_bash_python/python/cloud/azure/change_timeline.py \
+            1_linux/3_scripts_bash_python/python/1_script_examples/aws_manipulations_scripts/s3_cleaner.py \
+            1_linux/3_scripts_bash_python/python/1_script_examples/aws_manipulations_scripts/start_stop_ec2_instances.py \
+            1_linux/3_scripts_bash_python/python/1_script_examples/kafka/add_del_kafka_topic.py \
+            1_linux/3_scripts_bash_python/python/1_script_examples/minio_check.py \
+            1_linux/3_scripts_bash_python/python/1_script_examples/matrix/send_message_to_matrix_room.py \
+            1_linux/3_scripts_bash_python/python/1_script_examples/postgres/users_postgres.py \
+            1_linux/3_scripts_bash_python/python/1_script_examples/asyncio/shell_10_times.py \
+            1_linux/3_scripts_bash_python/python/1_script_examples/privatebin.py \
+            1_linux/3_scripts_bash_python/python/tests
+          printf '%s\n' '{"level":"ERROR","message":"timeout"}' | \
+            python 1_linux/3_scripts_bash_python/python/json_log_summary.py --level ERROR
+          python 1_linux/3_scripts_bash_python/python/cloud/aws/s3_cleaner.py --help >/dev/null
+          python 1_linux/3_scripts_bash_python/python/cloud/aws/ec2_power.py --help >/dev/null
+          python 1_linux/3_scripts_bash_python/python/cloud/aws/who_changed.py --help >/dev/null
+          python 1_linux/3_scripts_bash_python/python/cloud/gcp/asset_change_timeline.py \
+            --help >/dev/null
+          python 1_linux/3_scripts_bash_python/python/cloud/azure/change_timeline.py \
+            --help >/dev/null
+          python 1_linux/3_scripts_bash_python/python/oom_explain.py --help >/dev/null
+          python 1_linux/3_scripts_bash_python/python/cert_inventory.py --help >/dev/null
+          python 1_linux/3_scripts_bash_python/python/k8s_why_pending.py --help >/dev/null
+          python 1_linux/3_scripts_bash_python/python/rename_extensions.py --help >/dev/null
+          python 1_linux/3_scripts_bash_python/python/text_search.py --help >/dev/null
+          python 1_linux/3_scripts_bash_python/python/1_script_examples/aws_manipulations_scripts/s3_cleaner.py \
+            --help >/dev/null
+          python 1_linux/3_scripts_bash_python/python/1_script_examples/aws_manipulations_scripts/start_stop_ec2_instances.py \
+            --help >/dev/null
+          python 1_linux/3_scripts_bash_python/python/1_script_examples/minio_check.py --help >/dev/null
+          python 1_linux/3_scripts_bash_python/python/1_script_examples/postgres/users_postgres.py --help >/dev/null
+          if python 1_linux/3_scripts_bash_python/python/1_script_examples/postgres/users_postgres.py \
+              app_reader --apply >/dev/null 2>&1; then
+            echo 'PostgreSQL role creation accepted --apply without --password-output' >&2
+            exit 1
+          fi
+          python 1_linux/3_scripts_bash_python/python/1_script_examples/privatebin.py --help >/dev/null
+          python 1_linux/3_scripts_bash_python/python/1_script_examples/matrix/send_message_to_matrix_room.py --help >/dev/null
+          python 1_linux/3_scripts_bash_python/python/1_script_examples/asyncio/shell_10_times.py \
+            --count 2 --concurrency 1 -- true
+          python -m unittest discover \
+            -s 1_linux/3_scripts_bash_python/python/tests -v
+
+      - name: Smoke test file operations
+        run: |
+          mkdir -p /tmp/file-operations
+          printf '%s\n' 'connection refused' > /tmp/file-operations/service.old.log
+          python 1_linux/3_scripts_bash_python/python/rename_extensions.py \
+            /tmp/file-operations --from .old.log --to .log
+          test -f /tmp/file-operations/service.old.log
+          test ! -e /tmp/file-operations/service.log
+          python 1_linux/3_scripts_bash_python/python/rename_extensions.py \
+            /tmp/file-operations --from .old.log --to .log --apply
+          test -f /tmp/file-operations/service.log
+          python 1_linux/3_scripts_bash_python/python/text_search.py \
+            /tmp/file-operations 'connection refused' --word --jsonl | \
+            grep -q '"line": 1'
+
+      - name: Smoke test OOM parser
+        run: |
+          printf '%s\n' \
+            'oom-kill:constraint=CONSTRAINT_MEMCG,task_memcg=/system.slice/api.service' \
+            'Killed process 4242 (api) total-vm:1000kB, anon-rss:700kB' | \
+            python 1_linux/3_scripts_bash_python/python/oom_explain.py | \
+            grep -q $'cgroup\t4242\tapi\t700'
+
+      - name: Smoke test structured config diff
+        run: |
+          printf '%s\n' '{"replicas":1,"password":"old"}' > /tmp/config-old.json
+          printf '%s\n' '{"replicas":2,"password":"new"}' > /tmp/config-new.json
+          if output=$(python 1_linux/3_scripts_bash_python/python/config_diff.py \
+              /tmp/config-old.json /tmp/config-new.json); then
+            echo 'config_diff unexpectedly reported equal files' >&2
+            exit 1
+          fi
+          grep -q '<redacted>' <<< "$output"
+          grep -q '\$.replicas' <<< "$output"
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: 1_linux/3_scripts_bash_python/go/endpoint-checker/go.mod
+          cache-dependency-path: |
+            1_linux/3_scripts_bash_python/go/endpoint-checker/go.mod
+            1_linux/3_scripts_bash_python/go/tls-expiry-checker/go.mod
+            1_linux/3_scripts_bash_python/go/port-matrix/go.mod
+
+      - name: Validate Go utility
+        run: |
+          for module in endpoint-checker tls-expiry-checker port-matrix; do
+            cd "$GITHUB_WORKSPACE/1_linux/3_scripts_bash_python/go/$module"
+            test -z "$(gofmt -l .)"
+            go vet ./...
+            go test ./...
+          done

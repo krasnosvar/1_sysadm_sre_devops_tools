@@ -37,6 +37,9 @@ gpgcheck=1
 gpgkey=https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf
 EOF
 
+# Google currently documents this RPM repository with gpgcheck=0.
+# Keep the upstream setting explicit so it is easy to revisit when Google
+# publishes a signing key for the repository.
 sudo_write_file_if_changed /etc/yum.repos.d/antigravity.repo <<'EOF'
 [antigravity-rpm]
 name=Antigravity RPM Repository
@@ -67,7 +70,7 @@ if command -v opencode >/dev/null 2>&1; then
   log "opencode already installed: $(command -v opencode)"
 else
   log "Installing opencode"
-  curl -fsSL https://opencode.ai/install | bash
+  run_https_bash_installer https://opencode.ai/install
 fi
 append_line_if_missing "$HOME/.zshrc" 'export PATH="$HOME/.opencode/bin:$PATH"'
 
@@ -95,7 +98,7 @@ log "Installing LM Studio CLI"
 if command -v lms >/dev/null 2>&1; then
   log "lms already installed: $(command -v lms)"
 else
-  curl -fsSL https://lmstudio.ai/install.sh | bash
+  run_https_bash_installer https://lmstudio.ai/install.sh
 fi
 if command -v lms >/dev/null 2>&1; then
   lms bootstrap || true
