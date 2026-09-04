@@ -1,37 +1,23 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
-
-
-export ANSIBLE_HOST_KEY_CHECKING=false
-export ANSIBLE_DEPRECATION_WARNINGS=false
-
+# Managed fragment installed by update-mac.zsh.
+export ZSH="${ZSH:-$HOME/.oh-my-zsh}"
 ZSH_THEME="agnoster"
+plugins=(git docker docker-compose zsh-autosuggestions zsh-syntax-highlighting)
 
-plugins=(docker docker-compose git zsh-syntax-highlighting zsh-autosuggestions)
+if [[ -d "${ZSH_CUSTOM:-$ZSH/custom}/plugins/zsh-completions/src" ]]; then
+  fpath+=("${ZSH_CUSTOM:-$ZSH/custom}/plugins/zsh-completions/src")
+fi
+[[ -r "$ZSH/oh-my-zsh.sh" ]] && source "$ZSH/oh-my-zsh.sh"
 
-# https://github.com/zsh-users/zsh-completions
-# git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
-fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
-source $ZSH/oh-my-zsh.sh
+autoload -Uz compinit && compinit
+command -v kubectl >/dev/null 2>&1 && source <(kubectl completion zsh)
+command -v tofu >/dev/null 2>&1 && source <(tofu -install-autocomplete 2>/dev/null || true)
 
-#autocomplete
-complete -C /usr/bin/terraform terraform
-source <(kubectl completion zsh)
+if command -v brew >/dev/null 2>&1; then
+  brew_prefix="$(brew --prefix)"
+  export PATH="$brew_prefix/opt/libpq/bin:$brew_prefix/opt/openjdk/bin:$PATH"
+  export CPPFLAGS="-I$brew_prefix/opt/openjdk/include${CPPFLAGS:+ $CPPFLAGS}"
+  unset brew_prefix
+fi
 
-#aliases
-alias push="git add . && git commit -m \"script auto commit\" && git push"
-alias rm='echo "Use <<trash-put>> instead rm, to override alias use \"\\rm file-to-del\" "; false'
-
-#java
-#brew install openjdk
-export PATH="/usr/local/opt/openjdk/bin:$PATH"
-export CPPFLAGS="-I/usr/local/opt/openjdk/include"
-
-prompt_dir() {
-  # prompt_segment blue $CURRENT_FG '%2~'
-  prompt_segment blue $CURRENT_FG '%1~'
-}
-export PATH="/usr/local/opt/libpq/bin:$PATH"
+# Refuse accidental recursive deletion; use `command rm` after checking a target.
+alias rm='print -u2 "Use trash or: command rm <checked-target>"; false'

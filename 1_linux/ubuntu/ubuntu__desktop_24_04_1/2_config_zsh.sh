@@ -1,35 +1,42 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+omz="$HOME/.oh-my-zsh"
+custom="${ZSH_CUSTOM:-$omz/custom}"
 
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> INSTALL-CONFIGURE ZSH"
-#ZSH
-#https://www.zsh.org
-#https://github.com/zsh-users
-sudo apt install zsh -y
+sudo apt-get install -y zsh fonts-powerline git
 
-# Oh My Zsh
-# https://ohmyz.sh/#install
-# sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+clone_or_update() {
+  local repo=$1 destination=$2
+  if [ -d "$destination/.git" ]; then
+    git -C "$destination" pull --ff-only
+  elif [ -e "$destination" ]; then
+    printf 'skip existing non-git path: %s\n' "$destination" >&2
+  else
+    git clone --depth 1 "$repo" "$destination"
+  fi
+}
 
-#zsh fonts
-# for vscode
-sudo cp files/Menlo_for_Powerline.ttf /usr/share/fonts/
-sudo fc-cache -vf /usr/share/fonts/
-#fix fonts in gnonme-terminal U2404
-# https://askubuntu.com/questions/1511649/ohmyzsh-agnoster-statusline-doesnt-display-correctly-in-ubuntu-24-04
-gsettings set org.gnome.desktop.interface monospace-font-name 'Ubuntu Mono 13'
-sudo apt install fonts-powerline -y # for gnome-terminal
+clone_or_update https://github.com/ohmyzsh/ohmyzsh.git "$omz"
+clone_or_update https://github.com/zsh-users/zsh-autosuggestions.git \
+  "$custom/plugins/zsh-autosuggestions"
+clone_or_update https://github.com/zsh-users/zsh-syntax-highlighting.git \
+  "$custom/plugins/zsh-syntax-highlighting"
 
+mkdir -p "$HOME/.config/sre-tools"
+install -m 0644 "$script_dir/files/.zshrc" "$HOME/.config/sre-tools/zshrc"
+touch "$HOME/.zshrc"
+# Keep HOME literal: the installed shell evaluates it on startup.
+# shellcheck disable=SC2016
+line='source "$HOME/.config/sre-tools/zshrc"'
+grep -qxF "$line" "$HOME/.zshrc" || printf '%s\n' "$line" >> "$HOME/.zshrc"
 
+if command -v gsettings >/dev/null 2>&1; then
+  gsettings set org.gnome.desktop.interface monospace-font-name 'Ubuntu Mono 13'
+fi
 
-# plugins
-#https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-
-cp files/.zshrc ~/.zshrc
-sudo chown -R den: /home/den
-# chsh -s $(which zsh)
-chsh -s /bin/zsh
-which $SHELL
+zsh_path="$(command -v zsh)"
+if [ "${SHELL:-}" != "$zsh_path" ]; then
+  chsh -s "$zsh_path"
+fi

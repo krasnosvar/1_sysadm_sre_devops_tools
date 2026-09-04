@@ -19,6 +19,11 @@
 *.prof
 __pycache__/
 *.pyc
+*.bak
+
+# Common local secret files. Commit explicit *.sample or *.example templates.
+**/.env
+**/.env.local
 
 # Local workstation restore secrets; keep samples in git, never real values.
 1_linux/fedora/private/*

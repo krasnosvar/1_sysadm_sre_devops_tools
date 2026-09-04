@@ -1,25 +1,28 @@
-#### MacOS scripts
+# macOS scripts
 
+`update-mac.zsh` — основной идемпотентный bootstrap через Homebrew. Он не
+записывает Git name/email, не копирует secrets и корректно работает с путями
+Homebrew на Apple Silicon и Intel.
+
+```bash
+./update-mac.zsh --check
+./update-mac.zsh --devops --dry-run
+./update-mac.zsh --all
 ```
-├── commands.zsh
-├── fedora-asahi-update.sh
-├── remap-keyboard.sh
-├── update-mac.zsh
-└── .zshrc_mac
-```
 
+Профили: `--minimal`, `--devops`, `--desktop`, `--all`. Google Antigravity
+включён в `devops` и `desktop`. Недоступные formula/cask
+не останавливают весь проход, но перечисляются в конце и дают exit code 1.
 
-1. ```update-mac.zsh``` MacOS packages installation script via brew
-2. ```fedora-asahi-update.sh``` Linux for Mac update script
-3. ```commands.zsh``` useful commands for mac
-4. ```remap-keyboard.sh``` tools for remap macos-keyboard to win-keyboard
-5. ```.zshrc_mac``` zsh config for mac
+Остальные файлы:
 
-`update-mac.zsh` is intended to mirror the Fedora workstation setup where
-possible: CLI tools, browsers, media apps, DevOps/Kubernetes tooling, database
-clients, IDEs, Arduino tools and AI tools. macOS-specific open-source
-alternatives are used where there is no direct Linux equivalent.
+- `.zshrc_mac` — переносимый fragment, который bootstrap устанавливает в
+  `~/.config/sre-tools/zshrc`;
+- `commands.zsh` — macOS command-reference fragments;
+- `fedora-asahi-update.sh` — отдельный legacy Fedora Asahi setup, не часть macOS
+  bootstrap;
+- `remap-keyboard.sh` — заметки по remapping клавиатуры.
 
-Private tokens, VPN profiles, SSH/GPG keys, cloud credentials and MCP secrets
-must stay outside this public repo. Use an encrypted backup or a local directory
-such as `~/.config/workstation-restore`.
+Большой офлайн-каталог installers и package manifests принадлежит репозиторию
+[`2_lin_win_mac_apps_bkp`](https://github.com/krasnosvar/2_lin_win_mac_apps_bkp).
+SSH/GPG keys, VPN profiles, cloud credentials и MCP tokens хранятся вне git.
