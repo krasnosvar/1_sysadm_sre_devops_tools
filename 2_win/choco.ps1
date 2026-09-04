@@ -1,272 +1,132 @@
-# powershell -executionpolicy bypass -File 'C:\Users\Den\Documents\choco.ps1'
-# Run from an elevated PowerShell session.
+#Requires -Version 5.1
+[CmdletBinding()]
+param(
+    [ValidateSet('Minimal', 'DevOps', 'Desktop', 'All')]
+    [string]$Profile = 'Minimal',
+    [switch]$WhatIf,
+    [switch]$InstallWSL
+)
 
 $ErrorActionPreference = 'Stop'
+$FailedPackages = [System.Collections.Generic.List[string]]::new()
 
 function Test-IsAdmin {
     $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
-    $principal = New-Object Security.Principal.WindowsPrincipal($identity)
+    $principal = [Security.Principal.WindowsPrincipal]::new($identity)
     return $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
 
-if (-not (Test-IsAdmin)) {
-    throw "Run this script from an elevated PowerShell session."
+function Install-Chocolatey {
+    if (Get-Command choco -ErrorAction SilentlyContinue) { return }
+    if ($WhatIf) {
+        Write-Host '+ install Chocolatey from the official installer'
+        return
+    }
+    $installer = Join-Path ([IO.Path]::GetTempPath()) 'install-chocolatey.ps1'
+    try {
+        Invoke-WebRequest -UseBasicParsing `
+            -Uri 'https://community.chocolatey.org/install.ps1' `
+            -OutFile $installer
+        & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $installer
+        if ($LASTEXITCODE -ne 0) { throw "Chocolatey installer exited $LASTEXITCODE" }
+    }
+    finally {
+        Remove-Item -LiteralPath $installer -Force -ErrorAction SilentlyContinue
+    }
 }
 
-if (-not (Test-Path -Path "$env:ProgramData\Chocolatey")) {
-    Set-ExecutionPolicy Bypass -Scope Process -Force
-    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
-    Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+function Test-ChocoPackageInstalled([string]$Name) {
+    $escaped = [regex]::Escape($Name)
+    $result = & choco list $Name --exact --limit-output 2>$null
+    return $LASTEXITCODE -eq 0 -and $result -match "^$escaped\|"
 }
 
-choco feature enable -n allowGlobalConfirmation
-
-$Packages = @(
-    # OS utils / maintenance
-    'rufus',
-    'linux-reader',
-    'bleachbit',
-    '7zip',
-    'copyq',
-    'greenshot',
-    'flameshot',
-    'sharex',
-    'keepassxc',
-    'veracrypt',
-    'smartmontools',
-    'sysinternals',
-
-    # Office, multimedia, CAD, notes
-    'libreoffice-fresh',
-    'sumatrapdf',
-    'fbreader',
-    'gimp',
-    'inkscape',
-    'audacity',
-    'vlc',
-    'mpv',
-    'ffmpeg',
-    'k-litecodecpackfull',
-    'blender',
-    'obs-studio',
-    'shotcut',
-    'openshot',
-    'davinci-resolve',
-    'kdenlive',
-    'krita',
-    'figma',
-    'drawio',
-    'kicad',
-    'freecad',
-    'openscad',
-    'sweethome3d',
-    'calibre',
-    'obsidian',
-    'steam',
-    'qbittorrent',
-
-    # Communication
-    'telegram',
-    'rocketchat',
-    'slack',
-    'zoom',
-
-    # Browsers
-    'googlechrome',
-    'vivaldi',
-    'brave',
-    'firefox',
-    'librewolf',
-    'floorp',
-    'tor-browser',
-    'opera',
-
-    # Network, VPN, remote access
-    'forticlientvpn',
-    'openvpn',
-    'wireguard',
-    'amneziavpn',
-    'v2rayn',
-    'wireshark',
-    'nmap',
-    'winmtr-redux',
-    'iperf3',
-    'windump',
-    'bind-toolsonly',
-    'rclone',
-    'restic',
-    'termius',
-    'filezilla',
-    'winscp',
-    'putty',
-    'kitty',
-    'teraterm',
-    'mobaxterm',
-    'tigervnc',
-    'rustdesk',
-
-    # Programming tools
-    'git',
-    'python3',
-    'ruby',
-    'rustup.install',
-    'nodejs-lts',
-    'golang',
-    'openjdk',
-    'vscode',
-    'vscodium',
-    'neovim',
-    'vim',
-    'pycharm-community',
-    'intellijidea-community',
-    'notepadplusplus',
-    'golangci-lint',
-
-    # DevOps, testing, debugging
-    'terraform',
-    'opentofu.portable',
-    'terragrunt',
-    'tflint',
-    'packer',
-    'ansible',
-    'go-task',
-    'dbeaver',
-    'datagrip',
-    'mongodb-compass',
-    'mongodb-database-tools',
-    'mongodb-atlas-cli',
-    'redisinsight',
-    'beekeeper-studio',
-    'postgresql',
-    'sqlite',
-    'sqlitebrowser',
-    'httpie',
-    'insomnia-rest-api-client',
-    'curl',
-    'postman',
-    'k6',
-    'grpcurl',
-    'jq',
-    'yq',
-    'sops',
-    'age.portable',
-    'vault',
-
-    # Modern CLI utilities, matching Fedora/macOS shell toolkit
-    'bat',
-    'fzf',
-    'ripgrep',
-    'fd',
-    'eza',
-    'ncdu',
-    'btop',
-    'htop',
-    'pv',
-    'gsudo',
-    'direnv',
-    'zoxide',
-    'delta',
-    'tealdeer',
-    'lazygit',
-
-    # Containers / Kubernetes
-    'docker-desktop',
-    'kubernetes-cli',
-    'kubernetes-helm',
-    'kustomize',
-    'helmfile',
-    'k9s',
-    'lens',
-    'kops',
-    'istioctl',
-    'podman-desktop',
-    'rancher-desktop',
-    'stern',
-    'dive',
-    'lazydocker',
-    'kind',
-    'trivy',
-
-    # Virtualization / cloud
-    'virtualbox',
-    'awscli',
-
-    # Hardware / Arduino
-    'arduino-ide',
-    'arduino-cli',
-    'esptool',
-
-    # AI tools / IDE forks
-    'cursoride',
-    'windsurf',
-    'antigravity',
-    'warp',
-    'lm-studio'
-)
-
-foreach ($PackageName in $Packages) {
-    choco install $PackageName -y --no-progress
+function Install-ChocoPackage([string]$Name) {
+    if ($WhatIf) {
+        Write-Host "+ choco install $Name"
+        return
+    }
+    if (Test-ChocoPackageInstalled $Name) {
+        Write-Host "OK: $Name"
+        return
+    }
+    & choco search $Name --exact --limit-output *> $null
+    if ($LASTEXITCODE -ne 0) {
+        Write-Warning "Unavailable: $Name"
+        $FailedPackages.Add($Name)
+        return
+    }
+    & choco install $Name --yes --no-progress
+    if ($LASTEXITCODE -notin 0, 1641, 3010) {
+        Write-Warning "Failed: $Name (exit $LASTEXITCODE)"
+        $FailedPackages.Add($Name)
+    }
 }
 
-$Extensions = @(
-    'ms-python.python',
-    'golang.Go',
-    'redhat.java',
-    'redhat.vscode-yaml',
-    'ms-azuretools.vscode-docker',
-    'ms-kubernetes-tools.vscode-kubernetes-tools',
-    'hashicorp.terraform',
-    'ms-vscode-remote.remote-containers',
-    'eamodio.gitlens',
-    'gitlab.gitlab-workflow',
-    'mtxr.sqltools',
-    'davidanson.vscode-markdownlint',
-    'tomoki1207.pdf',
-    'Codeium.codeium',
-    'github.copilot-chat',
-    'usernamehw.errorlens',
-    'Gruntfuggly.todo-tree',
-    'alefragnani.Bookmarks',
-    'humao.rest-client',
-    'esbenp.prettier-vscode'
+if (-not (Test-IsAdmin) -and -not $WhatIf) {
+    throw 'Run this script from an elevated PowerShell session.'
+}
+
+Install-Chocolatey
+
+$MinimalPackages = @(
+    'git', 'powershell-core', 'microsoft-windows-terminal', 'openssh',
+    '7zip', 'curl', 'jq', 'yq', 'ripgrep', 'fd', 'fzf', 'bat', 'eza',
+    'zoxide', 'direnv', 'sysinternals', 'keepassxc'
 )
 
-$EditorCommands = @(
-    'code',
-    'codium',
-    'cursor',
-    'antigravity',
-    # Windsurf/Devin naming has changed across releases; keep all known CLI names.
-    'windsurf',
-    'windsurf-next',
-    'devin',
-    'devin-desktop'
+$DevOpsPackages = @(
+    'terraform', 'opentofu.portable', 'terragrunt', 'tflint', 'packer',
+    'go-task', 'python3', 'golang', 'shellcheck',
+    'docker-desktop', 'podman-desktop', 'kubernetes-cli', 'kubernetes-helm',
+    'kustomize', 'k9s', 'kind', 'stern',
+    'awscli', 'azure-cli', 'gcloudsdk',
+    'sops', 'age.portable', 'trivy', 'cosign', 'syft', 'grype',
+    'nmap', 'wireshark', 'iperf3', 'httpie', 'grpcurl', 'k6',
+    'rclone', 'restic', 'dbeaver', 'postman',
+    'vscode', 'vscodium', 'antigravity'
 )
 
-foreach ($Editor in $EditorCommands) {
-    $Command = Get-Command $Editor -ErrorAction SilentlyContinue
-    if ($Command) {
-        foreach ($Extension in $Extensions) {
-            & $Command.Source --install-extension $Extension --force
+$DesktopPackages = @(
+    'keepassxc', 'veracrypt', 'firefox', 'googlechrome', 'brave',
+    'sumatrapdf', 'libreoffice-fresh', 'vlc', 'obsidian',
+    'sharex', 'winscp', 'rustdesk', 'antigravity'
+)
+
+$Packages = [System.Collections.Generic.HashSet[string]]::new(
+    [StringComparer]::OrdinalIgnoreCase
+)
+foreach ($package in $MinimalPackages) { [void]$Packages.Add($package) }
+if ($Profile -in 'DevOps', 'All') {
+    foreach ($package in $DevOpsPackages) { [void]$Packages.Add($package) }
+}
+if ($Profile -in 'Desktop', 'All') {
+    foreach ($package in $DesktopPackages) { [void]$Packages.Add($package) }
+}
+
+foreach ($package in ($Packages | Sort-Object)) {
+    Install-ChocoPackage $package
+}
+
+if ($InstallWSL) {
+    if ($WhatIf) {
+        Write-Host '+ wsl --install --no-launch -d Ubuntu'
+    }
+    else {
+        & wsl --update
+        $installed = @(& wsl --list --quiet 2>$null) -replace "`0", ''
+        if ($installed -notcontains 'Ubuntu') {
+            & wsl --install --no-launch -d Ubuntu
+            if ($LASTEXITCODE -ne 0) { throw "WSL install exited $LASTEXITCODE" }
         }
+        & wsl --set-default-version 2
+        & wsl --set-default Ubuntu
     }
 }
 
-if (Get-Command npm -ErrorAction SilentlyContinue) {
-    npm install -g @anthropic-ai/claude-code @openai/codex @google/gemini-cli
+if ($FailedPackages.Count -gt 0) {
+    Write-Error "Unavailable or failed packages: $($FailedPackages -join ', ')" -ErrorAction Continue
+    exit 1
 }
 
-if (Get-Command wsl -ErrorAction SilentlyContinue) {
-    wsl --update
-    wsl --set-default-version 2
-
-    $InstalledDistros = @(wsl --list --quiet 2>$null)
-    if ($InstalledDistros -notcontains 'Ubuntu') {
-        # `Ubuntu` tracks the current default Ubuntu Store distribution.
-        # Use `wsl --list --online` and install `Ubuntu-24.04`, `Ubuntu-26.04`, etc.
-        # if an exact LTS release is required instead of the moving default.
-        wsl --install --no-launch -d Ubuntu
-    }
-
-    wsl --set-default Ubuntu
-}
+Write-Host "Completed profile: $Profile"

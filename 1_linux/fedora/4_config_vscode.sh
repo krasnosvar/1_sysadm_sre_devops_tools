@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # VS Code & AI IDE forks installation and configuration script
-# Installs and configures: VSCode, VSCodium, Cursor, Windsurf, Antigravity
+# Installs and configures: VSCode, VSCodium, Cursor, Windsurf and Antigravity
 # Creates:
 #   1. Global AGENTS.md file with agent guidance
 #   2. mcp.json for MCP (Model Context Protocol) integration
@@ -46,7 +46,7 @@ gpgcheck=1
 gpgkey=https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf
 EOF
 
-log "-> Setting up Antigravity repo..."
+log "-> Setting up Google Antigravity repo..."
 sudo tee /etc/yum.repos.d/antigravity.repo > /dev/null <<'EOF'
 [antigravity-rpm]
 name=Antigravity RPM Repository
