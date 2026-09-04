@@ -11,6 +11,7 @@
 ├── 6_text_manipulation_utils
 ├── 7_files_folders_manipulation_utils
 ├── 8_sh_bash_zsh_scripting
+├── 9_modern_cli_alternatives.sh
 ├── direnv.sh
 └── README.md
 ```
@@ -24,4 +25,5 @@
 6. ```6_text_manipulation_utils``` - text tools: awk, sed, grep, jq/yq, cut, sort, xargs, delta
 7. ```7_files_folders_manipulation_utils``` - file/folder tools: find, cp, rm, rename, zip/tar/7z, trash-cli, zoxide
 8. ```8_sh_bash_zsh_scripting``` - shell scripting: bash/zsh basics, crontab/at, history, completion, tealdeer, lazygit
-9. ```direnv.sh``` - direnv setup and usage
+9. ```9_modern_cli_alternatives.sh``` - modern drop-in replacements: bat, eza, fd, ripgrep, fzf, zoxide, atuin, btop, duf, dust, glow, delta, starship
+10. ```direnv.sh``` - direnv setup and usage

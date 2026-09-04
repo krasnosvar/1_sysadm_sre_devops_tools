@@ -24,11 +24,19 @@ Visual / low-code platforms to build, deploy and orchestrate AI agents and autom
 * [Langflow](https://www.langflow.org/) — visual builder on top of LangChain
 * [Activepieces](https://www.activepieces.com/) — open-source automation with AI steps
 
-## 3. Model serving & gateways
+## 3. Self-hosted code completion servers
+
+Drop-in replacements for GitHub Copilot: serve code completions to the whole
+team from one box with a GPU.
+
+* [Tabby](https://tabby.tabbyml.com/) — self-hosted AI coding assistant; VS Code / JetBrains / vim plugins, OpenAI-compatible API ([github](https://github.com/TabbyML/tabby))
+
+## 4. Model serving & gateways
 
 Run open models at scale, or put one API in front of many providers.
 
-* [vLLM](https://github.com/vllm-project/vllm) — high-throughput model serving for production (GPU)
+* [vLLM](https://github.com/vllm-project/vllm) — high-throughput model serving for production (GPU); OpenAI-compatible API
+* [SGLang](https://github.com/sgl-project/sglang) — fast structured generation runtime; often outperforms vLLM on throughput for Llama/Qwen/Gemma
 * [Ollama](https://ollama.com/) — also runs as a shared server on a box with a GPU
 * [LocalAI](https://localai.io/) — OpenAI-compatible API for local models (CPU/GPU)
 * [Hugging Face TGI](https://github.com/huggingface/text-generation-inference) — Text Generation Inference server

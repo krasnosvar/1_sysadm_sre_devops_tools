@@ -1,12 +1,15 @@
 # AI Tools for Coding
 
-A curated map of AI tools for software development.
+A curated map of AI tools for software development and everyday productivity.
 
-* **[1_local_tools.md](1_local_tools.md)** — everything you use on your own
-  machine: web services, AI editors, CLI agents, local LLM runners and offline
-  assistants.
+* **[1_local_tools.md](1_local_tools.md)** — LLM web services, AI editors, CLI
+  coding agents, local LLM runners, offline assistants. Free-tier labels included.
 * **[2_server_tools.md](2_server_tools.md)** — run on a server: self-hosted chat
   UIs, agent / workflow builders, and model-serving engines (always-on, multi-user).
+* **[3_ai_creative_tools.md](3_ai_creative_tools.md)** — image generation (web &
+  local), AI video, AI music / TTS / STT, image editing, 3D.
+* **[4_ai_assistants_online.md](4_ai_assistants_online.md)** — cloud personal
+  assistants, AI search, AI notes/knowledge base, AI presentations, productivity.
 
 ---
 
