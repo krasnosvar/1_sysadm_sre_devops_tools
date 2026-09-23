@@ -1,25 +1,24 @@
 # Windows 11 scripts
 
-`choco.ps1` — полный workstation bootstrap для Windows PowerShell 5.1+ /
-PowerShell 7. Он сохраняет исходный каталог приложений, проверяет уже
+`choco.ps1` — идемпотентный bootstrap для Windows PowerShell 5.1+ / PowerShell 7. Он проверяет уже
 установленные пакеты, продолжает после недоступного package и возвращает общий
 failure summary.
 
 ```powershell
 # Read-only preview, elevation is not required
-pwsh -File .\choco.ps1 -WhatIf
+pwsh -File .\choco.ps1 -Profile DevOps -WhatIf
 
-# Install the selected applications and configure editors, AI CLI tools and WSL
-# Run from an elevated PowerShell session after reviewing the preview
-pwsh -File .\choco.ps1
+# Run from an elevated PowerShell session
+pwsh -File .\choco.ps1 -Profile All
+
+# Add/update WSL2 and install the moving Ubuntu Store distribution
+pwsh -File .\choco.ps1 -Profile DevOps -InstallWSL
 ```
 
-В `$Packages`, `$Extensions`, `$EditorCommands` и `$AITools` каждый элемент
-записан на отдельной строке и сгруппирован по назначению. Закомментируйте или
-удалите строку приложения, расширения либо CLI, которое не нужно, затем снова
-запустите `-WhatIf`. По умолчанию после Chocolatey packages устанавливаются
-расширения редакторов, Claude Code, Codex, Gemini CLI и настраивается WSL2 с
-Ubuntu. Google Antigravity сохранён и в списке приложений, и среди редакторов.
+Профили: `Minimal`, `DevOps`, `Desktop`, `All`. `Minimal` используется по
+умолчанию. Google Antigravity входит в `DevOps` и `Desktop`. Ansible и другие
+Linux-centric tools следует запускать в WSL, а
+native `kubectl`, cloud CLI и container clients оставлены для Windows workflow.
 
 `powershell.sh` — command-reference fragments, а не исполняемый shell script.
 `win11_lock_screen.png` — optional personal asset.

@@ -17,9 +17,6 @@ python -m pip install cryptography
 `k8s_why_pending.py` дополнительно требует `kubectl` и уже настроенный context,
 если не используется offline snapshot.
 
-Переименование расширений и поиск по дереву файлов вынесены в отдельную
-[инструкцию по файловым операциям](FILE_OPERATIONS.md).
-
 ## Разбор Linux OOM
 
 [`oom_explain.py`](oom_explain.py) связывает строку `oom-kill:` с последующей

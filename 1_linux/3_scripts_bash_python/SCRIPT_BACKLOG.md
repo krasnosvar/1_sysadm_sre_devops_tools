@@ -36,8 +36,6 @@ P1 — следующий, P2 — полезное расширение.
 
 | Приоритет | Кандидат | Язык | Назначение |
 | --- | --- | --- | --- |
-| готово | [`python/rename_extensions.py`](python/rename_extensions.py) | Python | Preview/apply массовой замены расширения с блокировкой collisions |
-| готово | [`python/text_search.py`](python/text_search.py) | Python | Bounded literal/regex search с glob filters, redaction и JSON Lines |
 | готово | [`python/cert_inventory.py`](python/cert_inventory.py) | Python | Найти X.509 в PEM/DER/PKCS/JAR, показать SAN/fingerprint и проверить validity |
 | P0 | `python/config_tree_lint.py` | Python | Рекурсивно валидировать JSON, YAML, TOML и INI; JSON Lines report с путём и ошибкой |
 | P0 | `python/env_compare.py` | Python | Сравнить `.env`/environment dumps по именам переменных, маскируя значения потенциальных secrets |

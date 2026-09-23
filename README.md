@@ -12,7 +12,6 @@
 | [`1_linux/fedora/`](1_linux/fedora/) | Основной/reference bootstrap для Fedora Workstation |
 | [`1_linux/ubuntu/`](1_linux/ubuntu/) | Bootstrap Ubuntu и явно отмеченный архив старых версий |
 | [`1_linux/3_scripts_bash_python/`](1_linux/3_scripts_bash_python/) | Готовые Bash/Python/Go утилиты для операционных задач |
-| [`1_linux/3_scripts_bash_python/PRACTICAL_EXAMPLES.md`](1_linux/3_scripts_bash_python/PRACTICAL_EXAMPLES.md) | Практические команды для всех поддерживаемых утилит |
 | [`2_win/`](2_win/) | Windows/PowerShell bootstrap и команды |
 | [`3_macos/`](3_macos/) | macOS и Fedora Asahi bootstrap |
 | [`PLATFORM_PARITY.md`](PLATFORM_PARITY.md) | Функциональное покрытие Fedora, macOS, Windows и WSL |

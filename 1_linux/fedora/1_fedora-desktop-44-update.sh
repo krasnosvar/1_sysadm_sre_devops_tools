@@ -71,10 +71,6 @@ MONGODB_ATLAS_CLI_VERSION="1.56.0"
 NVM_VERSION="v0.40.3"
 V2RAYN_VERSION="7.24.4"
 
-
-# ============================================================================
-# 01. REPOS & INITIAL UPGRADE
-# ============================================================================
 sudo dnf upgrade -y --refresh
 # on non-Fedora RHEL-like distribs - enable EPEL first: https://www.redhat.com/en/blog/install-epel-linux
 
@@ -450,10 +446,8 @@ sudo dnf -y install terraform
 sudo dnf -y install packer
 # install tofu - free terraform
 # https://opentofu.org/docs/intro/install/rpm/
+# One-liner using the official installer (RPM method):
 run_https_bash_installer --sudo https://get.opentofu.org/install-opentofu.sh --install-method rpm
-# Disable source RPM repo created by the installer (SRPMS not needed, causes SSL noise)
-sudo dnf config-manager setopt opentofu-source.enabled=0 2>/dev/null || true
-sudo dnf config-manager setopt opentofu-unstable.enabled=0 2>/dev/null || true
 # terragrunt
 # https://github.com/gruntwork-io/terragrunt/releases
 # https://terragrunt.gruntwork.io/docs/getting-started/install
@@ -557,10 +551,8 @@ chmod +x kops
 sudo mv kops /usr/local/bin/kops
 sudo chown root:root /usr/local/bin/kops
 sudo chmod 0755 /usr/local/bin/kops
-
 # Helm is maintained as a signed Fedora package.
 dnf_install_if_missing helm
-
 # age
 # https://github.com/FiloSottile/age#installation
 sudo dnf install age yq jq awscli2 -y
@@ -695,7 +687,10 @@ append_line_if_missing "$HOME/.zshrc" 'export PATH="$HOME/.local/bin:$PATH"'
 sudo dnf install ruby ruby-devel rubygems -y
 # Install Bundler (standard dependency manager for Ruby projects)
 gem install bundler
+<<<<<<< HEAD
 
+=======
+>>>>>>> d2ef83a74f2c92770ebd0ed660170370adffdb23
 # Go and golangci-lint are maintained in Fedora 44; avoid stale pinned tarballs.
 dnf_install_if_missing golang golangci-lint
 go version
@@ -752,14 +747,9 @@ curl -L -s https://github.com/fullstorydev/grpcurl/releases/download/v1.9.1/grpc
 # Insomnia - REST / GraphQL / gRPC client
 # https://insomnia.rest — https://flathub.org/apps/rest.insomnia.Insomnia
 flatpak install --user -y flathub rest.insomnia.Insomnia
-
-# Slack
-# https://flathub.org/apps/com.slack.Slack
-# Note: no official Slack DNF repo for Fedora; flatpak is the recommended automated install.
-# RPM alternative: download from https://slack.com/downloads/linux
+# Slack: use the Flatpak instead of the obsolete unsigned Fedora 21 repository.
 flatpak_user_install_if_missing flathub com.slack.Slack
-
-# Zoom - video conferencing
+# Zoom - video conferencing (present on this laptop)
 # https://zoom.us/download?os=linux
 sudo dnf install -y https://zoom.us/client/latest/zoom_x86_64.rpm
 

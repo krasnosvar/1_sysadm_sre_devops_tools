@@ -16,10 +16,6 @@ jobs:
       - name: Guard retained repository sections
         run: |
           for path in \
-            1_linux/1_shell_bash_commands/2_disks_mount_lvm_nfs/smartctl.sh \
-            1_linux/1_shell_bash_commands/6_text_manipulation_utils/grep-practical.sh \
-            1_linux/1_shell_bash_commands/6_text_manipulation_utils/jq-yq-practical.sh \
-            1_linux/3_scripts_bash_python/PRACTICAL_EXAMPLES.md \
             1_linux/3_scripts_bash_python/bash/script_examples/parse_string.sh \
             1_linux/3_scripts_bash_python/bash/service_recovery_guard.sh \
             1_linux/3_scripts_bash_python/expect/ssh-kras.exp.sh \
@@ -28,8 +24,6 @@ jobs:
             1_linux/3_scripts_bash_python/python/cert_inventory.py \
             1_linux/3_scripts_bash_python/python/k8s_why_pending.py \
             1_linux/3_scripts_bash_python/python/oom_explain.py \
-            1_linux/3_scripts_bash_python/python/rename_extensions.py \
-            1_linux/3_scripts_bash_python/python/text_search.py \
             1_linux/3_scripts_bash_python/python/1_script_examples/minio_check.py \
             1_linux/3_scripts_bash_python/python/cloud/aws/s3_cleaner.py \
             1_linux/3_scripts_bash_python/python/cloud/aws/ec2_power.py \
@@ -52,29 +46,6 @@ jobs:
           grep -q 'antigravity' 1_linux/fedora/4_config_vscode.sh
           grep -q 'antigravity' 1_linux/fedora/5_ai_tools.sh
 
-          choco_file=2_win/choco.ps1
-          package_count=$(sed -n '/^\$Packages = @(/,/^)/p' "$choco_file" | grep -c "^[[:space:]]*'")
-          extension_count=$(sed -n '/^\$Extensions = @(/,/^)/p' "$choco_file" | grep -c "^[[:space:]]*'")
-          editor_count=$(sed -n '/^\$EditorCommands = @(/,/^)/p' "$choco_file" | grep -c "^[[:space:]]*'")
-          ai_cli_count=$(sed -n '/^\$AITools = @(/,/^)/p' "$choco_file" | grep -c "^[[:space:]]*'")
-          test "$package_count" -ge 157
-          test "$extension_count" -ge 20
-          test "$editor_count" -ge 8
-          test "$ai_cli_count" -ge 3
-          for package in \
-            smartmontools inkscape telegram forticlientvpn nodejs-lts ansible \
-            vault helmfile virtualbox arduino-ide cursoride windsurf antigravity \
-            warp lm-studio; do
-            grep -Fq "'$package'" "$choco_file" || {
-              echo "Missing retained Chocolatey package: $package" >&2
-              exit 1
-            }
-          done
-          grep -Fq "'@anthropic-ai/claude-code'" "$choco_file"
-          grep -Fq "'@openai/codex'" "$choco_file"
-          grep -Fq "'@google/gemini-cli'" "$choco_file"
-          grep -q '^Configure-WSL$' "$choco_file"
-
       - name: Install shell validators
         run: sudo apt-get update && sudo apt-get install -y shellcheck zsh
 
@@ -87,9 +58,6 @@ jobs:
           bash -n 1_linux/3_scripts_bash_python/bash/nginx_access_report.sh
           bash -n 1_linux/3_scripts_bash_python/bash/retry.sh
           bash -n 1_linux/3_scripts_bash_python/bash/service_recovery_guard.sh
-          bash -n 1_linux/1_shell_bash_commands/2_disks_mount_lvm_nfs/smartctl.sh
-          bash -n 1_linux/1_shell_bash_commands/6_text_manipulation_utils/grep-practical.sh
-          bash -n 1_linux/1_shell_bash_commands/6_text_manipulation_utils/jq-yq-practical.sh
           shellcheck 1_linux/fedora/lib_fedora_setup.sh
           shellcheck 1_linux/fedora/fedora-coreos/pure_install_on_libvirt.sh
           shellcheck 1_linux/ubuntu/ubuntu__desktop_24_04_1/*.sh
@@ -97,9 +65,6 @@ jobs:
           shellcheck 1_linux/3_scripts_bash_python/bash/nginx_access_report.sh
           shellcheck 1_linux/3_scripts_bash_python/bash/retry.sh
           shellcheck 1_linux/3_scripts_bash_python/bash/service_recovery_guard.sh
-          shellcheck 1_linux/1_shell_bash_commands/2_disks_mount_lvm_nfs/smartctl.sh
-          shellcheck 1_linux/1_shell_bash_commands/6_text_manipulation_utils/grep-practical.sh
-          shellcheck 1_linux/1_shell_bash_commands/6_text_manipulation_utils/jq-yq-practical.sh
           1_linux/3_scripts_bash_python/bash/service_recovery_guard.sh --help >/dev/null
           zsh -n 3_macos/update-mac.zsh 3_macos/.zshrc_mac
 
@@ -132,18 +97,16 @@ jobs:
 
       - uses: actions/setup-python@v7
         with:
-          python-version: '3.13'
+          python-version: "3.13"
 
       - name: Validate Python utilities
         run: |
-          python -m pip install PyYAML boto3 cryptography minio privatebinapi psycopg2-binary ruff==0.16.6
+          python -m pip install PyYAML boto3 cryptography minio privatebinapi psycopg2-binary ruff
           python -m compileall -q 1_linux/3_scripts_bash_python/python
           ruff check \
             1_linux/3_scripts_bash_python/python/yaml_set.py \
             1_linux/3_scripts_bash_python/python/json_log_summary.py \
             1_linux/3_scripts_bash_python/python/config_diff.py \
-            1_linux/3_scripts_bash_python/python/rename_extensions.py \
-            1_linux/3_scripts_bash_python/python/text_search.py \
             1_linux/3_scripts_bash_python/python/oom_explain.py \
             1_linux/3_scripts_bash_python/python/cert_inventory.py \
             1_linux/3_scripts_bash_python/python/k8s_why_pending.py \
@@ -154,7 +117,6 @@ jobs:
             1_linux/3_scripts_bash_python/python/cloud/azure/change_timeline.py \
             1_linux/3_scripts_bash_python/python/1_script_examples/aws_manipulations_scripts/s3_cleaner.py \
             1_linux/3_scripts_bash_python/python/1_script_examples/aws_manipulations_scripts/start_stop_ec2_instances.py \
-            1_linux/3_scripts_bash_python/python/1_script_examples/kafka/add_del_kafka_topic.py \
             1_linux/3_scripts_bash_python/python/1_script_examples/minio_check.py \
             1_linux/3_scripts_bash_python/python/1_script_examples/matrix/send_message_to_matrix_room.py \
             1_linux/3_scripts_bash_python/python/1_script_examples/postgres/users_postgres.py \
@@ -173,8 +135,6 @@ jobs:
           python 1_linux/3_scripts_bash_python/python/oom_explain.py --help >/dev/null
           python 1_linux/3_scripts_bash_python/python/cert_inventory.py --help >/dev/null
           python 1_linux/3_scripts_bash_python/python/k8s_why_pending.py --help >/dev/null
-          python 1_linux/3_scripts_bash_python/python/rename_extensions.py --help >/dev/null
-          python 1_linux/3_scripts_bash_python/python/text_search.py --help >/dev/null
           python 1_linux/3_scripts_bash_python/python/1_script_examples/aws_manipulations_scripts/s3_cleaner.py \
             --help >/dev/null
           python 1_linux/3_scripts_bash_python/python/1_script_examples/aws_manipulations_scripts/start_stop_ec2_instances.py \
@@ -192,21 +152,6 @@ jobs:
             --count 2 --concurrency 1 -- true
           python -m unittest discover \
             -s 1_linux/3_scripts_bash_python/python/tests -v
-
-      - name: Smoke test file operations
-        run: |
-          mkdir -p /tmp/file-operations
-          printf '%s\n' 'connection refused' > /tmp/file-operations/service.old.log
-          python 1_linux/3_scripts_bash_python/python/rename_extensions.py \
-            /tmp/file-operations --from .old.log --to .log
-          test -f /tmp/file-operations/service.old.log
-          test ! -e /tmp/file-operations/service.log
-          python 1_linux/3_scripts_bash_python/python/rename_extensions.py \
-            /tmp/file-operations --from .old.log --to .log --apply
-          test -f /tmp/file-operations/service.log
-          python 1_linux/3_scripts_bash_python/python/text_search.py \
-            /tmp/file-operations 'connection refused' --word --jsonl | \
-            grep -q '"line": 1'
 
       - name: Smoke test OOM parser
         run: |

@@ -15,8 +15,6 @@
 | [`python/yaml_set.py`](python/yaml_set.py) | Python | Безопасно изменить scalar по dotted path, с backup и atomic replace | Python 3.10+, PyYAML | `./python/yaml_set.py values.yaml image.tag v1.2.3` |
 | [`python/json_log_summary.py`](python/json_log_summary.py) | Python | Потоково агрегировать JSONL-логи без загрузки файла в память | Python 3.10+ | `./python/json_log_summary.py app.jsonl --level ERROR --top 20` |
 | [`python/config_diff.py`](python/config_diff.py) | Python | Структурно сравнить JSON/YAML с redaction потенциальных secrets | Python 3.10+, PyYAML | `./python/config_diff.py old.yaml new.yaml` |
-| [`python/rename_extensions.py`](python/rename_extensions.py) | Python | Preview/apply замены расширения без перезаписи destination | Python 3.10+ | `./python/rename_extensions.py ./reports --from .jpeg --to .jpg` |
-| [`python/text_search.py`](python/text_search.py) | Python | Ограниченный поиск текста с glob/regex и JSON Lines | Python 3.10+ | `./python/text_search.py ./deploy deprecated --word --glob '*.yaml'` |
 | [`python/oom_explain.py`](python/oom_explain.py) | Python | Объяснить Linux OOM-killer events и связать их с cgroup/process | Python 3.10+ | `journalctl -k -b \| ./python/oom_explain.py` |
 | [`python/cert_inventory.py`](python/cert_inventory.py) | Python | Найти X.509 в PEM/DER/PKCS/JAR и проверить срок/валидность | Python 3.10+, cryptography | `./python/cert_inventory.py /etc/ssl --warn-days 30` |
 | [`python/k8s_why_pending.py`](python/k8s_why_pending.py) | Python | Read-only диагностика Pending Pods по Events/PVC/nodes/resources | Python 3.10+, kubectl | `./python/k8s_why_pending.py --namespace payments` |
@@ -48,8 +46,6 @@
 
 Практические инструкции по запуску и интерпретации результата:
 
-- [copy-ready примеры для всех maintained utilities](PRACTICAL_EXAMPLES.md);
-- [безопасное переименование и поиск по файлам](python/FILE_OPERATIONS.md);
 - [systemd recovery guard](bash/service_recovery_guard.md);
 - [OOM, certificate и Pending Pod diagnostics](python/DIAGNOSTICS.md);
 - [параллельная матрица TCP/TLS ports](go/port-matrix/README.md);
