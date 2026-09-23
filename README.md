@@ -1,63 +1,49 @@
-# SysAdmin / SRE / DevOps tools
+# SysAdmin / SRE / DevOps guide: 
+diagnostic commands, working configurations, automation utilities, and workstation recovery scripts. This repository answers the question "how to perform an operational task" and does not duplicate the educational knowledge bases of the series.
 
-Практический полевой справочник: команды для диагностики, рабочие конфигурации,
-утилиты автоматизации и скрипты восстановления workstation. Репозиторий отвечает
-на вопрос «как выполнить операционную задачу» и не дублирует учебные базы серии.
+## Quick Navigation
 
-## Быстрая навигация
-
-| Раздел | Назначение |
+| Section | Purpose |
 | --- | --- |
-| [`1_linux/`](1_linux/) | Linux command reference, сервисные примеры и основной набор автоматизации |
-| [`1_linux/fedora/`](1_linux/fedora/) | Основной/reference bootstrap для Fedora Workstation |
-| [`1_linux/ubuntu/`](1_linux/ubuntu/) | Bootstrap Ubuntu и явно отмеченный архив старых версий |
-| [`1_linux/3_scripts_bash_python/`](1_linux/3_scripts_bash_python/) | Готовые Bash/Python/Go утилиты для операционных задач |
-| [`2_win/`](2_win/) | Windows/PowerShell bootstrap и команды |
-| [`3_macos/`](3_macos/) | macOS и Fedora Asahi bootstrap |
-| [`PLATFORM_PARITY.md`](PLATFORM_PARITY.md) | Функциональное покрытие Fedora, macOS, Windows и WSL |
-| [`what_to_learn/`](what_to_learn/) | Сохранённые legacy notes и указатель на канонические учебные репозитории |
+| [`1_linux/`](1_linux/) | Linux command reference, service examples, and main automation toolkit |
+| [`1_linux/fedora/`](1_linux/fedora/) | Primary/reference bootstrap for Fedora Workstation |
+| [`1_linux/ubuntu/`](1_linux/ubuntu/) | Ubuntu bootstrap and explicitly marked archive of older versions |
+| [`1_linux/3_scripts_bash_python/`](1_linux/3_scripts_bash_python/) | Ready-to-use Bash/Python/Go utilities for operational tasks |
+| [`2_win/`](2_win/) | Windows/PowerShell bootstrap and commands |
+| [`3_macos/`](3_macos/) | macOS and Fedora Asahi bootstrap |
+| [`what_to_learn/`](what_to_learn/) | Saved legacy notes and pointers to canonical educational repositories |
 
-`.sh` в command-reference каталогах — читаемые фрагменты команд с shell
-подсветкой. Они не обязаны быть целыми исполняемыми программами. Запускаемыми
-считаются файлы, которые прямо указаны как utilities или bootstrap scripts.
+The `.sh` files in the command-reference directories are readable command fragments with shell highlighting. They are not necessarily complete executable programs. Files explicitly marked as utilities or bootstrap scripts are considered executable.
 
-## Как выбрать язык автоматизации
+## How to Choose an Automation Language
 
-| Задача | Инструмент по умолчанию | Почему |
+| Task | Default Tool | Why |
 | --- | --- | --- |
-| Последовательно вызвать несколько системных команд, склеить Unix tools, оформить runbook | Bash | Минимум зависимостей и прямой доступ к CLI |
-| Надёжно разобрать или изменить JSON/YAML/CSV, вызвать API, обработать данные | Python | Сильные библиотеки и ясная модель данных |
-| Проверять сеть параллельно, написать долгоживущий agent/exporter или переносимый static binary | Go | Goroutines, `context`, строгие типы и простой deploy |
-| Декларативно описать конфигурацию или ресурс | YAML/HCL/Ansible | Данные и desired state не маскируются процедурным кодом |
+| Call multiple system commands sequentially, glue Unix tools, create a runbook | Bash | Minimal dependencies and direct CLI access |
+| Reliably parse or modify JSON/YAML/CSV, call APIs, process data | Python | Strong libraries and clear data model |
+| Check the network concurrently, write a long-lived agent/exporter or a portable static binary | Go | Goroutines, `context`, strict typing, and simple deployment |
+| Declaratively describe a configuration or resource | YAML/HCL/Ansible | Data and desired state are not masked by procedural code |
 
-Если задача решается коротким вызовом `jq`, `yq` или `kubectl`, новый скрипт не
-нужен. Python или Go выбираются только когда они заметно повышают надёжность,
-проверяемость или производительность.
+If a task can be solved with a short `jq`, `yq`, or `kubectl` call, a new script is not needed. Python or Go are chosen only when they significantly improve reliability, testability, or performance.
 
-## Связанные репозитории
+## Related Repositories
 
-| Репозиторий | Владеет содержимым |
+| Repository | Owns Content |
 | --- | --- |
-| [`2_lin_win_mac_apps_bkp`](https://github.com/krasnosvar/2_lin_win_mac_apps_bkp) | Офлайн-копии установщиков, ISO и package manifests |
-| [`3_go_my_knowledgebase`](https://github.com/krasnosvar/3_go_my_knowledgebase) | Изучение Go, concurrency, backend и system design |
-| [`4_python_my_knowledgebase`](https://github.com/krasnosvar/4_python_my_knowledgebase) | Изучение Python, библиотек, backend и system design |
-| [`5_devops_sre_knowledgebase`](https://github.com/krasnosvar/5_devops_sre_knowledgebase) | Теория, labs и roadmap по DevOps/SRE/MLOps |
-| [`aws-opencost-cloud-costs-exporter`](https://github.com/krasnosvar/aws-opencost-cloud-costs-exporter) | Production-like Go/Python exporter и AWS/OpenCost интеграция |
+| [`2_lin_win_mac_apps_bkp`](https://github.com/krasnosvar/2_lin_win_mac_apps_bkp) | Offline copies of installers, ISOs, and package manifests |
+| [`3_go_my_knowledgebase`](https://github.com/krasnosvar/3_go_my_knowledgebase) | Learning Go, concurrency, backend, and system design |
+| [`4_python_my_knowledgebase`](https://github.com/krasnosvar/4_python_my_knowledgebase) | Learning Python, libraries, backend, and system design |
+| [`5_devops_sre_knowledgebase`](https://github.com/krasnosvar/5_devops_sre_knowledgebase) | Theory, labs, and roadmap for DevOps/SRE/MLOps |
 
-Новая теория, упражнения и учебные mini-projects должны изменяться в
-соответствующей knowledgebase. Старые notes в `what_to_learn/` сохраняются до
-проверенной миграции; наличие копии здесь не делает её каноническим источником.
+New theory, exercises, and mini-projects should be modified in the corresponding knowledgebase. Old notes in `what_to_learn/` are preserved until a verified migration; having a copy here does not make it the canonical source.
 
-## Безопасность
+## Security
 
-- не коммить secrets, kubeconfig, SSH/VPN keys и рабочие inventory;
-- перед реальным запуском проверяй placeholders, environment и destructive flags;
-- старые примеры могут быть сохранены как historical/reference и требуют ревью;
-- bootstrap сначала запускай с `--check` или `--dry-run`, если режим поддержан.
+- Do not commit secrets, kubeconfig, SSH/VPN keys, or working inventories.
+- Always check placeholders, environments, and destructive flags before a real run.
+- Old examples may be saved as historical/reference and require review.
+- Run bootstraps with `--check` or `--dry-run` first, if the mode is supported.
 
-## Проверки
+## Checks
 
-GitHub Actions проверяет maintained Bash/Zsh/PowerShell scripts, компиляцию и
-Ruff для Python, а также `gofmt`, `go vet` и `go test` для Go utility. Проверка
-не исполняет workstation installers. Command-reference `.sh` исключены из
-`bash -n` намеренно: часть из них содержит вывод команд и конфиги для копирования.
+GitHub Actions verifies maintained Bash/Zsh/PowerShell scripts, compiles Go utilities (`gofmt`, `go vet`, `go test`), and runs Ruff for Python. The checks do not execute workstation installers. Command-reference `.sh` files are intentionally excluded from `bash -n`: some of them contain command outputs and configs for copying.

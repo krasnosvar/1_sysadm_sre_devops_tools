@@ -1,8 +1,6 @@
 # macOS scripts
 
-`update-mac.zsh` — основной идемпотентный bootstrap через Homebrew. Он не
-записывает Git name/email, не копирует secrets и корректно работает с путями
-Homebrew на Apple Silicon и Intel.
+`update-mac.zsh` — the main idempotent bootstrap using Homebrew. It does not set Git name/email, does not copy secrets, and correctly handles Homebrew paths on both Apple Silicon and Intel.
 
 ```bash
 ./update-mac.zsh --check
@@ -10,19 +8,14 @@ Homebrew на Apple Silicon и Intel.
 ./update-mac.zsh --all
 ```
 
-Профили: `--minimal`, `--devops`, `--desktop`, `--all`. Google Antigravity
-включён в `devops` и `desktop`. Недоступные formula/cask
-не останавливают весь проход, но перечисляются в конце и дают exit code 1.
+Profiles: `--minimal`, `--devops`, `--desktop`, `--all`. Google Antigravity is included in `devops` and `desktop`. Unavailable formulas/casks do not stop the entire run, but are listed at the end and result in an exit code 1.
 
-Остальные файлы:
+Other files:
 
-- `.zshrc_mac` — переносимый fragment, который bootstrap устанавливает в
-  `~/.config/sre-tools/zshrc`;
+- `.zshrc_mac` — a portable fragment that the bootstrap installs into `~/.config/sre-tools/zshrc`;
 - `commands.zsh` — macOS command-reference fragments;
-- `fedora-asahi-update.sh` — отдельный legacy Fedora Asahi setup, не часть macOS
-  bootstrap;
-- `remap-keyboard.sh` — заметки по remapping клавиатуры.
+- `fedora-asahi-update.sh` — a separate legacy Fedora Asahi setup, not part of the macOS bootstrap;
+- `remap-keyboard.sh` — notes on keyboard remapping.
 
-Большой офлайн-каталог installers и package manifests принадлежит репозиторию
-[`2_lin_win_mac_apps_bkp`](https://github.com/krasnosvar/2_lin_win_mac_apps_bkp).
-SSH/GPG keys, VPN profiles, cloud credentials и MCP tokens хранятся вне git.
+A large offline catalog of installers and package manifests belongs to the [`2_lin_win_mac_apps_bkp`](https://github.com/krasnosvar/2_lin_win_mac_apps_bkp) repository.
+SSH/GPG keys, VPN profiles, cloud credentials, and MCP tokens are stored outside of git.

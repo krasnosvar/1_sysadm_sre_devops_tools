@@ -1,42 +1,42 @@
-# DevOps / SRE теория — что изучать
+# DevOps / SRE Theory — What to Learn
 
-> Полная база знаний по DevOps/SRE/MLOps с теорией и практикой:
-> **[5_devops_sre_knowledgebase/](../../5_devops_sre_knowledgebase/)**
+> Complete knowledge base on DevOps/SRE/MLOps with theory and practice:
+> **[5_devops_sre_knowledgebase/](https://github.com/krasnosvar/5_devops_sre_knowledgebase/)**
 
-## Основы
+## Basics
 
 - [What Is DevOps?](https://www.atlassian.com/devops) — Atlassian
-- [School of SRE](https://linkedin.github.io/school-of-sre/) — LinkedIn's бесплатный SRE курс
+- [School of SRE](https://linkedin.github.io/school-of-sre/) — LinkedIn's free SRE course
 - [What is the Agile methodology?](https://www.atlassian.com/agile)
 - [CI vs CD vs Continuous Deployment](https://www.atlassian.com/continuous-delivery/principles/continuous-integration-vs-delivery-vs-deployment)
-- [roadmap.sh/devops](https://roadmap.sh/devops) — интерактивный roadmap
+- [roadmap.sh/devops](https://roadmap.sh/devops) — interactive roadmap
 
-## Книги
+## Books
 
-- **Site Reliability Engineering** (Google) — [бесплатно](https://sre.google/sre-book/table-of-contents/). Главы про SLO, error budget, toil.
-- **The Phoenix Project** — роман о DevOps трансформации, легко читается.
-- **Accelerate** (Forsgren) — исследование DORA метрик и высокоэффективных команд.
-- **Release It!** (Nygard) — паттерны надёжности: circuit breaker, timeout, bulkhead.
-- **Team Topologies** — как организовать команды для быстрой поставки.
+- **Site Reliability Engineering** (Google) — [free](https://sre.google/sre-book/table-of-contents/). Chapters on SLOs, error budget, toil.
+- **The Phoenix Project** — a novel about DevOps transformation, easy read.
+- **Accelerate** (Forsgren) — research on DORA metrics and high-performing teams.
+- **Release It!** (Nygard) — reliability patterns: circuit breaker, timeout, bulkhead.
+- **Team Topologies** — how to organize teams for fast flow.
 
-## DORA метрики
+## DORA Metrics
 
-Четыре ключевых метрики из книги Accelerate:
+Four key metrics from the Accelerate book:
 
-| Метрика | Elite |
+| Metric | Elite |
 | ------- | ----- |
-| Deployment Frequency | Несколько раз в день |
-| Lead Time for Changes | < 1 часа |
+| Deployment Frequency | Multiple times a day |
+| Lead Time for Changes | < 1 hour |
 | Change Failure Rate | < 5% |
-| MTTR | < 1 часа |
+| MTTR | < 1 hour |
 
-## Практика
+## Practice
 
-- [KodeKloud](https://kodekloud.com/) — DevOps, k8s, Terraform, GitOps с лабами
-- [Killercoda](https://killercoda.com/) — бесплатные интерактивные лабы в браузере
-- [CNCF Landscape](https://landscape.cncf.io/) — карта cloud-native инструментов
+- [KodeKloud](https://kodekloud.com/) — DevOps, k8s, Terraform, GitOps with labs
+- [Killercoda](https://killercoda.com/) — free interactive labs in the browser
+- [CNCF Landscape](https://landscape.cncf.io/) — cloud-native tools map
 
-## Шпаргалки и примеры
+## Cheatsheets and Examples
 
 - CI/CD (GitLab, Ansible) → `../1_linux/2_services/2_config_management_ci-cd/`
 - Monitoring (Prometheus, Loki, Tracing) → `../1_linux/2_services/4_monitoring_and_log_tools/`

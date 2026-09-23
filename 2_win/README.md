@@ -1,8 +1,6 @@
 # Windows 11 scripts
 
-`choco.ps1` — идемпотентный bootstrap для Windows PowerShell 5.1+ / PowerShell 7. Он проверяет уже
-установленные пакеты, продолжает после недоступного package и возвращает общий
-failure summary.
+`choco.ps1` — idempotent bootstrap for Windows PowerShell 5.1+ / PowerShell 7. It checks already installed packages, continues after an unavailable package, and returns an overall failure summary.
 
 ```powershell
 # Read-only preview, elevation is not required
@@ -15,14 +13,10 @@ pwsh -File .\choco.ps1 -Profile All
 pwsh -File .\choco.ps1 -Profile DevOps -InstallWSL
 ```
 
-Профили: `Minimal`, `DevOps`, `Desktop`, `All`. `Minimal` используется по
-умолчанию. Google Antigravity входит в `DevOps` и `Desktop`. Ansible и другие
-Linux-centric tools следует запускать в WSL, а
-native `kubectl`, cloud CLI и container clients оставлены для Windows workflow.
+Profiles: `Minimal`, `DevOps`, `Desktop`, `All`. `Minimal` is used by default. Google Antigravity is included in `DevOps` and `Desktop`. Ansible and other Linux-centric tools should be run in WSL, while native `kubectl`, cloud CLIs, and container clients are left for the Windows workflow.
 
-`powershell.sh` — command-reference fragments, а не исполняемый shell script.
+`powershell.sh` — command-reference fragments, not an executable shell script.
 `win11_lock_screen.png` — optional personal asset.
 
-Полный offline manifest приложений находится в
-[`2_lin_win_mac_apps_bkp`](https://github.com/krasnosvar/2_lin_win_mac_apps_bkp).
-Credentials, SSH keys, kubeconfig и VPN profiles не должны попадать в репу.
+A full offline manifest of applications is located in [`2_lin_win_mac_apps_bkp`](https://github.com/krasnosvar/2_lin_win_mac_apps_bkp).
+Credentials, SSH keys, kubeconfig, and VPN profiles must not be committed to the repo.
