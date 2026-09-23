@@ -59,6 +59,16 @@ log "-> Installing IDEs..."
 sudo dnf check-update || true
 sudo dnf install -y code codium cursor windsurf antigravity
 
+# Zed — high-performance collaborative editor (Rust-based, GPU-accelerated)
+# https://zed.dev/docs/linux
+if command -v zed >/dev/null 2>&1; then
+  log "Zed already installed: $(command -v zed)"
+else
+  log "-> Installing Zed..."
+  curl -fsSL https://zed.dev/install.sh | sh
+fi
+append_line_if_missing "$HOME/.zshrc" 'export PATH="$HOME/.local/bin:$PATH"'
+
 log "======================================================================"
 log "2. Distributing settings.json"
 log "======================================================================"

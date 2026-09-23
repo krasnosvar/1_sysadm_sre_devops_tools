@@ -3,10 +3,25 @@ set -euo pipefail
 
 # background colour #1d99f3
 
-# OS Utils, Repos
+# =============================================================================
+# CONTENTS
+# =============================================================================
+# 01. REPOS & INITIAL UPGRADE   — RPM Fusion, flatpak remote, dnf upgrade
+# 02. SYSTEM UTILITIES          — modern CLI, monitoring, backup/sync
+# 03. DESKTOP APPS              — multimedia, office, design, 3D, PDF
+# 04. VIRTUALIZATION            — libvirt / KVM / QEMU
+# 05. SECURITY                  — KeePassXC, VeraCrypt
+# 06. BROWSERS                  — Vivaldi, Chrome, Brave, Floorp, Opera
+# 07. NETWORK & VPN             — diagnostics, OpenVPN, WireGuard, v2rayN
+# 08. DATABASE TOOLS            — CLI clients, GUI apps, MongoDB, Redis
+# 09. DEVOPS & CLOUD            — Terraform, Docker, Kubernetes, AWS, Helm
+# 10. ARDUINO & ELECTRONICS     — Arduino IDE, MicroPython, minicom
+# 11. PROGRAMMING LANGUAGES     — Node, Python, Ruby, Go, Java, Rust
+# 12. TESTING & DEBUGGING       — httpie, k6, grpcurl, Insomnia, Slack, Zoom
+# =============================================================================
 
 # ============================================================================
-# ARCHITECTURE AND VERSION DETECTION
+# 00. ARCHITECTURE AND VERSION DETECTION
 # ============================================================================
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 # shellcheck source=lib_fedora_setup.sh
@@ -44,7 +59,7 @@ case "${SYSTEM_ARCH}" in
 esac
 
 # ============================================================================
-# APPLICATION VERSIONS
+# 00. APPLICATION VERSIONS
 # ============================================================================
 TERRAGRUNT_VERSION="v0.73.5"
 HELM_SECRETS_VERSION="v4.6.5"
@@ -56,8 +71,12 @@ MONGODB_ATLAS_CLI_VERSION="1.56.0"
 NVM_VERSION="v0.40.3"
 V2RAYN_VERSION="7.24.4"
 
+
+# ============================================================================
+# 01. REPOS & INITIAL UPGRADE
+# ============================================================================
 sudo dnf upgrade -y --refresh
-# on non-Fedora RHEL-like distribs- enable EPEL first: https://www.redhat.com/en/blog/install-epel-linux
+# on non-Fedora RHEL-like distribs - enable EPEL first: https://www.redhat.com/en/blog/install-epel-linux
 
 # Add RPM Fusion repo
 # https://rpmfusion.org/Configuration
@@ -65,19 +84,21 @@ sudo dnf upgrade -y --refresh
 sudo dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-${FEDORA_VERSION}.noarch.rpm \
   https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-${FEDORA_VERSION}.noarch.rpm
 sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1
-# add RPM Sphere repo ( install veracrypt )
+# add RPM Sphere repo (install veracrypt)
 # https://rpmsphere.github.io
-# RPM Sphere repo (architecture-indepen$USERt)
 sudo dnf install -y https://github.com/rpmsphere/noarch/raw/master/r/rpmsphere-release-${FEDORA_VERSION}-1.noarch.rpm
 
 # flatpak
 flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-# system utils
-#iostat, pidstat
-# https://github.com/sysstat/sysstat
+
+
+# ============================================================================
+# 02. SYSTEM UTILITIES
+# ============================================================================
+# iostat, pidstat — https://github.com/sysstat/sysstat
 sudo dnf install -y git wget gnupg lsb-release apt-transport-https ca-certificates curl \
   dnf-plugins-core plasma-workspace-x11 sysfsutils sysstat htop
-# Modern CLI utilities (present on this laptop, added for parity)
+# Modern CLI utilities
 # fd-find: fast find; ripgrep: fast grep; direnv: per-dir env; tree; screen
 sudo dnf install -y fd-find ripgrep direnv tree screen
 # byobu + tmux (packages, F-keybindings, Konsole keytab) have been moved to:
@@ -104,38 +125,47 @@ sudo dnf install lm_sensors -y
 # sudo radeontop
 # sudo nvtop
 sudo dnf install -y intel-gpu-tools radeontop nvtop
+# KDE scanner app (SANE-based, works with most scanners out of the box)
+# https://apps.kde.org/skanpage/
+# For scanner-specific drivers (e.g. Epson) see: my_projects/Infra/hardware/epson_v550/
+sudo dnf install -y skanpage
 
 
-
-#Main OS apps- multimedia, office, etc.
+# ============================================================================
+# 03. DESKTOP APPS
+# ============================================================================
 # plugins "multimedia" for videos
 # https://docs.fedoraproject.org/en-US/quick-docs/installing-plugins-for-playing-movies-and-music/
-# libheif-freeworld - for open iphone HEIC format in Gwenview or GIMP
+# libheif-freeworld - for open iPhone HEIC format in Gwenview or GIMP
 sudo dnf install -y \
   libreoffice gimp libheif-freeworld gimp-devel inkscape blender audacity vlc flameshot telegram \
   librecad kicad kicad-packages3d kicad-doc multimedia ffmpeg-libs obs-studio \
   kdenlive krita freecad sweethome3d calibre
 # LibreOffice Russian language + help pack (UI localisation)
 sudo dnf install -y libreoffice-langpack-ru libreoffice-help-ru
-sudo dnf install mpv -y # video player, no sound ussues
-# KTorrent - KDE BitTorrent client (present on this laptop)
+sudo dnf install mpv -y # video player, no sound issues
+# KTorrent - KDE BitTorrent client
 sudo dnf install ktorrent -y
 # OpenSCAD - programmatic 3D CAD (pairs with KiCad electronics stack)
 sudo dnf install openscad -y
-# Obsidian stores notes privately on your device
+# Obsidian - private local note-taking
 flatpak install --user -y flathub md.obsidian.Obsidian
-# Design & Architecture
-flatpak install --user -y flathub com.jgraph.drawio.desktop io.github.Figma_Linux.figma_linux
-# Remote Desktop
-flatpak install --user -y flathub com.rustdesk.RustDesk
-# video editors
+# Design & Architecture (optional, install manually if needed):
+# flatpak install --user -y flathub com.jgraph.drawio.desktop
+# flatpak install --user -y flathub io.github.Figma_Linux.figma_linux
+# Remote Desktop (optional, install manually if needed):
+# flatpak install --user -y flathub com.rustdesk.RustDesk
+# Video editors
 flatpak install --user -y flathub org.openshot.OpenShot org.shotcut.Shotcut
 # clear pdf-meta info
 # pdftk file.pdf  dump_data |sed -e 's/\(InfoValue:\)\s.*/\1\ /g' | pdftk file.pdf update_info - output file_no_meta.pdf
 # https://stackoverflow.com/questions/60738960/remove-pdf-metadata-removing-complete-pdf-metadata
 sudo dnf install pdftk-java -y
 
-#Virtualization
+
+# ============================================================================
+# 04. VIRTUALIZATION
+# ============================================================================
 # https://docs.fedoraproject.org/en-US/quick-docs/virtualization-getting-started/
 sudo dnf install @virtualization -y
 sudo systemctl start libvirtd
@@ -143,30 +173,34 @@ sudo usermod -a -G libvirt "$USER"
 sudo usermod -a -G kvm "$USER"
 
 
-#Security
+# ============================================================================
+# 05. SECURITY
+# ============================================================================
 # https://keepassxc.org/download/
 sudo dnf install veracrypt keepassxc -y
 
 
-# Browsers
-#vivaldi
+# ============================================================================
+# 06. BROWSERS
+# ============================================================================
+# Vivaldi
 # https://www.linuxcapable.com/install-vivaldi-on-fedora-linux/
 sudo dnf config-manager addrepo --from-repofile=https://repo.vivaldi.com/stable/vivaldi-fedora.repo
 sudo dnf install vivaldi-stable -y
-#chrome
+# Chrome
 # https://docs.fedoraproject.org/en-US/quick-docs/installing-chromium-or-google-chrome-browsers/
 sudo dnf install chromium -y
 sudo dnf install fedora-workstation-repositories -y
 sudo dnf config-manager --set-enabled google-chrome # or sudo dnf config-manager setopt google-chrome.enabled=1
 sudo dnf install google-chrome-stable -y
-# brave
+# Brave
 # https://brave.com/linux/#fedora-rockyrhel
 sudo dnf config-manager addrepo --from-repofile=https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
 sudo rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
 sudo dnf install brave-browser -y
-# floorp
+# Floorp
 flatpak install --user flathub one.ablaze.floorp -y
-# repo Opera
+# Opera
 sudo tee /etc/yum.repos.d/opera.repo << 'EOF'
 [opera]
 name=Opera packages
@@ -176,12 +210,12 @@ gpgcheck=1
 gpgkey=https://rpm.opera.com/rpmrepo.key
 enabled=1
 EOF
-# install Opera
 sudo dnf install opera-stable -y
 
 
-# Network Tools & VPN Clients
-# ==========================
+# ============================================================================
+# 07. NETWORK & VPN
+# ============================================================================
 
 # Network Diagnostic Tools
 # ------------------------
@@ -229,12 +263,12 @@ sudo dnf install -y \
   openfortivpn
 
 # Specialized VPN Desktop Clients
-# -------------------------------
+# --------------------------------
 # Happ: Modern proxy-based VPN client (RPM)
 sudo dnf install -y https://github.com/Happ-proxy/happ-desktop/releases/download/1.5.2/Happ.linux.x64.rpm
 
-# Amnezia: Self-hosted VPN client for privacy (Flatpak)
-flatpak install --user -y flathub org.amnezia.VPN
+# Amnezia: Self-hosted VPN client for privacy (optional, install manually if needed)
+# flatpak install --user -y flathub org.amnezia.VPN
 
 # v2rayN: GUI client (Avalonia) for Xray/sing-box cores
 # vless / vmess / trojan / ss / hysteria2 / tuic / anytls / wireguard
@@ -273,34 +307,39 @@ fi
 # stored in ~/.config/v2rayN (keep it out of git, see 'Приватные данные' in README)
 
 
-# Database Tools
-# =============
-# Database CLI Client Tools
-# -----------------------
-# PostgreSQL client tools
-sudo dnf install postgresql-client postgresql-contrib -y
-# MySQL/MariaDB client
-sudo dnf install mysql-client -y
+# ============================================================================
+# 08. DATABASE TOOLS
+# ============================================================================
+
+# Database CLI Clients
+# --------------------
+# PostgreSQL client only (server is a separate package: postgresql-server)
+# Provides: psql, pg_dump, pg_restore, createdb, etc.
+sudo dnf install postgresql -y
+# MariaDB / MySQL client (/usr/bin/mysql is a symlink → mariadb; no server installed)
+sudo dnf install mariadb -y
 # SQLite tools
 sudo dnf install sqlite -y
-# Redis CLI client
-sudo dnf install redis-tools -y
-# Enhanced CLI clients
-sudo dnf install pgcli mycli litecli -y
-# Universal SQL CLI with autocomplete
-pip3 install --user usql
+# Redis CLI (redis package; server is included but not auto-started via systemctl)
+sudo dnf install redis -y
+# Enhanced interactive CLI clients
+pip3 install --user pgcli mycli litecli
+# usql - Universal SQL CLI with autocomplete (requires Go; install after section 11)
+#   go install github.com/xo/usql@latest
 # Microsoft SQL Server client tools
 curl https://packages.microsoft.com/config/rhel/8/prod.repo | sudo tee /etc/yum.repos.d/msprod.repo
 sudo dnf install -y mssql-tools unixODBC-devel
+
 # Database GUI Applications
-# ------------------------
+# -------------------------
 # DBeaver - Universal Database Tool
 # https://dbeaver.io/download/
 flatpak install --user -y flathub io.dbeaver.DBeaverCommunity
-# DataGrip - JetBrains Database IDE
-flatpak install --user -y flathub com.jetbrains.DataGrip
+# DataGrip - JetBrains Database IDE (optional, large download)
+# flatpak install --user -y flathub com.jetbrains.DataGrip
+
 # MongoDB Tools
-# ------------
+# -------------
 # MongoDB CLI tools
 # mongocli - MongoDB Command Line Interface
 # https://www.mongodb.com/docs/mongocli/current/install/
@@ -316,7 +355,6 @@ EOF
 sudo dnf install mongocli mongodb-database-tools -y
 # MongoDB Compass - Official GUI
 # https://www.mongodb.com/try/download/compass
-# Download MongoDB Compass for the correct architecture
 if [ -n "${ARCH_X86_64}" ]; then
     wget -O mongodb-compass.rpm https://downloads.mongodb.com/compass/mongodb-compass-${MONGODB_COMPASS_VERSION}.${ARCH_X86_64}.rpm
     sudo dnf install -y ./mongodb-compass.rpm
@@ -326,7 +364,6 @@ else
 fi
 # MongoDB Atlas CLI
 # https://www.mongodb.com/docs/atlas/cli/current/install-atlas-cli/#install-the-atlas-cli.-1
-# Install MongoDB Atlas CLI for the correct architecture
 if [ "${SYSTEM_ARCH}" = "x86_64" ]; then
     sudo dnf install -y https://fastdl.mongodb.org/mongocli/mongodb-atlas-cli_${MONGODB_ATLAS_CLI_VERSION}_linux_x86_64.rpm
 elif [ "${SYSTEM_ARCH}" = "aarch64" ]; then
@@ -334,10 +371,10 @@ elif [ "${SYSTEM_ARCH}" = "aarch64" ]; then
 else
     echo "MongoDB Atlas CLI not available for architecture ${SYSTEM_ARCH}"
 fi
+
 # Redis Tools
-# ----------
+# -----------
 # RedisInsight - GUI for Redis
-# Download RedisInsight for the correct architecture
 if [ "${SYSTEM_ARCH}" = "x86_64" ]; then
     wget -O redisinsight.rpm https://download.redisinsight.redis.com/latest/redisinsight-linux64.rpm
     sudo dnf install -y ./redisinsight.rpm
@@ -353,7 +390,10 @@ fi
 sudo dnf install sqlitebrowser -y
 
 
-# DevOps-Tools
+# ============================================================================
+# 09. DEVOPS & CLOUD
+# ============================================================================
+
 # taskfile
 # https://taskfile.dev/docs/installation
 sudo tee /etc/yum.repos.d/task-task.repo > /dev/null <<EOF
@@ -374,7 +414,7 @@ type=rpm-md
 name=task-task-noarch
 baseurl=https://dl.cloudsmith.io/public/task/task/rpm/fedora/${FEDORA_VERSION}/noarch
 repo_gpgcheck=1
-enabled=1
+enabled=0
 skip_if_unavailable=1
 gpgkey=https://dl.cloudsmith.io/public/task/task/gpg.046FD1186CA342F0.key
 gpgcheck=1
@@ -387,7 +427,7 @@ type=rpm-md
 name=task-task-source
 baseurl=https://dl.cloudsmith.io/public/task/task/rpm/fedora/${FEDORA_VERSION}/SRPMS
 repo_gpgcheck=1
-enabled=1
+enabled=0
 skip_if_unavailable=1
 gpgkey=https://dl.cloudsmith.io/public/task/task/gpg.046FD1186CA342F0.key
 gpgcheck=1
@@ -396,6 +436,10 @@ sslcacert=/etc/pki/tls/certs/ca-bundle.crt
 metadata_expire=300
 type=rpm-md
 EOF
+# Disable noarch and source sections — binaries are in [task-task] only;
+# source/noarch endpoints have SSL CA issues on Cloudsmith's side.
+sudo dnf config-manager setopt task-task-noarch.enabled=0
+sudo dnf config-manager setopt task-task-source.enabled=0
 sudo dnf install task -y
 
 # terraform
@@ -406,8 +450,10 @@ sudo dnf -y install terraform
 sudo dnf -y install packer
 # install tofu - free terraform
 # https://opentofu.org/docs/intro/install/rpm/
-# One-liner using the official installer (RPM method):
 run_https_bash_installer --sudo https://get.opentofu.org/install-opentofu.sh --install-method rpm
+# Disable source RPM repo created by the installer (SRPMS not needed, causes SSL noise)
+sudo dnf config-manager setopt opentofu-source.enabled=0 2>/dev/null || true
+sudo dnf config-manager setopt opentofu-unstable.enabled=0 2>/dev/null || true
 # terragrunt
 # https://github.com/gruntwork-io/terragrunt/releases
 # https://terragrunt.gruntwork.io/docs/getting-started/install
@@ -486,9 +532,11 @@ kubectl krew install view-allocations
 curl -LO https://github.com/kvaps/kubectl-node-shell/raw/master/kubectl-node_shell && \
 chmod +x ./kubectl-node_shell && \
 sudo mv ./kubectl-node_shell /usr/local/bin/kubectl-node_shell
-#k9s
+
+# k9s
 sudo dnf copr enable luminoso/k9s -y
 sudo dnf install k9s -y
+
 # Lens - Kubernetes IDE
 # https://k8slens.dev/
 sudo tee /etc/yum.repos.d/lens.repo > /dev/null <<EOF
@@ -500,7 +548,8 @@ gpgcheck=1
 gpgkey=https://downloads.k8slens.dev/keys/gpg
 EOF
 sudo dnf install lens -y
-# kops k0ps
+
+# kops
 # https://kops.sigs.k8s.io/getting_started/install/
 KOPS_VERSION=$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | jq -r .tag_name)
 curl -Lo kops "https://github.com/kubernetes/kops/releases/download/${KOPS_VERSION}/kops-linux-${ARCH_AMD64}"
@@ -508,11 +557,54 @@ chmod +x kops
 sudo mv kops /usr/local/bin/kops
 sudo chown root:root /usr/local/bin/kops
 sudo chmod 0755 /usr/local/bin/kops
+
 # Helm is maintained as a signed Fedora package.
 dnf_install_if_missing helm
+
 # age
 # https://github.com/FiloSottile/age#installation
 sudo dnf install age yq jq awscli2 -y
+
+# AWS Session Manager plugin (required for `aws ssm start-session` / kubectl exec via SSM)
+# https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html
+case "${SYSTEM_ARCH}" in
+    x86_64)  SSM_ARCH="linux_64bit" ;;
+    aarch64) SSM_ARCH="linux_arm64" ;;
+    *)       SSM_ARCH="" ;;
+esac
+if [ -n "${SSM_ARCH}" ]; then
+    curl -fsSL "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/${SSM_ARCH}/session-manager-plugin.rpm" \
+        -o /tmp/session-manager-plugin.rpm
+    sudo dnf install -y /tmp/session-manager-plugin.rpm
+    rm /tmp/session-manager-plugin.rpm
+else
+    warn "session-manager-plugin not available for architecture ${SYSTEM_ARCH}"
+fi
+
+# Amazon ECR credential helper — автоматически аутентифицирует Docker/containerd в ECR
+# без ручного `aws ecr get-login-password | docker login ...` перед каждым push/pull.
+# После установки добавить в ~/.docker/config.json:
+#   { "credHelpers": { "<account>.dkr.ecr.<region>.amazonaws.com": "ecr-login" } }
+# https://github.com/awslabs/amazon-ecr-credential-helper
+sudo dnf install -y amazon-ecr-credential-helper
+
+# aws-iam-authenticator — required by kubectl for clusters using AWS IAM auth
+# https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html
+case "${SYSTEM_ARCH}" in
+    x86_64)  IAM_AUTH_ARCH="amd64" ;;
+    aarch64) IAM_AUTH_ARCH="arm64" ;;
+    *)       IAM_AUTH_ARCH="" ;;
+esac
+if [ -n "${IAM_AUTH_ARCH}" ]; then
+    IAM_AUTH_VERSION=$(curl -s https://api.github.com/repos/kubernetes-sigs/aws-iam-authenticator/releases/latest | jq -r .tag_name)
+    sudo curl -fsSL \
+        "https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/${IAM_AUTH_VERSION}/aws-iam-authenticator_${IAM_AUTH_VERSION#v}_linux_${IAM_AUTH_ARCH}" \
+        -o /usr/local/bin/aws-iam-authenticator
+    sudo chmod 0755 /usr/local/bin/aws-iam-authenticator
+else
+    warn "aws-iam-authenticator not available for architecture ${SYSTEM_ARCH}"
+fi
+
 # sops
 # https://gist.github.com/patrickmslatteryvt/d531c5ae4598fd4c9d508833bde6c7c0
 SOPS_VERSION=$(curl -s https://api.github.com/repos/getsops/sops/releases/latest | jq .tag_name | tr -d '"')
@@ -522,22 +614,27 @@ if [ "${SYSTEM_ARCH}" = "x86_64" ]; then
 else
     echo "SOPS RPM not available for architecture ${SYSTEM_ARCH}, consider manual installation"
 fi
+
 # helm plugins
 helm plugin list | awk '{print $1}' | grep -qx secrets || helm plugin install https://github.com/jkroepke/helm-secrets --version ${HELM_SECRETS_VERSION}
 helm plugin list | awk '{print $1}' | grep -qx diff || helm plugin install https://github.com/databus23/helm-diff --version ${HELM_DIFF_VERSION}
+
 # helmfile
 wget -qO- https://github.com/helmfile/helmfile/releases/download/${HELMFILE_VERSION}/helmfile_${HELMFILE_VERSION:1}_linux_${ARCH_AMD64}.tar.gz | sudo tar xz -C /usr/local/bin && sudo chmod +x /usr/local/bin/helmfile
-# Database tools moved to the 'Database Tools' section above
 
 # istioctl
 wget -qO- https://github.com/istio/istio/releases/download/${ISTIO_VERSION}/istioctl-${ISTIO_VERSION}-linux-${ARCH_AMD64}.tar.gz | sudo tar xz -C /usr/local/bin && sudo chmod +x /usr/local/bin/istioctl
+
 # jsonnet
 sudo dnf install -y jsonnet
 
 
-# arduino
+# ============================================================================
+# 10. ARDUINO & ELECTRONICS
+# ============================================================================
+# Arduino IDE 2
 flatpak install --user -y flathub cc.arduino.IDE2
-# Serial console + ESP8266/ESP32 flashing tools (present on this laptop)
+# Serial console + ESP8266/ESP32 flashing tools
 # minicom: serial terminal; esptool: flash Espressif chips
 sudo dnf install -y minicom esptool
 # Install Arduino Lab for MicroPython
@@ -560,13 +657,17 @@ EOF
 chmod +x ~/.local/share/applications/arduino-lab-micropython.desktop
 
 
-#programming, development
+# ============================================================================
+# 11. PROGRAMMING LANGUAGES
+# ============================================================================
+
 # Node.js and npm
 # https://github.com/nodesource/distributions#rpminstall
 run_https_bash_installer --sudo https://rpm.nodesource.com/setup_lts.x
 sudo dnf install -y nodejs
 ensure_npm_user_prefix "$HOME/.local"
 append_line_if_missing "$HOME/.zshrc" 'export PATH="$HOME/.local/bin:$PATH"'
+npm config set fund false
 
 # NVM (Node Version Manager)
 # It is often recommended to use a user-specific Node environment (like NVM)
@@ -581,13 +682,20 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 nvm install --lts
 nvm use --lts
+
+# Python
 sudo dnf install python3 -y
+# uv: fast Python package / project manager (replaces pip + venv + pyenv workflow)
+# https://docs.astral.sh/uv/getting-started/installation/
+curl -LsSf https://astral.sh/uv/install.sh | sh
+append_line_if_missing "$HOME/.zshrc" 'export PATH="$HOME/.local/bin:$PATH"'
 
 # Ruby
 # ruby-devel and gcc/make are often required to compile gems with C extensions
 sudo dnf install ruby ruby-devel rubygems -y
 # Install Bundler (standard dependency manager for Ruby projects)
 gem install bundler
+
 # Go and golangci-lint are maintained in Fedora 44; avoid stale pinned tarballs.
 dnf_install_if_missing golang golangci-lint
 go version
@@ -595,11 +703,16 @@ go version
 sudo dnf install protobuf-compiler golang-google-protobuf golang-google-grpc -y
 # go pprof web UI dependency (Graphviz)
 sudo dnf install graphviz -y
+# usql - Universal SQL CLI (Go binary; install now that Go is available)
+# https://github.com/xo/usql
+go install github.com/xo/usql@latest
+
 # Java JDKs available in current Fedora repos:
 # - 21: conservative current LTS baseline
 # - 25: latest LTS baseline
 # Java 8 is kept in the offline backup as Temurin standalone installers.
 sudo dnf install -y java-21-openjdk-devel java-25-openjdk-devel
+
 # git, editors - nvim, vscode
 sudo dnf install vim neovim -y
 # Git identity is personal input and is deliberately not written by bootstrap.
@@ -608,7 +721,7 @@ git config --global core.editor "nvim"
 # VSCode and maintained forks (Cursor, VSCodium, Windsurf)
 # have been moved to: 4_config_vscode.sh
 
-# rust
+# Rust
 # C compiler, make, and OpenSSL headers are frequently needed to compile Rust crates natively
 sudo dnf install gcc gcc-c++ make openssl-devel pkgconf-pkg-config -y
 # Install rustup (toolchain manager), rustc (compiler) and cargo (package manager)
@@ -623,8 +736,9 @@ source "$HOME/.cargo/env"
 cargo binstall -y cargo-watch cargo-outdated cargo-audit
 
 
-
-# Testing, debugging tools
+# ============================================================================
+# 12. TESTING & DEBUGGING
+# ============================================================================
 # https://httpie.io/docs/cli/fedora
 sudo dnf install httpie -y
 
@@ -634,19 +748,18 @@ sudo dnf install k6 -y
 
 # grpcurl
 curl -L -s https://github.com/fullstorydev/grpcurl/releases/download/v1.9.1/grpcurl_1.9.1_linux_x86_64.tar.gz | tar xz && sudo mv grpcurl /usr/local/bin/
-#Postman
-# The Postman VS Code extension
-# https://marketplace.visualstudio.com/items?itemName=Postman.postman-for-vscode
-# flatpak via flatpak
-# flatpak install --user -y flathub com.getpostman.Postman
-flatpak install --user --assumeyes flathub rest.insomnia.Insomnia
-#Insomnia
-# https://insomnia.rest
-# https://flathub.org/apps/rest.insomnia.Insomnia
+
+# Insomnia - REST / GraphQL / gRPC client
+# https://insomnia.rest — https://flathub.org/apps/rest.insomnia.Insomnia
 flatpak install --user -y flathub rest.insomnia.Insomnia
-# Slack: use the Flatpak instead of the obsolete unsigned Fedora 21 repository.
+
+# Slack
+# https://flathub.org/apps/com.slack.Slack
+# Note: no official Slack DNF repo for Fedora; flatpak is the recommended automated install.
+# RPM alternative: download from https://slack.com/downloads/linux
 flatpak_user_install_if_missing flathub com.slack.Slack
-# Zoom - video conferencing (present on this laptop)
+
+# Zoom - video conferencing
 # https://zoom.us/download?os=linux
 sudo dnf install -y https://zoom.us/client/latest/zoom_x86_64.rpm
 
