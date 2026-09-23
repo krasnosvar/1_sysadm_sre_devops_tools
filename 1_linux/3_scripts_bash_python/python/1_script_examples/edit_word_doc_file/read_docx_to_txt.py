@@ -1,4 +1,4 @@
-#установить либу для чтения docx
+# Install the library to read docx
 #pip3 install docx2txt
 
 import docx2txt

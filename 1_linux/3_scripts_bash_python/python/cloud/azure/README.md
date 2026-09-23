@@ -1,10 +1,8 @@
-# Azure operational utilities
+# Azure Operational Utilities
 
-[`change_timeline.py`](change_timeline.py) читает Azure Resource Graph table
-`resourcechanges` через штатный Azure CLI. Python SDK не требуется; используется
-активная `az login` session.
+[`change_timeline.py`](change_timeline.py) reads the Azure Resource Graph table `resourcechanges` via the standard Azure CLI. The Python SDK is not required; an active `az login` session is used.
 
-## Подготовка и запуск
+## Setup and Execution
 
 ```bash
 cd 1_linux/3_scripts_bash_python/python/cloud/azure
@@ -20,15 +18,8 @@ az extension add --name resource-graph
   --hours 6 --json
 ```
 
-Можно повторить `--subscription` для нескольких subscriptions. Команда
-read-only; `--details` добавляет changed properties и поэтому может заметно
-увеличить report. `--limit` ограничен диапазоном 1–1000.
+`--subscription` can be repeated for multiple subscriptions. The command is read-only; `--details` adds changed properties and therefore can noticeably increase the report size. `--limit` is restricted to the 1–1000 range.
 
-Коды возврата: `0` — изменения найдены, `3` — изменений нет, `2` — неверный
-input, локальная ошибка или ошибка `az`. Скрипт сознательно ограничивает окно
-14 днями — это retention Resource Graph change records. Нужны права чтения
-выбранных ресурсов и доступ к Resource Graph. Поля и примеры запросов описаны в
-[Azure Resource Graph changes](https://learn.microsoft.com/en-us/azure/governance/resource-graph/changes/get-resource-changes).
+Exit codes: `0` — changes found, `3` — no changes, `2` — invalid input, local error, or `az` error. The script deliberately limits the window to 14 days — this is the retention of Resource Graph change records. Read access to selected resources and access to Resource Graph are required. Fields and sample queries are described in [Azure Resource Graph changes](https://learn.microsoft.com/en-us/azure/governance/resource-graph/changes/get-resource-changes).
 
-Остальные кандидаты — orphan/public exposure/identity audits и inventory — пока
-только roadmap в [`../../../SCRIPT_BACKLOG.md`](../../../SCRIPT_BACKLOG.md).
+Other candidates — orphan/public exposure/identity audits and inventory — are currently just a roadmap in [`../../../SCRIPT_BACKLOG.md`](../../../SCRIPT_BACKLOG.md).

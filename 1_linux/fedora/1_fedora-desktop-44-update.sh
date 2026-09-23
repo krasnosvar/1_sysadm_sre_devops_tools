@@ -300,7 +300,7 @@ else
     rm -rf "${V2RAYN_TMP}"
 fi
 # After first launch: Settings -> Core basic settings, subscriptions/servers are
-# stored in ~/.config/v2rayN (keep it out of git, see 'Приватные данные' in README)
+# stored in ~/.config/v2rayN (keep it out of git, see 'Private data' in README)
 
 
 # ============================================================================
@@ -573,9 +573,9 @@ else
     warn "session-manager-plugin not available for architecture ${SYSTEM_ARCH}"
 fi
 
-# Amazon ECR credential helper — автоматически аутентифицирует Docker/containerd в ECR
-# без ручного `aws ecr get-login-password | docker login ...` перед каждым push/pull.
-# После установки добавить в ~/.docker/config.json:
+# Amazon ECR credential helper — automatically authenticates Docker/containerd in ECR
+# without manual `aws ecr get-login-password | docker login ...` before every push/pull.
+# After installation, add to ~/.docker/config.json:
 #   { "credHelpers": { "<account>.dkr.ecr.<region>.amazonaws.com": "ecr-login" } }
 # https://github.com/awslabs/amazon-ecr-credential-helper
 sudo dnf install -y amazon-ecr-credential-helper

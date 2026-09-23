@@ -1,52 +1,43 @@
-# Безопасная диагностика и однократный restart systemd-сервиса
+# Safe Diagnostics and Single Restart of a systemd Service
 
-[`service_recovery_guard.sh`](service_recovery_guard.sh) нужен для типового
-инцидента «unit или его health endpoint не отвечает». По умолчанию он ничего не
-меняет: проверяет состояние, а при ошибке сохраняет evidence. Restart разрешён
-только явным `--apply` и выполняется не более одного раза за запуск.
+[`service_recovery_guard.sh`](service_recovery_guard.sh) is needed for the typical incident "unit or its health endpoint is unresponsive". By default, it changes nothing: it checks the state, and if there is an error, it saves evidence. A restart is allowed only with an explicit `--apply` and is performed no more than once per run.
 
-## Что попадает в evidence
+## What is Included in Evidence
 
-- `systemctl status` и ключевые свойства unit;
-- journal выбранного unit за заданный период;
+- `systemctl status` and key unit properties;
+- journal of the selected unit for a given period;
 - listening sockets;
-- состояние, limits, cgroup и process tree основного процесса;
-- вывод отдельной health-команды, если она передана.
+- state, limits, cgroup, and process tree of the main process;
+- output of a separate health command, if provided.
 
-Каталог создаётся с правами текущего пользователя и `umask 077`. Health-команда
-и её вывод также сохраняются, поэтому не передавайте секреты в аргументах и
-выбирайте защищённый `--output-parent`.
+The directory is created with the current user's permissions and `umask 077`. The health command and its output are also saved, so do not pass secrets in arguments and choose a secure `--output-parent`.
 
-## Использование
+## Usage
 
 ```bash
 cd 1_linux/3_scripts_bash_python/bash
 
-# Только проверка systemd; при проблеме будет создан evidence-каталог
+# Systemd check only; creates an evidence directory on issues
 ./service_recovery_guard.sh nginx
 
-# Проверка unit и приложения
+# Check unit and application
 ./service_recovery_guard.sh nginx -- \
   curl --fail --silent --show-error --max-time 5 http://127.0.0.1/health
 
-# Один restart после сбора evidence, затем повторная проверка
+# A single restart after gathering evidence, then re-check
 sudo ./service_recovery_guard.sh --apply --grace 5 \
   --output-parent /var/tmp nginx -- \
   curl --fail --silent --show-error --max-time 5 http://127.0.0.1/health
 ```
 
-`--journal-since '2 hours ago'` расширяет период журнала. Пользователю нужны
-права на чтение journal и состояния unit; для restart обычно нужен `sudo`.
+`--journal-since '2 hours ago'` extends the journal period. The user needs read access to the journal and unit state; for a restart, `sudo` is usually needed.
 
-## Результат и ограничения
+## Result and Limitations
 
-| Код | Значение |
+| Code | Meaning |
 | --- | --- |
-| `0` | сервис был здоров либо восстановился после одного restart |
-| `1` | сервис остался нездоров; путь к evidence выведен в stderr |
-| `2` | неверные аргументы или отсутствует обязательная команда |
+| `0` | service was healthy or recovered after a single restart |
+| `1` | service remained unhealthy; path to evidence is output to stderr |
+| `2` | invalid arguments or mandatory command is missing |
 
-Скрипт не анализирует зависимости приложения, не исправляет конфигурацию и не
-делает restart loop. Между отдельными запусками ограничение должен обеспечивать
-systemd (`StartLimit*`), alert manager или вызывающий automation. Перед
-`--apply` сначала просмотрите evidence из read-only запуска.
+The script does not analyze application dependencies, fix configurations, or perform a restart loop. Rate limiting between separate runs must be enforced by systemd (`StartLimit*`), an alert manager, or the calling automation. Before `--apply`, first review the evidence from a read-only run.

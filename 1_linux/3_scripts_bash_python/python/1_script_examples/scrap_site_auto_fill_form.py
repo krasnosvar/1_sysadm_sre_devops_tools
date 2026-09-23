@@ -21,7 +21,7 @@ def interface_test_ex12(testovoe_virazhen):
     '''den@den-UX310UQK:qa-system$ curl -s localhost:8000/
         <form action="/calc" method="post">
             <input type="text" name="operation" />
-            <input type="submit" value="Посчитать" />
+            <input type="submit" value="Calculate" />
         </form>
     '''
     form['operation'] = testovoe_virazhen

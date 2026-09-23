@@ -1,12 +1,7 @@
-# Multi-cloud utilities
+# Multi-cloud Utilities
 
-Здесь будут только проверки, для которых действительно полезен единый контракт
-AWS, GCP и Azure: обязательные tags/labels, TTL временных ресурсов, coverage
-backup, истечение identity credentials и нормализованный public exposure report.
+This directory will contain only checks where a unified AWS, GCP, and Azure contract is genuinely useful: mandatory tags/labels, TTL of temporary resources, backup coverage, identity credentials expiration, and a normalized public exposure report.
 
-Provider-specific детали не скрываются за искусственной общей абстракцией:
-каждый результат должен содержать provider, account/project/subscription,
-region, resource type, resource ID и причину finding.
+Provider-specific details are not hidden behind an artificial common abstraction: every result must contain the provider, account/project/subscription, region, resource type, resource ID, and the reason for the finding.
 
-Сейчас каталог является roadmap. Канонический список и критерии готовности — в
-[`../../../SCRIPT_BACKLOG.md`](../../../SCRIPT_BACKLOG.md).
+Currently, this directory is a roadmap. The canonical list and definition of done are in [`../../../SCRIPT_BACKLOG.md`](../../../SCRIPT_BACKLOG.md).

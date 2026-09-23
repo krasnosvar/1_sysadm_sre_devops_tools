@@ -1,17 +1,12 @@
-# AWS operational utilities
+# AWS Operational Utilities
 
-Утилиты используют стандартную `boto3` credential chain: environment, AWS
-profile, SSO/role credentials или instance identity. Ключи доступа в код и
-аргументы CLI не передаются.
+Utilities use the standard `boto3` credential chain: environment, AWS profile, SSO/role credentials, or instance identity. Access keys are not passed into the code or CLI arguments.
 
-## Реализовано
+## Implemented
 
-- [`s3_cleaner.py`](s3_cleaner.py) — выводит S3-объекты старше retention
-  threshold и удаляет их только с `--apply`.
-- [`ec2_power.py`](ec2_power.py) — показывает и запускает/останавливает EC2 по
-  обязательному tag filter; изменение требует `--apply`.
-- [`who_changed.py`](who_changed.py) — строит read-only timeline последних
-  CloudTrail management events по одному lookup attribute.
+- [`s3_cleaner.py`](s3_cleaner.py) — lists S3 objects older than a retention threshold and deletes them only with `--apply`.
+- [`ec2_power.py`](ec2_power.py) — previews and starts/stops EC2 instances based on a mandatory tag filter; modification requires `--apply`.
+- [`who_changed.py`](who_changed.py) — builds a read-only timeline of recent CloudTrail management events by a single lookup attribute.
 
 ```bash
 cd 1_linux/3_scripts_bash_python/python/cloud/aws
@@ -25,28 +20,17 @@ python3 -m pip install boto3
 ./who_changed.py --event-name AuthorizeSecurityGroupIngress \
   --region eu-central-1 --hours 6 --json
 
-# Изменение после проверки preview
+# Modification after checking the preview
 ./s3_cleaner.py logs-bucket --prefix app/ --older-than-days 30 --apply
 ./ec2_power.py stop --tag Env=development --apply
 ```
 
-Ожидаемый account и region нужно проверить через `aws sts get-caller-identity`
-и AWS profile до запуска с `--apply`. Запланированные audits перечислены в
-[`../../../SCRIPT_BACKLOG.md`](../../../SCRIPT_BACKLOG.md).
+The expected account and region must be verified via `aws sts get-caller-identity` and AWS profile before running with `--apply`. Planned audits are listed in [`../../../SCRIPT_BACKLOG.md`](../../../SCRIPT_BACKLOG.md).
 
-## Особенности `who_changed.py`
+## Features of `who_changed.py`
 
-Команда требует ровно один фильтр: resource name/type, event name/source,
-username или event ID. Она не изменяет AWS. По умолчанию read-only API events
-скрываются; `--include-read-only` возвращает их в результат.
+The command requires exactly one filter: resource name/type, event name/source, username, or event ID. It does not modify AWS. By default, read-only API events are hidden; `--include-read-only` includes them in the result.
 
-CloudTrail LookupEvents работает отдельно для выбранного Region, хранит lookup
-history до 90 дней и принимает только один lookup attribute. `--max-events`
-ограничивает результат, а `--max-scanned` — число просмотренных provider events,
-что защищает от очень дорогого запроса при фильтрации read-only событий.
-Пагинация и AWS throttling обрабатываются SDK с adaptive retry.
+CloudTrail LookupEvents operates independently for a selected Region, stores lookup history for up to 90 days, and accepts only one lookup attribute. `--max-events` limits the result, while `--max-scanned` limits the number of provider events scanned, protecting against very expensive queries when filtering read-only events. Pagination and AWS throttling are handled by the SDK with adaptive retry.
 
-Коды возврата: `0` — события найдены, `3` — совпадений нет, `1` — ошибка AWS,
-`2` — неверные аргументы. CloudTrail должен быть доступен текущей identity как
-минимум через `cloudtrail:LookupEvents`. Ограничения API описаны в
-[AWS LookupEvents](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_LookupEvents.html).
+Exit codes: `0` — events found, `3` — no matches, `1` — AWS error, `2` — invalid arguments. CloudTrail must be accessible to the current identity via at least `cloudtrail:LookupEvents`. API limitations are described in [AWS LookupEvents](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_LookupEvents.html).

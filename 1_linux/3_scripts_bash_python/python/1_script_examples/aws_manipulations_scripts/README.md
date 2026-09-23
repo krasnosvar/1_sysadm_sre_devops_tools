@@ -1,6 +1,4 @@
-# Compatibility paths
+# Compatibility Paths
 
-Канонические AWS-утилиты перенесены в [`../../cloud/aws/`](../../cloud/aws/).
-Два launcher-файла в этом каталоге сохраняют старые команды и передают все
-аргументы новым implementations. Новые ссылки и automation следует строить на
-канонических путях.
+Canonical AWS utilities have been moved to [`../../cloud/aws/`](../../cloud/aws/).
+The two launcher files in this directory preserve the old commands and pass all arguments to the new implementations. New links and automation should be built on the canonical paths.

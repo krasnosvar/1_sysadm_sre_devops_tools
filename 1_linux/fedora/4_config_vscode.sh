@@ -100,40 +100,40 @@ for ideEditor in code codium cursor windsurf antigravity; do
 
     # --- Languages ---
     $ideEditor --install-extension ms-python.python --force || true  # Python: linting, debugging, IntelliSense
-    $ideEditor --install-extension golang.Go --force || true  # Go: полная поддержка (gopls, delve, тесты)
-    $ideEditor --install-extension redhat.java --force || true  # Java: Language Server от Red Hat
-    $ideEditor --install-extension mathiasfrohlich.kotlin --force || true  # Kotlin: подсветка синтаксиса и базовая поддержка
+    $ideEditor --install-extension golang.Go --force || true  # Go: full support (gopls, delve, tests)
+    $ideEditor --install-extension redhat.java --force || true  # Java: Language Server from Red Hat
+    $ideEditor --install-extension mathiasfrohlich.kotlin --force || true  # Kotlin: syntax highlighting and basic support
 
     # --- Infrastructure & DevOps ---
-    $ideEditor --install-extension redhat.vscode-yaml --force || true  # YAML: валидация, автодополнение, JSON Schema
-    $ideEditor --install-extension ms-azuretools.vscode-docker --force || true  # Docker: управление контейнерами и образами
-    $ideEditor --install-extension ms-kubernetes-tools.vscode-kubernetes-tools --force || true  # Kubernetes: работа с кластерами прямо из редактора
-    $ideEditor --install-extension hashicorp.terraform --force || true  # Terraform: синтаксис HCL, автодополнение, валидация
-    $ideEditor --install-extension ms-vscode-remote.remote-containers --force || true  # Dev Containers: разработка внутри Docker-контейнера
+    $ideEditor --install-extension redhat.vscode-yaml --force || true  # YAML: validation, autocomplete, JSON Schema
+    $ideEditor --install-extension ms-azuretools.vscode-docker --force || true  # Docker: container and image management
+    $ideEditor --install-extension ms-kubernetes-tools.vscode-kubernetes-tools --force || true  # Kubernetes: work with clusters directly from the editor
+    $ideEditor --install-extension hashicorp.terraform --force || true  # Terraform: HCL syntax, autocomplete, validation
+    $ideEditor --install-extension ms-vscode-remote.remote-containers --force || true  # Dev Containers: development inside a Docker container
 
     # --- Git & Version Control ---
-    $ideEditor --install-extension eamodio.gitlens --force || true  # GitLens: blame, история, сравнение веток
-    $ideEditor --install-extension gitlab.gitlab-workflow --force || true  # GitLab: MR, пайплайны и CI/CD прямо в редакторе
+    $ideEditor --install-extension eamodio.gitlens --force || true  # GitLens: blame, history, branch comparison
+    $ideEditor --install-extension gitlab.gitlab-workflow --force || true  # GitLab: MRs, pipelines, and CI/CD directly in the editor
 
     # --- Database ---
-    $ideEditor --install-extension mtxr.sqltools --force || true  # SQLTools: универсальный клиент для SQL-баз данных
+    $ideEditor --install-extension mtxr.sqltools --force || true  # SQLTools: universal client for SQL databases
 
     # --- Docs & Markdown ---
-    $ideEditor --install-extension davidanson.vscode-markdownlint --force || true  # markdownlint: линтер для .md файлов
-    $ideEditor --install-extension domdomegg.markdown-inline-preview-vscode --force || true  # Markdown Inline Preview: превью прямо в строке
-    $ideEditor --install-extension tomoki1207.pdf --force || true  # PDF Viewer: открытие PDF без выхода из редактора
+    $ideEditor --install-extension davidanson.vscode-markdownlint --force || true  # markdownlint: linter for .md files
+    $ideEditor --install-extension domdomegg.markdown-inline-preview-vscode --force || true  # Markdown Inline Preview: preview directly inline
+    $ideEditor --install-extension tomoki1207.pdf --force || true  # PDF Viewer: open PDF without leaving the editor
 
     # --- AI Assistants ---
-    $ideEditor --install-extension Codeium.codeium --force || true  # Codeium: бесплатный AI-ассистент (автодополнение, чат)
-    $ideEditor --install-extension github.copilot-chat --force || true  # GitHub Copilot Chat: AI-чат и inline-подсказки от GitHub
+    $ideEditor --install-extension Codeium.codeium --force || true  # Codeium: free AI assistant (autocomplete, chat)
+    $ideEditor --install-extension github.copilot-chat --force || true  # GitHub Copilot Chat: AI chat and inline hints from GitHub
 
     # --- Productivity ---
-    $ideEditor --install-extension usernamehw.errorlens --force || true  # Error Lens: ошибки и предупреждения прямо в строке кода
-    $ideEditor --install-extension t-p-f.go-group-imports --force || true  # Go Group Imports: группировка импортов (stdlib / external / internal)
-    $ideEditor --install-extension Gruntfuggly.todo-tree --force || true  # Todo Tree: панель со всеми TODO и FIXME по проекту
-    $ideEditor --install-extension alefragnani.Bookmarks --force || true  # Bookmarks: закладки для быстрой навигации по коду
-    $ideEditor --install-extension humao.rest-client --force || true  # REST Client: HTTP-запросы через .http файлы (замена Postman)
-    $ideEditor --install-extension esbenp.prettier-vscode --force || true  # Prettier: автоформатирование JSON, YAML, Markdown
+    $ideEditor --install-extension usernamehw.errorlens --force || true  # Error Lens: errors and warnings directly inline
+    $ideEditor --install-extension t-p-f.go-group-imports --force || true  # Go Group Imports: group imports (stdlib / external / internal)
+    $ideEditor --install-extension Gruntfuggly.todo-tree --force || true  # Todo Tree: panel with all TODOs and FIXMEs across the project
+    $ideEditor --install-extension alefragnani.Bookmarks --force || true  # Bookmarks: bookmarks for quick code navigation
+    $ideEditor --install-extension humao.rest-client --force || true  # REST Client: HTTP requests via .http files (Postman replacement)
+    $ideEditor --install-extension esbenp.prettier-vscode --force || true  # Prettier: auto-formatting JSON, YAML, Markdown
   fi
 done
 

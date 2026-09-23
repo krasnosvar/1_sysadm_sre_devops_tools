@@ -1,10 +1,8 @@
-# Локальная и Kubernetes-диагностика
+# Local and Kubernetes Diagnostics
 
-Здесь описаны поддерживаемые Python-утилиты, которые превращают
-неструктурированный или большой вывод в пригодный для автоматизации JSON. Они
-ничего не изменяют в системе или кластере.
+This section describes supported Python utilities that turn unstructured or large output into automation-friendly JSON. They do not alter anything in the system or cluster.
 
-## Зависимости
+## Dependencies
 
 ```bash
 cd 1_linux/3_scripts_bash_python/python
@@ -13,69 +11,51 @@ python3 -m venv .venv
 python -m pip install cryptography
 ```
 
-`oom_explain.py` использует только Python standard library.
-`k8s_why_pending.py` дополнительно требует `kubectl` и уже настроенный context,
-если не используется offline snapshot.
+`oom_explain.py` uses only the Python standard library.
+`k8s_why_pending.py` additionally requires `kubectl` and an already configured context, unless an offline snapshot is used.
 
-## Разбор Linux OOM
+## Linux OOM Parsing
 
-[`oom_explain.py`](oom_explain.py) связывает строку `oom-kill:` с последующей
-`Killed process`, показывает global/cgroup scope, PID, process, cgroup и
-известные memory counters.
+[`oom_explain.py`](oom_explain.py) links the `oom-kill:` line with the subsequent `Killed process`, displaying the global/cgroup scope, PID, process, cgroup, and known memory counters.
 
 ```bash
-# Текущая загрузка системы
+# Current system boot
 journalctl -k -b -o short-iso | ./oom_explain.py
 
-# Сохранённый журнал и машинный результат
+# Saved journal and machine-readable result
 ./oom_explain.py /var/tmp/kernel-journal.txt --json > /var/tmp/oom-events.json
 ```
 
-Коды: `0` — события найдены, `3` — событий нет, `2` — файл прочитать не
-удалось. Парсер объясняет только OOM-killer records, присутствующие в исходном
-тексте; он не восстанавливает метрики, которые не попали в journal. Если
-контекст и `Killed process` разделены необычно большим фрагментом, настройте
-`--context-lines`.
+Exit codes: `0` — events found, `3` — no events, `2` — failed to read file. The parser explains only OOM-killer records present in the source text; it does not recover metrics that did not make it into the journal. If the context and the `Killed process` are separated by an unusually large fragment, adjust `--context-lines`.
 
-## Инвентаризация локальных сертификатов
+## Local Certificate Inventory
 
-[`cert_inventory.py`](cert_inventory.py) рекурсивно читает явно переданные
-пути, извлекает X.509 из PEM, DER, PKCS#7, PKCS#12 и certificate-like членов
-ZIP/JAR. Private keys не печатаются.
+[`cert_inventory.py`](cert_inventory.py) recursively reads explicitly passed paths, extracting X.509 from PEM, DER, PKCS#7, PKCS#12, and certificate-like ZIP/JAR members. Private keys are not printed.
 
 ```bash
 ./cert_inventory.py /etc/ssl /opt/app --warn-days 45
 ./cert_inventory.py /opt/app --warn-days 30 --json > /var/tmp/certificates.json
 
-# Пароль PKCS#12 не попадает в argv
+# PKCS#12 password does not enter argv
 read -r -s CERT_STORE_PASSWORD && export CERT_STORE_PASSWORD
 ./cert_inventory.py /opt/app/client.p12 --password-env CERT_STORE_PASSWORD
 unset CERT_STORE_PASSWORD
 ```
 
-Статусы: `ok`, `warning`, `expired`, `not-yet-valid`. Коды: `0` — всё в норме,
-`1` — найден проблемный сертификат, `2` — хотя бы один input не удалось
-разобрать, `3` — сертификаты не найдены. Scan error имеет приоритет над статусом
-сертификатов; подробности идут в stderr или поле `errors` JSON.
+Statuses: `ok`, `warning`, `expired`, `not-yet-valid`. Exit codes: `0` — all good, `1` — problematic certificate found, `2` — at least one input could not be parsed, `3` — no certificates found. A scan error takes precedence over certificate status; details go to stderr or the `errors` JSON field.
 
-По умолчанию symlinks не обходятся, а файл или член архива больше 20 MiB
-пропускается. Лимит настраивается `--max-file-bytes`. Java JKS не поддерживается;
-его нужно предварительно читать штатным `keytool` или экспортировать сертификат
-в PEM/PKCS#12.
+By default, symlinks are not followed, and a file or archive member larger than 20 MiB is skipped. The limit can be configured via `--max-file-bytes`. Java JKS is not supported; it must first be read with standard `keytool` or the certificate exported to PEM/PKCS#12.
 
-## Почему Pod остаётся Pending
+## Why a Pod Remains Pending
 
-[`k8s_why_pending.py`](k8s_why_pending.py) читает Pods, Nodes, PVCs и Events и
-объясняет распространённые блокировки: scheduling gates, unbound PVC,
-недоступные nodes, nodeSelector/taints и нехватку запрошенных CPU/memory.
-Scheduler Events выводятся как основное доказательство.
+[`k8s_why_pending.py`](k8s_why_pending.py) reads Pods, Nodes, PVCs, and Events, explaining common blockers: scheduling gates, unbound PVC, unavailable nodes, nodeSelector/taints, and insufficient requested CPU/memory. Scheduler Events are output as the primary evidence.
 
 ```bash
-# Весь кластер или узкий scope
+# Entire cluster or narrow scope
 ./k8s_why_pending.py --context staging
 ./k8s_why_pending.py --namespace payments --pod api-7c9b --json
 
-# Offline-анализ без доступа к кластеру
+# Offline analysis without cluster access
 snapshot=/var/tmp/pending-snapshot
 mkdir -p "$snapshot"
 kubectl get pods -A -o json > "$snapshot/pods.json"
@@ -85,13 +65,7 @@ kubectl get events -A -o json > "$snapshot/events.json"
 ./k8s_why_pending.py --snapshot-dir "$snapshot"
 ```
 
-Код `1` означает, что matching Pending Pods найдены, даже если причина понятна;
-`0` — таких Pods нет, `2` — input или `kubectl` завершился с ошибкой. На каждый
-вызов `kubectl` действуют `--request-timeout` и отдельный process limit
-`--command-timeout`.
+Exit code `1` means matching Pending Pods were found, even if the cause is clear; `0` — no such Pods, `2` — input or `kubectl` exited with an error. Every `kubectl` call is subject to `--request-timeout` and a separate process limit `--command-timeout`.
 
-Утилита не повторяет весь Kubernetes scheduler: pod topology spread, сложные
-affinity/anti-affinity, admission webhooks, CSI provisioning и extender logic
-нужно подтверждать по `FailedScheduling` Events и scheduler/controller logs.
-См. официальную инструкцию Kubernetes
-[Debug Pods](https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/).
+The utility does not reimplement the entire Kubernetes scheduler: pod topology spread, complex affinity/anti-affinity, admission webhooks, CSI provisioning, and extender logic must be confirmed via `FailedScheduling` Events and scheduler/controller logs.
+See the official Kubernetes guide [Debug Pods](https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/).

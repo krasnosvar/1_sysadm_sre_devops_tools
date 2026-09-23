@@ -1,21 +1,16 @@
-# Expect examples
+# Expect Examples
 
-- [`ssh-kras.exp.sh`](ssh-kras.exp.sh) — исходный рабочий пример с переменными
-  `PASS` и `MY_USER`. Его содержимое сохранено без изменений.
-- [`expect.sh`](expect.sh) — исходные заметки и пример настройки alias.
-- [`ssh-interactive-sudo.exp`](ssh-interactive-sudo.exp) — дополнительный
-  вариант, в котором SSH и `sudo` сами обрабатывают authentication prompts, а
-  Expect только запускает интерактивную сессию и возвращает её exit status.
+- [`ssh-kras.exp.sh`](ssh-kras.exp.sh) — the original working example with `PASS` and `MY_USER` variables. Its content is preserved unchanged.
+- [`expect.sh`](expect.sh) — the original notes and an alias configuration example.
+- [`ssh-interactive-sudo.exp`](ssh-interactive-sudo.exp) — an additional variant where SSH and `sudo` handle the authentication prompts themselves, and Expect only launches the interactive session and returns its exit status.
 
-Новый вариант не заменяет исходный:
+The new variant does not replace the original one:
 
 ```bash
 expect ./ssh-interactive-sudo.exp server.example admin_user
 
-# Или с пользователем из environment
+# Or with a user from the environment
 SSH_USER=admin_user expect ./ssh-interactive-sudo.exp server.example
 ```
 
-Для постоянной automation предпочтительнее SSH keys, certificates или
-централизованный access proxy. Проверяйте host fingerprint до первого
-подключения к критичной системе.
+For permanent automation, SSH keys, certificates, or a centralized access proxy are preferred. Verify the host fingerprint before connecting to a critical system for the first time.
