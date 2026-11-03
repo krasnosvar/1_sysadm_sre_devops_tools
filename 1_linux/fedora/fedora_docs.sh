@@ -79,6 +79,8 @@ cat <<'EOF'
   Brave                     https://support.brave.com
   Floorp                    https://support.floorp.app
   Opera                     https://help.opera.com
+  Epiphany                  https://apps.gnome.org/Epiphany/
+  Konqueror                 https://apps.kde.org/konqueror/
 
 --- 07. NETWORK & VPN ---
   wireshark                 https://www.wireshark.org/docs/

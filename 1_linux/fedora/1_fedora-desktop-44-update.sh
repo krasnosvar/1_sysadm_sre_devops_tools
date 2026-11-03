@@ -11,7 +11,8 @@ set -euo pipefail
 # 03. DESKTOP APPS              — multimedia, office, design, 3D, PDF
 # 04. VIRTUALIZATION            — libvirt / KVM / QEMU
 # 05. SECURITY                  — KeePassXC, VeraCrypt
-# 06. BROWSERS                  — Vivaldi, Chrome, Brave, Floorp, Opera
+# 06. BROWSERS                  — Chrome, Opera, Brave, Vivaldi, Floorp,
+#                                 Epiphany, Konqueror, Tor (dev/nightly)
 # 07. NETWORK & VPN             — diagnostics, OpenVPN, WireGuard, v2rayN
 # 08. DATABASE TOOLS            — CLI clients, GUI apps, MongoDB, Redis
 # 09. DEVOPS & CLOUD            — Terraform, Docker, Kubernetes, AWS, Helm
@@ -179,24 +180,19 @@ sudo dnf install veracrypt keepassxc -y
 # ============================================================================
 # 06. BROWSERS
 # ============================================================================
-# Vivaldi
-# https://www.linuxcapable.com/install-vivaldi-on-fedora-linux/
-sudo dnf config-manager addrepo --from-repofile=https://repo.vivaldi.com/stable/vivaldi-fedora.repo
-sudo dnf install vivaldi-stable -y
-# Chrome
-# https://docs.fedoraproject.org/en-US/quick-docs/installing-chromium-or-google-chrome-browsers/
-sudo dnf install chromium -y
-sudo dnf install fedora-workstation-repositories -y
-sudo dnf config-manager --set-enabled google-chrome # or sudo dnf config-manager setopt google-chrome.enabled=1
-sudo dnf install google-chrome-stable -y
-# Brave
-# https://brave.com/linux/#fedora-rockyrhel
-sudo dnf config-manager addrepo --from-repofile=https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
-sudo rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
-sudo dnf install brave-browser -y
-# Floorp
-flatpak install --user flathub one.ablaze.floorp -y
-# Opera
+
+# Chromium & Google Chrome (Stable, Beta, Dev/Unstable, Canary)
+# Fedora docs: https://docs.fedoraproject.org/en-US/quick-docs/
+sudo dnf install -y chromium
+sudo dnf install -y fedora-workstation-repositories
+sudo dnf config-manager setopt google-chrome.enabled=1
+sudo dnf install -y \
+  google-chrome-stable \
+  google-chrome-beta \
+  google-chrome-unstable \
+  google-chrome-canary
+
+# Opera (Stable, Beta, Developer / Nightly, GX)
 sudo tee /etc/yum.repos.d/opera.repo << 'EOF'
 [opera]
 name=Opera packages
@@ -206,7 +202,48 @@ gpgcheck=1
 gpgkey=https://rpm.opera.com/rpmrepo.key
 enabled=1
 EOF
-sudo dnf install opera-stable -y
+sudo dnf install -y \
+  opera-stable \
+  opera-beta \
+  opera-developer \
+  opera-gx-stable
+
+# Brave (Release, Beta, Nightly)
+# https://brave.com/linux/#fedora-rockyrhel
+BRAVE_BASE="https://brave-browser-rpm-release.s3.brave.com"
+BRAVE_BETA="https://brave-browser-rpm-beta.s3.brave.com"
+BRAVE_NIGHTLY="https://brave-browser-rpm-nightly.s3.brave.com"
+
+sudo dnf config-manager addrepo \
+  --from-repofile="${BRAVE_BASE}/brave-browser.repo"
+sudo rpm --import "${BRAVE_BASE}/brave-core.asc"
+
+sudo dnf config-manager addrepo \
+  --from-repofile="${BRAVE_BETA}/brave-browser-beta.repo"
+sudo rpm --import "${BRAVE_BETA}/brave-core-beta.asc"
+
+sudo dnf config-manager addrepo \
+  --from-repofile="${BRAVE_NIGHTLY}/brave-browser-nightly.repo"
+sudo rpm --import "${BRAVE_NIGHTLY}/brave-core-nightly.asc"
+
+sudo dnf install -y \
+  brave-browser \
+  brave-browser-beta \
+  brave-browser-nightly
+
+# Vivaldi (Stable and Snapshot / Dev preview)
+# https://repo.vivaldi.com/stable/vivaldi-fedora.repo
+sudo dnf config-manager addrepo \
+  --from-repofile=https://repo.vivaldi.com/stable/vivaldi-fedora.repo
+sudo dnf install -y vivaldi-stable vivaldi-snapshot
+
+# GNOME Web (Epiphany) & KDE Konqueror
+# Default / alternative desktop environment browsers from Fedora repos
+sudo dnf install -y epiphany konqueror
+
+# Floorp & Privacy Browsers
+flatpak install --user -y flathub one.ablaze.floorp
+sudo dnf install -y torbrowser-launcher
 
 
 # ============================================================================
@@ -687,10 +724,7 @@ append_line_if_missing "$HOME/.zshrc" 'export PATH="$HOME/.local/bin:$PATH"'
 sudo dnf install ruby ruby-devel rubygems -y
 # Install Bundler (standard dependency manager for Ruby projects)
 gem install bundler
-<<<<<<< HEAD
 
-=======
->>>>>>> d2ef83a74f2c92770ebd0ed660170370adffdb23
 # Go and golangci-lint are maintained in Fedora 44; avoid stale pinned tarballs.
 dnf_install_if_missing golang golangci-lint
 go version
