@@ -48,9 +48,10 @@ Practical instructions for running and interpreting the output:
 - [AWS](python/cloud/aws/README.md), [GCP](python/cloud/gcp/README.md) and
   [Azure](python/cloud/azure/README.md).
 
-Declarative YAML/HCL configs remain next to the service that owns them in
-[`../2_services/`](../2_services/), while deep explanations and exercises are in
-[separate knowledgebases](../../what_to_learn/).
+Commands for services and tools live in
+[`../1_shell_bash_commands/`](../1_shell_bash_commands/), while deep
+explanations and exercises are in
+[separate knowledgebases](../../README.md#related-repositories).
 
 ## Existing integrations
 

@@ -1,1 +1,0 @@
-# Grafana Dockerfile with plugins

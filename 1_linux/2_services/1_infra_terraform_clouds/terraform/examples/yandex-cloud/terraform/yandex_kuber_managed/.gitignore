@@ -1,7 +1,0 @@
-*.json
-.terraform
-terraform.tfvars
-svc-yc-kbinfra.json
-terraform.tfstate
-terraform.tfstate.backup
-.terraform.lock.hcl

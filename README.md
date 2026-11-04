@@ -11,7 +11,7 @@ diagnostic commands, working configurations, automation utilities, and workstati
 | [`1_linux/3_scripts_bash_python/`](1_linux/3_scripts_bash_python/) | Ready-to-use Bash/Python/Go utilities for operational tasks |
 | [`2_win/`](2_win/) | Windows/PowerShell bootstrap and commands |
 | [`3_macos/`](3_macos/) | macOS and Fedora Asahi bootstrap |
-| [`what_to_learn/`](what_to_learn/) | Saved legacy notes and pointers to canonical educational repositories |
+| [`4_ai_tools/`](4_ai_tools/) | Curated map of AI tools: coding agents, local LLMs, assistants, creative tools |
 
 The `.sh` files in the command-reference directories are readable command fragments with shell highlighting. They are not necessarily complete executable programs. Files explicitly marked as utilities or bootstrap scripts are considered executable.
 
@@ -34,8 +34,9 @@ If a task can be solved with a short `jq`, `yq`, or `kubectl` call, a new script
 | [`3_go_my_knowledgebase`](https://github.com/krasnosvar/3_go_my_knowledgebase) | Learning Go, concurrency, backend, and system design |
 | [`4_python_my_knowledgebase`](https://github.com/krasnosvar/4_python_my_knowledgebase) | Learning Python, libraries, backend, and system design |
 | [`5_devops_sre_knowledgebase`](https://github.com/krasnosvar/5_devops_sre_knowledgebase) | Theory, labs, and roadmap for DevOps/SRE/MLOps |
+| [`6_ai_engineering_knowledgebase`](https://github.com/krasnosvar/6_ai_engineering_knowledgebase) | AI/ML/LLM engineering course: from ML basics to RAG, agents, and serving |
 
-New theory, exercises, and mini-projects should be modified in the corresponding knowledgebase. Old notes in `what_to_learn/` are preserved until a verified migration; having a copy here does not make it the canonical source.
+New theory, exercises, learning links, and mini-projects belong in the corresponding knowledgebase, not in this repository.
 
 ## Security
 

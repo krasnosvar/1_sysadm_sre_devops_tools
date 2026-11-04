@@ -1,1 +1,0 @@
-#### User for remote control aws resources

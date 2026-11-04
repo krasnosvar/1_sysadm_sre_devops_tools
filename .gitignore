@@ -4,11 +4,6 @@
 *.tfstate
 *.tfstate.*
 *.tfplan
-1_linux/2_services/1_infra_terraform_clouds/terraform/examples/libvirt/**/images/*
-
-# --- Vendored SDKs / large downloads ---
-1_linux/2_services/3_containers_and_orchestration/docker/examples/Dockerfiles/sqlplus/instantclient_21_4/
-1_linux/2_services/3_containers_and_orchestration/docker/examples/Dockerfiles/sqlplus/instantclient_21_6/
 
 .DS_Store
 *.swp

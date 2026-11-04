@@ -32,9 +32,7 @@ jobs:
             1_linux/3_scripts_bash_python/python/cloud/azure/change_timeline.py \
             1_linux/3_scripts_bash_python/python/cloud/gcp/README.md \
             1_linux/3_scripts_bash_python/python/cloud/azure/README.md \
-            1_linux/3_scripts_bash_python/SCRIPT_BACKLOG.md \
-            what_to_learn/programming_notes/go/README.md \
-            what_to_learn/programming_notes/python_theory/arguments.py; do
+            1_linux/3_scripts_bash_python/SCRIPT_BACKLOG.md; do
             test -e "$path" || { echo "Missing retained path: $path" >&2; exit 1; }
           done
           printf '%s\n' \
