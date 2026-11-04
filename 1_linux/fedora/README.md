@@ -50,7 +50,31 @@ extensions, `~/AGENTS.md`, `~/.cursor/mcp.json`.
 
 AI tools: Cursor/Windsurf/Google Antigravity repos, Claude Code, Codex, Gemini CLI,
 Qwen Code, Crush, Aider, opencode, goose, Warp, LM Studio CLI/AppImage launcher,
-AnythingLLM Desktop.
+AnythingLLM Desktop. Отдельно устанавливается Antigravity CLI (`agy`).
+
+Плагины устанавливаются в пользовательские каталоги:
+
+- Ponytail — Codex, Claude Code и Antigravity CLI;
+- Context7 — документация библиотек для Claude Code;
+- Playwright — управление тестовым браузером для Claude Code.
+
+Существующие плагины, их версии и отключённое состояние сохраняются.
+Повторный запуск доставляет только отсутствующие плагины. Скрипт запускается
+обычным пользователем; для системных пакетов он использует `sudo`.
+После установки откройте новые сессии агентов. Для автоматического запуска
+Ponytail в Codex отдельно проверьте hooks через `/hooks` и разрешите нужные.
+Явный вызов: `$ponytail:ponytail full`, ревью: `$ponytail:ponytail-review`.
+
+Вход в аккаунты, Slack/Atlassian/GitLab и доступ к рабочей Opera настраиваются
+отдельно. Playwright не подключает существующие вкладки Opera. Context7
+отправляет запросы документации внешнему сервису; секреты в них не передавайте.
+
+Источники установки:
+
+- https://github.com/DietrichGebert/ponytail/blob/main/INSTALL.md
+- https://antigravity.google/docs/getting-started?tab=cli
+- https://github.com/anthropics/claude-plugins-official
+- https://learn.chatgpt.com/docs/chrome-extension
 
 `lib_fedora_setup.sh`
 
@@ -67,6 +91,89 @@ AnythingLLM Desktop.
 Отдельно от основного workflow: разворачивание Fedora CoreOS VM на libvirt/KVM
 (`pure_install_on_libvirt.sh`, `coreos-libvirt-terraform/` - Terraform + minikube,
 `create_vm_by_bash_command/` - Ignition config примеры).
+
+## AI tools: после установки
+
+Запускайте `./5_ai_tools.sh` обычным пользователем. Скрипт устанавливает
+и обновляет CLI, добавляет отсутствующие плагины и настраивает desktop tools.
+Он не является командой проверки: повторный запуск может обновить пакеты
+и повторно скачать AnythingLLM. Для просмотра состояния используйте:
+
+```bash
+codex --version
+claude --version
+agy --version
+codex plugin list --marketplace ponytail --json
+claude plugin list --json
+agy plugin list --json
+```
+
+В Codex ожидается Ponytail; в Claude — Ponytail, Context7 и Playwright;
+в agy — Ponytail. Уже установленный, но отключённый плагин скрипт
+не включает. Наличие в списке подтверждает установку, но не выполнение
+hooks, авторизацию MCP или работоспособность браузера.
+
+### Вызов Ponytail
+
+Откройте новую сессию агента после установки. Эти строки отправляются
+в чат агента, а не выполняются в Bash:
+
+```text
+Codex:
+$ponytail:ponytail full
+$ponytail:ponytail-review Проверь текущий diff, ничего не меняй.
+
+Claude Code:
+/ponytail:ponytail full
+/ponytail:ponytail-review
+
+Antigravity CLI:
+/ponytail
+```
+
+`full` выбирает минимальное полноценное решение с необходимыми проверками.
+`lite` предлагает более простой вариант; `ultra` дополнительно оспаривает
+необязательные части задачи. Для выхода из режима напишите `stop ponytail`.
+Это завершает режим в текущей сессии, но не удаляет плагин и не меняет
+его режим по умолчанию для будущих сессий.
+
+### Hooks и trust
+
+Hooks — локальные команды, вызываемые агентом при определённых событиях.
+В Ponytail 5.3.3 манифест для Claude/Codex содержит `SessionStart`,
+`SubagentStart` и `UserPromptSubmit`: загрузка режима, передача инструкций
+подагенту и отслеживание переключений режима. Они запускают Node.js-скрипты.
+Набор событий и поддержка зависят от версии плагина и клиента.
+
+Trust означает разрешение запускать показанные команды hooks. В Codex
+откройте `/hooks`, проверьте источник Ponytail, пути к скриптам и события,
+затем разрешите нужные команды. Откройте новую сессию и проверьте сообщение
+о режиме. Если его нет, проверьте состояние плагина и ошибки hooks.
+Сам факт установки не подтверждает автоматическое включение режима.
+
+Доверие hooks разрешает исполнение кода плагина в рамках разрешений клиента.
+Оно не заменяет согласование конкретных действий в рабочих системах.
+Перед доверием новой версии проверяйте изменения её команд и скриптов.
+
+### Отключение и удаление
+
+Для отключения в Claude и agy используйте команды терминала:
+
+```bash
+claude plugin disable ponytail@ponytail --scope user
+agy plugin disable ponytail
+```
+
+Для удаления из Codex:
+
+```bash
+codex plugin remove ponytail@ponytail
+```
+
+После удаления следующий запуск `5_ai_tools.sh` установит Ponytail снова.
+Отключённые установленные плагины сохраняются. Удаление плагина не следует
+считать очисткой всех его внешних настроек; смотрите раздел Uninstall
+в инструкции Ponytail, прежде чем удалять оставшиеся файлы.
 
 ## Повторный запуск
 
@@ -104,7 +211,7 @@ chmod 700 "$HOME/.config/workstation-restore"
 ## Быстрая проверка
 
 ```bash
-bash -n ./*.sh
+(for script in ./*.sh; do bash -n "$script" || exit 1; done)
 command -v codex && codex --version
 npm config get prefix
 ```

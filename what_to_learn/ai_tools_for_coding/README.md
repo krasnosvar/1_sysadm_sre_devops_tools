@@ -10,6 +10,9 @@ A curated map of AI tools for software development and everyday productivity.
   local), AI video, AI music / TTS / STT, image editing, 3D.
 * **[4_ai_assistants_online.md](4_ai_assistants_online.md)** — cloud personal
   assistants, AI search, AI notes/knowledge base, AI presentations, productivity.
+* **[5_coding_agents_ecosystem_and_practices.md](5_coding_agents_ecosystem_and_practices.md)**
+  — coding agents (`agy`), plugins (`ponytail`, `superpowers`),
+  MCP token economics, DevOps tooling, and collaboration practices.
 
 ---
 

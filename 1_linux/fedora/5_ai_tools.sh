@@ -3,6 +3,7 @@ set -euo pipefail
 
 # AI Tools (Fedora)
 # AI editors/IDEs, CLI agents, terminals and local LLM runners.
+# Usage, plugin commands and hook trust: README.md (AI tools: after installation).
 # Safe to re-run: checks installed tools, refreshes repo files, and installs
 # missing packages without relying on root-owned npm global directories.
 
@@ -10,10 +11,11 @@ SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 # shellcheck source=lib_fedora_setup.sh
 . "$SCRIPT_DIR/lib_fedora_setup.sh"
 
+[ "$EUID" -ne 0 ] || die "Run as your normal user; package installation uses sudo."
 require_fedora
 
 log "Installing base dependencies"
-dnf_install_if_missing curl ca-certificates gnupg jq nodejs npm pipx
+dnf_install_if_missing curl ca-certificates gnupg git jq nodejs npm pipx python3
 
 log "Configuring AI editor repositories"
 sudo_write_file_if_changed /etc/yum.repos.d/cursor.repo <<'EOF'
@@ -62,6 +64,68 @@ npm_global_install_or_update @openai/codex codex
 npm_global_install_or_update @google/gemini-cli gemini
 npm_global_install_or_update @qwen-code/qwen-code qwen
 npm_global_install_or_update @charmland/crush crush
+
+# Antigravity IDE and the agy agent CLI are separate installations.
+# https://antigravity.google/docs/getting-started?tab=cli
+if command -v agy >/dev/null 2>&1; then
+  log "agy already installed: $(command -v agy)"
+else
+  log "Installing Antigravity CLI"
+  run_https_bash_installer https://antigravity.google/cli/install.sh
+fi
+require_cmd agy
+
+# Install missing plugins only; preserve existing versions and disabled state.
+# Account integrations (Slack, Atlassian, GitLab) and Opera access are configured
+# separately in each client. Never copy personal tokens into this public script.
+# Ponytail: https://github.com/DietrichGebert/ponytail/blob/main/INSTALL.md
+log "Installing Codex plugins"
+CODEX_MARKETPLACES="$(codex plugin marketplace list --json)"
+printf '%s' "$CODEX_MARKETPLACES" | jq -e '.marketplaces | type == "array"' >/dev/null
+if ! printf '%s' "$CODEX_MARKETPLACES" | jq -e 'any(.marketplaces[]; .name == "ponytail")' >/dev/null; then
+  codex plugin marketplace add DietrichGebert/ponytail
+fi
+CODEX_PLUGINS="$(codex plugin list --marketplace ponytail --json)"
+printf '%s' "$CODEX_PLUGINS" | jq -e '.installed | type == "array"' >/dev/null
+if ! printf '%s' "$CODEX_PLUGINS" | jq -e 'any(.installed[]; .pluginId == "ponytail@ponytail")' >/dev/null; then
+  codex plugin add ponytail@ponytail
+fi
+
+log "Installing Claude Code plugins"
+CLAUDE_MARKETPLACES="$(claude plugin marketplace list --json)"
+printf '%s' "$CLAUDE_MARKETPLACES" | jq -e 'type == "array"' >/dev/null
+if ! printf '%s' "$CLAUDE_MARKETPLACES" | jq -e 'any(.[]; .name == "ponytail")' >/dev/null; then
+  claude plugin marketplace add DietrichGebert/ponytail --scope user
+fi
+if ! printf '%s' "$CLAUDE_MARKETPLACES" | jq -e 'any(.[]; .name == "claude-plugins-official")' >/dev/null; then
+  claude plugin marketplace add anthropics/claude-plugins-official --scope user
+fi
+CLAUDE_PLUGINS="$(claude plugin list --json)"
+printf '%s' "$CLAUDE_PLUGINS" | jq -e 'type == "array"' >/dev/null
+# Context7 provides library docs; Playwright provides browser testing, not
+# access to an existing Opera session. Both use official marketplace entries.
+for plugin in ponytail@ponytail context7@claude-plugins-official playwright@claude-plugins-official; do
+  if ! printf '%s' "$CLAUDE_PLUGINS" | jq -e --arg id "$plugin" \
+    'any(.[]; .id == $id and .scope == "user")' >/dev/null; then
+    claude plugin install "$plugin" --scope user
+  fi
+done
+
+log "Installing Antigravity CLI plugins"
+AGY_PLUGINS="$(agy plugin list --json)"
+printf '%s' "$AGY_PLUGINS" | jq -e 'type == "array"' >/dev/null
+if ! printf '%s' "$AGY_PLUGINS" | jq -e 'any(.[]; .name == "ponytail")' >/dev/null; then
+  agy plugin install https://github.com/DietrichGebert/ponytail
+fi
+
+log "Plugin setup complete; restart agent sessions to discover new skills"
+log 'Codex: $ponytail:ponytail full; review: $ponytail:ponytail-review'
+log 'Codex automatic activation: inspect and trust Ponytail hooks via /hooks'
+log 'Claude: /ponytail:ponytail full; agy: /ponytail (see /skills)'
+log "Existing plugins were not updated, enabled or reconfigured"
+
+# Opera requires separate setup: https://learn.chatgpt.com/docs/chrome-extension
+# Provider login and hook trust remain interactive; do not copy tokens or AGENTS.md.
 
 pipx ensurepath || true
 pipx_install_or_upgrade aider-chat aider
@@ -142,7 +206,8 @@ fi
 log "Disabling LM Studio background local service"
 LMS_SETTINGS="$HOME/.lmstudio/settings.json"
 mkdir -p "$HOME/.lmstudio"
-if [ -f "$LMS_SETTINGS" ] && python3 - "$LMS_SETTINGS" <<'PY'
+if [ -f "$LMS_SETTINGS" ]; then
+  python3 - "$LMS_SETTINGS" <<'PY'
 import json
 import sys
 
@@ -154,7 +219,6 @@ with open(path, "w", encoding="utf-8") as f:
     json.dump(cfg, f, indent=2)
     f.write("\n")
 PY
-then
   log "Updated: $LMS_SETTINGS"
 else
   write_file_if_changed "$LMS_SETTINGS" <<'EOF'
@@ -171,7 +235,7 @@ log "Installing AnythingLLM Desktop"
 ANYTHINGLLM_DIR="$HOME/Applications"
 ANYTHINGLLM_APPIMAGE="$ANYTHINGLLM_DIR/AnythingLLM.AppImage"
 ANYTHINGLLM_API="https://api.github.com/repos/Mintplex-Labs/anything-llm/releases/latest"
-ANYTHINGLLM_URL="$(curl -fsSL "$ANYTHINGLLM_API" | jq -r 'first([.assets[] | select(.name | test("(?i)appimage$")) | .browser_download_url]) // empty')"
+ANYTHINGLLM_URL="$(curl -fsSL "$ANYTHINGLLM_API" | jq -r '[.assets[] | select(.name | test("(?i)appimage$")) | .browser_download_url] | first // empty')"
 if [ -n "$ANYTHINGLLM_URL" ] && [ "$ANYTHINGLLM_URL" != "null" ]; then
   mkdir -p "$ANYTHINGLLM_DIR" "$HOME/.local/share/applications"
   TMP_APPIMAGE="$(mktemp)"
