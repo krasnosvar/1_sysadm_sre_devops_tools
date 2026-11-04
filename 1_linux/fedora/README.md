@@ -22,12 +22,12 @@ cd 1_linux/fedora   # relative to the repo root
 
 ## Что где
 
-`1_fedora-desktop-44-update.sh`
+[`1_fedora-desktop-44-update.sh`](1_fedora-desktop-44-update.sh)
 
 Базовая настройка Fedora: repos, dnf/flatpak пакеты, браузеры, мультимедиа,
 виртуализация, VPN/network/database/devops/programming tools.
 
-`2_config_zsh.sh`
+[`2_config_zsh.sh`](2_config_zsh.sh)
 
 Zsh, Oh My Zsh, autosuggestions, syntax highlighting, powerline font, local
 zsh config, OpenTofu completion. Also installs byobu + tmux (idempotent) and
@@ -36,17 +36,17 @@ default - only Ubuntu/GNOME Terminal gets these for free), plus the default
 window set (1:htop 2:ide 3:claude 4:codex). `--check` to diagnose the
 byobu/Konsole part only, `--revert` to undo it.
 
-`3_config_nvim.sh`
+[`3_config_nvim.sh`](3_config_nvim.sh)
 
 Neovim + LazyVim. Если рабочий `~/.config/nvim` уже есть, скрипт его сохраняет и
 только доставляет зависимости/extra plugins.
 
-`4_config_vscode.sh`
+[`4_config_vscode.sh`](4_config_vscode.sh)
 
 VS Code, VSCodium, Cursor, Windsurf, Google Antigravity, общий `settings.json`,
 extensions, `~/AGENTS.md`, `~/.cursor/mcp.json`.
 
-`5_ai_tools.sh`
+[`5_ai_tools.sh`](5_ai_tools.sh)
 
 AI tools: Cursor/Windsurf/Google Antigravity repos, Claude Code, Codex, Gemini CLI,
 Qwen Code, Crush, Aider, opencode, goose, Warp, LM Studio CLI/AppImage launcher,
@@ -76,17 +76,17 @@ Ponytail в Codex отдельно проверьте hooks через `/hooks` 
 - https://github.com/anthropics/claude-plugins-official
 - https://learn.chatgpt.com/docs/chrome-extension
 
-`lib_fedora_setup.sh`
+[`lib_fedora_setup.sh`](lib_fedora_setup.sh)
 
 Общие функции для скриптов: проверка Fedora, idempotent dnf/npm installs,
 безопасная запись файлов, git clone/update.
 
-`fedora_docs.sh`
+[`fedora_docs.sh`](fedora_docs.sh)
 
 Заметка-ссылка на переключение desktop environment (GNOME) в официальной
 документации Fedora - ничего не устанавливает.
 
-`fedora-coreos/`
+[`fedora-coreos/`](fedora-coreos/)
 
 Отдельно от основного workflow: разворачивание Fedora CoreOS VM на libvirt/KVM
 (`pure_install_on_libvirt.sh`, `coreos-libvirt-terraform/` - Terraform + minikube,
@@ -206,7 +206,7 @@ chmod 700 "$HOME/.config/workstation-restore"
 - SOPS age keys, password stores, KeePass databases;
 - MCP configs с реальными токенами.
 
-Публичный шаблон: `private/private.env.sample`.
+Публичный шаблон: [`private/private.env.sample`](private/private.env.sample).
 
 ## Быстрая проверка
 

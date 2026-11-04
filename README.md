@@ -5,7 +5,8 @@ diagnostic commands, working configurations, automation utilities, and workstati
 
 | Section | Purpose |
 | --- | --- |
-| [`1_linux/`](1_linux/) | Linux command reference, service examples, and main automation toolkit |
+| [`1_linux/`](1_linux/) | Linux command reference, bootstrap scripts, and main automation toolkit |
+| [`1_linux/1_shell_bash_commands/`](1_linux/1_shell_bash_commands/) | Command reference by topic: system, disks, network, containers/k8s, IaC/cloud, monitoring, databases, services |
 | [`1_linux/fedora/`](1_linux/fedora/) | Primary/reference bootstrap for Fedora Workstation |
 | [`1_linux/ubuntu/`](1_linux/ubuntu/) | Ubuntu bootstrap and explicitly marked archive of older versions |
 | [`1_linux/3_scripts_bash_python/`](1_linux/3_scripts_bash_python/) | Ready-to-use Bash/Python/Go utilities for operational tasks |

@@ -40,7 +40,8 @@ Cloud utilities are divided by providers in
 [`python/cloud/`](python/cloud/): `aws`, `gcp`, `azure` and `multi_cloud`.
 Implemented commands and planned candidates are not mixed: the full priority list of local, file, hardware, network, and cloud diagnostics is stored in [`SCRIPT_BACKLOG.md`](SCRIPT_BACKLOG.md).
 
-Practical instructions for running and interpreting the output:
+Practical instructions for running and interpreting the output
+([`PRACTICAL_EXAMPLES.md`](PRACTICAL_EXAMPLES.md) has copy-ready scenarios for all utilities):
 
 - [systemd recovery guard](bash/service_recovery_guard.md);
 - [OOM, certificate and Pending Pod diagnostics](python/DIAGNOSTICS.md);
@@ -60,6 +61,6 @@ Existing Bash and Python scripts are saved in `bash/script_examples/` and
 HTTP/Kubernetes, and other application templates. AWS implementations have been moved to `python/cloud/aws/`, and old AWS paths are saved as compatibility launchers.
 Legacy scripts are not considered educational material and will gradually be brought up to the level of maintained utilities: CLI parameters, environment-based auth, dry-run, safe defaults, and tests.
 
-`git.sh` and `python/python.sh` are command-reference fragments, not programs meant to be run entirely. Learning theory for languages stays in separate repositories `3_go_my_knowledgebase` and `4_python_my_knowledgebase`.
+[`git.sh`](git.sh) and [`python/python.sh`](python/python.sh) are command-reference fragments, not programs meant to be run entirely. Learning theory for languages stays in separate repositories `3_go_my_knowledgebase` and `4_python_my_knowledgebase`.
 
 Other older integrations are preserved as legacy. Before running them, check for placeholders, TLS verification, and the method of passing credentials; they are not part of CI like maintained utilities. The original Expect examples are kept unchanged, and a new [`expect/ssh-interactive-sudo.exp`](expect/ssh-interactive-sudo.exp) is added as a separate file. For permanent automation, SSH keys are preferred over passwords.

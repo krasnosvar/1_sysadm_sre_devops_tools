@@ -1,6 +1,6 @@
 # macOS scripts
 
-`update-mac.zsh` — the main idempotent bootstrap using Homebrew. It does not set Git name/email, does not copy secrets, and correctly handles Homebrew paths on both Apple Silicon and Intel.
+[`update-mac.zsh`](update-mac.zsh) — the main idempotent bootstrap using Homebrew. It does not set Git name/email, does not copy secrets, and correctly handles Homebrew paths on both Apple Silicon and Intel.
 
 ```bash
 ./update-mac.zsh --check
@@ -12,10 +12,10 @@ Profiles: `--minimal`, `--devops`, `--desktop`, `--all`. Google Antigravity is i
 
 Other files:
 
-- `.zshrc_mac` — a portable fragment that the bootstrap installs into `~/.config/sre-tools/zshrc`;
-- `commands.zsh` — macOS command-reference fragments;
-- `fedora-asahi-update.sh` — a separate legacy Fedora Asahi setup, not part of the macOS bootstrap;
-- `remap-keyboard.sh` — notes on keyboard remapping.
+- [`.zshrc_mac`](.zshrc_mac) — a portable fragment that the bootstrap installs into `~/.config/sre-tools/zshrc`;
+- [`commands.zsh`](commands.zsh) — macOS command-reference fragments;
+- [`fedora-asahi-update.sh`](fedora-asahi-update.sh) — a separate legacy Fedora Asahi setup, not part of the macOS bootstrap;
+- [`remap-keyboard.sh`](remap-keyboard.sh) — notes on keyboard remapping.
 
 A large offline catalog of installers and package manifests belongs to the [`2_lin_win_mac_apps_bkp`](https://github.com/krasnosvar/2_lin_win_mac_apps_bkp) repository.
 SSH/GPG keys, VPN profiles, cloud credentials, and MCP tokens are stored outside of git.
