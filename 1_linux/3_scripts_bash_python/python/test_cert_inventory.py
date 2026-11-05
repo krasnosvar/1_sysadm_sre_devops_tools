@@ -11,7 +11,7 @@ from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ed25519
 from cryptography.x509.oid import NameOID
 
-MODULE_PATH = Path(__file__).parents[1] / "cert_inventory.py"
+MODULE_PATH = Path(__file__).parent / "cert_inventory.py"
 SPEC = importlib.util.spec_from_file_location("cert_inventory", MODULE_PATH)
 assert SPEC and SPEC.loader
 cert_inventory = importlib.util.module_from_spec(SPEC)

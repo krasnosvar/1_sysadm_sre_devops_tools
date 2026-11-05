@@ -7,7 +7,7 @@ import unittest
 from datetime import datetime, timezone
 from pathlib import Path
 
-PYTHON_ROOT = Path(__file__).parents[1]
+PYTHON_ROOT = Path(__file__).parent
 
 
 def load_module(name: str, path: Path):

@@ -5,7 +5,7 @@ import sys
 import unittest
 from pathlib import Path
 
-MODULE_PATH = Path(__file__).parents[1] / "k8s_why_pending.py"
+MODULE_PATH = Path(__file__).parent / "k8s_why_pending.py"
 SPEC = importlib.util.spec_from_file_location("k8s_why_pending", MODULE_PATH)
 assert SPEC and SPEC.loader
 k8s_why_pending = importlib.util.module_from_spec(SPEC)

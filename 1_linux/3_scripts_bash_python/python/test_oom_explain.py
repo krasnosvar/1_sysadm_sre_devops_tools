@@ -6,7 +6,7 @@ import sys
 import unittest
 from pathlib import Path
 
-MODULE_PATH = Path(__file__).parents[1] / "oom_explain.py"
+MODULE_PATH = Path(__file__).parent / "oom_explain.py"
 SPEC = importlib.util.spec_from_file_location("oom_explain", MODULE_PATH)
 assert SPEC and SPEC.loader
 oom_explain = importlib.util.module_from_spec(SPEC)

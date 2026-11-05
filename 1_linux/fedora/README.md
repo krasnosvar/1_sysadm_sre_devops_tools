@@ -94,19 +94,54 @@ Ponytail в Codex отдельно проверьте hooks через `/hooks` 
 
 ## AI tools: после установки
 
-Запускайте `./5_ai_tools.sh` обычным пользователем. Скрипт устанавливает
-и обновляет CLI, добавляет отсутствующие плагины и настраивает desktop tools.
-Он не является командой проверки: повторный запуск может обновить пакеты
-и повторно скачать AnythingLLM. Для просмотра состояния используйте:
+Run the installer as your normal user. Select one mode:
 
 ```bash
-codex --version
-claude --version
-agy --version
-codex plugin list --marketplace ponytail --json
-claude plugin list --json
-agy plugin list --json
+./5_ai_tools.sh --status        # Versions and plugin lists; no installation
+./5_ai_tools.sh --plugins-only  # Missing plugins for existing agent CLIs
+./5_ai_tools.sh                 # Full workstation installation/update
+./5_ai_tools.sh --help
 ```
+
+`--status` reports missing tools and continues. It exits nonzero when an
+installed CLI fails to report its version or plugins. Plugin discovery may
+contact remote catalogs; this is not an offline or authentication test.
+
+`--plugins-only` requires `codex`, `claude`, `agy`, `git`, `jq`, and `node`
+on PATH. It checks all prerequisites before changing plugin installations.
+It does not install CLI agents, IDEs, desktop applications, or RPM packages.
+Existing plugin versions and disabled states are preserved in both install
+modes. Installation failures stop the script; completed steps are not rolled
+back. Fix the reported error and rerun the same mode.
+
+The full mode updates CLI packages and may download AnythingLLM again.
+Signing-key imports, CLI updates, and LM Studio bootstrap failures stop the
+script. `dnf check-update` exit code 100 is expected, not an error.
+
+### Optional Codex MCP integrations
+
+Ponytail is installed as a Codex plugin. Context7 and Playwright can also be
+connected directly as MCP servers. These commands are separate from the
+bootstrap plugin set; run them only when the named server is absent:
+
+```bash
+codex mcp list
+codex mcp add context7 --url https://mcp.context7.com/mcp
+codex mcp add playwright -- npx -y @playwright/mcp@latest
+```
+
+If Codex opens an OAuth flow for Context7, complete it in your browser.
+To retry authentication, run `codex mcp login context7`. Restart Codex after
+adding servers. Context7 sends documentation queries to its service;
+anonymous access, where available, may be rate-limited. Playwright downloads its
+MCP package on first use and may require a browser installation. It does not
+connect to your existing Opera tabs. Configured servers are not proof of a
+successful connection or browser session.
+
+Sources:
+
+- https://github.com/upstash/context7
+- https://github.com/microsoft/playwright-mcp
 
 В Codex ожидается Ponytail; в Claude — Ponytail, Context7 и Playwright;
 в agy — Ponytail. Уже установленный, но отключённый плагин скрипт
@@ -212,6 +247,7 @@ chmod 700 "$HOME/.config/workstation-restore"
 
 ```bash
 (for script in ./*.sh; do bash -n "$script" || exit 1; done)
+python3 tests/test_ai_tools.py
 command -v codex && codex --version
 npm config get prefix
 ```

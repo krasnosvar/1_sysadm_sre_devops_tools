@@ -11,7 +11,109 @@ SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 # shellcheck source=lib_fedora_setup.sh
 . "$SCRIPT_DIR/lib_fedora_setup.sh"
 
+usage() {
+  cat <<'EOF'
+Usage: 5_ai_tools.sh [--status | --plugins-only | --help]
+  No option       Install/update the full Fedora AI workstation setup.
+  --status        Show CLI versions and installed plugins; do not install.
+  --plugins-only  Install missing plugins for existing Codex, Claude and agy.
+EOF
+}
+
+[ "$#" -le 1 ] || die "Use one mode only; see --help."
+MODE="${1:-full}"
+case "$MODE" in
+  --help|-h) usage; exit 0 ;;
+  full|--status|--plugins-only) ;;
+  *) die "Unknown option: $MODE; see --help." ;;
+esac
+
+show_status() {
+  local cli
+  local status=0
+  for cli in codex claude agy gemini qwen crush aider opencode goose lms; do
+    if command -v "$cli" >/dev/null 2>&1; then
+      log "$cli: $(command -v "$cli")"
+      "$cli" --version || { warn "Could not read $cli version"; status=1; }
+      case "$cli" in
+        codex|claude|agy)
+          "$cli" plugin list --json || { warn "Could not list $cli plugins"; status=1; }
+          ;;
+      esac
+    else
+      warn "$cli: not installed"
+    fi
+  done
+  return "$status"
+}
+
+install_plugins() {
+  local dependency
+  for dependency in codex claude agy git jq node; do
+    require_cmd "$dependency"
+  done
+  # Install missing plugins only; preserve existing versions and disabled state.
+  # Account integrations (Slack, Atlassian, GitLab) and Opera access are configured
+  # separately in each client. Never copy personal tokens into this public script.
+  # Ponytail: https://github.com/DietrichGebert/ponytail/blob/main/INSTALL.md
+  log "Installing Codex plugins"
+  CODEX_MARKETPLACES="$(codex plugin marketplace list --json)"
+  printf '%s' "$CODEX_MARKETPLACES" | jq -e '.marketplaces | type == "array"' >/dev/null
+  if ! printf '%s' "$CODEX_MARKETPLACES" | jq -e 'any(.marketplaces[]; .name == "ponytail")' >/dev/null; then
+    codex plugin marketplace add DietrichGebert/ponytail
+  fi
+  CODEX_PLUGINS="$(codex plugin list --marketplace ponytail --json)"
+  printf '%s' "$CODEX_PLUGINS" | jq -e '.installed | type == "array"' >/dev/null
+  if ! printf '%s' "$CODEX_PLUGINS" | jq -e 'any(.installed[]; .pluginId == "ponytail@ponytail")' >/dev/null; then
+    codex plugin add ponytail@ponytail
+  fi
+
+  log "Installing Claude Code plugins"
+  CLAUDE_MARKETPLACES="$(claude plugin marketplace list --json)"
+  printf '%s' "$CLAUDE_MARKETPLACES" | jq -e 'type == "array"' >/dev/null
+  if ! printf '%s' "$CLAUDE_MARKETPLACES" | jq -e 'any(.[]; .name == "ponytail")' >/dev/null; then
+    claude plugin marketplace add DietrichGebert/ponytail --scope user
+  fi
+  if ! printf '%s' "$CLAUDE_MARKETPLACES" | jq -e 'any(.[]; .name == "claude-plugins-official")' >/dev/null; then
+    claude plugin marketplace add anthropics/claude-plugins-official --scope user
+  fi
+  CLAUDE_PLUGINS="$(claude plugin list --json)"
+  printf '%s' "$CLAUDE_PLUGINS" | jq -e 'type == "array"' >/dev/null
+  # Context7 provides library docs; Playwright provides browser testing, not
+  # access to an existing Opera session. Both use official marketplace entries.
+  for plugin in ponytail@ponytail context7@claude-plugins-official playwright@claude-plugins-official; do
+    if ! printf '%s' "$CLAUDE_PLUGINS" | jq -e --arg id "$plugin" \
+      'any(.[]; .id == $id and .scope == "user")' >/dev/null; then
+      claude plugin install "$plugin" --scope user
+    fi
+  done
+
+  log "Installing Antigravity CLI plugins"
+  AGY_PLUGINS="$(agy plugin list --json)"
+  printf '%s' "$AGY_PLUGINS" | jq -e 'type == "array"' >/dev/null
+  if ! printf '%s' "$AGY_PLUGINS" | jq -e 'any(.[]; .name == "ponytail")' >/dev/null; then
+    agy plugin install https://github.com/DietrichGebert/ponytail
+  fi
+
+  log "Plugin setup complete; restart agent sessions to discover new skills"
+  log 'Codex: $ponytail:ponytail full; review: $ponytail:ponytail-review'
+  log 'Codex automatic activation: inspect and trust Ponytail hooks via /hooks'
+  log 'Claude: /ponytail:ponytail full; agy: /ponytail (see /skills)'
+  log "Existing plugins were not updated, enabled or reconfigured"
+
+  # Opera requires separate setup: https://learn.chatgpt.com/docs/chrome-extension
+  # Provider login and hook trust remain interactive; do not copy tokens or AGENTS.md.
+}
+
+if [ "$MODE" = --status ]; then
+  show_status
+  exit 0
+fi
 [ "$EUID" -ne 0 ] || die "Run as your normal user; package installation uses sudo."
+if [ "$MODE" = --plugins-only ]; then
+  install_plugins
+  exit 0
+fi
 require_fedora
 
 log "Installing base dependencies"
@@ -28,7 +130,7 @@ gpgkey=https://downloads.cursor.com/keys/anysphere.asc
 repo_gpgcheck=1
 EOF
 
-sudo rpm --import https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf || true
+sudo rpm --import https://windsurf-stable.codeiumdata.com/wVxQEIWkwPUEAGf3/yum/RPM-GPG-KEY-windsurf || die "Windsurf signing key import failed"
 sudo_write_file_if_changed /etc/yum.repos.d/windsurf.repo <<'EOF'
 [windsurf]
 name=Windsurf Repository
@@ -51,7 +153,12 @@ gpgcheck=0
 EOF
 
 log "Installing AI IDEs"
-sudo dnf check-update || true
+dnf_status=0
+sudo dnf check-update || dnf_status=$?
+case "$dnf_status" in
+  0|100) ;; # 100 means updates are available.
+  *) die "dnf check-update failed (exit $dnf_status)" ;;
+esac
 dnf_install_if_missing cursor windsurf antigravity
 
 log "Configuring npm global installs for the current user"
@@ -75,59 +182,9 @@ else
 fi
 require_cmd agy
 
-# Install missing plugins only; preserve existing versions and disabled state.
-# Account integrations (Slack, Atlassian, GitLab) and Opera access are configured
-# separately in each client. Never copy personal tokens into this public script.
-# Ponytail: https://github.com/DietrichGebert/ponytail/blob/main/INSTALL.md
-log "Installing Codex plugins"
-CODEX_MARKETPLACES="$(codex plugin marketplace list --json)"
-printf '%s' "$CODEX_MARKETPLACES" | jq -e '.marketplaces | type == "array"' >/dev/null
-if ! printf '%s' "$CODEX_MARKETPLACES" | jq -e 'any(.marketplaces[]; .name == "ponytail")' >/dev/null; then
-  codex plugin marketplace add DietrichGebert/ponytail
-fi
-CODEX_PLUGINS="$(codex plugin list --marketplace ponytail --json)"
-printf '%s' "$CODEX_PLUGINS" | jq -e '.installed | type == "array"' >/dev/null
-if ! printf '%s' "$CODEX_PLUGINS" | jq -e 'any(.installed[]; .pluginId == "ponytail@ponytail")' >/dev/null; then
-  codex plugin add ponytail@ponytail
-fi
+install_plugins
 
-log "Installing Claude Code plugins"
-CLAUDE_MARKETPLACES="$(claude plugin marketplace list --json)"
-printf '%s' "$CLAUDE_MARKETPLACES" | jq -e 'type == "array"' >/dev/null
-if ! printf '%s' "$CLAUDE_MARKETPLACES" | jq -e 'any(.[]; .name == "ponytail")' >/dev/null; then
-  claude plugin marketplace add DietrichGebert/ponytail --scope user
-fi
-if ! printf '%s' "$CLAUDE_MARKETPLACES" | jq -e 'any(.[]; .name == "claude-plugins-official")' >/dev/null; then
-  claude plugin marketplace add anthropics/claude-plugins-official --scope user
-fi
-CLAUDE_PLUGINS="$(claude plugin list --json)"
-printf '%s' "$CLAUDE_PLUGINS" | jq -e 'type == "array"' >/dev/null
-# Context7 provides library docs; Playwright provides browser testing, not
-# access to an existing Opera session. Both use official marketplace entries.
-for plugin in ponytail@ponytail context7@claude-plugins-official playwright@claude-plugins-official; do
-  if ! printf '%s' "$CLAUDE_PLUGINS" | jq -e --arg id "$plugin" \
-    'any(.[]; .id == $id and .scope == "user")' >/dev/null; then
-    claude plugin install "$plugin" --scope user
-  fi
-done
-
-log "Installing Antigravity CLI plugins"
-AGY_PLUGINS="$(agy plugin list --json)"
-printf '%s' "$AGY_PLUGINS" | jq -e 'type == "array"' >/dev/null
-if ! printf '%s' "$AGY_PLUGINS" | jq -e 'any(.[]; .name == "ponytail")' >/dev/null; then
-  agy plugin install https://github.com/DietrichGebert/ponytail
-fi
-
-log "Plugin setup complete; restart agent sessions to discover new skills"
-log 'Codex: $ponytail:ponytail full; review: $ponytail:ponytail-review'
-log 'Codex automatic activation: inspect and trust Ponytail hooks via /hooks'
-log 'Claude: /ponytail:ponytail full; agy: /ponytail (see /skills)'
-log "Existing plugins were not updated, enabled or reconfigured"
-
-# Opera requires separate setup: https://learn.chatgpt.com/docs/chrome-extension
-# Provider login and hook trust remain interactive; do not copy tokens or AGENTS.md.
-
-pipx ensurepath || true
+pipx ensurepath || die "pipx PATH setup failed"
 pipx_install_or_upgrade aider-chat aider
 
 if command -v opencode >/dev/null 2>&1; then
@@ -140,14 +197,14 @@ append_line_if_missing "$HOME/.zshrc" 'export PATH="$HOME/.opencode/bin:$PATH"'
 
 if command -v goose >/dev/null 2>&1; then
   log "Updating goose CLI"
-  goose update || true
+  goose update || die "goose update failed"
 else
   log "Installing goose CLI"
   curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | CONFIGURE=false bash
 fi
 
 log "Installing Warp terminal"
-sudo rpm --import https://releases.warp.dev/linux/keys/warp.asc || true
+sudo rpm --import https://releases.warp.dev/linux/keys/warp.asc || die "Warp signing key import failed"
 sudo_write_file_if_changed /etc/yum.repos.d/warpdotdev.repo <<'EOF'
 [warpdotdev]
 name=warpdotdev
@@ -165,9 +222,9 @@ else
   run_https_bash_installer https://lmstudio.ai/install.sh
 fi
 if command -v lms >/dev/null 2>&1; then
-  lms bootstrap || true
+  lms bootstrap || die "LM Studio bootstrap failed"
 else
-  warn "lms command is still unavailable after installer"
+  die "lms command is still unavailable after installer"
 fi
 
 log "Configuring LM Studio desktop entry if AppImage exists"
@@ -272,4 +329,4 @@ fi
 
 log "AI tools setup complete"
 log "Codex CLI: $(command -v codex 2>/dev/null || printf 'not found')"
-codex --version 2>/dev/null || true
+codex --version

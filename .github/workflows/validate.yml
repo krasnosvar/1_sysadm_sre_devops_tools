@@ -120,7 +120,7 @@ jobs:
             1_linux/3_scripts_bash_python/python/1_script_examples/postgres/users_postgres.py \
             1_linux/3_scripts_bash_python/python/1_script_examples/asyncio/shell_10_times.py \
             1_linux/3_scripts_bash_python/python/1_script_examples/privatebin.py \
-            1_linux/3_scripts_bash_python/python/tests
+            1_linux/3_scripts_bash_python/python/test_*.py
           printf '%s\n' '{"level":"ERROR","message":"timeout"}' | \
             python 1_linux/3_scripts_bash_python/python/json_log_summary.py --level ERROR
           python 1_linux/3_scripts_bash_python/python/cloud/aws/s3_cleaner.py --help >/dev/null
@@ -149,7 +149,7 @@ jobs:
           python 1_linux/3_scripts_bash_python/python/1_script_examples/asyncio/shell_10_times.py \
             --count 2 --concurrency 1 -- true
           python -m unittest discover \
-            -s 1_linux/3_scripts_bash_python/python/tests -v
+            -s 1_linux/3_scripts_bash_python/python -v
 
       - name: Smoke test OOM parser
         run: |
