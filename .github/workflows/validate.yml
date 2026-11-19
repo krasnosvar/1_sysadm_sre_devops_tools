@@ -45,7 +45,10 @@ jobs:
           grep -q 'antigravity' 1_linux/fedora/5_ai_tools.sh
 
       - name: Install shell validators
-        run: sudo apt-get update && sudo apt-get install -y shellcheck zsh
+        run: sudo apt-get update && sudo apt-get install -y shellcheck zsh jq
+
+      - name: Check AI bootstrap modes without installing tools
+        run: python3 1_linux/fedora/check_ai_tools.py
 
       - name: Validate maintained shell scripts
         run: |

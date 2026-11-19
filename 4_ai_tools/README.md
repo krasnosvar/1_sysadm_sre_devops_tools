@@ -1,20 +1,18 @@
 # AI Tools
 
-A curated map of AI tools for software development and everyday productivity.
+A curated map of AI tools and practices, split into three parts.
 Installation on Fedora: [`5_ai_tools.sh`](../1_linux/fedora/5_ai_tools.sh)
 (usage notes in the [Fedora README](../1_linux/fedora/README.md)).
 
-* **[1_local_tools.md](1_local_tools.md)** — LLM web services, AI editors, CLI
-  coding agents, local LLM runners, offline assistants. Free-tier labels included.
-* **[2_server_tools.md](2_server_tools.md)** — run on a server: self-hosted chat
-  UIs, agent / workflow builders, and model-serving engines (always-on, multi-user).
-* **[3_ai_creative_tools.md](3_ai_creative_tools.md)** — image generation (web &
-  local), AI video, AI music / TTS / STT, image editing, 3D.
-* **[4_ai_assistants_online.md](4_ai_assistants_online.md)** — cloud personal
-  assistants, AI search, AI notes/knowledge base, AI presentations, productivity.
-* **[5_coding_agents_ecosystem_and_practices.md](5_coding_agents_ecosystem_and_practices.md)**
-  — coding agents (`agy`), plugins (`ponytail`, `superpowers`),
-  MCP token economics, DevOps tooling, and collaboration practices.
+| Folder | Purpose |
+| --- | --- |
+| [1_tools_catalog/](1_tools_catalog/README.md) | Catalog: what exists (local and server tools, creative tools, online assistants) |
+| [2_agents/](2_agents/README.md) | Everything about AI agents (Russian): setup, clients, workflows, published studies, sources, China ecosystem, prompts |
+| [3_other_ai_apps/](3_other_ai_apps/README.md) | One popular service per everyday task beyond agents (Russian), plus data policies |
+
+The catalog answers "what exists"; the other two answer "how to use
+it". Agent setup guides are dated and verified; the catalog is a
+curated map and may contain unverified entries.
 
 ---
 

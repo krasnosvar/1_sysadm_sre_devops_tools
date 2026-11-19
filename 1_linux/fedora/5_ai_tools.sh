@@ -68,6 +68,14 @@ install_plugins() {
     codex plugin add ponytail@ponytail
   fi
 
+  # Use the app catalog; a local openai-curated copy may not expose skills.
+  CODEX_SUPERPOWERS="$(codex plugin list --marketplace openai-curated-remote --json)"
+  printf '%s' "$CODEX_SUPERPOWERS" | jq -e '.installed | type == "array"' >/dev/null
+  if ! printf '%s' "$CODEX_SUPERPOWERS" | jq -e \
+    'any(.installed[]; .pluginId == "superpowers@openai-curated-remote")' >/dev/null; then
+    codex plugin add superpowers@openai-curated-remote
+  fi
+
   log "Installing Claude Code plugins"
   CLAUDE_MARKETPLACES="$(claude plugin marketplace list --json)"
   printf '%s' "$CLAUDE_MARKETPLACES" | jq -e 'type == "array"' >/dev/null
@@ -81,7 +89,7 @@ install_plugins() {
   printf '%s' "$CLAUDE_PLUGINS" | jq -e 'type == "array"' >/dev/null
   # Context7 provides library docs; Playwright provides browser testing, not
   # access to an existing Opera session. Both use official marketplace entries.
-  for plugin in ponytail@ponytail context7@claude-plugins-official playwright@claude-plugins-official; do
+  for plugin in ponytail@ponytail superpowers@claude-plugins-official context7@claude-plugins-official playwright@claude-plugins-official; do
     if ! printf '%s' "$CLAUDE_PLUGINS" | jq -e --arg id "$plugin" \
       'any(.[]; .id == $id and .scope == "user")' >/dev/null; then
       claude plugin install "$plugin" --scope user
@@ -93,6 +101,10 @@ install_plugins() {
   printf '%s' "$AGY_PLUGINS" | jq -e 'type == "array"' >/dev/null
   if ! printf '%s' "$AGY_PLUGINS" | jq -e 'any(.[]; .name == "ponytail")' >/dev/null; then
     agy plugin install https://github.com/DietrichGebert/ponytail
+  fi
+
+  if ! printf '%s' "$AGY_PLUGINS" | jq -e 'any(.[]; .name == "superpowers")' >/dev/null; then
+    agy plugin install https://github.com/obra/superpowers
   fi
 
   log "Plugin setup complete; restart agent sessions to discover new skills"

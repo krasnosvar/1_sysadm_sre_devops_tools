@@ -4,7 +4,7 @@ Self-hosted platforms best deployed on a server (usually via Docker/compose):
 shared by a team, always available, often GPU-backed.
 
 > See also: [1_local_tools.md](1_local_tools.md) for single-machine/offline tools,
-> and the [README](README.md) for an overview.
+> and the [README](../README.md) for an overview.
 
 ## 1. Self-hosted chat UIs
 
