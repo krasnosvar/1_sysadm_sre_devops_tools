@@ -6,7 +6,7 @@ AI editors and CLI agents, and models you run locally and offline.
 > See also: [2_server_tools.md](2_server_tools.md) for self-hosted, always-on,
 > multi-user setups; [3_ai_creative_tools.md](3_ai_creative_tools.md) for image /
 > video / audio generation; [4_ai_assistants_online.md](4_ai_assistants_online.md)
-> for personal AI assistants; and the [README](README.md) for an overview.
+> for personal AI assistants; and the [README](../README.md) for an overview.
 
 Free tiers marked **[free]**; partially-free marked **[freemium]**; open-source marked **[OSS]**.
 

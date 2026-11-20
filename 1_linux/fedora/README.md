@@ -54,7 +54,7 @@ AnythingLLM Desktop. Отдельно устанавливается Antigravity
 
 Плагины устанавливаются в пользовательские каталоги:
 
-- Ponytail — Codex, Claude Code и Antigravity CLI;
+- Ponytail и Superpowers — Codex, Claude Code и Antigravity CLI;
 - Context7 — документация библиотек для Claude Code;
 - Playwright — управление тестовым браузером для Claude Code.
 
@@ -132,9 +132,12 @@ codex mcp add playwright -- npx -y @playwright/mcp@latest
 
 If Codex opens an OAuth flow for Context7, complete it in your browser.
 To retry authentication, run `codex mcp login context7`. Restart Codex after
-adding servers. Context7 sends documentation queries to its service;
-anonymous access, where available, may be rate-limited. Playwright downloads its
-MCP package on first use and may require a browser installation. It does not
+adding servers. Context7 sends documentation queries to its service.
+Anonymous documentation queries may work without OAuth, with lower limits.
+Verify an actual documentation query before treating login as required.
+
+Playwright downloads its MCP package on first use and may require a browser
+installation. It does not
 connect to your existing Opera tabs. Configured servers are not proof of a
 successful connection or browser session.
 
@@ -143,8 +146,9 @@ Sources:
 - https://github.com/upstash/context7
 - https://github.com/microsoft/playwright-mcp
 
-В Codex ожидается Ponytail; в Claude — Ponytail, Context7 и Playwright;
-в agy — Ponytail. Уже установленный, но отключённый плагин скрипт
+В Codex ожидаются Ponytail и Superpowers; в Claude — Ponytail,
+Superpowers, Context7 и Playwright; в agy — Ponytail и Superpowers.
+Уже установленный, но отключённый плагин скрипт
 не включает. Наличие в списке подтверждает установку, но не выполнение
 hooks, авторизацию MCP или работоспособность браузера.
 
@@ -171,6 +175,42 @@ Antigravity CLI:
 необязательные части задачи. Для выхода из режима напишите `stop ponytail`.
 Это завершает режим в текущей сессии, но не удаляет плагин и не меняет
 его режим по умолчанию для будущих сессий.
+
+### Combining Ponytail and Superpowers
+
+Use Ponytail full by default. For difficult bugs, use Superpowers
+`systematic-debugging` to establish the cause, then make the smallest complete
+fix. For new features with unclear requirements, use `brainstorming` and
+`writing-plans`; reuse requirements and approvals already given by the user.
+Do not run the full planning workflow for routine, already specified edits.
+
+The agreed scope and acceptance criteria remain mandatory. Ponytail simplifies
+implementation; it must not remove required validation. Repository instructions
+and explicit user preferences take priority over either plugin: no worktrees,
+unrequested commits, or repeated approval requests.
+
+Example chat request:
+
+```text
+Use Superpowers systematic-debugging and Ponytail full.
+Confirm the cause, make the smallest complete fix, and verify it.
+Use the existing checkout. Do not commit or repeat approvals already given.
+```
+
+Codex installs `superpowers@openai-curated-remote`. This differs from the
+local `openai-curated` catalog. Start a new session and ask the agent to list
+Superpowers skills from its supplied catalog **without searching files**.
+A successful `plugin list` alone does not verify skill discovery.
+
+The bootstrap preserves existing plugin settings, including disabled states.
+It does not edit personal AGENTS.md or silently disable older installations.
+If both catalog variants are installed, disable the obsolete local variant
+in plugin settings to avoid duplicate skills.
+
+Installation sources:
+
+- https://github.com/obra/superpowers
+- https://learn.chatgpt.com/docs/plugins
 
 ### Hooks и trust
 
@@ -247,7 +287,7 @@ chmod 700 "$HOME/.config/workstation-restore"
 
 ```bash
 (for script in ./*.sh; do bash -n "$script" || exit 1; done)
-python3 tests/test_ai_tools.py
+python3 check_ai_tools.py
 command -v codex && codex --version
 npm config get prefix
 ```
